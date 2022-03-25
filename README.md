@@ -9,6 +9,8 @@
 status](https://ci.appveyor.com/api/projects/status/github/adriancorrendo/modalcc?branch=main&svg=true)](https://ci.appveyor.com/project/adriancorrendo/modalcc)
 [![CircleCI build
 status](https://circleci.com/gh/adriancorrendo/modalcc.svg?style=svg)](https://circleci.com/gh/adriancorrendo/modalcc)
+[![Codecov test
+coverage](https://codecov.io/gh/adriancorrendo/modalcc/branch/main/graph/badge.svg)](https://app.codecov.io/gh/adriancorrendo/modalcc?branch=main)
 <!-- badges: end -->
 
 The goal of `modalcc` is to assist users on the analysis of the

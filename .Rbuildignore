@@ -5,3 +5,6 @@
 ^data-raw$
 ^modalcc\.Rproj$
 ^appveyor\.yml$
+^\.circleci$
+^\.circleci/config\.yml$
+^codecov\.yml$

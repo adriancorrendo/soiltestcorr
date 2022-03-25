@@ -15,7 +15,8 @@ RoxygenNote: 7.1.2
 Suggests: 
     smatr,
     ggplot2,
-    purrr
+    purrr,
+    covr
 Imports:
     testthat,
     stats,
