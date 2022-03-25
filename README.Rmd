@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/adriancorrendo/modalcc?branch=master&svg=true)](https://ci.appveyor.com/project/adriancorrendo/modalcc)
-
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/adriancorrendo/modalcc?branch=main&svg=true)](https://ci.appveyor.com/project/adriancorrendo/modalcc)
 <!-- badges: end -->
 
 The goal of `modalcc` is to assist users on the analysis of the relationship between relative yield (RY) and soil test values (STV) following the Modified Arcsine-log Calibration Curve originally described by Dyson and Conyers (2013) and modified by Correndo et al. (2017). <br/>
