@@ -1,4 +1,4 @@
+.gitignore
+.setup.R
+.modalcc.Rproj
 .Rproj.user
-.Rhistory
-.RData
-.Ruserdata

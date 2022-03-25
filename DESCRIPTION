@@ -1,0 +1,25 @@
+Package: modalcc
+Title: Modified Arcsine-Log Calibration Curve
+Version: 1.0.0
+Authors@R: 
+    person("Adrian", "Correndo", , "correndo@ksu.edu", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-4172-289X"))
+Description: the modalcc package assists on the estimation of critical soil test values for a target relative yield with confidence intervals following the modified ALCC model originally described by Dyson and Conyers (2013) and modified by Correndo et al. (2017).
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Suggests: 
+    smatr,
+    ggplot2,
+    purrr
+Imports:
+    testthat,
+    stats,
+    dplyr,
+    rlang,
+    tidyr,
+    pacman
+Depends: 
+    R (>= 2.10)
+LazyData: true

@@ -1,0 +1,288 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+
+```
+
+# modalcc
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of `modalcc` is to assist users on the analysis of the relationship between relative yield (RY) and soil test values (STV) following the Modified Arcsine-log Calibration Curve originally described by Dyson and Conyers (2013) and modified by Correndo et al. (2017). <br/>
+
+Its main function `modALCC()` produces the estimation of critical soil test values (CSTV) for a target relative yield with confidence intervals at adjustable confidence levels. <br/>
+
+## 1. Installation
+
+You can install the development version of modalcc from [GitHub](https://github.com/adriancorrendo/modalcc) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("adriancorrendo/modalcc")
+```
+
+## 2. Example
+
+This is a basic example which shows you how to use the package:
+
+```{r warning=FALSE, message=FALSE}
+library(modalcc)
+
+# Other suggested packages
+# Install if needed 
+# install.packages("easypackages")
+# install.packages("devtools")
+library(easypackages) # Helps to load packages and install & load them if they are not installed yet.
+library(devtools)
+packages("readxl") # Open xlsx files
+packages("tidyverse", "ggpmisc") # Data wrangling and plots
+packages("smatr") # SMA regression analysis for reference
+
+## basic example code
+```
+
+<b> Instructions for users </b> <br/>
+
+1. Load your dataframe with soil test value (STV) and relative yield (RY) data. <br/>
+
+2. Specify the following arguments into the function -modALCC()-: <br/>
+
+  (i). `data` (optional), <br/>
+
+  (ii). soil test value `STV` and relative yield `RY`, <br/>
+
+  (iii). `target` of relative yield (e.g. 90%), <br/>
+
+  (iv). desired `confidence` level (e.g. 0.95 for 1 - alpha(0.05)). Used for the estimation of critical soil test value (CSTV) lower and upper limits. <br/>
+
+3. Run and check results in a data.frame. <br/>
+
+4. Check residuals plot, and warnings related to potential leverage points. <br/>
+
+5. Adjust curve plots as desired. <br/>
+
+
+### 2.1. Load a dataset
+```{r}
+
+# Example 1 dataset
+# Fake dataset manually created
+data_1 = data.frame("RY" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
+                   "STV" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
+  
+
+# Example 2. Native dataset from modalcc package
+
+data_2 = modalcc::data_test
+
+
+# Create nested structure as example of multiple datasets
+data.all = bind_rows(data_1, data_2, .id = "id") %>% 
+  tidyr::nest(data = c("STV", "RY"))
+
+
+```
+
+## 3. Fit examples
+### 3.1. Fit ALCC models individually
+```{r warning=TRUE, message=TRUE}
+
+# RY target = 90%, confidence level = 0.95, replace with your desired values
+
+# Data 1
+# Using dataframe
+fit_example_1 = modALCC(data = data_1, RY = RY, STV = STV, target=90, confidence = 0.95)
+# Alternative using the vectors
+#fit_example_1 = ALCC(RY = data_1$RY,STV = data_1$STV, target=90,confidence = 0.95)
+
+fit_example_1
+
+# Data 2
+fit_example_2 = modALCC(data = data_2, RY = RY, STV = STV, target=90, confidence = 0.95)
+
+fit_example_2
+
+```
+
+### 2.3. Fit multiple ALCC models with mapping
+
+```{r warning=T, message=F}
+# Run multiple examples at once with map()
+fit_examples = data.all %>%
+  mutate(modALCC = map(data, ~ modALCC(RY = .$RY, STV = .$STV, target=90, confidence = 0.95))) %>% 
+  unnest(., cols = c("modALCC"))
+
+head(fit_examples)
+
+# Alternative with group_map, this does not required nested data.
+fit_all = bind_rows(data_1, data_2, .id = "id") %>% 
+  group_by(id) %>% 
+  group_map(~ modALCC(data = ., RY = RY, STV = STV, target = 90, confidence = 0.95))
+
+head(fit_all)
+```
+
+## 4. Plots
+
+Examples using ggplot <br/>
+
+### 4.1. Example 1
+```{r warning=F, message=F}
+# Extracting curve data as a data.frame to plot
+curve_example1 = fit_example_1 %>% unnest(., cols = Curve)
+
+# Plot
+data_1 %>% 
+  # Want to remove leverage points?
+  #dplyr::filter(STV < fit_example_1$CSTV100) %>% 
+  #dplyr::filter(STV < 2*fit_example_1$CSTV90) %>% 
+  ggplot()+
+  # Points
+  geom_point(aes(x = STV, y = RY), fill = "orange", shape = 21, size = 4, alpha = 0.75)+
+  # Highlight potential leverage points >2xCSTV90
+  geom_point(data = data_1 %>% dplyr::filter(STV > 2*fit_example_1$CSTV90),
+             aes(x = STV, y = RY, shape = ">2xCSTV90"), col = "dark red", size = 4, alpha = 1)+
+  # Highlight potential leverage points >2xCSTV90
+  #geom_point(data = data_1 %>% dplyr::filter(STV > fit_example_1$CSTV100),
+   #          aes(x = STV, y = RY, shape = ">CSTV100"), col = "dark red", size = 4, alpha = 1)+
+  scale_shape_manual(name = "", values = c(7,10))+
+  # Fitted ALCC
+  geom_line(data = curve_example1, aes(x= STV.fitted, y = RY.fitted), size = 2)+
+  # Critical value
+  geom_vline(xintercept = fit_example_1$CSTV, col = "red", size = 1.25, linetype = "dashed")+
+  # Confidence limits
+  # Lines
+  geom_vline(xintercept = fit_example_1$LL, col = "red", size = 0.75, linetype = "dotted")+
+  geom_vline(xintercept = fit_example_1$UL, col = "red", size = 0.75, linetype = "dotted")+
+  # Shade
+  ggpp::annotate(geom = "rect", xmin = fit_example_1$LL, xmax = fit_example_1$UL,
+                 ymin = min(data_1$RY), ymax = 100, alpha = .3, fill = "red")+
+  # Axis titles
+  labs(x = "Soil Test Value (units)", y = "Relative Yield (%)")+
+  theme_bw()+
+  theme(legend.position = "top")+
+  # Annotate critical values data
+  ggpp::annotate(geom = "table", y = min(data_1$RY), x = fit_example_1$UL + 0.5, hjust= 0, vjust = 0,
+                 label = fit_example_1 %>% dplyr::select(CSTV, LL, UL, r) %>% 
+                   mutate_at(.vars = c("r"), ~round(.,2)) %>% 
+                   mutate_at(.vars = c("CSTV","LL","UL"), ~round(.,1))
+                   )
+
+
+# SMA regression
+
+SMA_example1 = fit_example_1 %>%  unnest(., cols = SMA)
+
+SMA_example1 %>% 
+  ggplot(aes(x = arc_RY, y = ln_STV))+
+  ggtitle("SMA Regression. Dataset 1")+
+  geom_point(shape=21, fill = "orange", size = 4, alpha = 0.75)+
+  #SMA Line
+  geom_path(aes(x=arc_RY, y = SMA_line, linetype = "SMA_fit"), size = 2, col = "grey25")+
+  scale_linetype_manual(name="", values = c("solid"))+
+  #Critical value
+  geom_vline(xintercept = 0, col = "grey10", size = 1.25, linetype = "dashed")+
+  theme_bw()+
+  # Axis titles
+  labs(y = "ln_STV", y = "asin(sqrt(RY))-centered")
+
+# Residuals plot
+
+SMA_example1 %>% 
+  ggplot(aes(x = fitted_axis, y = residuals))+
+  ggtitle("Residuals SMA. Dataset 2")+
+  geom_point(shape=21, fill = "orange", size = 4, alpha = 0.75)+
+  geom_hline(yintercept = 0, col = "grey10", size = 1.25, linetype = "dashed")+
+  theme_bw()+
+  # Axis titles
+  labs(x = "Fitted Axis -SMA- (see Warton et al. 2006)", y = "Residuals (STV units)")
+
+```
+
+\newpage
+
+### 4.2. Example 2
+```{r warning=F, message=F}
+# Extracting curve data as a data.frame to plot
+curve_example2 = fit_example_2 %>% unnest(., cols = Curve)
+
+# Plot
+data_2 %>% ggplot()+
+  # Want to remove leverage points?
+  #dplyr::filter(STV < fit_example_2$CSTV100) %>% 
+  #dplyr::filter(STV < 2*fit_example_2$CSTV90) %>% 
+  # Points
+  geom_point(aes(x = STV, y = RY), fill = "#88dbc8", shape = 21, size = 4, alpha = 0.75)+
+  # Highlight potential leverage points >2xCSTV90
+  geom_point(data = data_2 %>% dplyr::filter(STV > 2*fit_example_2$CSTV90),
+             aes(x = STV, y = RY, shape = ">2xCSTV90"), col = "dark red", size = 4, alpha = 1)+
+  # Highlight potential leverage points >CSTV100
+  geom_point(data = data_2 %>% dplyr::filter(STV > fit_example_2$CSTV100),
+             aes(x = STV, y = RY, shape = ">CSTV100"), col = "dark red", size = 4, alpha = 1)+
+  scale_shape_manual(name = "", values = c(7,10))+
+  # Fitted ALCC
+  geom_line(data = curve_example2, aes(x= STV.fitted, y = RY.fitted), size = 2)+
+  # Critical value
+  geom_vline(xintercept = fit_example_2$CSTV, col = "red", size = 1.25, linetype = "dashed")+
+  # Confidence limits
+  geom_vline(xintercept = fit_example_2$LL, col = "red", size = 0.75, linetype = "dotted")+
+  geom_vline(xintercept = fit_example_2$UL, col = "red", size = 0.75, linetype = "dotted")+
+  ggpp::annotate(geom = "rect", xmin = fit_example_2$LL, xmax = fit_example_2$UL,
+                 ymin = min(data_2$RY), ymax = 100, alpha = .3, fill = "red")+
+  # Axis titles
+  labs(x = "Soil Test Value (units)", y = "Relative Yield (%)")+
+  theme_bw()+
+  theme(legend.position = "top")+
+  # Annotate critical values data
+  ggpp::annotate(geom = "table", y = min(data_2$RY), x = fit_example_2$UL + 0.5, hjust= 0, vjust = 0,
+                 label = fit_example_2 %>% dplyr::select(CSTV, LL, UL, r) %>% 
+                   mutate_at(.vars = c("r"), ~round(.,2)) %>% 
+                   mutate_at(.vars = c("CSTV","LL","UL"), ~round(.,1))
+                   )
+  
+# SMA regression
+
+SMA_example2 = fit_example_2 %>%  unnest(., cols = SMA)
+
+SMA_example2 %>% 
+  ggplot(aes(x = arc_RY, y = ln_STV))+
+  ggtitle("SMA Regression. Dataset 2")+
+  geom_point(shape=21, fill = "#88dbc8", size = 4, alpha = 0.5)+
+  #SMA Line
+  geom_path(aes(x=arc_RY, y = SMA_line, linetype = "SMA_fit"), size = 2, col = "grey25")+
+  scale_linetype_manual(name="", values = c("solid"))+
+  #Critical value
+  geom_vline(xintercept = 0, col = "grey10", size = 1.25, linetype = "dashed")+
+  theme_bw()+
+  # Axis titles
+  labs(y = "ln_STV", y = "asin(sqrt(RY))-centered")
+
+# Residuals plot
+
+resid_example2 = fit_example_2 %>%  unnest(., cols = SMA)
+
+resid_example2 %>% 
+  ggplot(aes(x = fitted_axis, y = residuals))+
+  ggtitle("Residuals SMA. Dataset 2")+
+  geom_point(shape = 21, fill = "#88dbc8", size = 4, alpha = 0.5)+
+  geom_hline(yintercept = 0, col = "grey10", size = 1.25, linetype = "dashed")+
+  theme_bw()+
+  # Axis titles
+  labs(x = "Fitted Axis -SMA- (see Warton et al. 2006)", y = "Residuals (STV units)")
+  
+```
+
+<b> References </b> <br/>
+
+*Correndo, A.A., Salvagiotti, F., García, F.O. and Gutiérrez-Boem, F.H., 2017. A modification of the arcsine–log calibration curve for analysing soil test value–relative yield relationships. Crop and Pasture Science, 68(3), pp.297-304. https://doi.org/10.1071/CP16444 * <br/>
