@@ -19,6 +19,8 @@ following the Modified Arcsine-log Calibration Curve originally
 described by Dyson and Conyers (2013) and modified by Correndo et
 al. (2017). <br/>
 
+<img src="man/figures/modalcc_logo.png" height="300" align="right"/>
+
 Its main function `modALCC()` produces the estimation of critical soil
 test values (CSTV) for a target relative yield with confidence intervals
 at adjustable confidence levels. <br/>
@@ -107,7 +109,7 @@ data.all = bind_rows(data_1, data_2, .id = "id") %>%
 # Using dataframe
 fit_example_1 = modALCC(data = data_1, RY = RY, STV = STV, target=90, confidence = 0.95)
 #> Warning: 7 STV points exceeded two-times (2x) 
-#>   the CSTV for 90%. Risk of leverage. You may consider a sensitivity analysis by 
+#>   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by 
 #>   removing extreme points, re-run the modALCC(), and check results.
 # Alternative using the vectors
 #fit_example_1 = ALCC(RY = data_1$RY,STV = data_1$STV, target=90,confidence = 0.95)
@@ -124,11 +126,11 @@ fit_example_1
 
 # Data 2
 fit_example_2 = modALCC(data = data_2, RY = RY, STV = STV, target=90, confidence = 0.95)
-#> Warning: 9 STV points exceeded the CSTV for 100%.
+#> Warning: 9 STV points exceeded the CSTV for 100% of RY.
 #>   Risk of leverage. You may consider a sensitivity analysis by removing extreme points, 
 #>   re-run the modALCC(), and check results.
 #> Warning: 22 STV points exceeded two-times (2x) 
-#>   the CSTV for 90%. Risk of leverage. You may consider a sensitivity analysis by 
+#>   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by 
 #>   removing extreme points, re-run the modALCC(), and check results.
 
 fit_example_2
@@ -150,13 +152,13 @@ fit_examples = data.all %>%
   mutate(modALCC = map(data, ~ modALCC(RY = .$RY, STV = .$STV, target=90, confidence = 0.95))) %>% 
   unnest(., cols = c("modALCC"))
 #> Warning: 7 STV points exceeded two-times (2x) 
-#>   the CSTV for 90%. Risk of leverage. You may consider a sensitivity analysis by 
+#>   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by 
 #>   removing extreme points, re-run the modALCC(), and check results.
-#> Warning: 9 STV points exceeded the CSTV for 100%.
+#> Warning: 9 STV points exceeded the CSTV for 100% of RY.
 #>   Risk of leverage. You may consider a sensitivity analysis by removing extreme points, 
 #>   re-run the modALCC(), and check results.
 #> Warning: 22 STV points exceeded two-times (2x) 
-#>   the CSTV for 90%. Risk of leverage. You may consider a sensitivity analysis by 
+#>   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by 
 #>   removing extreme points, re-run the modALCC(), and check results.
 
 head(fit_examples)
@@ -173,13 +175,13 @@ fit_all = bind_rows(data_1, data_2, .id = "id") %>%
   group_by(id) %>% 
   group_map(~ modALCC(data = ., RY = RY, STV = STV, target = 90, confidence = 0.95))
 #> Warning: 7 STV points exceeded two-times (2x) 
-#>   the CSTV for 90%. Risk of leverage. You may consider a sensitivity analysis by 
+#>   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by 
 #>   removing extreme points, re-run the modALCC(), and check results.
-#> Warning: 9 STV points exceeded the CSTV for 100%.
+#> Warning: 9 STV points exceeded the CSTV for 100% of RY.
 #>   Risk of leverage. You may consider a sensitivity analysis by removing extreme points, 
 #>   re-run the modALCC(), and check results.
 #> Warning: 22 STV points exceeded two-times (2x) 
-#>   the CSTV for 90%. Risk of leverage. You may consider a sensitivity analysis by 
+#>   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by 
 #>   removing extreme points, re-run the modALCC(), and check results.
 
 head(fit_all)

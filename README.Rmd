@@ -25,6 +25,8 @@ knitr::opts_chunk$set(
 
 The goal of `modalcc` is to assist users on the analysis of the relationship between relative yield (RY) and soil test values (STV) following the Modified Arcsine-log Calibration Curve originally described by Dyson and Conyers (2013) and modified by Correndo et al. (2017). <br/>
 
+<img src="man/figures/modalcc_logo.png" height="300" align="right"/>
+
 Its main function `modALCC()` produces the estimation of critical soil test values (CSTV) for a target relative yield with confidence intervals at adjustable confidence levels. <br/>
 
 ## 1. Installation
