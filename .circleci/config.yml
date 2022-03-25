@@ -1,12 +1,14 @@
 version: 2.1
 orbs: 
   codecov: codecov/codecov@3.2.2
-jobs:
+workflows:
+  upload-to-codecov:
+  jobs:
   build:
-    docker:
-      - image: rocker/verse:latest
-    environment:
-      R_LIBS: ~/R/Library
+  docker:
+  - image: rocker/verse:latest
+  environment:
+  R_LIBS: ~/R/Library
     steps:
       - restore_cache:
           keys:
