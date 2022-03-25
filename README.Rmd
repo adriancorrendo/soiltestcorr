@@ -204,7 +204,7 @@ SMA_example1 %>%
 
 SMA_example1 %>% 
   ggplot(aes(x = fitted_axis, y = residuals))+
-  ggtitle("Residuals SMA. Dataset 2")+
+  ggtitle("Residuals SMA. Dataset 1")+
   geom_point(shape=21, fill = "orange", size = 4, alpha = 0.75)+
   geom_hline(yintercept = 0, col = "grey10", size = 1.25, linetype = "dashed")+
   theme_bw()+
