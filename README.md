@@ -381,3 +381,11 @@ resid_example2 %>%
 2017. A modification of the arcsine–log calibration curve for analysing
 soil test value–relative yield relationships. Crop and Pasture Science,
 68(3), pp.297-304. <https://doi.org/10.1071/CP16444> * <br/>
+
+*Warton, D.I., Wright, I.J., Falster, D.S., Westoby, M., 2006. Bivariate
+line-fitting methods for allometry. Biol. Rev. Camb. Philos. Soc. 81,
+259–291. <https://doi.org/10.1017/S1464793106007007> * <br/>
+
+*Dyson, C.B., Conyers, M.K., 2013. Methodology for online biometric
+analysis of soil test-crop response datasets. Crop & Pasture Science 64:
+435–441. <https://doi.org/10.1071/CP13009> * <br/>
