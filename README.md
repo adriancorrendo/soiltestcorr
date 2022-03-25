@@ -1,9 +1,13 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# modalcc
+# modalcc: Modified Arcsine-Log Calibration Curve
 
 <!-- badges: start -->
+
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/adriancorrendo/modalcc?branch=master&svg=true)](https://ci.appveyor.com/project/adriancorrendo/modalcc)
+
 <!-- badges: end -->
 
 The goal of `modalcc` is to assist users on the analysis of the
