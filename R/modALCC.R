@@ -94,16 +94,23 @@ modALCC <- function(data=NULL, RY, STV, target, confidence){
       tidyr::nest(SMA =  c("ln_STV", "arc_RY", "SMA_line","residuals", "fitted_axis") ) )
   
   # WARNINGS
-  rlang::eval_tidy(data = data, rlang::quo(if (max({{RY}}) > 100) {
-    warning("One or more original RY values exceeded 100%. All RY values greater 
+  rlang::eval_tidy(data = data, rlang::quo(
+  # RY > 100%
+  if (max({{RY}}) > 100) {warning("One or more original RY values exceeded 100%. All RY values greater 
           than 100% have been capped to 100%.", call. = FALSE) } ) )
-  
-  if (results$n.100 > 0) {warning(paste0(n.100," STV points exceeded the CSTV for 100%.
+  # Sample size
+  if (results$n <= 8) {warning(paste0("n =",n,". Limited sample size. Consider adding more 
+                                      observations for a reliable calibration"), call. = FALSE) }
+  # Correlation level
+  if (results$r <= 0.2) {warning(paste0("r =", r, "p-value =", p_value,". Low correlation level between variables. 
+                                        Please, interpret results with caution"), call. = FALSE) }
+  # STV data points
+  if (results$n.100 > 0) {warning(paste0(n.100," STV points exceeded the CSTV for 100% of RY.
   Risk of leverage. You may consider a sensitivity analysis by removing extreme points, 
   re-run the modALCC(), and check results."), call. = FALSE) }
   
   if (results$n.90x2 > 0) {warning(paste0(n.90x2," STV points exceeded two-times (2x) 
-  the CSTV for 90%. Risk of leverage. You may consider a sensitivity analysis by 
+  the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by 
   removing extreme points, re-run the modALCC(), and check results."), call. = FALSE) }
   
   return(results) }
