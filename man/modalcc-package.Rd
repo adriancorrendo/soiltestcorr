@@ -9,7 +9,13 @@
 the modalcc package assists on the estimation of critical soil test values for a target relative yield with confidence intervals following the modified ALCC model originally described by Dyson and Conyers (2013) and modified by Correndo et al. (2017).
 }
 \author{
-\strong{Maintainer}: Adrian Correndo \email{correndo@ksu.edu} (\href{https://orcid.org/0000-0002-4172-289X}{ORCID})
+\strong{Maintainer}: Adrian A. Correndo \email{correndo@ksu.edu} (\href{https://orcid.org/0000-0002-4172-289X}{ORCID})
+
+Authors:
+\itemize{
+  \item Adrian A. Correndo \email{correndo@ksu.edu} (\href{https://orcid.org/0000-0002-4172-289X}{ORCID})
+  \item Ignacio A. Ciampitti \email{ciampitti@ksu.edu} (\href{https://orcid.org/0000-0001-9619-5129}{ORCID})
+}
 
 }
 \keyword{internal}
