@@ -1,6 +1,11 @@
-version: 2
+version: 2.1
+orbs:
+  codecov: codecov/codecov@4.4.13
 jobs:
   build:
+    steps:
+      - codecov/upload:
+          file: {{ coverage_report_filepath }}
     docker:
       - image: rocker/verse:latest
     environment:
