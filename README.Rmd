@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 
 ```
 
-# soiltestR: 
+# soiltestR: Soil Test Calibration in R
 
 <!-- badges: start -->
 

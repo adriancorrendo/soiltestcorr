@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# soiltestR:
+# soiltestR: Soil Test Calibration in R
 
 <!-- badges: start -->
 
