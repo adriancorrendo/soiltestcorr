@@ -4,7 +4,7 @@
 \alias{cate.nelson.1965}
 \title{Cate & Nelson Quadrants Analysis, 1965}
 \usage{
-cate.nelson.1965(data, STV, RY, target)
+cate.nelson.1965(data = NULL, STV, RY, target)
 }
 \arguments{
 \item{data}{argument to call a data.frame or data.table containing the data}

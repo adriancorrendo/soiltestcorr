@@ -24,4 +24,3 @@ test_that("no error in fitting cate.nelson.1965() for the example dataset", {
   
 })
 
-library(testthat)
