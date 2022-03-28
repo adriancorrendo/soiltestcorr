@@ -30,7 +30,7 @@ The first calibration method available is the Modified Arcsine-log Calibration C
 
 <img src="man/figures/soiltestR_logo.png" height="300" align="right"/>
 
-For its implementation, soiltestR brinfs the function named `modALCC()` that produces the estimation of critical soil test values (CSTV) for a target relative yield with confidence intervals at adjustable confidence levels. <br/>
+For its implementation, soiltestR presents the function `modALCC()` that produces the estimation of critical soil test values (CSTV) for a target relative yield (RY) with confidence intervals at adjustable confidence levels. <br/>
 
 In addition, `soiltestR` allows users to implement the quadrants analysis approach, also known as the Cate-Nelson analysis. There are two versions of the Cate-Nelson analysis: <br/> /
    
@@ -54,7 +54,7 @@ devtools::install_github("adriancorrendo/modalcc")
 This is a basic example which shows you how to use the package:
 
 ```{r warning=FALSE, message=FALSE}
-library(modalcc)
+library(soiltestR)
 
 # Other suggested packages
 # Install if needed 
@@ -149,6 +149,16 @@ fit_all = bind_rows(data_1, data_2, .id = "id") %>%
 
 head(fit_all)
 ```
+
+### 2.4. Fit Cate Nelson analysis
+```{r}
+
+cate.nelson.1965_example_2 = cate.nelson.1965(data = data_2, RY = RY, STV = STV, target=90)
+
+cate.nelson.1965_example_2
+
+```
+
 
 ## 4. Plots
 
