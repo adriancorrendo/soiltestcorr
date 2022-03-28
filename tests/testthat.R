@@ -1,4 +1,4 @@
 library(testthat)
-library(modalcc)
+library(soiltestR)
 
-test_check("modalcc")
+test_check("soiltestR")

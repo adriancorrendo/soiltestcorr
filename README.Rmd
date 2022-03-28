@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 
 ```
 
-# modalcc: Modified Arcsine-Log Calibration Curve
+# soiltestR: 
 
 <!-- badges: start -->
 
@@ -23,11 +23,21 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/adriancorrendo/modalcc/branch/main/graph/badge.svg)](https://app.codecov.io/gh/adriancorrendo/modalcc?branch=main)
 <!-- badges: end -->
 
-The goal of `modalcc` is to assist users on the analysis of the relationship between relative yield (RY) and soil test values (STV) following the Modified Arcsine-log Calibration Curve originally described by Dyson and Conyers (2013) and modified by Correndo et al. (2017). <br/>
+The goal of `soiltestR` is to assist users on the analysis of relationships between relative yield (RY) and soil test values (STV) following different approaches. <br/>
 
-<img src="man/figures/modalcc_logo.png" height="300" align="right"/>
+The first calibration method available is the Modified Arcsine-log Calibration Curve originally described by Dyson and Conyers (2013) and modified by Correndo et al. (2017). <br/>
 
-Its main function `modALCC()` produces the estimation of critical soil test values (CSTV) for a target relative yield with confidence intervals at adjustable confidence levels. <br/>
+<img src="man/figures/soiltestR_logo.png" height="300" align="right"/>
+
+For its implementation, soiltestR brinfs the function named `modALCC()` that produces the estimation of critical soil test values (CSTV) for a target relative yield with confidence intervals at adjustable confidence levels. <br/>
+
+In addition, `soiltestR` allows users to implement the quadrants analysis approach, also known as the Cate-Nelson analysis. There are two versions of the Cate-Nelson analysis: <br/> /
+   
+   (i). `cate.nelson.1965()`, based on Cate and Nelson (1965), which uses a fixed value of RY (y-axis) and estimates the CSTV (x-axis) as the minimum STV that maximizes the sum of squared residuals for the specified RY level when dividing data points in two classes or groups (lower or greater than the CSTV). This is also known as the "graphical" version of the Cate-Nelson approach. <br/> /
+   
+   (ii). `cate.nelson.1971()`, based on Cate and Nelson (1971), which estimates the CSTV (x-axis) as the minimum STV that maximizes the sum of squared residuals when dividing data points in two classes (lower or greater than the CSTV) without using a fixed RY. This refined version does not constrains the model performance (measured with the coefficient of determination -R2-) but the user has no control on the RY level for the CSTV. This is also known as the "statistical" version of the Cate-Nelson approach. <br/> /
+   
+   
 
 ## 1. Installation
 
@@ -90,7 +100,7 @@ data_1 = data.frame("RY" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
 
 # Example 2. Native dataset from modalcc package
 
-data_2 = modalcc::data_test
+data_2 = soiltestR::data_test
 
 
 # Create nested structure as example of multiple datasets

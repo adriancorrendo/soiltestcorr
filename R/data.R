@@ -10,3 +10,16 @@
 #'  }
 #' @source \url{https://doi.org/10.7910/DVN/NABA57}
 "data_test"
+
+#' Dataset 2.
+#'
+#' @description Example dataset containing real data reported by Cate & Nelson (1971) from Freitas et al. (1966). 
+#' Soil test potassium values (STK) and relative yield as percentage (RY). 
+#'
+#' @format this data frame has 24 rows and the following 2 columns:
+#' \describe{
+#'   \item{RY}{relative yield, %}
+#'   \item{STK}{soil test potassium, ppm}
+#'  }
+#' @source \url{https://doi.org/10.2136/sssaj1971.03615995003500040048x}
+"freitas.1966"

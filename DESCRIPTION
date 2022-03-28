@@ -1,5 +1,5 @@
-Package: modalcc
-Title: Modified Arcsine-Log Calibration Curve
+Package: soiltestR
+Title: Soil Test Calibration in R
 Version: 1.0.0
 Authors@R: 
     c(person(given = "Adrian A.", family = "Correndo",
@@ -14,7 +14,6 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Suggests: 
     smatr,
-    ggplot2,
     purrr,
     covr
 Imports:
@@ -23,6 +22,7 @@ Imports:
     dplyr,
     rlang,
     tidyr,
+    ggplot2,
     pacman
 Depends: 
     R (>= 2.10)
