@@ -35,15 +35,15 @@ versions of the Cate-Nelson analysis: <br/> /
 
 (i). `cate.nelson.1965()`, based on Cate and Nelson (1965), which uses a
 fixed value of RY (y-axis) and estimates the CSTV (x-axis) as the
-minimum STV that maximizes the sum of squared residuals for the
-specified RY level when dividing data points in two classes or groups
-(lower or greater than the CSTV). This is also known as the “graphical”
-version of the Cate-Nelson approach. <br/> /
+minimum STV that minimizes the residual sum of squares for the specified
+RY level when dividing data points in two classes or groups (lower or
+greater than the CSTV). This is also known as the “graphical” version of
+the Cate-Nelson approach. <br/> /
 
 (ii). `cate.nelson.1971()`, based on Cate and Nelson (1971), which
-estimates the CSTV (x-axis) as the minimum STV that maximizes the sum of
-squared residuals when dividing data points in two classes (lower or
-greater than the CSTV) without using a fixed RY. This refined version
+estimates the CSTV (x-axis) as the minimum STV that minimizes the
+residual sum of squares when dividing data points in two classes (lower
+or greater than the CSTV) without using a fixed RY. This refined version
 does not constrains the model performance (measured with the coefficient
 of determination -R2-) but the user has no control on the RY level for
 the CSTV. This is also known as the “statistical” version of the
