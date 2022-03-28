@@ -6,11 +6,12 @@
 <!-- badges: start -->
 
 [![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/adriancorrendo/modalcc?branch=main&svg=true)](https://ci.appveyor.com/project/adriancorrendo/modalcc)
+status](https://ci.appveyor.com/api/projects/status/github/adriancorrendo/soiltestR?branch=main&svg=true)](https://ci.appveyor.com/project/adriancorrendo/soiltestR)
 [![CircleCI build
-status](https://circleci.com/gh/adriancorrendo/modalcc.svg?style=svg)](https://circleci.com/gh/adriancorrendo/modalcc)
+status](https://circleci.com/gh/adriancorrendo/soiltestR.svg?style=svg)](https://circleci.com/gh/adriancorrendo/soiltestR)
 [![Codecov test
 coverage](https://codecov.io/gh/adriancorrendo/modalcc/branch/main/graph/badge.svg)](https://app.codecov.io/gh/adriancorrendo/modalcc?branch=main)
+[![R-CMD-check](https://github.com/adriancorrendo/soiltestR/workflows/R-CMD-check/badge.svg)](https://github.com/adriancorrendo/soiltestR/actions)
 <!-- badges: end -->
 
 The goal of `soiltestR` is to assist users on the analysis of
