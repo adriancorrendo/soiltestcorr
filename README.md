@@ -234,8 +234,6 @@ head(fit_all)
 
 ``` r
 cate.nelson.1965_example_2 = cate.nelson.1965(data = data_2, RY = RY, STV = STV, target=90)
-#> Warning in stats::chisq.test(data.frame(row.1, row.2)): Chi-squared
-#> approximation may be incorrect
 
 cate.nelson.1965_example_2
 #> $n
@@ -248,27 +246,29 @@ cate.nelson.1965_example_2
 #> [1] 23
 #> 
 #> $quadrants
-#>    I II III IV
-#> 1 76  2   0 59
+#>   q.I q.II q.III q.IV positive negative
+#> 1  11   67     9   50      117       20
 #> 
 #> $X2
 #> 
 #>  Pearson's Chi-squared test with Yates' continuity correction
 #> 
 #> data:  data.frame(row.1, row.2)
-#> X-squared = 0.27016, df = 1, p-value = 0.6032
+#> X-squared = 65.038, df = 1, p-value = 7.347e-16
 #> 
 #> 
 #> $anova
 #> Analysis of Variance Table
 #> 
 #> Response: y
-#>            Df  Sum Sq Mean Sq F value Pr(>F)
-#> xgroup      1   273.4  273.38   1.321 0.2524
-#> Residuals 135 27937.3  206.94               
+#>            Df Sum Sq Mean Sq F value    Pr(>F)    
+#> xgroup      1  11106 11106.1  87.656 2.322e-16 ***
+#> Residuals 135  17105   126.7                      
+#> ---
+#> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 #> 
 #> $R2
-#> [1] 0.009690715
+#> [1] 0.3936824
 #> 
 #> $plot
 ```
