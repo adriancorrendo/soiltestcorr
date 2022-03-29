@@ -7,24 +7,29 @@ Authors@R:
       person(given = "Adrian A.", family = "Correndo",
              email = "correndo@ksu.edu", role = "aut",comment = c(ORCID = "0000-0002-4172-289X")),
       person("Ignacio A.", "Ciampitti", email = "ciampitti@ksu.edu", role = c("aut"), comment = c(ORCID = "0000-0001-9619-5129")))
-Description: the modalcc package assists on the estimation of critical soil test values for a target relative yield with confidence intervals following the modified ALCC model originally described by Dyson and Conyers (2013) and modified by Correndo et al. (2017).
+Description: the soiltestR package is designed to assist users on the analysis of relative yield:soil test value relationships. The soiltestR package estimates critical soil test values using R following different approaches such as: i) the modified ALCC model originally described by Dyson and Conyers (2013) and modified by Correndo et al. (2017); ii) the graphical Cate & Nelson approach (Cate & Nelson, 1965), and iii) the statistical Cate & Nelson approach (Cate & Nelson, 1965).
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Suggests: 
     smatr,
-    purrr,
-    covr
+    covr,
+    knitr,
+    rmarkdown
 Imports:
     testthat,
     stats,
     dplyr,
+    purrr,
     rlang,
     tidyr,
     ggplot2,
+    ggpp,
     pacman,
+    data.table,
     utils
 Depends: 
     R (>= 2.10)
 LazyData: true
+VignetteBuilder: knitr

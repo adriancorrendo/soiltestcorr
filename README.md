@@ -14,97 +14,137 @@ coverage](https://codecov.io/gh/adriancorrendo/modalcc/branch/main/graph/badge.s
 [![R-CMD-check](https://github.com/adriancorrendo/soiltestR/workflows/R-CMD-check/badge.svg)](https://github.com/adriancorrendo/soiltestR/actions)
 <!-- badges: end -->
 
+# Description <br/>
+
 The goal of `soiltestR` is to assist users on the analysis of
 relationships between relative yield (RY) and soil test values (STV)
 following different approaches. <br/>
 
+<img src="../man/figures/soiltestR_logo.png" height="300" align="right"/>
+
+<b> 1. modALCC() </b> <br/>
+
 The first calibration method available is the Modified Arcsine-log
-Calibration Curve originally described by Dyson and Conyers (2013) and
-modified by Correndo et al. (2017). <br/>
-
-<img src="man/figures/soiltestR_logo.png" height="300" align="right"/>
-
-For its implementation, soiltestR presents the function `modALCC()` that
+Calibration Curve (`modALCC()`) originally described by Dyson and
+Conyers (2013) and modified by Correndo et al. (2017). This function
 produces the estimation of critical soil test values (CSTV) for a target
 relative yield (RY) with confidence intervals at adjustable confidence
 levels. <br/>
 
-`soiltestR` also allows users to implement the quadrants analysis
-approach, also known as the Cate-Nelson analysis. There are two versions
-of the Cate-Nelson technique: <br/>
-
-(i). `cate.nelson.1965()`, based on Cate and Nelson (1965). The first
-step of this method is to apply an arbitrarily fixed value of RY as a
-target (y-axis) that divides the data into two categories (below & equal
-or above RY target). In a second stage, it estimates the CSTV (x-axis)
-as the minimum STV that divides the data into four quadrants (target RY
-level combined with STV lower or greater than the CSTV) maximizing the
-number of points under well-classified quadrants (II, STV \>= CSTV & RY
-\>= RY target; and IV, STV \< CSTV & RY \< RY target). This is also
-known as the “graphical” version of the Cate-Nelson approach. <br/>
-
-(ii). `cate.nelson.1971()`, based on Cate and Nelson (1971). The first
-step of this alternative version is to estimates the CSTV (x-axis) as
-the minimum STV that minimizes the residual sum of squares when dividing
-data points in two classes (lower or greater than the CSTV) without
-using a fixed RY. This refined version does not constrains the model
-performance (measured with the coefficient of determination -R2-) but
-the user has no control on the RY level for the CSTV. This is also known
-as the “statistical” version of the Cate-Nelson approach. <br/>
-
-## 1. Installation
-
-You can install the development version of modalcc from
-[GitHub](https://github.com/adriancorrendo/modalcc) with:
-
-``` r
-# install.packages("devtools")
-devtools::install_github("adriancorrendo/modalcc")
-```
-
-## 2. Example
-
-This is a basic example which shows you how to use the package:
-
-``` r
-library(soiltestR)
-
-# Other suggested packages
-# Install if needed 
-# install.packages("easypackages")
-# install.packages("devtools")
-library(easypackages) # Helps to load packages and install & load them if they are not installed yet.
-library(devtools)
-packages("readxl") # Open xlsx files
-packages("tidyverse", "ggpmisc") # Data wrangling and plots
-packages("smatr") # SMA regression analysis for reference
-
-## basic example code
-```
-
-<b> Instructions for users </b> <br/>
+Instructions <br/>
 
 1.  Load your dataframe with soil test value (STV) and relative yield
     (RY) data. <br/>
 
 2.  Specify the following arguments into the function -modALCC()-: <br/>
 
-(i). `data` (optional), <br/>
+(a). `data` (optional), <br/>
 
-(ii). soil test value `STV` and relative yield `RY`, <br/>
+(b). soil test value `STV` and relative yield `RY`, <br/>
 
-(iii). `target` of relative yield (e.g. 90%), <br/>
+(c). `target` of relative yield (e.g. 90%), <br/>
 
-(iv). desired `confidence` level (e.g. 0.95 for 1 - alpha(0.05)). Used
+(d). desired `confidence` level (e.g. 0.95 for 1 - alpha(0.05)). Used
 for the estimation of critical soil test value (CSTV) lower and upper
 limits. <br/>
 
-3.  Run and check results in a data.frame. <br/>
+3.  Run and check results. <br/>
 
 4.  Check residuals plot, and warnings related to potential leverage
     points. <br/>
 
 5.  Adjust curve plots as desired. <br/>
+
+`soiltestR` also allows users to implement the quadrants analysis
+approach, also known as the Cate-Nelson analysis. There are two versions
+of the Cate-Nelson technique: <br/>
+
+<b> 1. cate.nelson.1965() </b> <br/>
+
+The second alternative is based on Cate and Nelson (1965)
+(`cate.nelson.1965()`). The first step of this method is to apply an
+arbitrarily fixed value of RY as a target (y-axis) that divides the data
+into two categories (below & equal or above RY target). In a second
+stage, it estimates the CSTV (x-axis) as the minimum STV that divides
+the data into four quadrants (target RY level combined with STV lower or
+greater than the CSTV) maximizing the number of points under
+well-classified quadrants (II, STV \>= CSTV & RY \>= RY target; and IV,
+STV \< CSTV & RY \< RY target). This is also known as the “graphical”
+version of the Cate-Nelson approach. <br/>
+
+Instructions <br/>
+
+1.  Load your dataframe with soil test value (STV) and relative yield
+    (RY) data. <br/>
+
+2.  Specify the following arguments into the function
+    -cate.nelson.1965()-: <br/>
+
+(a). `data` (optional), <br/>
+
+(b). soil test value `STV` and relative yield `RY`, <br/>
+
+(c). `target` of relative yield (e.g. 90%), <br/>
+
+3.  Run and check results. <br/>
+
+4.  Adjust plot as desired. <br/>
+
+<b> 1. cate.nelson.1971() </b> <br/>
+
+The third alternative is based on Cate and Nelson (1971)
+(`cate.nelson.1971()`). The first step of this alternative version is to
+estimates the CSTV (x-axis) as the minimum STV that minimizes the
+residual sum of squares when dividing data points in two classes (lower
+or greater than the CSTV) without using a fixed RY. This refined version
+does not constrains the model performance (measured with the coefficient
+of determination -R2-) but the user has no control on the RY level for
+the CSTV. This is also known as the “statistical” version of the
+Cate-Nelson approach. <br/>
+
+Instructions <br/>
+
+1.  Load your dataframe with soil test value (STV) and relative yield
+    (RY) data. <br/>
+
+2.  Specify the following arguments into the function
+    -cate.nelson.1965()-: <br/>
+
+(a). `data` (optional), <br/>
+
+(b). soil test value `STV` and relative yield `RY`, <br/>
+
+3.  Run and check results. <br/>
+
+4.  Adjust plot as desired. <br/>
+
+MORE FUNCTIONS COMING SOON…. <br/>
+
+## 1. Installation
+
+You can install the development version of modalcc from
+[GitHub](https://github.com/adriancorrendo/soiltestR) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("adriancorrendo/soiltestR")
+```
+
+## 2. Example
+
+This is a basic example which shows you how to use the package:
+
+Complementary libraries
+
+``` r
+# Other suggested packages
+# Install if needed 
+library(ggplot2) # Plots
+library(ggpmisc)
+library(dplyr) # Data wrangling
+library(tidyr) # Data wrangling
+library(purrr) # Mapping
+```
 
 ### 2.1. Load a dataset
 
@@ -171,13 +211,13 @@ fit_example_2
 #> 1 1.386294361, 1.609437912, 1.791759469, 1.791759469, 1.945910149, 1.945910149, 2.197224577, 2.197224577, 2.302585093, 2.302585093, 2.302585093, 2.302585093, 2.397895273, 2.397895273, 2.484906650, 2.564949357, 2.564949357, 2.564949357, 2.564949357, 2.564949357, 2.639057330, 2.639057330, 2.639057330, 2.639057330, 2.639057330, 2.708050201, 2.708050201, 2.708050201, 2.708050201, 2.708050201, 2.772588722, 2.772588722, 2.772588722, 2.772588722, 2.772588722, 2.833213344, 2.833213344, 2.833213344, 2.833213344, 2.890371758, 2.890371758, 2.890371758, 2.890371758, 2.944438979, 2.944438979, 2.944438979, 2.944438979, 2.995732274, 2.995732274, 3.044522438, 3.044522438, 3.044522438, 3.044522438, 3.044522438, 3.044522438, 3.091042453, 3.091042453, 3.091042453, 3.091042453, 3.091042453, 3.091042453, 3.135494216, 3.135494216, 3.135494216, 3.178053830, 3.178053830, 3.178053830, 3.218875825, 3.218875825, 3.218875825, 3.218875825, 3.258096538, 3.258096538, 3.295836866, 3.295836866, 3.295836866, 3.295836866, 3.332204510, 3.332204510, 3.332204510, 3.367295830, 3.401197382, 3.401197382, 3.433987204, 3.433987204, 3.526360525, 3.555348061, 3.555348061, 3.555348061, 3.583518938, 3.583518938, 3.583518938, 3.610917913, 3.610917913, 3.610917913, 3.610917913, 3.637586160, 3.637586160, 3.663561646, 3.663561646, 3.713572067, 3.713572067, 3.713572067, 3.713572067, 3.737669618, 3.737669618, 3.737669618, 3.737669618, 3.737669618, 3.761200116, 3.784189634, 3.784189634, 3.806662490, 3.806662490, 3.828641396, 3.850147602, 3.850147602, 3.871201011, 3.871201011, 3.891820298, 3.912023005, 3.912023005, 3.912023005, 3.912023005, 3.912023005, 3.931825633, 3.931825633, 3.951243719, 3.988984047, 3.988984047, 3.988984047, 3.988984047, 4.007333185, 4.007333185, 4.007333185, 4.025351691, 4.025351691, -0.895304167, -0.473648276, -0.246924949, -0.413563898, -0.061746450, -0.311301282, -0.016314700, -0.103238229, -0.154283264, -0.141897055, -0.141897055, -0.075948861, -0.383302283, -0.554140835, 0.017057900, -0.257889186, -0.235848272, -0.190222134, -0.311301282, -0.031991051, -0.047112430, -0.463647609, -0.178429054, -0.201848221, -0.075948861, -0.332136508, -0.116398476, -0.246924949, -0.213320253, -0.178429054, -0.103238229, 0.000000000, -0.089766292, -0.383302283, -0.166454709, 0.321750554, -0.213320253, -0.047112430, -0.154283264, -0.141897055, 0.017057900, -0.089766292, -0.224650010, 0.221583133, -0.075948861, -0.190222134, 0.179853500, -0.178429054, -0.342464683, 0.120392634, -0.166454709, 0.096237148, -0.352740374, -0.047112430, 0.321750554, -0.075948861, -0.129276257, -0.047112430, -0.332136508, 0.017057900, 0.321750554, 0.179853500, -0.268749461, 0.321750554, 0.321750554, 0.221583133, 0.321750554, -0.116398476, 0.000000000, 0.017057900, -0.129276257, -0.075948861, 0.147667544, 0.321750554, 0.321750554, 0.221583133, 0.053987227, 0.120392634, 0.034994002, -0.089766292, 0.147667544, 0.321750554, 0.120392634, 0.321750554, 0.074283491, 0.179853500, 0.321750554, 0.034994002, 0.120392634, 0.221583133, 0.147667544, 0.017057900, 0.221583133, 0.074283491, 0.179853500, -0.031991051, 0.074283491, 0.034994002, 0.179853500, 0.053987227, 0.179853500, 0.321750554, 0.321750554, 0.179853500, 0.321750554, 0.179853500, -0.031991051, 0.321750554, 0.074283491, 0.221583133, 0.179853500, 0.074283491, -0.031991051, 0.120392634, -0.047112430, 0.096237148, 0.096237148, 0.120392634, 0.053987227, 0.096237148, 0.321750554, 0.321750554, 0.321750554, 0.179853500, 0.321750554, 0.321750554, 0.321750554, 0.034994002, 0.321750554, 0.147667544, 0.221583133, 0.179853500, 0.321750554, 0.147667544, 0.034994002, 0.321750554, 0.179853500, 0.848817889, 1.930943814, 2.512800241, 2.085142686, 2.988037180, 2.347586614, 3.104631955, 2.881553835, 2.750553280, 2.782340901, 2.782340901, 2.951588508, 2.162805253, 1.724369955, 3.190278467, 2.484661929, 2.541227115, 2.658320765, 2.347586614, 3.064400604, 3.025593520, 1.956609247, 2.688586196, 2.628483898, 2.951588508, 2.294115672, 2.847779742, 2.512800241, 2.599042396, 2.688586196, 2.881553835, 3.146501547, 2.916127838, 2.162805253, 2.719316822, 3.972233202, 2.599042396, 3.025593520, 2.750553280, 2.782340901, 3.190278467, 2.916127838, 2.569966024, 3.715166324, 2.951588508, 2.658320765, 3.608072556, 2.688586196, 2.267609729, 3.455473846, 2.719316822, 3.393481883, 2.241238484, 3.025593520, 3.972233202, 2.951588508, 2.814730564, 3.025593520, 2.294115672, 3.190278467, 3.972233202, 3.608072556, 2.456790422, 3.972233202, 3.972233202, 3.715166324, 3.972233202, 2.847779742, 3.146501547, 3.190278467, 2.814730564, 2.951588508, 3.525471415, 3.972233202, 3.972233202, 3.715166324, 3.285052862, 3.455473846, 3.236309179, 2.916127838, 3.525471415, 3.972233202, 3.455473846, 3.972233202, 3.337140628, 3.608072556, 3.972233202, 3.236309179, 3.455473846, 3.715166324, 3.525471415, 3.190278467, 3.715166324, 3.337140628, 3.608072556, 3.064400604, 3.337140628, 3.236309179, 3.608072556, 3.285052862, 3.608072556, 3.972233202, 3.972233202, 3.608072556, 3.972233202, 3.608072556, 3.064400604, 3.972233202, 3.337140628, 3.715166324, 3.608072556, 3.337140628, 3.064400604, 3.455473846, 3.025593520, 3.393481883, 3.393481883, 3.455473846, 3.285052862, 3.393481883, 3.972233202, 3.972233202, 3.972233202, 3.608072556, 3.972233202, 3.972233202, 3.972233202, 3.236309179, 3.972233202, 3.525471415, 3.715166324, 3.608072556, 3.972233202, 3.525471415, 3.236309179, 3.972233202, 3.608072556, 0.537476472, -0.321505902, -0.721040772, -0.293383216, -1.042127031, -0.401676465, -0.907407377, -0.684329258, -0.447968187, -0.479755808, -0.479755808, -0.649003415, 0.235090020, 0.673525318, -0.705371817, 0.080287429, 0.023722242, -0.093371408, 0.217362743, -0.499451247, -0.386536191, 0.682448083, -0.049528866, 0.010573431, -0.312531178, 0.413934529, -0.139729541, 0.195249960, 0.109007805, 0.019464006, -0.108965113, -0.373912825, -0.143539116, 0.609783469, 0.053271901, -1.139019858, 0.234170948, -0.192380176, 0.082660064, 0.108030857, -0.299906709, -0.025756080, 0.320405734, -0.770727345, -0.007149529, 0.286118214, -0.663633577, 0.307146078, 0.728122544, -0.410951409, 0.325205616, -0.348959445, 0.803283954, 0.018928917, -0.927710764, 0.139453945, 0.276311890, 0.065448933, 0.796926781, -0.099236014, -0.881190748, -0.472578340, 0.678703794, -0.836738986, -0.794179371, -0.537112494, -0.794179371, 0.371096083, 0.072374278, 0.028597358, 0.404145261, 0.306508030, -0.267374877, -0.676396336, -0.676396336, -0.419329458, 0.010784004, -0.123269336, 0.095895331, 0.416076672, -0.158175585, -0.571035820, -0.054276465, -0.538245997, 0.096846576, -0.081712031, -0.416885140, 0.319038883, 0.099874215, -0.131647386, 0.058047523, 0.393240471, -0.104248411, 0.273777284, 0.002845357, 0.546517308, 0.300445531, 0.401276981, 0.055489090, 0.378508784, 0.105499511, -0.258661135, -0.258661135, 0.105499511, -0.234563583, 0.129597062, 0.673269014, -0.234563583, 0.400528990, 0.046033792, 0.176117078, 0.447049005, 0.742261885, 0.351188644, 0.803047876, 0.456665719, 0.456665719, 0.415727165, 0.586148149, 0.498338416, -0.060210196, -0.060210196, -0.060210196, 0.303950450, -0.060210196, -0.040407569, -0.040407569, 0.714934540, 0.016750845, 0.463512631, 0.273817723, 0.380911491, 0.035099984, 0.481861770, 0.771024006, 0.053118489, 0.417279135, -0.911389297, 0.393880180, 1.158058163, 0.730400608, 1.787445782, 1.146995216, 2.155354985, 1.932276865, 1.906636826, 1.938424447, 1.938424447, 2.107672054, 1.414198979, 0.975763681, 2.528683570, 1.903109739, 1.959674925, 2.076768576, 1.766034424, 2.482848415, 2.518149303, 1.449165029, 2.181141978, 2.121039681, 2.444144290, 1.855664326, 2.409328396, 2.074348895, 2.160591050, 2.250134850, 2.507641010, 2.772588722, 2.542215013, 1.788892428, 2.345403997, 3.658944999, 2.285754193, 2.712305317, 2.437265077, 2.526211112, 2.934148678, 2.659998049, 2.313836235, 3.513103756, 2.749525940, 2.456258197, 3.406009988, 2.537816922, 2.116840456, 3.353494737, 2.617337712, 3.291502773, 2.139259375, 2.923614411, 3.870254092, 2.896129414, 2.759271470, 2.970134427, 2.238656578, 3.134819373, 3.916774108, 3.597065225, 2.445783091, 3.961225870, 4.003785485, 3.746718607, 4.003785485, 2.920154020, 3.218875825, 3.262652745, 2.887104841, 3.063183499, 3.637066406, 4.121568521, 4.121568521, 3.864501643, 3.434388181, 3.641176809, 3.422012142, 3.101830801, 3.746265698, 4.226929036, 3.710169681, 4.259718859, 3.624626286, 3.987931533, 4.381079716, 3.645155693, 3.864320361, 4.152183715, 3.962488807, 3.627295859, 4.179582690, 3.801556994, 4.072488921, 3.528816970, 3.828225241, 3.727393792, 4.125132655, 3.802112961, 4.175143075, 4.539303721, 4.539303721, 4.175143075, 4.563401273, 4.199240627, 3.655568675, 4.563401273, 3.928308700, 4.329864893, 4.245760643, 3.974828715, 3.724561547, 4.115634789, 3.707733370, 4.097127937, 4.097127937, 4.180173310, 4.009752326, 4.138800634, 4.737754660, 4.737754660, 4.737754660, 4.373594014, 4.737754660, 4.757557287, 4.757557287, 4.041051350, 4.814715701, 4.367953915, 4.557648823, 4.450555055, 4.833064840, 4.386303054, 4.097140817, 4.851083345, 4.486922699
 ```
 
-### 2.3. Fit multiple ALCC models with mapping
+### 3.1.2. Fit multiple ALCC models with mapping
 
 ``` r
 # Run multiple examples at once with map()
 fit_examples = data.all %>%
   mutate(modALCC = map(data, ~ soiltestR::modALCC(RY = .$RY, STV = .$STV, target=90, confidence = 0.95))) %>% 
-  unnest(., cols = c("modALCC"))
+  tidyr::unnest(., cols = c("modALCC"))
 #> Warning: 7 STV points exceeded two-times (2x) 
 #>   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by 
 #>   removing extreme points, re-run the modALCC(), and check results.
@@ -233,7 +273,7 @@ head(fit_all)
 #> 1 1.386294361, 1.609437912, 1.791759469, 1.791759469, 1.945910149, 1.945910149, 2.197224577, 2.197224577, 2.302585093, 2.302585093, 2.302585093, 2.302585093, 2.397895273, 2.397895273, 2.484906650, 2.564949357, 2.564949357, 2.564949357, 2.564949357, 2.564949357, 2.639057330, 2.639057330, 2.639057330, 2.639057330, 2.639057330, 2.708050201, 2.708050201, 2.708050201, 2.708050201, 2.708050201, 2.772588722, 2.772588722, 2.772588722, 2.772588722, 2.772588722, 2.833213344, 2.833213344, 2.833213344, 2.833213344, 2.890371758, 2.890371758, 2.890371758, 2.890371758, 2.944438979, 2.944438979, 2.944438979, 2.944438979, 2.995732274, 2.995732274, 3.044522438, 3.044522438, 3.044522438, 3.044522438, 3.044522438, 3.044522438, 3.091042453, 3.091042453, 3.091042453, 3.091042453, 3.091042453, 3.091042453, 3.135494216, 3.135494216, 3.135494216, 3.178053830, 3.178053830, 3.178053830, 3.218875825, 3.218875825, 3.218875825, 3.218875825, 3.258096538, 3.258096538, 3.295836866, 3.295836866, 3.295836866, 3.295836866, 3.332204510, 3.332204510, 3.332204510, 3.367295830, 3.401197382, 3.401197382, 3.433987204, 3.433987204, 3.526360525, 3.555348061, 3.555348061, 3.555348061, 3.583518938, 3.583518938, 3.583518938, 3.610917913, 3.610917913, 3.610917913, 3.610917913, 3.637586160, 3.637586160, 3.663561646, 3.663561646, 3.713572067, 3.713572067, 3.713572067, 3.713572067, 3.737669618, 3.737669618, 3.737669618, 3.737669618, 3.737669618, 3.761200116, 3.784189634, 3.784189634, 3.806662490, 3.806662490, 3.828641396, 3.850147602, 3.850147602, 3.871201011, 3.871201011, 3.891820298, 3.912023005, 3.912023005, 3.912023005, 3.912023005, 3.912023005, 3.931825633, 3.931825633, 3.951243719, 3.988984047, 3.988984047, 3.988984047, 3.988984047, 4.007333185, 4.007333185, 4.007333185, 4.025351691, 4.025351691, -0.895304167, -0.473648276, -0.246924949, -0.413563898, -0.061746450, -0.311301282, -0.016314700, -0.103238229, -0.154283264, -0.141897055, -0.141897055, -0.075948861, -0.383302283, -0.554140835, 0.017057900, -0.257889186, -0.235848272, -0.190222134, -0.311301282, -0.031991051, -0.047112430, -0.463647609, -0.178429054, -0.201848221, -0.075948861, -0.332136508, -0.116398476, -0.246924949, -0.213320253, -0.178429054, -0.103238229, 0.000000000, -0.089766292, -0.383302283, -0.166454709, 0.321750554, -0.213320253, -0.047112430, -0.154283264, -0.141897055, 0.017057900, -0.089766292, -0.224650010, 0.221583133, -0.075948861, -0.190222134, 0.179853500, -0.178429054, -0.342464683, 0.120392634, -0.166454709, 0.096237148, -0.352740374, -0.047112430, 0.321750554, -0.075948861, -0.129276257, -0.047112430, -0.332136508, 0.017057900, 0.321750554, 0.179853500, -0.268749461, 0.321750554, 0.321750554, 0.221583133, 0.321750554, -0.116398476, 0.000000000, 0.017057900, -0.129276257, -0.075948861, 0.147667544, 0.321750554, 0.321750554, 0.221583133, 0.053987227, 0.120392634, 0.034994002, -0.089766292, 0.147667544, 0.321750554, 0.120392634, 0.321750554, 0.074283491, 0.179853500, 0.321750554, 0.034994002, 0.120392634, 0.221583133, 0.147667544, 0.017057900, 0.221583133, 0.074283491, 0.179853500, -0.031991051, 0.074283491, 0.034994002, 0.179853500, 0.053987227, 0.179853500, 0.321750554, 0.321750554, 0.179853500, 0.321750554, 0.179853500, -0.031991051, 0.321750554, 0.074283491, 0.221583133, 0.179853500, 0.074283491, -0.031991051, 0.120392634, -0.047112430, 0.096237148, 0.096237148, 0.120392634, 0.053987227, 0.096237148, 0.321750554, 0.321750554, 0.321750554, 0.179853500, 0.321750554, 0.321750554, 0.321750554, 0.034994002, 0.321750554, 0.147667544, 0.221583133, 0.179853500, 0.321750554, 0.147667544, 0.034994002, 0.321750554, 0.179853500, 0.848817889, 1.930943814, 2.512800241, 2.085142686, 2.988037180, 2.347586614, 3.104631955, 2.881553835, 2.750553280, 2.782340901, 2.782340901, 2.951588508, 2.162805253, 1.724369955, 3.190278467, 2.484661929, 2.541227115, 2.658320765, 2.347586614, 3.064400604, 3.025593520, 1.956609247, 2.688586196, 2.628483898, 2.951588508, 2.294115672, 2.847779742, 2.512800241, 2.599042396, 2.688586196, 2.881553835, 3.146501547, 2.916127838, 2.162805253, 2.719316822, 3.972233202, 2.599042396, 3.025593520, 2.750553280, 2.782340901, 3.190278467, 2.916127838, 2.569966024, 3.715166324, 2.951588508, 2.658320765, 3.608072556, 2.688586196, 2.267609729, 3.455473846, 2.719316822, 3.393481883, 2.241238484, 3.025593520, 3.972233202, 2.951588508, 2.814730564, 3.025593520, 2.294115672, 3.190278467, 3.972233202, 3.608072556, 2.456790422, 3.972233202, 3.972233202, 3.715166324, 3.972233202, 2.847779742, 3.146501547, 3.190278467, 2.814730564, 2.951588508, 3.525471415, 3.972233202, 3.972233202, 3.715166324, 3.285052862, 3.455473846, 3.236309179, 2.916127838, 3.525471415, 3.972233202, 3.455473846, 3.972233202, 3.337140628, 3.608072556, 3.972233202, 3.236309179, 3.455473846, 3.715166324, 3.525471415, 3.190278467, 3.715166324, 3.337140628, 3.608072556, 3.064400604, 3.337140628, 3.236309179, 3.608072556, 3.285052862, 3.608072556, 3.972233202, 3.972233202, 3.608072556, 3.972233202, 3.608072556, 3.064400604, 3.972233202, 3.337140628, 3.715166324, 3.608072556, 3.337140628, 3.064400604, 3.455473846, 3.025593520, 3.393481883, 3.393481883, 3.455473846, 3.285052862, 3.393481883, 3.972233202, 3.972233202, 3.972233202, 3.608072556, 3.972233202, 3.972233202, 3.972233202, 3.236309179, 3.972233202, 3.525471415, 3.715166324, 3.608072556, 3.972233202, 3.525471415, 3.236309179, 3.972233202, 3.608072556, 0.537476472, -0.321505902, -0.721040772, -0.293383216, -1.042127031, -0.401676465, -0.907407377, -0.684329258, -0.447968187, -0.479755808, -0.479755808, -0.649003415, 0.235090020, 0.673525318, -0.705371817, 0.080287429, 0.023722242, -0.093371408, 0.217362743, -0.499451247, -0.386536191, 0.682448083, -0.049528866, 0.010573431, -0.312531178, 0.413934529, -0.139729541, 0.195249960, 0.109007805, 0.019464006, -0.108965113, -0.373912825, -0.143539116, 0.609783469, 0.053271901, -1.139019858, 0.234170948, -0.192380176, 0.082660064, 0.108030857, -0.299906709, -0.025756080, 0.320405734, -0.770727345, -0.007149529, 0.286118214, -0.663633577, 0.307146078, 0.728122544, -0.410951409, 0.325205616, -0.348959445, 0.803283954, 0.018928917, -0.927710764, 0.139453945, 0.276311890, 0.065448933, 0.796926781, -0.099236014, -0.881190748, -0.472578340, 0.678703794, -0.836738986, -0.794179371, -0.537112494, -0.794179371, 0.371096083, 0.072374278, 0.028597358, 0.404145261, 0.306508030, -0.267374877, -0.676396336, -0.676396336, -0.419329458, 0.010784004, -0.123269336, 0.095895331, 0.416076672, -0.158175585, -0.571035820, -0.054276465, -0.538245997, 0.096846576, -0.081712031, -0.416885140, 0.319038883, 0.099874215, -0.131647386, 0.058047523, 0.393240471, -0.104248411, 0.273777284, 0.002845357, 0.546517308, 0.300445531, 0.401276981, 0.055489090, 0.378508784, 0.105499511, -0.258661135, -0.258661135, 0.105499511, -0.234563583, 0.129597062, 0.673269014, -0.234563583, 0.400528990, 0.046033792, 0.176117078, 0.447049005, 0.742261885, 0.351188644, 0.803047876, 0.456665719, 0.456665719, 0.415727165, 0.586148149, 0.498338416, -0.060210196, -0.060210196, -0.060210196, 0.303950450, -0.060210196, -0.040407569, -0.040407569, 0.714934540, 0.016750845, 0.463512631, 0.273817723, 0.380911491, 0.035099984, 0.481861770, 0.771024006, 0.053118489, 0.417279135, -0.911389297, 0.393880180, 1.158058163, 0.730400608, 1.787445782, 1.146995216, 2.155354985, 1.932276865, 1.906636826, 1.938424447, 1.938424447, 2.107672054, 1.414198979, 0.975763681, 2.528683570, 1.903109739, 1.959674925, 2.076768576, 1.766034424, 2.482848415, 2.518149303, 1.449165029, 2.181141978, 2.121039681, 2.444144290, 1.855664326, 2.409328396, 2.074348895, 2.160591050, 2.250134850, 2.507641010, 2.772588722, 2.542215013, 1.788892428, 2.345403997, 3.658944999, 2.285754193, 2.712305317, 2.437265077, 2.526211112, 2.934148678, 2.659998049, 2.313836235, 3.513103756, 2.749525940, 2.456258197, 3.406009988, 2.537816922, 2.116840456, 3.353494737, 2.617337712, 3.291502773, 2.139259375, 2.923614411, 3.870254092, 2.896129414, 2.759271470, 2.970134427, 2.238656578, 3.134819373, 3.916774108, 3.597065225, 2.445783091, 3.961225870, 4.003785485, 3.746718607, 4.003785485, 2.920154020, 3.218875825, 3.262652745, 2.887104841, 3.063183499, 3.637066406, 4.121568521, 4.121568521, 3.864501643, 3.434388181, 3.641176809, 3.422012142, 3.101830801, 3.746265698, 4.226929036, 3.710169681, 4.259718859, 3.624626286, 3.987931533, 4.381079716, 3.645155693, 3.864320361, 4.152183715, 3.962488807, 3.627295859, 4.179582690, 3.801556994, 4.072488921, 3.528816970, 3.828225241, 3.727393792, 4.125132655, 3.802112961, 4.175143075, 4.539303721, 4.539303721, 4.175143075, 4.563401273, 4.199240627, 3.655568675, 4.563401273, 3.928308700, 4.329864893, 4.245760643, 3.974828715, 3.724561547, 4.115634789, 3.707733370, 4.097127937, 4.097127937, 4.180173310, 4.009752326, 4.138800634, 4.737754660, 4.737754660, 4.737754660, 4.373594014, 4.737754660, 4.757557287, 4.757557287, 4.041051350, 4.814715701, 4.367953915, 4.557648823, 4.450555055, 4.833064840, 4.386303054, 4.097140817, 4.851083345, 4.486922699
 ```
 
-### 3.1. Fit Cate & Nelson 1965
+### 3.2. Fit Cate & Nelson 1965
 
 ``` r
 cate.nelson.1965_example_2 = soiltestR::cate.nelson.1965(data = data_2, RY = RY, STV = STV, target=90)
@@ -279,7 +319,7 @@ cate.nelson.1965_example_2
 ```
 
 <img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" /> \###
-3.2. Fit Cate & Nelson 1971
+3.3. Fit Cate & Nelson 1971
 
 ``` r
 cate.nelson.1971_example_2 = soiltestR::cate.nelson.1971(data = data_2, RY = RY, STV = STV)
@@ -334,7 +374,7 @@ Examples using ggplot <br/>
 
 ``` r
 # Extracting curve data as a data.frame to plot
-curve_example1 = fit_example_1 %>% unnest(., cols = Curve)
+curve_example1 = fit_example_1 %>% tidyr::unnest(., cols = Curve)
 
 # Plot
 data_1 %>% 
@@ -346,11 +386,11 @@ data_1 %>%
   geom_point(aes(x = STV, y = RY), fill = "orange", shape = 21, size = 4, alpha = 0.75)+
   # Highlight potential leverage points >2xCSTV90
   geom_point(data = data_1 %>% dplyr::filter(STV > 2*fit_example_1$CSTV90),
-             aes(x = STV, y = RY, shape = ">2xCSTV90"), col = "dark red", size = 4, alpha = 1)+
+             aes(x = STV, y = RY, shape = ">2xCSTV90"), col = "dark red", size = 5, alpha = 1)+
   # Highlight potential leverage points >2xCSTV90
   #geom_point(data = data_1 %>% dplyr::filter(STV > fit_example_1$CSTV100),
    #          aes(x = STV, y = RY, shape = ">CSTV100"), col = "dark red", size = 4, alpha = 1)+
-  scale_shape_manual(name = "", values = c(7,10))+
+  scale_shape_manual(name = "", values = c(5,4))+
   # Fitted ALCC
   geom_line(data = curve_example1, aes(x= STV.fitted, y = RY.fitted), size = 2)+
   # Critical value
@@ -363,7 +403,8 @@ data_1 %>%
   ggpp::annotate(geom = "rect", xmin = fit_example_1$LL, xmax = fit_example_1$UL,
                  ymin = min(data_1$RY), ymax = 100, alpha = .3, fill = "red")+
   # Axis titles
-  labs(x = "Soil Test Value (units)", y = "Relative Yield (%)")+
+  labs(x = "Soil Test Value (units)", y = "Relative Yield (%)",
+       title = "Modified Arcsine-Log Calibration Curve")+
   theme_bw()+
   theme(legend.position = "top")+
   # Annotate critical values data
@@ -380,7 +421,7 @@ data_1 %>%
 
 # SMA regression
 
-SMA_example1 = fit_example_1 %>%  unnest(., cols = SMA)
+SMA_example1 = fit_example_1 %>%  tidyr::unnest(., cols = SMA)
 
 SMA_example1 %>% 
   ggplot(aes(x = arc_RY, y = ln_STV))+
@@ -417,7 +458,7 @@ SMA_example1 %>%
 
 ``` r
 # Extracting curve data as a data.frame to plot
-curve_example2 = fit_example_2 %>% unnest(., cols = Curve)
+curve_example2 = fit_example_2 %>% tidyr::unnest(., cols = Curve)
 
 # Plot
 data_2 %>% ggplot()+
@@ -428,11 +469,11 @@ data_2 %>% ggplot()+
   geom_point(aes(x = STV, y = RY), fill = "#88dbc8", shape = 21, size = 4, alpha = 0.75)+
   # Highlight potential leverage points >2xCSTV90
   geom_point(data = data_2 %>% dplyr::filter(STV > 2*fit_example_2$CSTV90),
-             aes(x = STV, y = RY, shape = ">2xCSTV90"), col = "dark red", size = 4, alpha = 1)+
+             aes(x = STV, y = RY, shape = ">2xCSTV90"), col = "dark red", size = 5, alpha = 1)+
   # Highlight potential leverage points >CSTV100
   geom_point(data = data_2 %>% dplyr::filter(STV > fit_example_2$CSTV100),
-             aes(x = STV, y = RY, shape = ">CSTV100"), col = "dark red", size = 4, alpha = 1)+
-  scale_shape_manual(name = "", values = c(7,10))+
+             aes(x = STV, y = RY, shape = ">CSTV100"), col = "dark red", size = 5, alpha = 1)+
+  scale_shape_manual(name = "", values = c(5,4))+
   # Fitted ALCC
   geom_line(data = curve_example2, aes(x= STV.fitted, y = RY.fitted), size = 2)+
   # Critical value
@@ -443,7 +484,8 @@ data_2 %>% ggplot()+
   ggpp::annotate(geom = "rect", xmin = fit_example_2$LL, xmax = fit_example_2$UL,
                  ymin = min(data_2$RY), ymax = 100, alpha = .3, fill = "red")+
   # Axis titles
-  labs(x = "Soil Test Value (units)", y = "Relative Yield (%)")+
+  labs(x = "Soil Test Value (units)", y = "Relative Yield (%)",
+       title = "Modified Arcsine-Log Calibration Curve")+
   theme_bw()+
   theme(legend.position = "top")+
   # Annotate critical values data
@@ -460,7 +502,7 @@ data_2 %>% ggplot()+
   
 # SMA regression
 
-SMA_example2 = fit_example_2 %>%  unnest(., cols = SMA)
+SMA_example2 = fit_example_2 %>%  tidyr::unnest(., cols = SMA)
 
 SMA_example2 %>% 
   ggplot(aes(x = arc_RY, y = ln_STV))+
@@ -481,7 +523,7 @@ SMA_example2 %>%
 ``` r
 # Residuals plot
 
-resid_example2 = fit_example_2 %>%  unnest(., cols = SMA)
+resid_example2 = fit_example_2 %>%  tidyr::unnest(., cols = SMA)
 
 resid_example2 %>% 
   ggplot(aes(x = fitted_axis, y = residuals))+
@@ -502,15 +544,13 @@ resid_example2 %>%
 soil test value–relative yield relationships. Crop and Pasture Science,
 68(3), pp.297-304. <https://doi.org/10.1071/CP16444> * <br/>
 
-*Correndo, A.A., Salvagiotti, F., García, F.O. and Gutiérrez-Boem, F.H.,
-2017. A modification of the arcsine–log calibration curve for analysing
-soil test value–relative yield relationships. Crop and Pasture Science,
-68(3), pp.297-304. <https://doi.org/10.1071/CP16444> * <br/>
+*Cate, R.B. Jr., and Nelson, L.A., 1965. A rapid method for correlation
+of soil test analysis with plant response data. North Carolina Agric.
+Exp. Stn., International soil Testing Series Bull. No. 1. * <br/>
 
-*Correndo, A.A., Salvagiotti, F., García, F.O. and Gutiérrez-Boem, F.H.,
-2017. A modification of the arcsine–log calibration curve for analysing
-soil test value–relative yield relationships. Crop and Pasture Science,
-68(3), pp.297-304. <https://doi.org/10.1071/CP16444> * <br/>
+*Cate, R.B. Jr., and Nelson, L.A., 1971. A simple statistical procedure
+for partitioning soil test correlation data into two classes. Soil Sci.
+Soc. Am. Proc. 35:658-659 * <br/>
 
 *Dyson, C.B., Conyers, M.K., 2013. Methodology for online biometric
 analysis of soil test-crop response datasets. Crop & Pasture Science 64:

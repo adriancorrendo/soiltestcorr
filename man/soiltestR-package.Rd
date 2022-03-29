@@ -6,7 +6,7 @@
 \alias{soiltestR-package}
 \title{soiltestR: Soil Test Calibration in R}
 \description{
-the modalcc package assists on the estimation of critical soil test values for a target relative yield with confidence intervals following the modified ALCC model originally described by Dyson and Conyers (2013) and modified by Correndo et al. (2017).
+the soiltestR package is designed to assist users on the analysis of relative yield:soil test value relationships. The soiltestR package estimates critical soil test values using R following different approaches such as: i) the modified ALCC model originally described by Dyson and Conyers (2013) and modified by Correndo et al. (2017); ii) the graphical Cate & Nelson approach (Cate & Nelson, 1965), and iii) the statistical Cate & Nelson approach (Cate & Nelson, 1965).
 }
 \author{
 \strong{Maintainer}: Adrian A. Correndo \email{correndo@ksu.edu} (\href{https://orcid.org/0000-0002-4172-289X}{ORCID})

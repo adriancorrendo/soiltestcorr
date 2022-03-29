@@ -8,3 +8,6 @@
 ^\.circleci$
 ^\.circleci/config\.yml$
 ^codecov\.yml$
+^\.github$
+^doc$
+^Meta$

@@ -1,30 +1,20 @@
 ---
-output: github_document
+title: "Introduction to soiltestR"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction_to_soiltestR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
-
-<!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "man/figures/README-",
-  out.width = "100%"
+  fig.width=6, 
+  fig.height=4
 )
-
 ```
-
-# soiltestR: Soil Test Calibration in R
-
-<!-- badges: start -->
-
-[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/adriancorrendo/soiltestR?branch=main&svg=true)](https://ci.appveyor.com/project/adriancorrendo/soiltestR)
-[![CircleCI build status](https://circleci.com/gh/adriancorrendo/soiltestR.svg?style=svg)](https://circleci.com/gh/adriancorrendo/soiltestR)
-[![Codecov test coverage](https://codecov.io/gh/adriancorrendo/modalcc/branch/main/graph/badge.svg)](https://app.codecov.io/gh/adriancorrendo/modalcc?branch=main)
-[![R-CMD-check](https://github.com/adriancorrendo/soiltestR/workflows/R-CMD-check/badge.svg)](https://github.com/adriancorrendo/soiltestR/actions)
-<!-- badges: end -->
-
-# Description <br/>
 
 The goal of `soiltestR` is to assist users on the analysis of relationships between relative yield (RY) and soil test values (STV) following different approaches. <br/>
 
@@ -99,9 +89,8 @@ iv. Adjust plot as desired. <br/>
    
    
 MORE FUNCTIONS COMING SOON.... <br/>
+
    
-
-
 ## 1. Installation
 
 You can install the development version of modalcc from [GitHub](https://github.com/adriancorrendo/soiltestR) with:
@@ -109,21 +98,28 @@ You can install the development version of modalcc from [GitHub](https://github.
 ``` r
 # install.packages("devtools")
 devtools::install_github("adriancorrendo/soiltestR")
+
 ```
+
+```{r setup}
+library(soiltestR)
+```
+
 
 ## 2. Example
 
-This is a basic example which shows you how to use the package:
+This is a basic example which shows you how to use the package: <br/>
 
 Complementary libraries
 ```{r warning=FALSE, message=FALSE}
 # Other suggested packages
 # Install if needed 
 library(ggplot2) # Plots
-library(ggpmisc)
+library(ggpp) 
 library(dplyr) # Data wrangling
 library(tidyr) # Data wrangling
 library(purrr) # Mapping
+
 
 ```
 
@@ -145,10 +141,10 @@ data_2 = soiltestR::data_test
 data.all = bind_rows(data_1, data_2, .id = "id") %>% 
   tidyr::nest(data = c("STV", "RY"))
 
-
 ```
 
-## 3. Fit examples
+## 3. Fit examples <br/>
+
 ### 3.1. Fit ALCC models individually
 ```{r warning=TRUE, message=TRUE}
 
@@ -167,6 +163,7 @@ fit_example_2 = soiltestR::modALCC(data = data_2, RY = RY, STV = STV, target=90,
 
 fit_example_2
 
+
 ```
 
 ### 3.1.2. Fit multiple ALCC models with mapping
@@ -174,7 +171,7 @@ fit_example_2
 ```{r warning=T, message=F}
 # Run multiple examples at once with map()
 fit_examples = data.all %>%
-  mutate(modALCC = map(data, ~ soiltestR::modALCC(RY = .$RY, STV = .$STV, target=90, confidence = 0.95))) %>% 
+  dplyr::mutate(modALCC = map(data, ~ soiltestR::modALCC(RY = .$RY, STV = .$STV, target=90, confidence = 0.95))) %>% 
   tidyr::unnest(., cols = c("modALCC"))
 
 head(fit_examples)
@@ -240,15 +237,14 @@ data_1 %>%
   ggpp::annotate(geom = "rect", xmin = fit_example_1$LL, xmax = fit_example_1$UL,
                  ymin = min(data_1$RY), ymax = 100, alpha = .3, fill = "red")+
   # Axis titles
-  labs(x = "Soil Test Value (units)", y = "Relative Yield (%)",
-       title = "Modified Arcsine-Log Calibration Curve")+
+  labs(x = "Soil Test Value (units)", y = "Relative Yield (%)")+
   theme_bw()+
   theme(legend.position = "top")+
   # Annotate critical values data
   ggpp::annotate(geom = "table", y = min(data_1$RY), x = fit_example_1$UL + 0.5, hjust= 0, vjust = 0,
                  label = fit_example_1 %>% dplyr::select(CSTV, LL, UL, r) %>% 
-                   mutate_at(.vars = c("r"), ~round(.,2)) %>% 
-                   mutate_at(.vars = c("CSTV","LL","UL"), ~round(.,1))
+                   dplyr::mutate_at(.vars = c("r"), ~round(.,2)) %>% 
+                   dplyr::mutate_at(.vars = c("CSTV","LL","UL"), ~round(.,1))
                    )
 
 
@@ -313,15 +309,14 @@ data_2 %>% ggplot()+
   ggpp::annotate(geom = "rect", xmin = fit_example_2$LL, xmax = fit_example_2$UL,
                  ymin = min(data_2$RY), ymax = 100, alpha = .3, fill = "red")+
   # Axis titles
-  labs(x = "Soil Test Value (units)", y = "Relative Yield (%)",
-       title = "Modified Arcsine-Log Calibration Curve")+
+  labs(x = "Soil Test Value (units)", y = "Relative Yield (%)")+
   theme_bw()+
   theme(legend.position = "top")+
   # Annotate critical values data
   ggpp::annotate(geom = "table", y = min(data_2$RY), x = fit_example_2$UL + 0.5, hjust= 0, vjust = 0,
                  label = fit_example_2 %>% dplyr::select(CSTV, LL, UL, r) %>% 
-                   mutate_at(.vars = c("r"), ~round(.,2)) %>% 
-                   mutate_at(.vars = c("CSTV","LL","UL"), ~round(.,1))
+                   dplyr::mutate_at(.vars = c("r"), ~round(.,2)) %>% 
+                   dplyr::mutate_at(.vars = c("CSTV","LL","UL"), ~round(.,1))
                    )
   
 # SMA regression

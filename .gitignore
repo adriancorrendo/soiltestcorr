@@ -2,3 +2,6 @@
 .setup.R
 .modalcc.Rproj
 .Rproj.user
+inst/doc
+/doc/
+/Meta/
