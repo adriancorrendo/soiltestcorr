@@ -20,7 +20,7 @@ The goal of `soiltestR` is to assist users on the analysis of
 relationships between relative yield (RY) and soil test values (STV)
 following different approaches. <br/>
 
-<img src="../man/figures/soiltestR_logo.png" height="300" align="right"/>
+<img src="man/figures/soiltestR_logo.png" height="300" align="right"/>
 
 <b> 1. modALCC() </b> <br/>
 
