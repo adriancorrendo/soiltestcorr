@@ -1,9 +1,8 @@
-#' @title Cate & Nelson Quadrants Analysis, 1965
+#' @title Cate & Nelson Quadrants Analysis, 1971
 #' @description This function runs the quadrants analysis suggested by Cate and Nelson (1965)
 #' @param data argument to call a data.frame or data.table containing the data
 #' @param STV argument to call the vector or column containing the soil test value (STV) data
 #' @param RY argument to call the vector or column containing the relative yield (RY) data
-#' @param target argument to specify the RY target (numeric) to estimate the critical STV
 #' @return it returns an object of type list containing the main results plus a ggplot object with the figure display
 #' @details See Cate, R. B. Jr., and L. A. Nelson. 1965. A rapid method for correlation of soil test analysis
 #' with plant response data. North Carolina Agric. Exp. Stn., International soil Testing Series l. No. 1.
@@ -19,13 +18,13 @@
 #'  \code{\link[rlang]{eval_tidy}},\code{\link[rlang]{defusing-advanced}}
 #'  \code{\link[stats]{lm}},\code{\link[stats]{anova}}
 #'  \code{\link[ggplot2]{ggplot}},\code{\link[ggplot2]{aes}},\code{\link[ggplot2]{geom_point}},\code{\link[ggplot2]{scale_manual}},\code{\link[ggplot2]{labs}},\code{\link[ggplot2]{geom_abline}},\code{\link[ggplot2]{annotate}},\code{\link[ggplot2]{ggtheme}},\code{\link[ggplot2]{theme}}
-#' @rdname cate.nelson.1965
+#' @rdname cate.nelson.1971
 #' @export 
 #' @importFrom rlang eval_tidy quo
 #' @importFrom stats lm anova
 #' @importFrom ggplot2 ggplot aes geom_point scale_shape_manual scale_color_manual labs geom_vline geom_hline annotate theme_bw theme
-cate.nelson.1965 <- function(data=NULL, STV, RY, target){
-
+cate.nelson.1971 <- function(data=NULL, STV, RY){
+  
   x <- rlang::eval_tidy(data = data, rlang::quo(STV) )
   
   y <- rlang::eval_tidy(data = data, rlang::quo(RY) )
@@ -43,21 +42,45 @@ cate.nelson.1965 <- function(data=NULL, STV, RY, target){
   dataset$ObsNo <- 1:n
   dataset <- dataset[with(dataset, order(x, y)), ]
   
-  ## Define the Target of Y variable
-  
-  for (i in c(1:n))
-  {dataset$ygroup[i] <- if(dataset$y[i] < target)  'c' else 'd'}
-  
-  ##-order by y, add target variable, and determine final critical-y-
-  dataset <- dataset[with(dataset, order(y, x)), ]
-  dataset$critical.x[1] <- 0
+  # Create clx variable
+  dataset$clx[1] <- 0
   for(k in c(2:n))
-  { dataset$critical.x[k] <- (dataset$x[k]+dataset$x[k-1])/2 }
-  dataset$critical.x[1] <- min(dataset$critical.x[2:n])
+  {dataset$clx[k] <- (dataset$x[k] + dataset$x[k-1])/2}
+  dataset$clx[1] <- min(dataset$clx[2:n])
+  
+  ## ------ determine CSTV, maximizing SS (or minimizing residual SS) ------
+  m <- n-2
+  dataset$SS[1] <- 0
+  for(j in c(3:m))
+  {for (i in c(1:n))
+  {dataset$xgroup[i] <- if(dataset$x[i] < dataset$clx[j])
+    'a' else 'b'}
+    fit <- lm(y ~ xgroup, data=dataset)
+    fit1 <- anova(fit)
+    dataset$SS[j] <- (fit1[1,2])}
+  dataset$SS[1] <- min(dataset$SS[3:(n-2)])
+  dataset$SS[2] <- min(dataset$SS[3:(n-2)])
+  dataset$SS[n-1] <- min(dataset$SS[3:(n-2)])
+  dataset$SS[n] <- min(dataset$SS[3:(n-2)])
+  max.ss <- max(dataset$SS)
+  dataset2 <- subset(dataset, dataset$SS == max.ss)
+  # Critical STV value
+  CSTV <- dataset2$clx[1]
+  
+  ## -- classify based on CLX --
+  for (i in c(1:n))
+  {dataset$xgroup[i] <- if(dataset$x[i] < CSTV)  'a' else 'b'}
+  
+  ##-order by y, add cly variable, and determine final critical-y-
+  dataset <- dataset[with(dataset, order(y, x)), ]
+  dataset$cly[1] <- 0
+  for(k in c(2:n))
+  { dataset$cly[k] <- (dataset$y[k]+dataset$y[k-1])/2 }
+  dataset$cly[1] <- min(dataset$cly[2:n])
   for(j in c(1:n))
   { for (i in c(1:n))
-  { (dataset$xgroup[i]
-     <- if(dataset$x[i] < dataset$critical.x[j]) 'a' else 'b')}
+  { (dataset$ygroup[i]
+     <- if(dataset$y[i] < dataset$cly[j]) 'c' else 'd')}
     for (i in c(1:n))
     { dataset$q.i[i] <- with(dataset, ifelse
                              (dataset$xgroup[i]=='a' & dataset$ygroup[i]=='d', 1, 0))
@@ -69,22 +92,25 @@ cate.nelson.1965 <- function(data=NULL, STV, RY, target){
                             (dataset$xgroup[i]=='a' & dataset$ygroup[i]=='c', 1, 0)) }
     dataset$q.err[j] <- (  sum(dataset$q.i) + sum(dataset$q.iii)) }
   
+  # Minimize data points in error quadrants
   min.qerr <- min(dataset$q.err)
   dataset3 <- subset(dataset, dataset$q.err == min.qerr)
-  CSTV <- dataset3$critical.x[1]
+  # Critical RY value
+  CRYV <- dataset3$cly[1]
   
-  # Rewrite xgroups
-  dataset <- dataset %>% dplyr::mutate(xgroup = dplyr::case_when(x < CSTV ~ "a",
-                                                          x >= CSTV ~ "b")) %>% 
+  # Rewrite groups
+  dataset <- dataset %>% 
+    dplyr::mutate(xgroup = dplyr::case_when(x < CSTV ~ "a",
+                                            x >= CSTV ~ "b")) %>% 
     dplyr::mutate(
-      q = dplyr::case_when((dataset$x<CSTV)&(dataset$y>=target) ~ "I",
-                    (dataset$x>=CSTV)&(dataset$y>=target) ~ "II",
-                    (dataset$x>=CSTV)&(dataset$y<target) ~ "III",
-                    (dataset$x<CSTV)&(dataset$y<target)~ "IV"),
-      Quadrant = dplyr::case_when((dataset$x<CSTV)&(dataset$y>=target) ~ "negative",
-                           (dataset$x>=CSTV)&(dataset$y>=target) ~ "positive",
-                           (dataset$x>=CSTV)&(dataset$y<target) ~ "negative",
-                           (dataset$x<CSTV)&(dataset$y<target)~ "positive") )
+      q = dplyr::case_when((dataset$x<CSTV)&(dataset$y>=CRYV) ~ "I",
+                    (dataset$x>=CSTV)&(dataset$y>=CRYV) ~ "II",
+                    (dataset$x>=CSTV)&(dataset$y<CRYV) ~ "III",
+                    (dataset$x<CSTV)&(dataset$y<CRYV)~ "IV"),
+      Quadrant = dplyr::case_when((dataset$x<CSTV)&(dataset$y>=CRYV) ~ "negative",
+                           (dataset$x>=CSTV)&(dataset$y>=CRYV) ~ "positive",
+                           (dataset$x>=CSTV)&(dataset$y<CRYV) ~ "negative",
+                           (dataset$x<CSTV)&(dataset$y<CRYV)~ "positive") )
   
   # Counts by quadrant
   quadrants.summary <- dataset %>% 
@@ -122,32 +148,32 @@ cate.nelson.1965 <- function(data=NULL, STV, RY, target){
     ggplot2::ggplot(data = dataset, ggplot2::aes(x=x, y=y))+
     ggplot2::geom_point(aes(color = dataset$Quadrant, shape = dataset$Quadrant), alpha = 0.75)+
     ggplot2::scale_shape_manual(name = "", values = c(4,16))+
-    ggplot2::scale_color_manual(name = "", values = c("#800f2f","#355070"))+
+    ggplot2::scale_color_manual(name = "", values = c("#b7094c","#2d6a4f"))+
     ggplot2::geom_vline(xintercept = CSTV, col = "dark red", linetype = "dashed")+
-    ggplot2::geom_hline(yintercept = target, col = "dark red", linetype = "dashed")+
+    ggplot2::geom_hline(yintercept = CRYV, col = "dark red", linetype = "dashed")+
     # Critical STV
     ggplot2::annotate(geom = "text", label = paste("CSTV =", CSTV, "ppm"),
                       x = CSTV+1, y = 0, angle = 90, hjust = 0, vjust = 1, col = "grey25") +
-    # RY target
-    ggplot2::annotate(geom = "text", label = paste0("RY = ", round(target, 0), "%"),
-                      x = max(dataset$x), y = target-2, angle = 0, hjust = 1, vjust = 1, 
+    # RY CRYV
+    ggplot2::annotate(geom = "text", label = paste0("RY = ", round(CRYV, 0), "%"),
+                      x = max(dataset$x), y = CRYV-2, angle = 0, hjust = 1, vjust = 1, 
                       col = "grey25")+
     # Quadrants
     ggplot2::annotate(geom = "label", x = min.x+(max.x-min.x)*0.01, y =  min.y+(max.y-min.y)*0.99, 
-                      label = "I", size = 3, color = "#800f2f")+
+                      label = "I", size = 3, color = "#b7094c")+
     ggplot2::annotate(geom = "label", x = min.x+(max.x-min.x)*0.99, y =  min.y+(max.y-min.y)*0.99, 
-                      label = "II", size = 3, color = "#355070")+
+                      label = "II", size = 3, color = "#2d6a4f")+
     ggplot2::annotate(geom = "label", x = min.x+(max.x-min.x)*0.99, y =  min.y+(max.y-min.y)*0.01, 
-                      label = "III", size = 3, color = "#800f2f")+
+                      label = "III", size = 3, color = "#b7094c")+
     ggplot2::annotate(geom = "label", x = min.x+(max.x-min.x)*0.01, y =  min.y+(max.y-min.y)*0.01, 
-                      label = "IV", size = 3, color = "#355070")+
+                      label = "IV", size = 3, color = "#2d6a4f")+
     ggplot2::labs(x="Soil test value", y="Relative yield (%)",
-                  title = "Cate & Nelson (1965)")+
+                  title = "Cate & Nelson (1971)")+
     ggplot2::theme_bw()+
     ggplot2::theme(legend.position = "none")
   
   return(list("n" = n, 
-              "CRYV" = target,
+              "CRYV" = CRYV,
               "CSTV" = CSTV,
               "quadrants" = quadrants.summary, 
               "X2" = X2.test,
@@ -156,3 +182,4 @@ cate.nelson.1965 <- function(data=NULL, STV, RY, target){
               "plot" = final.plot))
   
 }
+

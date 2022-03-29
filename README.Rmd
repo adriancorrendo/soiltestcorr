@@ -32,11 +32,11 @@ The first calibration method available is the Modified Arcsine-log Calibration C
 
 For its implementation, soiltestR presents the function `modALCC()` that produces the estimation of critical soil test values (CSTV) for a target relative yield (RY) with confidence intervals at adjustable confidence levels. <br/>
 
-In addition, `soiltestR` allows users to implement the quadrants analysis approach, also known as the Cate-Nelson analysis. There are two versions of the Cate-Nelson analysis: <br/> /
+`soiltestR` also allows users to implement the quadrants analysis approach, also known as the Cate-Nelson analysis. There are two versions of the Cate-Nelson technique: <br/>
    
-   (i). `cate.nelson.1965()`, based on Cate and Nelson (1965), which uses a fixed value of RY (y-axis) and estimates the CSTV (x-axis) as the minimum STV that minimizes the residual sum of squares for the specified RY level when dividing data points in two classes or groups (lower or greater than the CSTV). This is also known as the "graphical" version of the Cate-Nelson approach. <br/> /
+   (i). `cate.nelson.1965()`, based on Cate and Nelson (1965). The first step of this method is to apply an arbitrarily fixed value of RY as a target (y-axis) that divides the data into two categories (below & equal or above RY target). In a second stage, it estimates the CSTV (x-axis) as the minimum STV that divides the data into four quadrants (target RY level combined with STV lower or greater than the CSTV) maximizing the number of points under well-classified quadrants (II, STV >= CSTV & RY >= RY target; and IV, STV < CSTV & RY < RY target). This is also known as the "graphical" version of the Cate-Nelson approach. <br/>
    
-   (ii). `cate.nelson.1971()`, based on Cate and Nelson (1971), which estimates the CSTV (x-axis) as the minimum STV that minimizes the residual sum of squares when dividing data points in two classes (lower or greater than the CSTV) without using a fixed RY. This refined version does not constrains the model performance (measured with the coefficient of determination -R2-) but the user has no control on the RY level for the CSTV. This is also known as the "statistical" version of the Cate-Nelson approach. <br/> /
+   (ii). `cate.nelson.1971()`, based on Cate and Nelson (1971). The first step of this alternative version is to estimates the CSTV (x-axis) as the minimum STV that minimizes the residual sum of squares when dividing data points in two classes (lower or greater than the CSTV) without using a fixed RY. This refined version does not constrains the model performance (measured with the coefficient of determination -R2-) but the user has no control on the RY level for the CSTV. This is also known as the "statistical" version of the Cate-Nelson approach. <br/> 
    
    
 
@@ -119,14 +119,14 @@ data.all = bind_rows(data_1, data_2, .id = "id") %>%
 
 # Data 1
 # Using dataframe
-fit_example_1 = modALCC(data = data_1, RY = RY, STV = STV, target=90, confidence = 0.95)
+fit_example_1 = soiltestR::modALCC(data = data_1, RY = RY, STV = STV, target=90, confidence = 0.95)
 # Alternative using the vectors
 #fit_example_1 = ALCC(RY = data_1$RY,STV = data_1$STV, target=90,confidence = 0.95)
 
 fit_example_1
 
 # Data 2
-fit_example_2 = modALCC(data = data_2, RY = RY, STV = STV, target=90, confidence = 0.95)
+fit_example_2 = soiltestR::modALCC(data = data_2, RY = RY, STV = STV, target=90, confidence = 0.95)
 
 fit_example_2
 
@@ -137,7 +137,7 @@ fit_example_2
 ```{r warning=T, message=F}
 # Run multiple examples at once with map()
 fit_examples = data.all %>%
-  mutate(modALCC = map(data, ~ modALCC(RY = .$RY, STV = .$STV, target=90, confidence = 0.95))) %>% 
+  mutate(modALCC = map(data, ~ soiltestR::modALCC(RY = .$RY, STV = .$STV, target=90, confidence = 0.95))) %>% 
   unnest(., cols = c("modALCC"))
 
 head(fit_examples)
@@ -145,22 +145,29 @@ head(fit_examples)
 # Alternative with group_map, this does not required nested data.
 fit_all = bind_rows(data_1, data_2, .id = "id") %>% 
   group_by(id) %>% 
-  group_map(~ modALCC(data = ., RY = RY, STV = STV, target = 90, confidence = 0.95))
+  group_map(~ soiltestR::modALCC(data = ., RY = RY, STV = STV, target = 90, confidence = 0.95))
 
 head(fit_all)
 ```
 
-### 2.4. Fit Cate Nelson analysis
+### 3.1. Fit Cate & Nelson 1965
 ```{r}
 
-cate.nelson.1965_example_2 = cate.nelson.1965(data = data_2, RY = RY, STV = STV, target=90)
+cate.nelson.1965_example_2 = soiltestR::cate.nelson.1965(data = data_2, RY = RY, STV = STV, target=90)
 
 cate.nelson.1965_example_2
 
 ```
+### 3.2. Fit Cate & Nelson 1971
+```{r}
 
+cate.nelson.1971_example_2 = soiltestR::cate.nelson.1971(data = data_2, RY = RY, STV = STV)
 
-## 4. Plots
+cate.nelson.1971_example_2
+
+```
+
+## 4. modALCC plots
 
 Examples using ggplot <br/>
 
@@ -314,6 +321,10 @@ resid_example2 %>%
 
 *Correndo, A.A., Salvagiotti, F., García, F.O. and Gutiérrez-Boem, F.H., 2017. A modification of the arcsine–log calibration curve for analysing soil test value–relative yield relationships. Crop and Pasture Science, 68(3), pp.297-304. https://doi.org/10.1071/CP16444 * <br/>
 
-*Warton, D.I., Wright, I.J., Falster, D.S., Westoby, M., 2006. Bivariate line-fitting methods for allometry. Biol. Rev. Camb. Philos. Soc. 81, 259–291. https://doi.org/10.1017/S1464793106007007 * <br/>
+*Correndo, A.A., Salvagiotti, F., García, F.O. and Gutiérrez-Boem, F.H., 2017. A modification of the arcsine–log calibration curve for analysing soil test value–relative yield relationships. Crop and Pasture Science, 68(3), pp.297-304. https://doi.org/10.1071/CP16444 * <br/>
+
+*Correndo, A.A., Salvagiotti, F., García, F.O. and Gutiérrez-Boem, F.H., 2017. A modification of the arcsine–log calibration curve for analysing soil test value–relative yield relationships. Crop and Pasture Science, 68(3), pp.297-304. https://doi.org/10.1071/CP16444 * <br/>
 
 *Dyson, C.B., Conyers, M.K., 2013. Methodology for online biometric analysis of soil test-crop response datasets. Crop & Pasture Science 64: 435–441. https://doi.org/10.1071/CP13009 * <br/>
+
+*Warton, D.I., Wright, I.J., Falster, D.S., Westoby, M., 2006. Bivariate line-fitting methods for allometry. Biol. Rev. Camb. Philos. Soc. 81, 259–291. https://doi.org/10.1017/S1464793106007007 * <br/>
