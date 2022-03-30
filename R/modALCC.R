@@ -71,7 +71,7 @@ modALCC <- function(data=NULL, RY, STV, target, confidence){
   n.90x2 <- rlang::eval_tidy(data=data, rlang::quo(length(which({{STV}} > (2*cstv.90))) ) )
   n.100 <- rlang::eval_tidy(data=data, rlang::quo(length(which({{STV}} > cstv.100)) ) )
   # Outcome
-  results <- dplyr::bind_cols(
+  results <- as.list(dplyr::bind_cols(
     dplyr::bind_cols(as.data.frame(list("n" = n, 
                                         "r" = r, 
                                         "target" = target,
@@ -91,7 +91,7 @@ modALCC <- function(data=NULL, RY, STV, target, confidence){
                        "SMA_line" = SMA_line,
                        "residuals" = residuals,
                        "fitted_axis" = fitted_axis)) %>%
-      tidyr::nest(SMA =  c("ln_STV", "arc_RY", "SMA_line","residuals", "fitted_axis") ) )
+      tidyr::nest(SMA =  c("ln_STV", "arc_RY", "SMA_line","residuals", "fitted_axis") ) ) )
   
   # WARNINGS
   rlang::eval_tidy(data = data, rlang::quo(

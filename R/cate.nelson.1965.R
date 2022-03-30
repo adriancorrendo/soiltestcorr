@@ -26,9 +26,9 @@
 #' @importFrom ggplot2 ggplot aes geom_point scale_shape_manual scale_color_manual labs geom_vline geom_hline annotate theme_bw theme
 cate.nelson.1965 <- function(data=NULL, STV, RY, target){
 
-  x <- rlang::eval_tidy(data = data, rlang::quo(STV) )
+  x <- rlang::eval_tidy(data = data, rlang::quo({{STV}}) )
   
-  y <- rlang::eval_tidy(data = data, rlang::quo(RY) )
+  y <- rlang::eval_tidy(data = data, rlang::quo({{RY}}) )
   
   n <- length(x) 
   

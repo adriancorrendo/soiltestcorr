@@ -136,9 +136,14 @@ data_1 = data.frame("RY" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
 
 data_2 = soiltestR::data_test
 
+# Example 3. Native dataset from soiltestR package, used by Cate & Nelson (1971)
+data_3 <- soiltestR::freitas1966
 
 # Create nested structure as example of multiple datasets
-data.all = bind_rows(data_1, data_2, .id = "id") %>% 
+# Note that STV column needs to have the same name in order to bind rows
+data.all = bind_rows(data_1, data_2, 
+                     data_3 %>% dplyr::rename(STV = STK),
+                     .id = "id") %>% 
   tidyr::nest(data = c("STV", "RY"))
 
 ```
@@ -163,6 +168,11 @@ fit_example_2 = soiltestR::modALCC(data = data_2, RY = RY, STV = STV, target=90,
 
 fit_example_2
 
+# Data 3. Freitas et al. 1966
+fit_example_3 = soiltestR::modALCC(data = data_3, RY = RY, STV = STK, target=90, confidence = 0.95)
+
+fit_example_3
+
 
 ```
 
@@ -171,8 +181,7 @@ fit_example_2
 ```{r warning=T, message=F}
 # Run multiple examples at once with map()
 fit_examples = data.all %>%
-  dplyr::mutate(modALCC = map(data, ~ soiltestR::modALCC(RY = .$RY, STV = .$STV, target=90, confidence = 0.95))) %>% 
-  tidyr::unnest(., cols = c("modALCC"))
+  mutate(modALCC = map(data, ~ soiltestR::modALCC(RY = .$RY, STV = .$STV, target=90, confidence = 0.95))) 
 
 head(fit_examples)
 
@@ -208,7 +217,8 @@ Examples using ggplot <br/>
 ### 4.1. Example 1
 ```{r warning=F, message=F}
 # Extracting curve data as a data.frame to plot
-curve_example1 = fit_example_1 %>% tidyr::unnest(., cols = Curve)
+curve_example1 = as.data.frame(fit_example_1$Curve)
+
 
 # Plot
 data_1 %>% 
@@ -237,21 +247,22 @@ data_1 %>%
   ggpp::annotate(geom = "rect", xmin = fit_example_1$LL, xmax = fit_example_1$UL,
                  ymin = min(data_1$RY), ymax = 100, alpha = .3, fill = "red")+
   # Axis titles
-  labs(x = "Soil Test Value (units)", y = "Relative Yield (%)")+
+  labs(x = "Soil Test Value (units)", y = "Relative Yield (%)",
+       title = "Modified Arcsine-Log Calibration Curve")+
   theme_bw()+
   theme(legend.position = "top")+
   # Annotate critical values data
   ggpp::annotate(geom = "table", y = min(data_1$RY), x = fit_example_1$UL + 0.5, hjust= 0, vjust = 0,
-                 label = fit_example_1 %>% dplyr::select(CSTV, LL, UL, r) %>% 
-                   dplyr::mutate_at(.vars = c("r"), ~round(.,2)) %>% 
-                   dplyr::mutate_at(.vars = c("CSTV","LL","UL"), ~round(.,1))
+                 label = as.data.frame(fit_example_1[c("CSTV", "LL", "UL", "r")]) %>% 
+                   mutate_at(.vars = c("r"), ~round(.,2)) %>% 
+                   mutate_at(.vars = c("CSTV","LL","UL"), ~round(.,1))
                    )
 
 
 # SMA regression
 
-SMA_example1 = fit_example_1 %>%  tidyr::unnest(., cols = SMA)
-
+SMA_example1 = fit_example_1$SMA %>% as.data.frame()
+ 
 SMA_example1 %>% 
   ggplot(aes(x = arc_RY, y = ln_STV))+
   ggtitle("SMA Regression. Dataset 1")+
@@ -283,7 +294,7 @@ SMA_example1 %>%
 ### 4.2. Example 2
 ```{r warning=F, message=F}
 # Extracting curve data as a data.frame to plot
-curve_example2 = fit_example_2 %>% tidyr::unnest(., cols = Curve)
+curve_example2 = fit_example_2$Curve %>% as.data.frame()
 
 # Plot
 data_2 %>% ggplot()+
@@ -309,19 +320,20 @@ data_2 %>% ggplot()+
   ggpp::annotate(geom = "rect", xmin = fit_example_2$LL, xmax = fit_example_2$UL,
                  ymin = min(data_2$RY), ymax = 100, alpha = .3, fill = "red")+
   # Axis titles
-  labs(x = "Soil Test Value (units)", y = "Relative Yield (%)")+
+  labs(x = "Soil Test Value (units)", y = "Relative Yield (%)",
+       title = "Modified Arcsine-Log Calibration Curve")+
   theme_bw()+
   theme(legend.position = "top")+
   # Annotate critical values data
   ggpp::annotate(geom = "table", y = min(data_2$RY), x = fit_example_2$UL + 0.5, hjust= 0, vjust = 0,
-                 label = fit_example_2 %>% dplyr::select(CSTV, LL, UL, r) %>% 
-                   dplyr::mutate_at(.vars = c("r"), ~round(.,2)) %>% 
-                   dplyr::mutate_at(.vars = c("CSTV","LL","UL"), ~round(.,1))
+                 label = as.data.frame(fit_example_2[c("CSTV", "LL", "UL", "r")]) %>% 
+                   mutate_at(.vars = c("r"), ~round(.,2)) %>% 
+                   mutate_at(.vars = c("CSTV","LL","UL"), ~round(.,1))
                    )
   
 # SMA regression
 
-SMA_example2 = fit_example_2 %>%  tidyr::unnest(., cols = SMA)
+SMA_example2 <- fit_example_2$SMA %>% as.data.frame()
 
 SMA_example2 %>% 
   ggplot(aes(x = arc_RY, y = ln_STV))+
@@ -338,9 +350,7 @@ SMA_example2 %>%
 
 # Residuals plot
 
-resid_example2 = fit_example_2 %>%  tidyr::unnest(., cols = SMA)
-
-resid_example2 %>% 
+SMA_example2 %>% 
   ggplot(aes(x = fitted_axis, y = residuals))+
   ggtitle("Residuals SMA. Dataset 2")+
   geom_point(shape = 21, fill = "#88dbc8", size = 4, alpha = 0.5)+
