@@ -7,9 +7,11 @@
 #' @param RY name of the vector containing relative yield values (%) of type `numeric`.
 #' @param STV name of the vector containing soil test values (-) of type `numeric`.
 #' @param target `numeric` value of relative yield target (e.g. 90 for 90%) to estimate the CSTV.
-#' @param confidence `numeric`value of confidence level (e.g. 0.95 for 
+#' @param confidence `numeric` value of confidence level (e.g. 0.95 for 
 #' significance = 0.05)
-#' @return an object of type `data.frame`
+#' @param tidy `boolean` to decide the type of return. TRUE returns a data.frame, 
+#' FALSE returns a list (default). 
+#' @return an object of type `data.frame` if tidy == TRUE, otherwise, it returns a list
 #' @details See Correndo et al. (2017)
 #' @examples 
 #' \dontrun{
@@ -33,7 +35,7 @@
 #' @importFrom stats cor cor.test sd qt
 #' @export 
 
-modALCC <- function(data=NULL, RY, STV, target, confidence){
+modALCC <- function(data=NULL, RY, STV, target, confidence, tidy = FALSE){
   
   # Add a function to cap if there are RY values > 100
   ry <- rlang::eval_tidy(data = data, rlang::quo(ifelse({{RY}} > 100, 100, as.double({{RY}})) ))
@@ -71,32 +73,40 @@ modALCC <- function(data=NULL, RY, STV, target, confidence){
   n.90x2 <- rlang::eval_tidy(data=data, rlang::quo(length(which({{STV}} > (2*cstv.90))) ) )
   n.100 <- rlang::eval_tidy(data=data, rlang::quo(length(which({{STV}} > cstv.100)) ) )
   # Outcome
-  results <- as.list(dplyr::bind_cols(
-    dplyr::bind_cols(as.data.frame(list("n" = n, 
-                                        "r" = r, 
-                                        "target" = target,
-                                        "CSTV" = CSTV,
-                                        "LL" = CSTV_lower,
-                                        "UL" = CSTV_upper,
-                                        "confidence" = confidence,
-                                        "p_value" = p_value,
-                                        "CSTV90" = cstv.90, 
-                                        "n.90x2" = n.90x2,
-                                        "CSTV100" = cstv.100,
-                                        "n.100" = n.100)),
-                     as.data.frame(list("RY.fitted" = new_RY, 
-                                        "STV.fitted" = fitted_STV)) %>%
-                       tidyr::nest(Curve = c("RY.fitted", "STV.fitted"))),
-    as.data.frame(list("ln_STV" = ln_STV, "arc_RY" = arc_RY,
-                       "SMA_line" = SMA_line,
-                       "residuals" = residuals,
-                       "fitted_axis" = fitted_axis)) %>%
-      tidyr::nest(SMA =  c("ln_STV", "arc_RY", "SMA_line","residuals", "fitted_axis") ) ) )
+  results <- 
+    dplyr::bind_cols(
+      # Data frame with summary
+      dplyr::bind_cols(as.data.frame(list("n" = n, 
+                                          "r" = r, 
+                                          "target" = target,
+                                          "CSTV" = CSTV,
+                                          "LL" = CSTV_lower,
+                                          "UL" = CSTV_upper,
+                                          "confidence" = confidence,
+                                          "p_value" = p_value,
+                                          "CSTV90" = cstv.90, 
+                                          "n.90x2" = n.90x2,
+                                          "CSTV100" = cstv.100,
+                                          "n.100" = n.100)),
+                       # Data frame with Curve
+                       as.data.frame(list("RY.fitted" = new_RY, 
+                                          "STV.fitted" = fitted_STV)) %>%
+                         tidyr::nest(Curve = c("RY.fitted", "STV.fitted"))),
+      # Data frame with SMA residuals
+      as.data.frame(list("ln_STV" = ln_STV, "arc_RY" = arc_RY,
+                         "SMA_line" = SMA_line,
+                         "residuals" = residuals,
+                         "fitted_axis" = fitted_axis)) %>%
+        tidyr::nest(SMA =  c("ln_STV", "arc_RY", "SMA_line","residuals", "fitted_axis") ) )
+  
+  if (tidy == TRUE) {results <- results}
+  
+  if (tidy == FALSE) {results <- as.list(results)}
   
   # WARNINGS
   rlang::eval_tidy(data = data, rlang::quo(
-  # RY > 100%
-  if (max({{RY}}) > 100) {warning("One or more original RY values exceeded 100%. All RY values greater 
+    # RY > 100%
+    if (max({{RY}}) > 100) {warning("One or more original RY values exceeded 100%. All RY values greater 
           than 100% have been capped to 100%.", call. = FALSE) } ) )
   # Sample size
   if (results$n <= 8) {warning(paste0("n =",n,". Limited sample size. Consider adding more 
@@ -113,4 +123,5 @@ modALCC <- function(data=NULL, RY, STV, target, confidence){
   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by 
   removing extreme points, re-run the modALCC(), and check results."), call. = FALSE) }
   
+  # IF END
   return(results) }

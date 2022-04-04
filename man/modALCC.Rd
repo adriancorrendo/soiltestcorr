@@ -4,7 +4,7 @@
 \alias{modALCC}
 \title{modALCC}
 \usage{
-modALCC(data = NULL, RY, STV, target, confidence)
+modALCC(data = NULL, RY, STV, target, confidence, tidy = FALSE)
 }
 \arguments{
 \item{data}{Optional argument to call and object of type data.frame or data.table
@@ -16,11 +16,14 @@ containing the STV and RY data, Default: NULL}
 
 \item{target}{\code{numeric} value of relative yield target (e.g. 90 for 90\%) to estimate the CSTV.}
 
-\item{confidence}{\code{numeric}value of confidence level (e.g. 0.95 for
+\item{confidence}{\code{numeric} value of confidence level (e.g. 0.95 for
 significance = 0.05)}
+
+\item{tidy}{\code{boolean} to decide the type of return. TRUE returns a data.frame,
+FALSE returns a list (default).}
 }
 \value{
-an object of type \code{data.frame}
+an object of type \code{data.frame} if tidy == TRUE, otherwise, it returns a list
 }
 \description{
 This function runs the modified arcsine-log calibration curve to
