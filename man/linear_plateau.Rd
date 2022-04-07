@@ -13,6 +13,14 @@ SS_LP(x, intercept, slope, Xc)
 linear_plateau(data = NULL, STV, RY, resid = FALSE, plot = FALSE)
 }
 \arguments{
+\item{x}{selfstar arg. for independent variable, Default = NULL}
+
+\item{intercept}{selfstar arg. for intercept Default = NULL}
+
+\item{slope}{selfstar arg. for slope Default = NULL}
+
+\item{Xc}{selfstar arg. for critical value Default = NULL}
+
 \item{data}{Optional argument to call and object of type data.frame or data.table
 containing the STV and RY data, Default: NULL}
 

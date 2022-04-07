@@ -9,6 +9,10 @@
 #' @param resid boolean (TRUE/FALSE) to plot residuals analysis, Default: FALSE
 #' @param plot boolean (TRUE/FALSE) to plot the linear-plateau model, Default: FALSE
 #' Default: FALSE
+#' @param x selfstar arg. for independent variable, Default = NULL
+#' @param intercept selfstar arg. for intercept Default = NULL
+#' @param slope selfstar arg. for slope Default = NULL
+#' @param Xc selfstar arg. for critical value Default = NULL
 #' @rdname linear_plateau
 #' @return returns a `data.frame` if plot = FALSE, if plot = TRUE
 #' @details This functions fits a linear-plateau model using selfStart initial values
