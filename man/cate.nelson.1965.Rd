@@ -4,7 +4,7 @@
 \alias{cate.nelson.1965}
 \title{Cate & Nelson Quadrants Analysis, 1965}
 \usage{
-cate.nelson.1965(data = NULL, STV, RY, target)
+cate.nelson.1965(data = NULL, STV, RY, target, tidy = FALSE, plot = FALSE)
 }
 \arguments{
 \item{data}{argument to call a data.frame or data.table containing the data}
@@ -14,9 +14,14 @@ cate.nelson.1965(data = NULL, STV, RY, target)
 \item{RY}{argument to call the vector or column containing the relative yield (RY) data}
 
 \item{target}{argument to specify the RY target (numeric) to estimate the critical STV}
+
+\item{tidy}{\code{boolean} to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).}
+
+\item{plot}{\code{boolean} to decide the type of return. TRUE returns a ggplot,
+FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE).}
 }
 \value{
-it returns an object of type list containing the main results plus a ggplot object with the figure display
+it returns an object of type \code{ggplot} when plot == TRUE. If plot == FALSE, it returns an object of type \code{data.frame} if tidy == TRUE, otherwise, it returns a list
 }
 \description{
 This function runs the quadrants analysis suggested by Cate and Nelson (1965)

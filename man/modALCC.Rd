@@ -2,9 +2,9 @@
 % Please edit documentation in R/modALCC.R
 \name{modALCC}
 \alias{modALCC}
-\title{modALCC}
+\title{Modified Arcsine-Log Calibration Curve}
 \usage{
-modALCC(data = NULL, RY, STV, target, confidence, tidy = FALSE)
+modALCC(data = NULL, RY, STV, target, confidence, tidy = FALSE, plot = FALSE)
 }
 \arguments{
 \item{data}{Optional argument to call and object of type data.frame or data.table
@@ -19,8 +19,10 @@ containing the STV and RY data, Default: NULL}
 \item{confidence}{\code{numeric} value of confidence level (e.g. 0.95 for
 significance = 0.05)}
 
-\item{tidy}{\code{boolean} to decide the type of return. TRUE returns a data.frame,
-FALSE returns a list (default).}
+\item{tidy}{\code{boolean} to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).}
+
+\item{plot}{\code{boolean} to decide the type of return. TRUE returns a ggplot,
+FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE).}
 }
 \value{
 an object of type \code{data.frame} if tidy == TRUE, otherwise, it returns a list
@@ -36,16 +38,18 @@ See Correndo et al. (2017)
 \dontrun{
 if(interactive()){
  # Example 1 dataset
- data_1 = data.frame("RY" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
-                     "STV" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
+ dat = data.frame("ry" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
+                   "stv" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
  # Run
- fit_example1 = modALCC(data = data_1, RY = RY, STV = STV, target=90, confidence = 0.95)
- fit_example1
+ fit_example = modALCC(data = dat, RY = ry, STV = stv, target=90, confidence = 0.95)
+ fit_example
  }
 }
-}
-\seealso{
-\code{\link[rlang]{eval_tidy}},\code{\link[rlang]{defusing-advanced}}
-\code{\link[dplyr]{bind}}
-\code{\link[tidyr]{nest}}
+ @seealso 
+ \code{\link[rlang]{eval_tidy}},\code{\link[rlang]{defusing-advanced}}
+ \code{\link[stats]{TDist}},\code{\link[stats]{cor}},\code{\link[stats]{cor.test}},\code{\link[stats]{sd}}
+ \code{\link[dplyr]{bind}},\code{\link[dplyr]{filter}}
+ \code{\link[tidyr]{nest}}
+ \code{\link[ggplot2]{ggplot}},\code{\link[ggplot2]{aes}},\code{\link[ggplot2]{geom_point}},\code{\link[ggplot2]{scale_manual}},\code{\link[ggplot2]{geom_rug}},\code{\link[ggplot2]{geom_abline}},\code{\link[ggplot2]{geom_path}},\code{\link[ggplot2]{scale_continuous}},\code{\link[ggplot2]{annotate}},\code{\link[ggplot2]{labs}},\code{\link[ggplot2]{ggtheme}},\code{\link[ggplot2]{theme}}
+ \code{\link[ggpp]{annotate}}
 }

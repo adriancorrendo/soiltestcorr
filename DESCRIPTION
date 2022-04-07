@@ -1,13 +1,15 @@
 Package: soiltestR
 Title: Soil Test Calibration in R
-Version: 1.0.2
+Version: 1.0.3
 Authors@R: 
     c(person(given = "Adrian A.", family = "Correndo",
              email = "correndo@ksu.edu", role = "cre",comment = c(ORCID = "0000-0002-4172-289X")),
       person(given = "Adrian A.", family = "Correndo",
              email = "correndo@ksu.edu", role = "aut",comment = c(ORCID = "0000-0002-4172-289X")),
+      person(given = "Austin", family = "Pearce",
+             email = "awpearc2@ncsu.edu", role = "aut",comment = c(ORCID = "0000-0002-2541-896X")),
       person("Ignacio A.", "Ciampitti", email = "ciampitti@ksu.edu", role = c("aut"), comment = c(ORCID = "0000-0001-9619-5129")))
-Description: the soiltestR package is designed to assist users on the analysis of relative yield:soil test value relationships. The soiltestR package estimates critical soil test values using R following different approaches such as: i) the modified ALCC model originally described by Dyson and Conyers (2013) and modified by Correndo et al. (2017); ii) the graphical Cate & Nelson approach (Cate & Nelson, 1965), and iii) the statistical Cate & Nelson approach (Cate & Nelson, 1965).
+Description: the soiltestR package is designed to assist users on the analysis of relative yield:soil test value relationships. The soiltestR package estimates critical soil test values using R following different approaches such as: i) the modified ALCC model originally described by Dyson and Conyers (2013) and modified by Correndo et al. (2017); ii) the graphical Cate & Nelson approach (Cate & Nelson, 1965), iii) the statistical Cate & Nelson approach (Cate & Nelson, 1965), and iv) regression models such as linear-plateau, quadratic-plateau, and others.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -28,7 +30,11 @@ Imports:
     ggpp,
     pacman,
     data.table,
-    utils
+    utils,
+    nlstools,
+    minpack.lm,
+    modelr,
+    AICcmodavg
 Depends: 
     R (>= 2.10)
 LazyData: true

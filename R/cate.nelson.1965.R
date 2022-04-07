@@ -4,7 +4,10 @@
 #' @param STV argument to call the vector or column containing the soil test value (STV) data
 #' @param RY argument to call the vector or column containing the relative yield (RY) data
 #' @param target argument to specify the RY target (numeric) to estimate the critical STV
-#' @return it returns an object of type list containing the main results plus a ggplot object with the figure display
+#' @param tidy `boolean` to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).
+#' @param plot `boolean` to decide the type of return. TRUE returns a ggplot,
+#' FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE). 
+#' @return it returns an object of type `ggplot` when plot == TRUE. If plot == FALSE, it returns an object of type `data.frame` if tidy == TRUE, otherwise, it returns a list
 #' @details See Cate, R. B. Jr., and L. A. Nelson. 1965. A rapid method for correlation of soil test analysis
 #' with plant response data. North Carolina Agric. Exp. Stn., International soil Testing Series l. No. 1.
 #' This code was adapted from Mangiafico, S. S. (2013). Cate-Nelson Analysis for Bivariate Data Using R-project.
@@ -24,7 +27,7 @@
 #' @importFrom rlang eval_tidy quo
 #' @importFrom stats lm anova
 #' @importFrom ggplot2 ggplot aes geom_point scale_shape_manual scale_color_manual labs geom_vline geom_hline annotate theme_bw theme
-cate.nelson.1965 <- function(data=NULL, STV, RY, target){
+cate.nelson.1965 <- function(data=NULL, STV, RY, target, tidy = FALSE, plot = FALSE){
 
   x <- rlang::eval_tidy(data = data, rlang::quo({{STV}}) )
   
@@ -118,14 +121,15 @@ cate.nelson.1965 <- function(data=NULL, STV, RY, target){
   min.y <- min(dataset$y)
   
   # ggplot
-  final.plot <- 
+  cn65.ggplot <- 
     ggplot2::ggplot(data = dataset, ggplot2::aes(x=x, y=y))+
+    ggplot2::geom_rug(alpha = 0.2, length = unit(2, "pt")) +
     ggplot2::geom_point(aes(color = dataset$Quadrant, shape = dataset$Quadrant), alpha = 0.75)+
     ggplot2::scale_shape_manual(name = "", values = c(4,16))+
     ggplot2::scale_color_manual(name = "", values = c("#800f2f","#355070"))+
     ggplot2::geom_vline(xintercept = CSTV, col = "dark red", linetype = "dashed")+
     ggplot2::geom_hline(yintercept = target, col = "dark red", linetype = "dashed")+
-    # Critical STV
+    # CSTV
     ggplot2::annotate(geom = "text", label = paste("CSTV =", CSTV, "ppm"),
                       x = CSTV+1, y = 0, angle = 90, hjust = 0, vjust = 1, col = "grey25") +
     # RY target
@@ -144,15 +148,27 @@ cate.nelson.1965 <- function(data=NULL, STV, RY, target){
     ggplot2::labs(x="Soil test value", y="Relative yield (%)",
                   title = "Cate & Nelson (1965)")+
     ggplot2::theme_bw()+
-    ggplot2::theme(legend.position = "none")
-  
-  return(list("n" = n, 
+    ggplot2::theme(legend.position="none",
+                   panel.grid = element_blank(),
+                   axis.title = element_text(size = rel(1.5)))
+## Outputs
+  results <- list("n" = n, 
               "CRYV" = target,
               "CSTV" = CSTV,
               "quadrants" = quadrants.summary, 
               "X2" = X2.test,
               "anova" = anova.model,
-              "R2" = R2.model,
-              "plot" = final.plot))
+              "R2" = R2.model) 
   
+  if (tidy == TRUE) {
+    results <- as.data.frame(results[c(1:4,7)])
+  } else {
+    results <- results
+  }
+
+  if (plot == TRUE){
+    return(cn65.ggplot)
+  } else {
+    return(results)
+  }
 }

@@ -196,76 +196,55 @@ head(fit_all)
 ### 3.2. Fit Cate & Nelson 1965
 ```{r}
 
-cate.nelson.1965_example_2 = soiltestR::cate.nelson.1965(data = data_2, RY = RY, STV = STV, target=90)
+cate.nelson.1965_example_2 = soiltestR::cate.nelson.1965(data = data_2, RY = RY, STV = STV, target=90, tidy = FALSE, plot = FALSE)
 
 cate.nelson.1965_example_2
 
+cate.nelson.1965_example_3 = soiltestR::cate.nelson.1965(data = data_3, RY = RY, STV = STK, target=95, tidy = TRUE, plot = FALSE)
+
+cate.nelson.1965_example_3
+
+
 ```
+
 ### 3.3. Fit Cate & Nelson 1971
 ```{r}
 
-cate.nelson.1971_example_2 = soiltestR::cate.nelson.1971(data = data_2, RY = RY, STV = STV)
+cate.nelson.1971_example_2 = soiltestR::cate.nelson.1971(data = data_2, RY = RY, STV = STV, tidy = TRUE, plot = FALSE)
 
 cate.nelson.1971_example_2
 
+cate.nelson.1971_example_3 = soiltestR::cate.nelson.1971(data = data_3, RY = RY, STV = STK, tidy = TRUE, plot = FALSE)
+
+cate.nelson.1971_example_3
+
 ```
 
-## 4. modALCC plots
+### 3.4. Fit Linear-plateau model
+```{r}
+
+#linear_plateau_example_3 = soiltestR::linear_plateau(data = data_3, RY = RY, STV = STK, plot = FALSE)
+
+#linear_plateau_example_3
+
+```
+
+## 4. Plots
 
 Examples using ggplot <br/>
 
-### 4.1. Example 1
+### 4.1. modALCC
 ```{r warning=F, message=F}
-# Extracting curve data as a data.frame to plot
-curve_example1 = as.data.frame(fit_example_1$Curve)
 
-
-# Plot
-data_1 %>% 
-  # Want to remove leverage points?
-  #dplyr::filter(STV < fit_example_1$CSTV100) %>% 
-  #dplyr::filter(STV < 2*fit_example_1$CSTV90) %>% 
-  ggplot()+
-  # Points
-  geom_point(aes(x = STV, y = RY), fill = "orange", shape = 21, size = 4, alpha = 0.75)+
-  # Highlight potential leverage points >2xCSTV90
-  geom_point(data = data_1 %>% dplyr::filter(STV > 2*fit_example_1$CSTV90),
-             aes(x = STV, y = RY, shape = ">2xCSTV90"), col = "dark red", size = 5, alpha = 1)+
-  # Highlight potential leverage points >2xCSTV90
-  #geom_point(data = data_1 %>% dplyr::filter(STV > fit_example_1$CSTV100),
-   #          aes(x = STV, y = RY, shape = ">CSTV100"), col = "dark red", size = 4, alpha = 1)+
-  scale_shape_manual(name = "", values = c(5,4))+
-  # Fitted ALCC
-  geom_line(data = curve_example1, aes(x= STV.fitted, y = RY.fitted), size = 2)+
-  # Critical value
-  geom_vline(xintercept = fit_example_1$CSTV, col = "red", size = 1.25, linetype = "dashed")+
-  # Confidence limits
-  # Lines
-  geom_vline(xintercept = fit_example_1$LL, col = "red", size = 0.75, linetype = "dotted")+
-  geom_vline(xintercept = fit_example_1$UL, col = "red", size = 0.75, linetype = "dotted")+
-  # Shade
-  ggpp::annotate(geom = "rect", xmin = fit_example_1$LL, xmax = fit_example_1$UL,
-                 ymin = min(data_1$RY), ymax = 100, alpha = .3, fill = "red")+
-  # Axis titles
-  labs(x = "Soil Test Value (units)", y = "Relative Yield (%)",
-       title = "Modified Arcsine-Log Calibration Curve")+
-  theme_bw()+
-  theme(legend.position = "top")+
-  # Annotate critical values data
-  ggpp::annotate(geom = "table", y = min(data_1$RY), x = fit_example_1$UL + 0.5, hjust= 0, vjust = 0,
-                 label = as.data.frame(fit_example_1[c("CSTV", "LL", "UL", "r")]) %>% 
-                   mutate_at(.vars = c("r"), ~round(.,2)) %>% 
-                   mutate_at(.vars = c("CSTV","LL","UL"), ~round(.,1))
-                   )
-
+soiltestR::modALCC(data = data_3, RY = RY, STV = STK, target=95, confidence = 0.95, plot = TRUE)
 
 # SMA regression
 
-SMA_example1 = fit_example_1$SMA %>% as.data.frame()
+SMA_example3 = fit_example_3$SMA %>% as.data.frame()
  
-SMA_example1 %>% 
+SMA_example3 %>% 
   ggplot(aes(x = arc_RY, y = ln_STV))+
-  ggtitle("SMA Regression. Dataset 1")+
+  ggtitle("SMA Regression. Dataset 3")+
   geom_point(shape=21, fill = "orange", size = 4, alpha = 0.75)+
   #SMA Line
   geom_path(aes(x=arc_RY, y = SMA_line, linetype = "SMA_fit"), size = 2, col = "grey25")+
@@ -278,9 +257,9 @@ SMA_example1 %>%
 
 # Residuals plot
 
-SMA_example1 %>% 
+SMA_example3 %>% 
   ggplot(aes(x = fitted_axis, y = residuals))+
-  ggtitle("Residuals SMA. Dataset 1")+
+  ggtitle("Residuals SMA. Dataset 3")+
   geom_point(shape=21, fill = "orange", size = 4, alpha = 0.75)+
   geom_hline(yintercept = 0, col = "grey10", size = 1.25, linetype = "dashed")+
   theme_bw()+
@@ -291,74 +270,25 @@ SMA_example1 %>%
 
 \newpage
 
-### 4.2. Example 2
+### 4.2. Cate & Nelson 1965
 ```{r warning=F, message=F}
-# Extracting curve data as a data.frame to plot
-curve_example2 = fit_example_2$Curve %>% as.data.frame()
 
-# Plot
-data_2 %>% ggplot()+
-  # Want to remove leverage points?
-  #dplyr::filter(STV < fit_example_2$CSTV100) %>% 
-  #dplyr::filter(STV < 2*fit_example_2$CSTV90) %>% 
-  # Points
-  geom_point(aes(x = STV, y = RY), fill = "#88dbc8", shape = 21, size = 4, alpha = 0.75)+
-  # Highlight potential leverage points >2xCSTV90
-  geom_point(data = data_2 %>% dplyr::filter(STV > 2*fit_example_2$CSTV90),
-             aes(x = STV, y = RY, shape = ">2xCSTV90"), col = "dark red", size = 5, alpha = 1)+
-  # Highlight potential leverage points >CSTV100
-  geom_point(data = data_2 %>% dplyr::filter(STV > fit_example_2$CSTV100),
-             aes(x = STV, y = RY, shape = ">CSTV100"), col = "dark red", size = 5, alpha = 1)+
-  scale_shape_manual(name = "", values = c(5,4))+
-  # Fitted ALCC
-  geom_line(data = curve_example2, aes(x= STV.fitted, y = RY.fitted), size = 2)+
-  # Critical value
-  geom_vline(xintercept = fit_example_2$CSTV, col = "red", size = 1.25, linetype = "dashed")+
-  # Confidence limits
-  geom_vline(xintercept = fit_example_2$LL, col = "red", size = 0.75, linetype = "dotted")+
-  geom_vline(xintercept = fit_example_2$UL, col = "red", size = 0.75, linetype = "dotted")+
-  ggpp::annotate(geom = "rect", xmin = fit_example_2$LL, xmax = fit_example_2$UL,
-                 ymin = min(data_2$RY), ymax = 100, alpha = .3, fill = "red")+
-  # Axis titles
-  labs(x = "Soil Test Value (units)", y = "Relative Yield (%)",
-       title = "Modified Arcsine-Log Calibration Curve")+
-  theme_bw()+
-  theme(legend.position = "top")+
-  # Annotate critical values data
-  ggpp::annotate(geom = "table", y = min(data_2$RY), x = fit_example_2$UL + 0.5, hjust= 0, vjust = 0,
-                 label = as.data.frame(fit_example_2[c("CSTV", "LL", "UL", "r")]) %>% 
-                   mutate_at(.vars = c("r"), ~round(.,2)) %>% 
-                   mutate_at(.vars = c("CSTV","LL","UL"), ~round(.,1))
-                   )
-  
-# SMA regression
+soiltestR::cate.nelson.1965(data = data_3, RY = RY, STV = STK, target=95, tidy = TRUE, plot = TRUE)
 
-SMA_example2 <- fit_example_2$SMA %>% as.data.frame()
+```
 
-SMA_example2 %>% 
-  ggplot(aes(x = arc_RY, y = ln_STV))+
-  ggtitle("SMA Regression. Dataset 2")+
-  geom_point(shape=21, fill = "#88dbc8", size = 4, alpha = 0.5)+
-  #SMA Line
-  geom_path(aes(x=arc_RY, y = SMA_line, linetype = "SMA_fit"), size = 2, col = "grey25")+
-  scale_linetype_manual(name="", values = c("solid"))+
-  #Critical value
-  geom_vline(xintercept = 0, col = "grey10", size = 1.25, linetype = "dashed")+
-  theme_bw()+
-  # Axis titles
-  labs(y = "ln_STV", y = "asin(sqrt(RY))-centered")
+### 4.3. Cate & Nelson 1971
+```{r warning=F, message=F}
 
-# Residuals plot
+soiltestR::cate.nelson.1971(data = data_3, RY = RY, STV = STK, tidy = TRUE, plot = TRUE)
 
-SMA_example2 %>% 
-  ggplot(aes(x = fitted_axis, y = residuals))+
-  ggtitle("Residuals SMA. Dataset 2")+
-  geom_point(shape = 21, fill = "#88dbc8", size = 4, alpha = 0.5)+
-  geom_hline(yintercept = 0, col = "grey10", size = 1.25, linetype = "dashed")+
-  theme_bw()+
-  # Axis titles
-  labs(x = "Fitted Axis -SMA- (see Warton et al. 2006)", y = "Residuals (STV units)")
-  
+```
+
+### 4.4. Linear-plateau
+```{r warning=F, message=F}
+
+#soiltestR::linear_plateau(data = data_3, RY = RY, STV = STK, plot = TRUE, resid = TRUE)
+
 ```
 
 <b> References </b> <br/>

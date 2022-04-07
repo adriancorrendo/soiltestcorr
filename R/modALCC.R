@@ -1,5 +1,5 @@
 
-#' @title modALCC
+#' @title Modified Arcsine-Log Calibration Curve
 #' @description This function runs the modified arcsine-log calibration curve to
 #' estimate critical soil test values (CSTV) following Correndo et al. (2017)
 #' @param data Optional argument to call and object of type data.frame or data.table 
@@ -9,42 +9,56 @@
 #' @param target `numeric` value of relative yield target (e.g. 90 for 90%) to estimate the CSTV.
 #' @param confidence `numeric` value of confidence level (e.g. 0.95 for 
 #' significance = 0.05)
-#' @param tidy `boolean` to decide the type of return. TRUE returns a data.frame, 
-#' FALSE returns a list (default). 
+#' @param tidy `boolean` to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).
+#' @param plot `boolean` to decide the type of return. TRUE returns a ggplot,
+#' FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE). 
 #' @return an object of type `data.frame` if tidy == TRUE, otherwise, it returns a list
 #' @details See Correndo et al. (2017)
 #' @examples 
 #' \dontrun{
 #' if(interactive()){
 #'  # Example 1 dataset
-#'  data_1 = data.frame("RY" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
-#'                      "STV" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
+#'  dat = data.frame("ry" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
+#'                    "stv" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
 #'  # Run
-#'  fit_example1 = modALCC(data = data_1, RY = RY, STV = STV, target=90, confidence = 0.95)
-#'  fit_example1
+#'  fit_example = modALCC(data = dat, RY = ry, STV = stv, target=90, confidence = 0.95)
+#'  fit_example
 #'  }
 #' }
-#' @seealso 
+#'  @seealso 
 #'  \code{\link[rlang]{eval_tidy}},\code{\link[rlang]{defusing-advanced}}
-#'  \code{\link[dplyr]{bind}}
+#'  \code{\link[stats]{TDist}},\code{\link[stats]{cor}},\code{\link[stats]{cor.test}},\code{\link[stats]{sd}}
+#'  \code{\link[dplyr]{bind}},\code{\link[dplyr]{filter}}
 #'  \code{\link[tidyr]{nest}}
+#'  \code{\link[ggplot2]{ggplot}},\code{\link[ggplot2]{aes}},\code{\link[ggplot2]{geom_point}},\code{\link[ggplot2]{scale_manual}},\code{\link[ggplot2]{geom_rug}},\code{\link[ggplot2]{geom_abline}},\code{\link[ggplot2]{geom_path}},\code{\link[ggplot2]{scale_continuous}},\code{\link[ggplot2]{annotate}},\code{\link[ggplot2]{labs}},\code{\link[ggplot2]{ggtheme}},\code{\link[ggplot2]{theme}}
+#'  \code{\link[ggpp]{annotate}}
 #' @rdname modALCC
-#' @importFrom rlang eval_tidy quo
-#' @importFrom dplyr bind_cols `%>%`
-#' @importFrom tidyr nest
-#' @importFrom stats cor cor.test sd qt
 #' @export 
+#' @importFrom rlang eval_tidy quo
+#' @importFrom stats qt cor cor.test sd
+#' @importFrom dplyr bind_cols filter
+#' @importFrom tidyr nest
+#' @importFrom ggplot2 ggplot aes geom_point scale_shape_manual geom_rug geom_hline geom_vline geom_path scale_y_continuous annotate labs theme_bw theme annotate 
 
-modALCC <- function(data=NULL, RY, STV, target, confidence, tidy = FALSE){
-  
+modALCC <- function(data=NULL, 
+                    RY, 
+                    STV, 
+                    target, 
+                    confidence, 
+                    tidy = FALSE,
+                    plot = FALSE
+                    ){
+### STAGE 1 ====================================================================
   # Add a function to cap if there are RY values > 100
   ry <- rlang::eval_tidy(data = data, rlang::quo(ifelse({{RY}} > 100, 100, as.double({{RY}})) ))
+  # Re-define STV as stv
+  stv <- rlang::eval_tidy(data = data, rlang::quo({{STV}}))
   n <- length(ry) # Sample size
   df <- n - 2 # Degrees of freedom
   prob <- 1-((1-confidence)/2) # Probability for t-dist
   tvalue <- stats::qt(p=prob, df = df) # Student-t value
   arc_RY <- asin(sqrt(ry/100)) - asin(sqrt(target/100)) # RY transformation (centered to target)
-  ln_STV <- rlang::eval_tidy(data = data, rlang::quo(log({{STV}}) ) ) # STV natural log transformation
+  ln_STV <- log(stv) # STV natural log transformation
   r <- stats::cor(ln_STV, arc_RY, method = "pearson") # Pearson correlation (r)
   p_value <- stats::cor.test(ln_STV,arc_RY, method = "pearson")$p.value # p-value of r
   slope <- stats::sd(ln_STV)/stats::sd(arc_RY) # SMA slope for ln_STV ~ arc_RY
@@ -72,7 +86,9 @@ modALCC <- function(data=NULL, RY, STV, target, confidence, tidy = FALSE){
   # Count cases with STV > x2 cstv90 and STV > cstv100
   n.90x2 <- rlang::eval_tidy(data=data, rlang::quo(length(which({{STV}} > (2*cstv.90))) ) )
   n.100 <- rlang::eval_tidy(data=data, rlang::quo(length(which({{STV}} > cstv.100)) ) )
-  # Outcome
+  
+  ### STAGE 2 ====================================================================
+  # Outputs
   results <- 
     dplyr::bind_cols(
       # Data frame with summary
@@ -98,7 +114,8 @@ modALCC <- function(data=NULL, RY, STV, target, confidence, tidy = FALSE){
                          "residuals" = residuals,
                          "fitted_axis" = fitted_axis)) %>%
         tidyr::nest(SMA =  c("ln_STV", "arc_RY", "SMA_line","residuals", "fitted_axis") ) )
-  
+
+# Decide type of output
   if (tidy == TRUE) {results <- results}
   
   if (tidy == FALSE) {results <- as.list(results)}
@@ -122,6 +139,65 @@ modALCC <- function(data=NULL, RY, STV, target, confidence, tidy = FALSE){
   if (results$n.90x2 > 0) {warning(paste0(n.90x2," STV points exceeded two-times (2x) 
   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by 
   removing extreme points, re-run the modALCC(), and check results."), call. = FALSE) }
+
+### STAGE 3 ====================================================================
   
-  # IF END
-  return(results) }
+  # Plot
+  modalcc.ggplot <- data.frame(x=stv, y=ry) %>% 
+    ggplot2::ggplot(ggplot2::aes(x, y)) +
+    # Data points
+    ggplot2::geom_point(shape = 21, size = 3, alpha = 0.75, fill = "#e09f3e") +
+    # Highlight potential leverage points >2xCSTV90
+    { if (nrow(subset(data.frame(x=stv, y=ry), x > 2*cstv.90)) > 0)
+      ggplot2::geom_point(data = data.frame(x=stv, y=ry) %>% 
+                            dplyr::filter(x > 2*cstv.90),
+                          aes(x = x, y = y, shape = ">2xCSTV90"), 
+                          col = "#CE1141", size = 3, alpha = 0.5) } +
+    # Highlight potential leverage points >2xCSTV90
+    { if (nrow(subset(data.frame(x=stv, y=ry), x > cstv.100)) > 0)
+      ggplot2::geom_point(data = data.frame(x=stv, y=ry) %>% 
+                            dplyr::filter(x > cstv.100),
+                          aes(x = x, y = y, shape = ">CSTV100"), 
+                          col = "#CE1141", size = 3, alpha = 0.5) } +
+    ggplot2::scale_shape_manual(name = "", values = c(15,8))+
+    ggplot2::geom_rug(alpha = 0.2, length = unit(2, "pt")) +
+    # RY target
+    ggplot2::geom_hline(yintercept = target, alpha = 0.2) +
+    # CSTV
+    ggplot2::geom_vline(xintercept = CSTV, alpha = 1, color = "grey25", 
+                        size = 0.5, linetype = "dashed") +
+    # CI
+    geom_vline(xintercept = CSTV_lower, col = "grey25", size = 0.25, linetype = "dotted")+
+    geom_vline(xintercept = CSTV_upper, col = "grey25", size = 0.25, linetype = "dotted")+
+    # ALCC curve
+    ggplot2::geom_path(data = data.frame(x = fitted_STV, y = new_RY), 
+                       ggplot2::aes(x=x,y=y),
+                       color="grey15", size = 1.5) +
+    ggplot2::scale_y_continuous(limits = c(0, max(ry)),breaks=seq(0,max(ry)*2,10)) +
+    # Text annotations
+    ggplot2::annotate("text",label = paste("CSTV =", round(CSTV,1), "ppm"),
+                      x = CSTV, y = 0, angle = 90, hjust = 0, vjust = 1.5, col = "grey25") +
+    ggplot2::annotate("text",label = paste0("Target = ", round(target, 1), "%"),
+                      x = max(max(stv),max(fitted_STV)), 
+                      y = target, hjust = 1,vjust = 1.5, col = "grey25") +
+    ggplot2::annotate("text", col = "grey25",
+                   label = paste0("n = ", length(stv),
+                                  "\nr = ", round(r, 2),
+                                  "\nCI = [", round(CSTV_lower,1)," - ", round(CSTV_upper,1),"]"),
+                   x = max(max(stv),max(fitted_STV)), y = 0, vjust = 0, hjust = 1) +
+    # Shade
+    #ggpp::annotate(geom = "rect", xmin = CSTV_lower, xmax = CSTV_upper,
+     #              ymin = min(ry), ymax = 100, alpha = 0.3, fill = "#13274F")+
+    ggplot2::labs(x = "Soil test value (units)", y = "Relative yield (%)",
+                  title = "Modified arcsine-log calibration curve")+
+    ggplot2::theme_bw()+
+    ggplot2::theme(panel.grid = element_blank(),
+                   axis.title = element_text(size = rel(1.5)))
+  
+  
+  if (plot == TRUE){
+    return(modalcc.ggplot)
+  } else {
+    return(results)
+    }
+  }

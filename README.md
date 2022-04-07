@@ -59,7 +59,7 @@ limits. <br/>
 approach, also known as the Cate-Nelson analysis. There are two versions
 of the Cate-Nelson technique: <br/>
 
-<b> 1. cate.nelson.1965() </b> <br/>
+<b> 2. cate.nelson.1965() </b> <br/>
 
 The second alternative is based on Cate and Nelson (1965)
 (`cate.nelson.1965()`). The first step of this method is to apply an
@@ -90,7 +90,7 @@ Instructions <br/>
 
 4.  Adjust plot as desired. <br/>
 
-<b> 1. cate.nelson.1971() </b> <br/>
+<b> 3. cate.nelson.1971() </b> <br/>
 
 The third alternative is based on Cate and Nelson (1971)
 (`cate.nelson.1971()`). The first step of this alternative version is to
@@ -148,6 +148,7 @@ library(ggpmisc)
 library(dplyr) # Data wrangling
 library(tidyr) # Data wrangling
 library(purrr) # Mapping
+library(tidyverse)
 ```
 
 ### 2.1. Load a dataset
@@ -184,29 +185,11 @@ data.all = bind_rows(data_1, data_2,
 
 # Data 1
 # Using dataframe argument, tidy = FALSE -> return a LIST
-fit_example_1 = soiltestR::modALCC(data = data_1, RY = RY, STV = STV, target=90, confidence = 0.95)
+fit_example_1 = soiltestR::modALCC(data = data_1, RY = RY, STV = STV, target=90, confidence = 0.95,
+                                   plot = FALSE, tidy = FALSE)
 #> Warning: 7 STV points exceeded two-times (2x) 
 #>   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by 
 #>   removing extreme points, re-run the modALCC(), and check results.
-
-# Using dataframe argument, tidy = TRUE -> return a DATA FRAME
-fit_example_1.tidy = soiltestR::modALCC(data = data_1, RY = RY, STV = STV, target=90, confidence = 0.95, tidy = TRUE)
-#> Warning: 7 STV points exceeded two-times (2x) 
-#>   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by 
-#>   removing extreme points, re-run the modALCC(), and check results.
-
-fit_example_1.tidy
-#>    n         r target     CSTV       LL       UL confidence      p_value
-#> 1 15 0.9682908     90 4.478476 3.947041 5.081463       0.95 3.296044e-09
-#>     CSTV90 n.90x2  CSTV100 n.100
-#> 1 4.478476      7 19.15054     0
-#>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Curve
-#> 1 65.000000, 65.200000, 65.400000, 65.600000, 65.800000, 66.000000, 66.200000, 66.400000, 66.600000, 66.800000, 67.000000, 67.200000, 67.400000, 67.600000, 67.800000, 68.000000, 68.200000, 68.400000, 68.600000, 68.800000, 69.000000, 69.200000, 69.400000, 69.600000, 69.800000, 70.000000, 70.200000, 70.400000, 70.600000, 70.800000, 71.000000, 71.200000, 71.400000, 71.600000, 71.800000, 72.000000, 72.200000, 72.400000, 72.600000, 72.800000, 73.000000, 73.200000, 73.400000, 73.600000, 73.800000, 74.000000, 74.200000, 74.400000, 74.600000, 74.800000, 75.000000, 75.200000, 75.400000, 75.600000, 75.800000, 76.000000, 76.200000, 76.400000, 76.600000, 76.800000, 77.000000, 77.200000, 77.400000, 77.600000, 77.800000, 78.000000, 78.200000, 78.400000, 78.600000, 78.800000, 79.000000, 79.200000, 79.400000, 79.600000, 79.800000, 80.000000, 80.200000, 80.400000, 80.600000, 80.800000, 81.000000, 81.200000, 81.400000, 81.600000, 81.800000, 82.000000, 82.200000, 82.400000, 82.600000, 82.800000, 83.000000, 83.200000, 83.400000, 83.600000, 83.800000, 84.000000, 84.200000, 84.400000, 84.600000, 84.800000, 85.000000, 85.200000, 85.400000, 85.600000, 85.800000, 86.000000, 86.200000, 86.400000, 86.600000, 86.800000, 87.000000, 87.200000, 87.400000, 87.600000, 87.800000, 88.000000, 88.200000, 88.400000, 88.600000, 88.800000, 89.000000, 89.200000, 89.400000, 89.600000, 89.800000, 90.000000, 90.200000, 90.400000, 90.600000, 90.800000, 91.000000, 91.200000, 91.400000, 91.600000, 91.800000, 92.000000, 92.200000, 92.400000, 92.600000, 92.800000, 93.000000, 93.200000, 93.400000, 93.600000, 93.800000, 94.000000, 94.200000, 94.400000, 94.600000, 94.800000, 95.000000, 95.200000, 95.400000, 95.600000, 95.800000, 96.000000, 96.200000, 96.400000, 96.600000, 96.800000, 97.000000, 97.200000, 97.400000, 97.600000, 97.800000, 98.000000, 98.200000, 98.400000, 98.600000, 98.800000, 99.000000, 99.200000, 99.400000, 99.600000, 99.800000, 100.000000, 1.097927, 1.108379, 1.118944, 1.129625, 1.140423, 1.151339, 1.162376, 1.173535, 1.184817, 1.196225, 1.207760, 1.219425, 1.231221, 1.243150, 1.255214, 1.267415, 1.279755, 1.292236, 1.304860, 1.317630, 1.330548, 1.343616, 1.356836, 1.370210, 1.383742, 1.397433, 1.411286, 1.425303, 1.439488, 1.453842, 1.468369, 1.483071, 1.497951, 1.513012, 1.528257, 1.543689, 1.559311, 1.575127, 1.591138, 1.607350, 1.623765, 1.640386, 1.657217, 1.674262, 1.691525, 1.709008, 1.726717, 1.744655, 1.762826, 1.781234, 1.799883, 1.818779, 1.837924, 1.857325, 1.876985, 1.896910, 1.917103, 1.937572, 1.958319, 1.979352, 2.000675, 2.022293, 2.044214, 2.066441, 2.088983, 2.111844, 2.135031, 2.158551, 2.182410, 2.206616, 2.231175, 2.256095, 2.281384, 2.307048, 2.333097, 2.359537, 2.386379, 2.413629, 2.441298, 2.469395, 2.497929, 2.526910, 2.556347, 2.586252, 2.616636, 2.647508, 2.678882, 2.710768, 2.743179, 2.776127, 2.809626, 2.843690, 2.878331, 2.913565, 2.949407, 2.985872, 3.022976, 3.060736, 3.099169, 3.138294, 3.178128, 3.218691, 3.260004, 3.302086, 3.344960, 3.388649, 3.433176, 3.478564, 3.524841, 3.572032, 3.620165, 3.669269, 3.719374, 3.770512, 3.822716, 3.876020, 3.930460, 3.986075, 4.042904, 4.100988, 4.160372, 4.221100, 4.283223, 4.346790, 4.411856, 4.478476, 4.546710, 4.616622, 4.688278, 4.761749, 4.837110, 4.914440, 4.993823, 5.075351, 5.159117, 5.245225, 5.333784, 5.424910, 5.518728, 5.615374, 5.714992, 5.817737, 5.923779, 6.033299, 6.146495, 6.263582, 6.384794, 6.510388, 6.640644, 6.775870, 6.916408, 7.062634, 7.214969, 7.373879, 7.539891, 7.713596, 7.895664, 8.086860, 8.288063, 8.500287, 8.724716, 8.962742, 9.216022, 9.486552, 9.776766, 10.089688, 10.429142, 10.800084, 11.209119, 11.665380, 12.182103, 12.779738, 13.492946, 14.389790, 15.647308, 19.150544
-#>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             SMA
-#> 1 0.00000000, 0.69314718, 1.09861229, 1.38629436, 1.60943791, 1.79175947, 1.94591015, 2.07944154, 2.19722458, 2.30258509, 2.39789527, 2.48490665, 2.56494936, 2.63905733, 2.70805020, -0.31130128, -0.14189705, -0.07594886, -0.03199105, 0.00000000, 0.07428349, 0.05398723, 0.12039263, 0.14766754, 0.09623715, 0.17985350, 0.32175055, 0.22158313, 0.22158313, 0.32175055, 0.09342397, 0.85846552, 1.15629226, 1.35480886, 1.49928272, 1.83475226, 1.74309289, 2.04298443, 2.16615987, 1.93389654, 2.31151393, 2.95233114, 2.49996793, 2.49996793, 2.95233114, -0.09342397, -0.16531834, -0.05767997, 0.03148550, 0.11015519, -0.04299279, 0.20281726, 0.03645711, 0.03106471, 0.36868855, 0.08638134, -0.46742449, 0.06498143, 0.13908940, -0.24428093, -1.40585875, 0.05232998, 0.75562183, 1.24182049, 1.60943791, 2.12722900, 2.18972031, 2.62314325, 2.86410172, 2.73719891, 3.21012648, 3.93795506, 3.56563456, 3.63974254, 4.16109861
-
-# Alternative using the vectors
-#fit_example_1 = ALCC(RY = data_1$RY,STV = data_1$STV, target=90,confidence = 0.95)
 
 fit_example_1
 #> $n
@@ -283,6 +266,25 @@ fit_example_1
 #> 13  2.56   0.222    2.50      0.0650      3.57  
 #> 14  2.64   0.222    2.50      0.139       3.64  
 #> 15  2.71   0.322    2.95     -0.244       4.16
+
+# Using dataframe argument, tidy = TRUE -> return a DATA FRAME
+fit_example_1.tidy = soiltestR::modALCC(data = data_1, RY = RY, STV = STV, target=90, confidence = 0.95, tidy = TRUE, plot = FALSE)
+#> Warning: 7 STV points exceeded two-times (2x) 
+#>   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by 
+#>   removing extreme points, re-run the modALCC(), and check results.
+
+fit_example_1.tidy
+#>    n         r target     CSTV       LL       UL confidence      p_value
+#> 1 15 0.9682908     90 4.478476 3.947041 5.081463       0.95 3.296044e-09
+#>     CSTV90 n.90x2  CSTV100 n.100
+#> 1 4.478476      7 19.15054     0
+#>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Curve
+#> 1 65.000000, 65.200000, 65.400000, 65.600000, 65.800000, 66.000000, 66.200000, 66.400000, 66.600000, 66.800000, 67.000000, 67.200000, 67.400000, 67.600000, 67.800000, 68.000000, 68.200000, 68.400000, 68.600000, 68.800000, 69.000000, 69.200000, 69.400000, 69.600000, 69.800000, 70.000000, 70.200000, 70.400000, 70.600000, 70.800000, 71.000000, 71.200000, 71.400000, 71.600000, 71.800000, 72.000000, 72.200000, 72.400000, 72.600000, 72.800000, 73.000000, 73.200000, 73.400000, 73.600000, 73.800000, 74.000000, 74.200000, 74.400000, 74.600000, 74.800000, 75.000000, 75.200000, 75.400000, 75.600000, 75.800000, 76.000000, 76.200000, 76.400000, 76.600000, 76.800000, 77.000000, 77.200000, 77.400000, 77.600000, 77.800000, 78.000000, 78.200000, 78.400000, 78.600000, 78.800000, 79.000000, 79.200000, 79.400000, 79.600000, 79.800000, 80.000000, 80.200000, 80.400000, 80.600000, 80.800000, 81.000000, 81.200000, 81.400000, 81.600000, 81.800000, 82.000000, 82.200000, 82.400000, 82.600000, 82.800000, 83.000000, 83.200000, 83.400000, 83.600000, 83.800000, 84.000000, 84.200000, 84.400000, 84.600000, 84.800000, 85.000000, 85.200000, 85.400000, 85.600000, 85.800000, 86.000000, 86.200000, 86.400000, 86.600000, 86.800000, 87.000000, 87.200000, 87.400000, 87.600000, 87.800000, 88.000000, 88.200000, 88.400000, 88.600000, 88.800000, 89.000000, 89.200000, 89.400000, 89.600000, 89.800000, 90.000000, 90.200000, 90.400000, 90.600000, 90.800000, 91.000000, 91.200000, 91.400000, 91.600000, 91.800000, 92.000000, 92.200000, 92.400000, 92.600000, 92.800000, 93.000000, 93.200000, 93.400000, 93.600000, 93.800000, 94.000000, 94.200000, 94.400000, 94.600000, 94.800000, 95.000000, 95.200000, 95.400000, 95.600000, 95.800000, 96.000000, 96.200000, 96.400000, 96.600000, 96.800000, 97.000000, 97.200000, 97.400000, 97.600000, 97.800000, 98.000000, 98.200000, 98.400000, 98.600000, 98.800000, 99.000000, 99.200000, 99.400000, 99.600000, 99.800000, 100.000000, 1.097927, 1.108379, 1.118944, 1.129625, 1.140423, 1.151339, 1.162376, 1.173535, 1.184817, 1.196225, 1.207760, 1.219425, 1.231221, 1.243150, 1.255214, 1.267415, 1.279755, 1.292236, 1.304860, 1.317630, 1.330548, 1.343616, 1.356836, 1.370210, 1.383742, 1.397433, 1.411286, 1.425303, 1.439488, 1.453842, 1.468369, 1.483071, 1.497951, 1.513012, 1.528257, 1.543689, 1.559311, 1.575127, 1.591138, 1.607350, 1.623765, 1.640386, 1.657217, 1.674262, 1.691525, 1.709008, 1.726717, 1.744655, 1.762826, 1.781234, 1.799883, 1.818779, 1.837924, 1.857325, 1.876985, 1.896910, 1.917103, 1.937572, 1.958319, 1.979352, 2.000675, 2.022293, 2.044214, 2.066441, 2.088983, 2.111844, 2.135031, 2.158551, 2.182410, 2.206616, 2.231175, 2.256095, 2.281384, 2.307048, 2.333097, 2.359537, 2.386379, 2.413629, 2.441298, 2.469395, 2.497929, 2.526910, 2.556347, 2.586252, 2.616636, 2.647508, 2.678882, 2.710768, 2.743179, 2.776127, 2.809626, 2.843690, 2.878331, 2.913565, 2.949407, 2.985872, 3.022976, 3.060736, 3.099169, 3.138294, 3.178128, 3.218691, 3.260004, 3.302086, 3.344960, 3.388649, 3.433176, 3.478564, 3.524841, 3.572032, 3.620165, 3.669269, 3.719374, 3.770512, 3.822716, 3.876020, 3.930460, 3.986075, 4.042904, 4.100988, 4.160372, 4.221100, 4.283223, 4.346790, 4.411856, 4.478476, 4.546710, 4.616622, 4.688278, 4.761749, 4.837110, 4.914440, 4.993823, 5.075351, 5.159117, 5.245225, 5.333784, 5.424910, 5.518728, 5.615374, 5.714992, 5.817737, 5.923779, 6.033299, 6.146495, 6.263582, 6.384794, 6.510388, 6.640644, 6.775870, 6.916408, 7.062634, 7.214969, 7.373879, 7.539891, 7.713596, 7.895664, 8.086860, 8.288063, 8.500287, 8.724716, 8.962742, 9.216022, 9.486552, 9.776766, 10.089688, 10.429142, 10.800084, 11.209119, 11.665380, 12.182103, 12.779738, 13.492946, 14.389790, 15.647308, 19.150544
+#>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             SMA
+#> 1 0.00000000, 0.69314718, 1.09861229, 1.38629436, 1.60943791, 1.79175947, 1.94591015, 2.07944154, 2.19722458, 2.30258509, 2.39789527, 2.48490665, 2.56494936, 2.63905733, 2.70805020, -0.31130128, -0.14189705, -0.07594886, -0.03199105, 0.00000000, 0.07428349, 0.05398723, 0.12039263, 0.14766754, 0.09623715, 0.17985350, 0.32175055, 0.22158313, 0.22158313, 0.32175055, 0.09342397, 0.85846552, 1.15629226, 1.35480886, 1.49928272, 1.83475226, 1.74309289, 2.04298443, 2.16615987, 1.93389654, 2.31151393, 2.95233114, 2.49996793, 2.49996793, 2.95233114, -0.09342397, -0.16531834, -0.05767997, 0.03148550, 0.11015519, -0.04299279, 0.20281726, 0.03645711, 0.03106471, 0.36868855, 0.08638134, -0.46742449, 0.06498143, 0.13908940, -0.24428093, -1.40585875, 0.05232998, 0.75562183, 1.24182049, 1.60943791, 2.12722900, 2.18972031, 2.62314325, 2.86410172, 2.73719891, 3.21012648, 3.93795506, 3.56563456, 3.63974254, 4.16109861
+
+# Alternative using the vectors
+#fit_example_1 = ALCC(RY = data_1$RY,STV = data_1$STV, target=90,confidence = 0.95)
 
 # Data 2
 fit_example_2 = soiltestR::modALCC(data = data_2, RY = RY, STV = STV, target=90, confidence = 0.95)
@@ -650,7 +652,7 @@ head(fit_all)
 ### 3.2. Fit Cate & Nelson 1965
 
 ``` r
-cate.nelson.1965_example_2 = soiltestR::cate.nelson.1965(data = data_2, RY = RY, STV = STV, target=90)
+cate.nelson.1965_example_2 = soiltestR::cate.nelson.1965(data = data_2, RY = RY, STV = STV, target=90, tidy = FALSE, plot = FALSE)
 
 cate.nelson.1965_example_2
 #> $n
@@ -686,297 +688,69 @@ cate.nelson.1965_example_2
 #> 
 #> $R2
 #> [1] 0.3936824
-#> 
-#> $plot
-#> Warning: Use of `dataset$Quadrant` is discouraged. Use `Quadrant` instead.
-#> Use of `dataset$Quadrant` is discouraged. Use `Quadrant` instead.
-```
 
-<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
-
-``` r
-cate.nelson.1965_example_3 = soiltestR::cate.nelson.1965(data = data_3, RY = RY, STV = STK, target=95)
+cate.nelson.1965_example_3 = soiltestR::cate.nelson.1965(data = data_3, RY = RY, STV = STK, target=95, tidy = TRUE, plot = FALSE)
 #> Warning in stats::chisq.test(data.frame(row.1, row.2)): Chi-squared
 #> approximation may be incorrect
 
 cate.nelson.1965_example_3
-#> $n
-#> [1] 24
-#> 
-#> $CRYV
-#> [1] 95
-#> 
-#> $CSTV
-#> [1] 51.5
-#> 
-#> $quadrants
-#>   q.I q.II q.III q.IV positive negative
-#> 1   0   10     5    9       19        5
-#> 
-#> $X2
-#> 
-#>  Pearson's Chi-squared test with Yates' continuity correction
-#> 
-#> data:  data.frame(row.1, row.2)
-#> X-squared = 7.7257, df = 1, p-value = 0.005444
-#> 
-#> 
-#> $anova
-#> Analysis of Variance Table
-#> 
-#> Response: y
-#>           Df Sum Sq Mean Sq F value    Pr(>F)    
-#> xgroup     1 4484.5  4484.5  31.615 1.183e-05 ***
-#> Residuals 22 3120.7   141.8                      
-#> ---
-#> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-#> 
-#> $R2
-#> [1] 0.5896666
-#> 
-#> $plot
-#> Warning: Use of `dataset$Quadrant` is discouraged. Use `Quadrant` instead.
-#> Use of `dataset$Quadrant` is discouraged. Use `Quadrant` instead.
+#>    n CRYV CSTV quadrants.q.I quadrants.q.II quadrants.q.III quadrants.q.IV
+#> 1 24   95 51.5             0             10               5              9
+#>   quadrants.positive quadrants.negative        R2
+#> 1                 19                  5 0.5896666
 ```
 
-<img src="man/figures/README-unnamed-chunk-6-2.png" width="100%" /> \###
-3.3. Fit Cate & Nelson 1971
+### 3.3. Fit Cate & Nelson 1971
 
 ``` r
-cate.nelson.1971_example_2 = soiltestR::cate.nelson.1971(data = data_2, RY = RY, STV = STV)
+cate.nelson.1971_example_2 = soiltestR::cate.nelson.1971(data = data_2, RY = RY, STV = STV, tidy = TRUE, plot = FALSE)
 
 cate.nelson.1971_example_2
-#> $n
-#> [1] 137
-#> 
-#> $CRYV
-#> [1] 87.5
-#> 
-#> $CSTV
-#> [1] 22.5
-#> 
-#> $quadrants
-#>   q.I q.II q.III q.IV positive negative
-#> 1  13   70     6   48      118       19
-#> 
-#> $X2
-#> 
-#>  Pearson's Chi-squared test with Yates' continuity correction
-#> 
-#> data:  data.frame(row.1, row.2)
-#> X-squared = 68.087, df = 1, p-value < 2.2e-16
-#> 
-#> 
-#> $anova
-#> Analysis of Variance Table
-#> 
-#> Response: y
-#>            Df Sum Sq Mean Sq F value    Pr(>F)    
-#> xgroup      1  11106 11106.1  87.656 2.322e-16 ***
-#> Residuals 135  17105   126.7                      
-#> ---
-#> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-#> 
-#> $R2
-#> [1] 0.3936824
-#> 
-#> $plot
-#> Warning: Use of `dataset$Quadrant` is discouraged. Use `Quadrant` instead.
-#> Use of `dataset$Quadrant` is discouraged. Use `Quadrant` instead.
-```
+#>     n CRYV CSTV quadrants.q.I quadrants.q.II quadrants.q.III quadrants.q.IV
+#> 1 137 87.5 22.5            13             70               6             48
+#>   quadrants.positive quadrants.negative        R2
+#> 1                118                 19 0.3936824
 
-<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
-
-``` r
-cate.nelson.1965_example_3 = soiltestR::cate.nelson.1971(data = data_3, RY = RY, STV = STK)
+cate.nelson.1971_example_3 = soiltestR::cate.nelson.1971(data = data_3, RY = RY, STV = STK, tidy = TRUE, plot = FALSE)
 #> Warning in stats::chisq.test(data.frame(row.1, row.2)): Chi-squared
 #> approximation may be incorrect
 
-cate.nelson.1965_example_3
-#> $n
-#> [1] 24
-#> 
-#> $CRYV
-#> [1] 82.4
-#> 
-#> $CSTV
-#> [1] 46.5
-#> 
-#> $quadrants
-#>   q.I q.II q.III q.IV positive negative
-#> 1   0   15     1    8       23        1
-#> 
-#> $X2
-#> 
-#>  Pearson's Chi-squared test with Yates' continuity correction
-#> 
-#> data:  data.frame(row.1, row.2)
-#> X-squared = 16.2, df = 1, p-value = 5.699e-05
-#> 
-#> 
-#> $anova
-#> Analysis of Variance Table
-#> 
-#> Response: y
-#>           Df Sum Sq Mean Sq F value    Pr(>F)    
-#> xgroup     1 5374.2  5374.2  52.997 2.724e-07 ***
-#> Residuals 22 2230.9   101.4                      
-#> ---
-#> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-#> 
-#> $R2
-#> [1] 0.7066536
-#> 
-#> $plot
-#> Warning: Use of `dataset$Quadrant` is discouraged. Use `Quadrant` instead.
-#> Use of `dataset$Quadrant` is discouraged. Use `Quadrant` instead.
+cate.nelson.1971_example_3
+#>    n CRYV CSTV quadrants.q.I quadrants.q.II quadrants.q.III quadrants.q.IV
+#> 1 24 82.4 46.5             0             15               1              8
+#>   quadrants.positive quadrants.negative        R2
+#> 1                 23                  1 0.7066536
 ```
 
-<img src="man/figures/README-unnamed-chunk-7-2.png" width="100%" />
+### 3.4. Fit Linear-plateau model
 
-## 4. modALCC plots
+``` r
+#linear_plateau_example_3 = soiltestR::linear_plateau(data = data_3, RY = RY, STV = STK, plot = FALSE)
+
+#linear_plateau_example_3
+```
+
+## 4. Plots
 
 Examples using ggplot <br/>
 
-### 4.1. Example 1
+### 4.1. modALCC
 
 ``` r
-# Extracting curve data as a data.frame to plot
-curve_example1 = as.data.frame(fit_example_1$Curve)
-
-
-# Plot
-data_1 %>% 
-  # Want to remove leverage points?
-  #dplyr::filter(STV < fit_example_1$CSTV100) %>% 
-  #dplyr::filter(STV < 2*fit_example_1$CSTV90) %>% 
-  ggplot()+
-  # Points
-  geom_point(aes(x = STV, y = RY), fill = "orange", shape = 21, size = 4, alpha = 0.75)+
-  # Highlight potential leverage points >2xCSTV90
-  geom_point(data = data_1 %>% dplyr::filter(STV > 2*fit_example_1$CSTV90),
-             aes(x = STV, y = RY, shape = ">2xCSTV90"), col = "dark red", size = 5, alpha = 1)+
-  # Highlight potential leverage points >2xCSTV90
-  #geom_point(data = data_1 %>% dplyr::filter(STV > fit_example_1$CSTV100),
-   #          aes(x = STV, y = RY, shape = ">CSTV100"), col = "dark red", size = 4, alpha = 1)+
-  scale_shape_manual(name = "", values = c(5,4))+
-  # Fitted ALCC
-  geom_line(data = curve_example1, aes(x= STV.fitted, y = RY.fitted), size = 2)+
-  # Critical value
-  geom_vline(xintercept = fit_example_1$CSTV, col = "red", size = 1.25, linetype = "dashed")+
-  # Confidence limits
-  # Lines
-  geom_vline(xintercept = fit_example_1$LL, col = "red", size = 0.75, linetype = "dotted")+
-  geom_vline(xintercept = fit_example_1$UL, col = "red", size = 0.75, linetype = "dotted")+
-  # Shade
-  ggpp::annotate(geom = "rect", xmin = fit_example_1$LL, xmax = fit_example_1$UL,
-                 ymin = min(data_1$RY), ymax = 100, alpha = .3, fill = "red")+
-  # Axis titles
-  labs(x = "Soil Test Value (units)", y = "Relative Yield (%)",
-       title = "Modified Arcsine-Log Calibration Curve")+
-  theme_bw()+
-  theme(legend.position = "top")+
-  # Annotate critical values data
-  ggpp::annotate(geom = "table", y = min(data_1$RY), x = fit_example_1$UL + 0.5, hjust= 0, vjust = 0,
-                 label = as.data.frame(fit_example_1[c("CSTV", "LL", "UL", "r")]) %>% 
-                   mutate_at(.vars = c("r"), ~round(.,2)) %>% 
-                   mutate_at(.vars = c("CSTV","LL","UL"), ~round(.,1))
-                   )
-```
-
-<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
-
-``` r
-
-# SMA regression
-
-SMA_example1 = fit_example_1$SMA %>% as.data.frame()
- 
-SMA_example1 %>% 
-  ggplot(aes(x = arc_RY, y = ln_STV))+
-  ggtitle("SMA Regression. Dataset 1")+
-  geom_point(shape=21, fill = "orange", size = 4, alpha = 0.75)+
-  #SMA Line
-  geom_path(aes(x=arc_RY, y = SMA_line, linetype = "SMA_fit"), size = 2, col = "grey25")+
-  scale_linetype_manual(name="", values = c("solid"))+
-  #Critical value
-  geom_vline(xintercept = 0, col = "grey10", size = 1.25, linetype = "dashed")+
-  theme_bw()+
-  # Axis titles
-  labs(y = "ln_STV", y = "asin(sqrt(RY))-centered")
-```
-
-<img src="man/figures/README-unnamed-chunk-8-2.png" width="100%" />
-
-``` r
-# Residuals plot
-
-SMA_example1 %>% 
-  ggplot(aes(x = fitted_axis, y = residuals))+
-  ggtitle("Residuals SMA. Dataset 1")+
-  geom_point(shape=21, fill = "orange", size = 4, alpha = 0.75)+
-  geom_hline(yintercept = 0, col = "grey10", size = 1.25, linetype = "dashed")+
-  theme_bw()+
-  # Axis titles
-  labs(x = "Fitted Axis -SMA- (see Warton et al. 2006)", y = "Residuals (STV units)")
-```
-
-<img src="man/figures/README-unnamed-chunk-8-3.png" width="100%" />
-
-### 4.2. Example 2
-
-``` r
-# Extracting curve data as a data.frame to plot
-curve_example2 = fit_example_2$Curve %>% as.data.frame()
-
-# Plot
-data_2 %>% ggplot()+
-  # Want to remove leverage points?
-  #dplyr::filter(STV < fit_example_2$CSTV100) %>% 
-  #dplyr::filter(STV < 2*fit_example_2$CSTV90) %>% 
-  # Points
-  geom_point(aes(x = STV, y = RY), fill = "#88dbc8", shape = 21, size = 4, alpha = 0.75)+
-  # Highlight potential leverage points >2xCSTV90
-  geom_point(data = data_2 %>% dplyr::filter(STV > 2*fit_example_2$CSTV90),
-             aes(x = STV, y = RY, shape = ">2xCSTV90"), col = "dark red", size = 5, alpha = 1)+
-  # Highlight potential leverage points >CSTV100
-  geom_point(data = data_2 %>% dplyr::filter(STV > fit_example_2$CSTV100),
-             aes(x = STV, y = RY, shape = ">CSTV100"), col = "dark red", size = 5, alpha = 1)+
-  scale_shape_manual(name = "", values = c(5,4))+
-  # Fitted ALCC
-  geom_line(data = curve_example2, aes(x= STV.fitted, y = RY.fitted), size = 2)+
-  # Critical value
-  geom_vline(xintercept = fit_example_2$CSTV, col = "red", size = 1.25, linetype = "dashed")+
-  # Confidence limits
-  geom_vline(xintercept = fit_example_2$LL, col = "red", size = 0.75, linetype = "dotted")+
-  geom_vline(xintercept = fit_example_2$UL, col = "red", size = 0.75, linetype = "dotted")+
-  ggpp::annotate(geom = "rect", xmin = fit_example_2$LL, xmax = fit_example_2$UL,
-                 ymin = min(data_2$RY), ymax = 100, alpha = .3, fill = "red")+
-  # Axis titles
-  labs(x = "Soil Test Value (units)", y = "Relative Yield (%)",
-       title = "Modified Arcsine-Log Calibration Curve")+
-  theme_bw()+
-  theme(legend.position = "top")+
-  # Annotate critical values data
-  ggpp::annotate(geom = "table", y = min(data_2$RY), x = fit_example_2$UL + 0.5, hjust= 0, vjust = 0,
-                 label = as.data.frame(fit_example_2[c("CSTV", "LL", "UL", "r")]) %>% 
-                   mutate_at(.vars = c("r"), ~round(.,2)) %>% 
-                   mutate_at(.vars = c("CSTV","LL","UL"), ~round(.,1))
-                   )
+soiltestR::modALCC(data = data_3, RY = RY, STV = STK, target=95, confidence = 0.95, plot = TRUE)
 ```
 
 <img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
 
 ``` r
-  
 # SMA regression
 
-SMA_example2 = fit_example_2$SMA %>% as.data.frame() 
-
-SMA_example2 %>% 
+SMA_example3 = fit_example_3$SMA %>% as.data.frame()
+ 
+SMA_example3 %>% 
   ggplot(aes(x = arc_RY, y = ln_STV))+
-  ggtitle("SMA Regression. Dataset 2")+
-  geom_point(shape=21, fill = "#88dbc8", size = 4, alpha = 0.5)+
+  ggtitle("SMA Regression. Dataset 3")+
+  geom_point(shape=21, fill = "orange", size = 4, alpha = 0.75)+
   #SMA Line
   geom_path(aes(x=arc_RY, y = SMA_line, linetype = "SMA_fit"), size = 2, col = "grey25")+
   scale_linetype_manual(name="", values = c("solid"))+
@@ -992,10 +766,10 @@ SMA_example2 %>%
 ``` r
 # Residuals plot
 
-SMA_example2 %>% 
+SMA_example3 %>% 
   ggplot(aes(x = fitted_axis, y = residuals))+
-  ggtitle("Residuals SMA. Dataset 2")+
-  geom_point(shape = 21, fill = "#88dbc8", size = 4, alpha = 0.5)+
+  ggtitle("Residuals SMA. Dataset 3")+
+  geom_point(shape=21, fill = "orange", size = 4, alpha = 0.75)+
   geom_hline(yintercept = 0, col = "grey10", size = 1.25, linetype = "dashed")+
   theme_bw()+
   # Axis titles
@@ -1003,6 +777,28 @@ SMA_example2 %>%
 ```
 
 <img src="man/figures/README-unnamed-chunk-9-3.png" width="100%" />
+
+### 4.2. Cate & Nelson 1965
+
+``` r
+soiltestR::cate.nelson.1965(data = data_3, RY = RY, STV = STK, target=95, tidy = TRUE, plot = TRUE)
+```
+
+<img src="man/figures/README-unnamed-chunk-10-1.png" width="100%" />
+
+### 4.3. Cate & Nelson 1971
+
+``` r
+soiltestR::cate.nelson.1971(data = data_3, RY = RY, STV = STK, tidy = TRUE, plot = TRUE)
+```
+
+<img src="man/figures/README-unnamed-chunk-11-1.png" width="100%" />
+
+### 4.4. Linear-plateau
+
+``` r
+#soiltestR::linear_plateau(data = data_3, RY = RY, STV = STK, plot = TRUE, resid = TRUE)
+```
 
 <b> References </b> <br/>
 

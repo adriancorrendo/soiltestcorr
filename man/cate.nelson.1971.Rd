@@ -4,7 +4,7 @@
 \alias{cate.nelson.1971}
 \title{Cate & Nelson Quadrants Analysis, 1971}
 \usage{
-cate.nelson.1971(data = NULL, STV, RY)
+cate.nelson.1971(data = NULL, STV, RY, tidy = FALSE, plot = FALSE)
 }
 \arguments{
 \item{data}{argument to call a data.frame or data.table containing the data}
@@ -12,8 +12,15 @@ cate.nelson.1971(data = NULL, STV, RY)
 \item{STV}{argument to call the vector or column containing the soil test value (STV) data}
 
 \item{RY}{argument to call the vector or column containing the relative yield (RY) data}
+
+\item{tidy}{\code{boolean} to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).}
+
+\item{plot}{\code{boolean} to decide the type of return. TRUE returns a ggplot,
+FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE).}
 }
 \value{
+it returns an object of type \code{ggplot} when plot == TRUE. If plot == FALSE, it returns an object of type \code{data.frame} if tidy == TRUE, otherwise, it returns a list
+
 it returns an object of type list containing the main results plus a ggplot object with the figure display
 }
 \description{

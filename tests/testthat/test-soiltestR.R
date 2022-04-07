@@ -13,7 +13,7 @@ test_that("no error in fitting modALCC() for the example dataset", {
 
 ## cate.nelson.1965
 
-context("run cate.nelson.1965() with packaged dataset freitas1966")
+context("run cate.nelson.1965() with packaged dataset data_test")
 
 cate.nelson.1965.test <- try(cate.nelson.1965(data = data_test, STV = STV, RY = RY, target = 90),
            silent = TRUE)
@@ -26,7 +26,7 @@ test_that("no error in fitting cate.nelson.1965() for the example dataset", {
 
 ## cate.nelson.1971
 
-context("run cate.nelson.1971() with packaged dataset freitas1966")
+context("run cate.nelson.1971() with packaged dataset data_test")
 
 cate.nelson.1971.test <- try(cate.nelson.1971(data = data_test, STV = STV, RY = RY),
                              silent = TRUE)
@@ -34,6 +34,20 @@ cate.nelson.1971.test <- try(cate.nelson.1971(data = data_test, STV = STV, RY = 
 test_that("no error in fitting cate.nelson.1971() for the example dataset", {
   
   expect_false(inherits(cate.nelson.1971.test, "try-error"))
+  
+})
+
+
+## linear_plateau
+
+context("run linear_plateau() with packaged dataset data_test")
+
+linear_plateau.test <- try(linear_plateau(data = data_test, STV = STV, RY = RY),
+                             silent = TRUE)
+
+test_that("no error in fitting linear_plateau() for the example dataset", {
+  
+  expect_false(inherits(linear_plateau.test, "try-error"))
   
 })
 
