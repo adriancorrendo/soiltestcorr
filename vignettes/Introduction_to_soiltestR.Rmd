@@ -47,15 +47,15 @@ v. Adjust curve plots as desired. <br/>
 `soiltestR` also allows users to implement the quadrants analysis approach, also known as the Cate-Nelson analysis. There are two versions of the Cate-Nelson technique: <br/>
 
 
-<b> 1. cate.nelson.1965() </b> <br/>
+<b> 1. cate_nelson_1965() </b> <br/>
    
-   The second alternative is based on Cate and Nelson (1965) (`cate.nelson.1965()`). The first step of this method is to apply an arbitrarily fixed value of RY as a target (y-axis) that divides the data into two categories (below & equal or above RY target). In a second stage, it estimates the CSTV (x-axis) as the minimum STV that divides the data into four quadrants (target RY level combined with STV lower or greater than the CSTV) maximizing the number of points under well-classified quadrants (II, STV >= CSTV & RY >= RY target; and IV, STV < CSTV & RY < RY target). This is also known as the "graphical" version of the Cate-Nelson approach. <br/>
+   The second alternative is based on Cate and Nelson (1965) (`cate_nelson_1965()`). The first step of this method is to apply an arbitrarily fixed value of RY as a target (y-axis) that divides the data into two categories (below & equal or above RY target). In a second stage, it estimates the CSTV (x-axis) as the minimum STV that divides the data into four quadrants (target RY level combined with STV lower or greater than the CSTV) maximizing the number of points under well-classified quadrants (II, STV >= CSTV & RY >= RY target; and IV, STV < CSTV & RY < RY target). This is also known as the "graphical" version of the Cate-Nelson approach. <br/>
    
 Instructions <br/>
 
 i. Load your dataframe with soil test value (STV) and relative yield (RY) data. <br/>
 
-ii. Specify the following arguments into the function -cate.nelson.1965()-: <br/>
+ii. Specify the following arguments into the function -cate_nelson_1965()-: <br/>
 
   (a). `data` (optional), <br/>
 
@@ -68,15 +68,15 @@ iii. Run and check results. <br/>
 
 iv. Adjust plot as desired. <br/>
 
-<b> 1. cate.nelson.1971() </b> <br/>
+<b> 1. cate_nelson_1971() </b> <br/>
    
-   The third alternative is based on Cate and Nelson (1971) (`cate.nelson.1971()`). The first step of this alternative version is to estimates the CSTV (x-axis) as the minimum STV that minimizes the residual sum of squares when dividing data points in two classes (lower or greater than the CSTV) without using a fixed RY. This refined version does not constrains the model performance (measured with the coefficient of determination -R2-) but the user has no control on the RY level for the CSTV. This is also known as the "statistical" version of the Cate-Nelson approach. <br/> 
+   The third alternative is based on Cate and Nelson (1971) (`cate_nelson_1971()`). The first step of this alternative version is to estimates the CSTV (x-axis) as the minimum STV that minimizes the residual sum of squares when dividing data points in two classes (lower or greater than the CSTV) without using a fixed RY. This refined version does not constrains the model performance (measured with the coefficient of determination -R2-) but the user has no control on the RY level for the CSTV. This is also known as the "statistical" version of the Cate-Nelson approach. <br/> 
    
 Instructions <br/>
 
 i. Load your dataframe with soil test value (STV) and relative yield (RY) data. <br/>
 
-ii. Specify the following arguments into the function -cate.nelson.1965()-: <br/>
+ii. Specify the following arguments into the function -cate_nelson_1965()-: <br/>
 
   (a). `data` (optional), <br/>
 
@@ -196,13 +196,13 @@ head(fit_all)
 ### 3.2. Fit Cate & Nelson 1965
 ```{r}
 
-cate.nelson.1965_example_2 = soiltestR::cate.nelson.1965(data = data_2, RY = RY, STV = STV, target=90, tidy = FALSE, plot = FALSE)
+cate_nelson_1965_example_2 = soiltestR::cate_nelson_1965(data = data_2, RY = RY, STV = STV, target=90, tidy = FALSE, plot = FALSE)
 
-cate.nelson.1965_example_2
+cate_nelson_1965_example_2
 
-cate.nelson.1965_example_3 = soiltestR::cate.nelson.1965(data = data_3, RY = RY, STV = STK, target=95, tidy = TRUE, plot = FALSE)
+cate_nelson_1965_example_3 = soiltestR::cate_nelson_1965(data = data_3, RY = RY, STV = STK, target=95, tidy = TRUE, plot = FALSE)
 
-cate.nelson.1965_example_3
+cate_nelson_1965_example_3
 
 
 ```
@@ -210,22 +210,22 @@ cate.nelson.1965_example_3
 ### 3.3. Fit Cate & Nelson 1971
 ```{r}
 
-cate.nelson.1971_example_2 = soiltestR::cate.nelson.1971(data = data_2, RY = RY, STV = STV, tidy = TRUE, plot = FALSE)
+cate_nelson_1971_example_2 = soiltestR::cate_nelson_1971(data = data_2, RY = RY, STV = STV, tidy = TRUE, plot = FALSE)
 
-cate.nelson.1971_example_2
+cate_nelson_1971_example_2
 
-cate.nelson.1971_example_3 = soiltestR::cate.nelson.1971(data = data_3, RY = RY, STV = STK, tidy = TRUE, plot = FALSE)
+cate_nelson_1971_example_3 = soiltestR::cate_nelson_1971(data = data_3, RY = RY, STV = STK, tidy = TRUE, plot = FALSE)
 
-cate.nelson.1971_example_3
+cate_nelson_1971_example_3
 
 ```
 
 ### 3.4. Fit Linear-plateau model
 ```{r}
 
-#linear_plateau_example_3 = soiltestR::linear_plateau(data = data_3, RY = RY, STV = STK, plot = FALSE)
+linear_plateau_example_3 = soiltestR::linear_plateau(data = data_3, RY = RY, STV = STK, plot = FALSE)
 
-#linear_plateau_example_3
+linear_plateau_example_3
 
 ```
 
@@ -273,21 +273,21 @@ SMA_example3 %>%
 ### 4.2. Cate & Nelson 1965
 ```{r warning=F, message=F}
 
-soiltestR::cate.nelson.1965(data = data_3, RY = RY, STV = STK, target=95, tidy = TRUE, plot = TRUE)
+soiltestR::cate_nelson_1965(data = data_3, RY = RY, STV = STK, target=95, tidy = TRUE, plot = TRUE)
 
 ```
 
 ### 4.3. Cate & Nelson 1971
 ```{r warning=F, message=F}
 
-soiltestR::cate.nelson.1971(data = data_3, RY = RY, STV = STK, tidy = TRUE, plot = TRUE)
+soiltestR::cate_nelson_1971(data = data_3, RY = RY, STV = STK, tidy = TRUE, plot = TRUE)
 
 ```
 
 ### 4.4. Linear-plateau
 ```{r warning=F, message=F}
 
-#soiltestR::linear_plateau(data = data_3, RY = RY, STV = STK, plot = TRUE, resid = TRUE)
+soiltestR::linear_plateau(data = data_3, RY = RY, STV = STK, plot = TRUE, resid = TRUE)
 
 ```
 

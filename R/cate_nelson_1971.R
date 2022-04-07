@@ -1,3 +1,4 @@
+#' @name cate_nelson_1971
 #' @title Cate & Nelson Quadrants Analysis, 1971
 #' @description This function runs the quadrants analysis suggested by Cate and Nelson (1965)
 #' @param data argument to call a data.frame or data.table containing the data
@@ -22,13 +23,14 @@
 #'  \code{\link[rlang]{eval_tidy}},\code{\link[rlang]{defusing-advanced}}
 #'  \code{\link[stats]{lm}},\code{\link[stats]{anova}}
 #'  \code{\link[ggplot2]{ggplot}},\code{\link[ggplot2]{aes}},\code{\link[ggplot2]{geom_point}},\code{\link[ggplot2]{scale_manual}},\code{\link[ggplot2]{labs}},\code{\link[ggplot2]{geom_abline}},\code{\link[ggplot2]{annotate}},\code{\link[ggplot2]{ggtheme}},\code{\link[ggplot2]{theme}}
-#' @rdname cate.nelson.1971
+#' @rdname cate_nelson_1971
 #' @export 
 #' @importFrom rlang eval_tidy quo
+#' @importFrom dplyr %>%
 #' @importFrom stats lm anova
 #' @importFrom ggplot2 ggplot aes geom_point scale_shape_manual scale_color_manual labs geom_vline geom_hline annotate theme_bw theme
 
-cate.nelson.1971 <- function(data=NULL, STV, RY, tidy = FALSE, plot = FALSE){
+cate_nelson_1971 <- function(data=NULL, STV, RY, tidy = FALSE, plot = FALSE){
   
   x <- rlang::eval_tidy(data = data, rlang::quo({{STV}}) )
   
@@ -151,8 +153,8 @@ cate.nelson.1971 <- function(data=NULL, STV, RY, tidy = FALSE, plot = FALSE){
   # ggplot
   cn71.ggplot <- 
     ggplot2::ggplot(data = dataset, ggplot2::aes(x=x, y=y))+
-    ggplot2::geom_rug(alpha = 0.2, length = unit(2, "pt")) +
-    ggplot2::geom_point(aes(color = dataset$Quadrant, shape = dataset$Quadrant), alpha = 0.75)+
+    ggplot2::geom_rug(alpha = 0.2, length = ggplot2::unit(2, "pt")) +
+    ggplot2::geom_point(aes(color = Quadrant, shape = Quadrant), alpha = 0.75)+
     ggplot2::scale_shape_manual(name = "", values = c(4,16))+
     ggplot2::scale_color_manual(name = "", values = c("#b7094c","#2d6a4f"))+
     ggplot2::geom_vline(xintercept = CSTV, col = "dark red", linetype = "dashed")+
@@ -177,8 +179,8 @@ cate.nelson.1971 <- function(data=NULL, STV, RY, tidy = FALSE, plot = FALSE){
                   title = "Cate & Nelson (1971)")+
     ggplot2::theme_bw()+
     ggplot2::theme(legend.position="none",
-                   panel.grid = element_blank(),
-                   axis.title = element_text(size = rel(1.5)))
+                   panel.grid = ggplot2::element_blank(),
+                   axis.title = ggplot2::element_text(size = ggplot2::rel(1.5)))
   ## Outputs
   results <- list("n" = n, 
               "CRYV" = CRYV,

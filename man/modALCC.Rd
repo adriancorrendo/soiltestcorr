@@ -38,18 +38,19 @@ See Correndo et al. (2017)
 \dontrun{
 if(interactive()){
  # Example 1 dataset
- dat = data.frame("ry" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
+ dat <- data.frame("ry" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
                    "stv" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
  # Run
- fit_example = modALCC(data = dat, RY = ry, STV = stv, target=90, confidence = 0.95)
+ fit_example <- modALCC(data = dat, RY = ry, STV = stv, target=90, confidence = 0.95)
  fit_example
  }
 }
- @seealso 
- \code{\link[rlang]{eval_tidy}},\code{\link[rlang]{defusing-advanced}}
- \code{\link[stats]{TDist}},\code{\link[stats]{cor}},\code{\link[stats]{cor.test}},\code{\link[stats]{sd}}
- \code{\link[dplyr]{bind}},\code{\link[dplyr]{filter}}
- \code{\link[tidyr]{nest}}
- \code{\link[ggplot2]{ggplot}},\code{\link[ggplot2]{aes}},\code{\link[ggplot2]{geom_point}},\code{\link[ggplot2]{scale_manual}},\code{\link[ggplot2]{geom_rug}},\code{\link[ggplot2]{geom_abline}},\code{\link[ggplot2]{geom_path}},\code{\link[ggplot2]{scale_continuous}},\code{\link[ggplot2]{annotate}},\code{\link[ggplot2]{labs}},\code{\link[ggplot2]{ggtheme}},\code{\link[ggplot2]{theme}}
- \code{\link[ggpp]{annotate}}
+}
+\seealso{
+\code{\link[rlang]{eval_tidy}},\code{\link[rlang]{defusing-advanced}}
+\code{\link[stats]{TDist}},\code{\link[stats]{cor}},\code{\link[stats]{cor.test}},\code{\link[stats]{sd}}
+\code{\link[dplyr]{bind}},\code{\link[dplyr]{filter}}
+\code{\link[tidyr]{nest}}
+\code{\link[ggplot2]{ggplot}},\code{\link[ggplot2]{aes}},\code{\link[ggplot2]{geom_point}},\code{\link[ggplot2]{scale_manual}},\code{\link[ggplot2]{geom_rug}},\code{\link[ggplot2]{geom_abline}},\code{\link[ggplot2]{geom_path}},\code{\link[ggplot2]{scale_continuous}},\code{\link[ggplot2]{annotate}},\code{\link[ggplot2]{labs}},\code{\link[ggplot2]{ggtheme}},\code{\link[ggplot2]{theme}}
+\code{\link[ggpp]{annotate}}
 }

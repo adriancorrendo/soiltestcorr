@@ -59,10 +59,10 @@ limits. <br/>
 approach, also known as the Cate-Nelson analysis. There are two versions
 of the Cate-Nelson technique: <br/>
 
-<b> 2. cate.nelson.1965() </b> <br/>
+<b> 2. cate_nelson_1965() </b> <br/>
 
 The second alternative is based on Cate and Nelson (1965)
-(`cate.nelson.1965()`). The first step of this method is to apply an
+(`cate_nelson_1965()`). The first step of this method is to apply an
 arbitrarily fixed value of RY as a target (y-axis) that divides the data
 into two categories (below & equal or above RY target). In a second
 stage, it estimates the CSTV (x-axis) as the minimum STV that divides
@@ -78,7 +78,7 @@ Instructions <br/>
     (RY) data. <br/>
 
 2.  Specify the following arguments into the function
-    -cate.nelson.1965()-: <br/>
+    -cate_nelson_1965()-: <br/>
 
 (a). `data` (optional), <br/>
 
@@ -90,10 +90,10 @@ Instructions <br/>
 
 4.  Adjust plot as desired. <br/>
 
-<b> 3. cate.nelson.1971() </b> <br/>
+<b> 3. cate_nelson_1971() </b> <br/>
 
 The third alternative is based on Cate and Nelson (1971)
-(`cate.nelson.1971()`). The first step of this alternative version is to
+(`cate_nelson_1971()`). The first step of this alternative version is to
 estimates the CSTV (x-axis) as the minimum STV that minimizes the
 residual sum of squares when dividing data points in two classes (lower
 or greater than the CSTV) without using a fixed RY. This refined version
@@ -108,7 +108,7 @@ Instructions <br/>
     (RY) data. <br/>
 
 2.  Specify the following arguments into the function
-    -cate.nelson.1965()-: <br/>
+    -cate_nelson_1965()-: <br/>
 
 (a). `data` (optional), <br/>
 
@@ -652,9 +652,9 @@ head(fit_all)
 ### 3.2. Fit Cate & Nelson 1965
 
 ``` r
-cate.nelson.1965_example_2 = soiltestR::cate.nelson.1965(data = data_2, RY = RY, STV = STV, target=90, tidy = FALSE, plot = FALSE)
+cate_nelson_1965_example_2 = soiltestR::cate_nelson_1965(data = data_2, RY = RY, STV = STV, target=90, tidy = FALSE, plot = FALSE)
 
-cate.nelson.1965_example_2
+cate_nelson_1965_example_2
 #> $n
 #> [1] 137
 #> 
@@ -689,11 +689,11 @@ cate.nelson.1965_example_2
 #> $R2
 #> [1] 0.3936824
 
-cate.nelson.1965_example_3 = soiltestR::cate.nelson.1965(data = data_3, RY = RY, STV = STK, target=95, tidy = TRUE, plot = FALSE)
+cate_nelson_1965_example_3 = soiltestR::cate_nelson_1965(data = data_3, RY = RY, STV = STK, target=95, tidy = TRUE, plot = FALSE)
 #> Warning in stats::chisq.test(data.frame(row.1, row.2)): Chi-squared
 #> approximation may be incorrect
 
-cate.nelson.1965_example_3
+cate_nelson_1965_example_3
 #>    n CRYV CSTV quadrants.q.I quadrants.q.II quadrants.q.III quadrants.q.IV
 #> 1 24   95 51.5             0             10               5              9
 #>   quadrants.positive quadrants.negative        R2
@@ -703,19 +703,19 @@ cate.nelson.1965_example_3
 ### 3.3. Fit Cate & Nelson 1971
 
 ``` r
-cate.nelson.1971_example_2 = soiltestR::cate.nelson.1971(data = data_2, RY = RY, STV = STV, tidy = TRUE, plot = FALSE)
+cate_nelson_1971_example_2 = soiltestR::cate_nelson_1971(data = data_2, RY = RY, STV = STV, tidy = TRUE, plot = FALSE)
 
-cate.nelson.1971_example_2
+cate_nelson_1971_example_2
 #>     n CRYV CSTV quadrants.q.I quadrants.q.II quadrants.q.III quadrants.q.IV
 #> 1 137 87.5 22.5            13             70               6             48
 #>   quadrants.positive quadrants.negative        R2
 #> 1                118                 19 0.3936824
 
-cate.nelson.1971_example_3 = soiltestR::cate.nelson.1971(data = data_3, RY = RY, STV = STK, tidy = TRUE, plot = FALSE)
+cate_nelson_1971_example_3 = soiltestR::cate_nelson_1971(data = data_3, RY = RY, STV = STK, tidy = TRUE, plot = FALSE)
 #> Warning in stats::chisq.test(data.frame(row.1, row.2)): Chi-squared
 #> approximation may be incorrect
 
-cate.nelson.1971_example_3
+cate_nelson_1971_example_3
 #>    n CRYV CSTV quadrants.q.I quadrants.q.II quadrants.q.III quadrants.q.IV
 #> 1 24 82.4 46.5             0             15               1              8
 #>   quadrants.positive quadrants.negative        R2
@@ -725,10 +725,22 @@ cate.nelson.1971_example_3
 ### 3.4. Fit Linear-plateau model
 
 ``` r
-#linear_plateau_example_3 = soiltestR::linear_plateau(data = data_3, RY = RY, STV = STK, plot = FALSE)
+linear_plateau_example_3 = soiltestR::linear_plateau(data = data_3, RY = RY, STV = STK, plot = FALSE)
 
-#linear_plateau_example_3
+linear_plateau_example_3
+#>   intercept slope     equation CSTV   LL    UL plateau AIC AICc   R2
+#> 1     39.24  0.75 39.2 + 0.75x   75 46.4 103.6    95.6 188  190 0.34
+
+soiltestR::linear_plateau(data = data_1, RY = RY, STV = STV, plot = TRUE)
 ```
+
+<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
+
+``` r
+soiltestR::linear_plateau(data = data_2, RY = RY, STV = STV, plot = TRUE)
+```
+
+<img src="man/figures/README-unnamed-chunk-8-2.png" width="100%" />
 
 ## 4. Plots
 
@@ -781,7 +793,7 @@ SMA_example3 %>%
 ### 4.2. Cate & Nelson 1965
 
 ``` r
-soiltestR::cate.nelson.1965(data = data_3, RY = RY, STV = STK, target=95, tidy = TRUE, plot = TRUE)
+soiltestR::cate_nelson_1965(data = data_3, RY = RY, STV = STK, target=95, tidy = TRUE, plot = TRUE)
 ```
 
 <img src="man/figures/README-unnamed-chunk-10-1.png" width="100%" />
@@ -789,7 +801,7 @@ soiltestR::cate.nelson.1965(data = data_3, RY = RY, STV = STK, target=95, tidy =
 ### 4.3. Cate & Nelson 1971
 
 ``` r
-soiltestR::cate.nelson.1971(data = data_3, RY = RY, STV = STK, tidy = TRUE, plot = TRUE)
+soiltestR::cate_nelson_1971(data = data_3, RY = RY, STV = STK, tidy = TRUE, plot = TRUE)
 ```
 
 <img src="man/figures/README-unnamed-chunk-11-1.png" width="100%" />

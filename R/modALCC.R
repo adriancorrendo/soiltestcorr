@@ -18,14 +18,14 @@
 #' \dontrun{
 #' if(interactive()){
 #'  # Example 1 dataset
-#'  dat = data.frame("ry" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
+#'  dat <- data.frame("ry" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
 #'                    "stv" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
 #'  # Run
-#'  fit_example = modALCC(data = dat, RY = ry, STV = stv, target=90, confidence = 0.95)
+#'  fit_example <- modALCC(data = dat, RY = ry, STV = stv, target=90, confidence = 0.95)
 #'  fit_example
 #'  }
 #' }
-#'  @seealso 
+#' @seealso 
 #'  \code{\link[rlang]{eval_tidy}},\code{\link[rlang]{defusing-advanced}}
 #'  \code{\link[stats]{TDist}},\code{\link[stats]{cor}},\code{\link[stats]{cor.test}},\code{\link[stats]{sd}}
 #'  \code{\link[dplyr]{bind}},\code{\link[dplyr]{filter}}
@@ -36,7 +36,7 @@
 #' @export 
 #' @importFrom rlang eval_tidy quo
 #' @importFrom stats qt cor cor.test sd
-#' @importFrom dplyr bind_cols filter
+#' @importFrom dplyr bind_cols filter %>%
 #' @importFrom tidyr nest
 #' @importFrom ggplot2 ggplot aes geom_point scale_shape_manual geom_rug geom_hline geom_vline geom_path scale_y_continuous annotate labs theme_bw theme annotate 
 
@@ -160,7 +160,7 @@ modALCC <- function(data=NULL,
                           aes(x = x, y = y, shape = ">CSTV100"), 
                           col = "#CE1141", size = 3, alpha = 0.5) } +
     ggplot2::scale_shape_manual(name = "", values = c(15,8))+
-    ggplot2::geom_rug(alpha = 0.2, length = unit(2, "pt")) +
+    ggplot2::geom_rug(alpha = 0.2, length = ggplot2::unit(2, "pt")) +
     # RY target
     ggplot2::geom_hline(yintercept = target, alpha = 0.2) +
     # CSTV
@@ -191,8 +191,8 @@ modALCC <- function(data=NULL,
     ggplot2::labs(x = "Soil test value (units)", y = "Relative yield (%)",
                   title = "Modified arcsine-log calibration curve")+
     ggplot2::theme_bw()+
-    ggplot2::theme(panel.grid = element_blank(),
-                   axis.title = element_text(size = rel(1.5)))
+    ggplot2::theme(panel.grid = ggplot2::element_blank(),
+                   axis.title = ggplot2::element_text(size = ggplot2::rel(1.5)))
   
   
   if (plot == TRUE){
