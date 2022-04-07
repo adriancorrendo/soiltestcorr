@@ -13,13 +13,13 @@ SS_LP(x, intercept, slope, Xc)
 linear_plateau(data = NULL, STV, RY, resid = FALSE, plot = FALSE)
 }
 \arguments{
-\item{x}{selfstar arg. for independent variable, Default = NULL}
+\item{x}{selfstart vector for independent variable, Default: NULL}
 
-\item{intercept}{selfstar arg. for intercept Default = NULL}
+\item{intercept}{selfstart arg. for intercept Default: NULL}
 
-\item{slope}{selfstar arg. for slope Default = NULL}
+\item{slope}{selfstart arg. for slope Default: NULL}
 
-\item{Xc}{selfstar arg. for critical value Default = NULL}
+\item{Xc}{selfstart arg. for critical value Default: NULL}
 
 \item{data}{Optional argument to call and object of type data.frame or data.table
 containing the STV and RY data, Default: NULL}
@@ -44,10 +44,10 @@ linear_plateau: function
 }
 \description{
 This function helps to fit a linear-plateau model in order to
-estimate critical soil test values (CSTV)
+estimate critical soil test values (CSTV) above which yield response becomes flat.
 }
 \details{
-This functions fits a linear-plateau model using selfStart initial values
+This function fits a linear-plateau model using a native selfStart function
 }
 \examples{
 \dontrun{

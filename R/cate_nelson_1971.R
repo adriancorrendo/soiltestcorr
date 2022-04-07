@@ -149,12 +149,13 @@ cate_nelson_1971 <- function(data=NULL, STV, RY, tidy = FALSE, plot = FALSE){
   max.y <- max(dataset$y)
   min.x <- min(dataset$x)
   min.y <- min(dataset$y)
+  Quadrant_ <- dataset$Quadrant
   
   # ggplot
   cn71.ggplot <- 
     ggplot2::ggplot(data = dataset, ggplot2::aes(x=x, y=y))+
     ggplot2::geom_rug(alpha = 0.2, length = ggplot2::unit(2, "pt")) +
-    ggplot2::geom_point(aes(color = Quadrant, shape = Quadrant), alpha = 0.75)+
+    ggplot2::geom_point(aes(color = Quadrant_, shape = Quadrant_), alpha = 0.75)+
     ggplot2::scale_shape_manual(name = "", values = c(4,16))+
     ggplot2::scale_color_manual(name = "", values = c("#b7094c","#2d6a4f"))+
     ggplot2::geom_vline(xintercept = CSTV, col = "dark red", linetype = "dashed")+

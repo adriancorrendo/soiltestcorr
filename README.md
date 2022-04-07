@@ -159,7 +159,6 @@ library(tidyverse)
 data_1 = data.frame("RY" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
                    "STV" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
   
-
 # Example 2. Native dataset from soiltestR package
 
 data_2 = soiltestR::data_test
@@ -730,17 +729,7 @@ linear_plateau_example_3 = soiltestR::linear_plateau(data = data_3, RY = RY, STV
 linear_plateau_example_3
 #>   intercept slope     equation CSTV   LL    UL plateau AIC AICc   R2
 #> 1     39.24  0.75 39.2 + 0.75x   75 46.4 103.6    95.6 188  190 0.34
-
-soiltestR::linear_plateau(data = data_1, RY = RY, STV = STV, plot = TRUE)
 ```
-
-<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
-
-``` r
-soiltestR::linear_plateau(data = data_2, RY = RY, STV = STV, plot = TRUE)
-```
-
-<img src="man/figures/README-unnamed-chunk-8-2.png" width="100%" />
 
 ## 4. Plots
 
@@ -809,8 +798,10 @@ soiltestR::cate_nelson_1971(data = data_3, RY = RY, STV = STK, tidy = TRUE, plot
 ### 4.4. Linear-plateau
 
 ``` r
-#soiltestR::linear_plateau(data = data_3, RY = RY, STV = STK, plot = TRUE, resid = TRUE)
+soiltestR::linear_plateau(data = data_3, RY = RY, STV = STK, plot = TRUE, resid = TRUE)
 ```
+
+<img src="man/figures/README-unnamed-chunk-12-1.png" width="100%" /><img src="man/figures/README-unnamed-chunk-12-2.png" width="100%" />
 
 <b> References </b> <br/>
 

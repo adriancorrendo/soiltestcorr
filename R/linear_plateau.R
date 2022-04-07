@@ -1,7 +1,7 @@
 #' @name linear_plateau
 #' @title Linear Plateau
 #' @description This function helps to fit a linear-plateau model in order to
-#' estimate critical soil test values (CSTV)
+#' estimate critical soil test values (CSTV) above which yield response becomes flat.
 #' @param data Optional argument to call and object of type data.frame or data.table 
 #' containing the STV and RY data, Default: NULL
 #' @param STV name of the vector containing soil test values (-) of type `numeric`.
@@ -9,13 +9,13 @@
 #' @param resid boolean (TRUE/FALSE) to plot residuals analysis, Default: FALSE
 #' @param plot boolean (TRUE/FALSE) to plot the linear-plateau model, Default: FALSE
 #' Default: FALSE
-#' @param x selfstar arg. for independent variable, Default = NULL
-#' @param intercept selfstar arg. for intercept Default = NULL
-#' @param slope selfstar arg. for slope Default = NULL
-#' @param Xc selfstar arg. for critical value Default = NULL
+#' @param x selfstart vector for independent variable, Default: NULL
+#' @param intercept selfstart arg. for intercept Default: NULL
+#' @param slope selfstart arg. for slope Default: NULL
+#' @param Xc selfstart arg. for critical value Default: NULL
 #' @rdname linear_plateau
 #' @return returns a `data.frame` if plot = FALSE, if plot = TRUE
-#' @details This functions fits a linear-plateau model using selfStart initial values
+#' @details This function fits a linear-plateau model using a native selfStart function
 #' @examples 
 #' \dontrun{
 #' if(interactive()){
