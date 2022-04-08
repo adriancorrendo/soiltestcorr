@@ -8,6 +8,13 @@
 \description{
 the soiltestR package is designed to assist users on the analysis of relative yield:soil test value relationships. The soiltestR package estimates critical soil test values using R following different approaches such as: i) the modified ALCC model originally described by Dyson and Conyers (2013) and modified by Correndo et al. (2017); ii) the graphical Cate & Nelson approach (Cate & Nelson, 1965), iii) the statistical Cate & Nelson approach (Cate & Nelson, 1965), and iv) regression models such as linear-plateau, quadratic-plateau, and others.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://adriancorrendo.github.io/soiltestR/}
+}
+
+}
 \author{
 \strong{Maintainer}: Adrian A. Correndo \email{correndo@ksu.edu} (\href{https://orcid.org/0000-0002-4172-289X}{ORCID})
 
