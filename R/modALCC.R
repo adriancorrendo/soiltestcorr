@@ -143,22 +143,24 @@ modALCC <- function(data=NULL,
 ### STAGE 3 ====================================================================
   
   # Plot
-  datapoints <- data.frame(x=stv, y=ry)
-  modalcc.ggplot <- 
+  datapoints <- data.frame(stv=stv, ry=ry)
+  curve <- data.frame(fitted_STV=fitted_STV, new_RY = new_RY)
+  
+  modalcc.ggplot <- datapoints %>% 
     ggplot2::ggplot(ggplot2::aes(x=stv, y=ry)) +
     # Data points
     ggplot2::geom_point(shape = 21, size = 3, alpha = 0.75, fill = "#e09f3e") +
     # Highlight potential leverage points >2xCSTV90
     { if (length(stv[stv > 2*cstv.90]) > 0)
       ggplot2::geom_point(data = datapoints %>% 
-                            dplyr::filter(x > 2*cstv.90),
-                          aes(x, y, shape = ">2xCSTV90"), 
+                            dplyr::filter(stv > 2*cstv.90),
+                          aes(x=stv, y=ry, shape = ">2xCSTV90"), 
                           col = "#CE1141", size = 3, alpha = 0.5) } +
     # Highlight potential leverage points >2xCSTV90
     { if (length(stv[stv > cstv.100]) > 0)
       ggplot2::geom_point(data = datapoints %>% 
-                            dplyr::filter(x > cstv.100),
-                          aes(x, y, shape = ">CSTV100"), 
+                            dplyr::filter(stv > cstv.100),
+                          aes(x=stv, y=ry, shape = ">CSTV100"), 
                           col = "#CE1141", size = 3, alpha = 0.5) } +
     ggplot2::scale_shape_manual(name = "", values = c(15,8))+
     ggplot2::geom_rug(alpha = 0.2, length = ggplot2::unit(2, "pt")) +
@@ -171,7 +173,7 @@ modALCC <- function(data=NULL,
     geom_vline(xintercept = CSTV_lower, col = "grey25", size = 0.25, linetype = "dotted")+
     geom_vline(xintercept = CSTV_upper, col = "grey25", size = 0.25, linetype = "dotted")+
     # ALCC curve
-    ggplot2::geom_path(ggplot2::aes(x=fitted_STV,y=new_RY),
+    ggplot2::geom_path(data = curve, ggplot2::aes(x=fitted_STV,y=new_RY),
                        color="grey15", size = 1.5) +
     ggplot2::scale_y_continuous(limits = c(0, max(ry)),breaks=seq(0,max(ry)*2,10)) +
     # Text annotations

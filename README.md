@@ -184,8 +184,7 @@ data.all = bind_rows(data_1, data_2,
 
 # Data 1
 # Using dataframe argument, tidy = FALSE -> return a LIST
-fit_example_1 = soiltestR::modALCC(data = data_1, RY = RY, STV = STV, target=90, confidence = 0.95,
-                                   plot = FALSE, tidy = FALSE)
+fit_example_1 = soiltestR::modALCC(data = data_1, RY = RY, STV = STV, target=90, confidence = 0.95, plot = FALSE, tidy = FALSE)
 #> Warning: 7 STV points exceeded two-times (2x) 
 #>   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by 
 #>   removing extreme points, re-run the modALCC(), and check results.
