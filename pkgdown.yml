@@ -1,0 +1,10 @@
+pandoc: 2.7.3
+pkgdown: 2.0.2
+pkgdown_sha: ~
+articles:
+  Introduction_to_soiltestR: Introduction_to_soiltestR.html
+last_built: 2022-04-08T04:31Z
+urls:
+  reference: https://adriancorrendo.github.io/soiltestR/reference
+  article: https://adriancorrendo.github.io/soiltestR/articles
+
