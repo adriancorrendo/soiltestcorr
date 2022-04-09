@@ -1,5 +1,6 @@
 ---
 title: "Introduction to soiltestR"
+author: Adrian Correndo & Austin Pearce 
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction_to_soiltestR}
@@ -16,110 +17,36 @@ knitr::opts_chunk$set(
 )
 ```
 
-The goal of `soiltestR` is to assist users on the analysis of relationships between relative yield (RY) and soil test values (STV) following different approaches. <br/>
+<img src="../man/figures/soiltestR_logo.png" height="150" align="right"/>
 
-<img src="../man/figures/soiltestR_logo.png" height="300" align="right"/>
+This tutorial is intended to assist on the use of the available functions from the `soiltestR` package for the analysis of relationships between relative yield (RY) and soil test values (STV). <br/>
 
-<b> 1. modALCC() </b> <br/>
-
-The first calibration method available is the Modified Arcsine-log Calibration Curve (`modALCC()`) originally described by Dyson and Conyers (2013) and modified by Correndo et al. (2017). This function produces the estimation of critical soil test values (CSTV) for a target relative yield (RY) with confidence intervals at adjustable confidence levels. <br/>
-  
-Instructions <br/>
-
-i. Load your dataframe with soil test value (STV) and relative yield (RY) data. <br/>
-
-ii. Specify the following arguments into the function -modALCC()-: <br/>
-
-  (a). `data` (optional), <br/>
-
-  (b). soil test value `STV` and relative yield `RY`, <br/>
-
-  (c). `target` of relative yield (e.g. 90%), <br/>
-
-  (d). desired `confidence` level (e.g. 0.95 for 1 - alpha(0.05)). Used for the estimation of critical soil test value (CSTV) lower and upper limits. <br/>
-
-iii. Run and check results. <br/>
-
-iv. Check residuals plot, and warnings related to potential leverage points. <br/>
-
-v. Adjust curve plots as desired. <br/>
-
-`soiltestR` also allows users to implement the quadrants analysis approach, also known as the Cate-Nelson analysis. There are two versions of the Cate-Nelson technique: <br/>
-
-
-<b> 1. cate_nelson_1965() </b> <br/>
-   
-   The second alternative is based on Cate and Nelson (1965) (`cate_nelson_1965()`). The first step of this method is to apply an arbitrarily fixed value of RY as a target (y-axis) that divides the data into two categories (below & equal or above RY target). In a second stage, it estimates the CSTV (x-axis) as the minimum STV that divides the data into four quadrants (target RY level combined with STV lower or greater than the CSTV) maximizing the number of points under well-classified quadrants (II, STV >= CSTV & RY >= RY target; and IV, STV < CSTV & RY < RY target). This is also known as the "graphical" version of the Cate-Nelson approach. <br/>
-   
-Instructions <br/>
-
-i. Load your dataframe with soil test value (STV) and relative yield (RY) data. <br/>
-
-ii. Specify the following arguments into the function -cate_nelson_1965()-: <br/>
-
-  (a). `data` (optional), <br/>
-
-  (b). soil test value `STV` and relative yield `RY`, <br/>
-
-  (c). `target` of relative yield (e.g. 90%), <br/>
-
-  
-iii. Run and check results. <br/>
-
-iv. Adjust plot as desired. <br/>
-
-<b> 1. cate_nelson_1971() </b> <br/>
-   
-   The third alternative is based on Cate and Nelson (1971) (`cate_nelson_1971()`). The first step of this alternative version is to estimates the CSTV (x-axis) as the minimum STV that minimizes the residual sum of squares when dividing data points in two classes (lower or greater than the CSTV) without using a fixed RY. This refined version does not constrains the model performance (measured with the coefficient of determination -R2-) but the user has no control on the RY level for the CSTV. This is also known as the "statistical" version of the Cate-Nelson approach. <br/> 
-   
-Instructions <br/>
-
-i. Load your dataframe with soil test value (STV) and relative yield (RY) data. <br/>
-
-ii. Specify the following arguments into the function -cate_nelson_1965()-: <br/>
-
-  (a). `data` (optional), <br/>
-
-  (b). soil test value `STV` and relative yield `RY`, <br/>
-
-  
-iii. Run and check results. <br/>
-
-iv. Adjust plot as desired. <br/>
-   
-   
-MORE FUNCTIONS COMING SOON.... <br/>
-
-   
 ## 1. Installation
 
-You can install the development version of modalcc from [GitHub](https://github.com/adriancorrendo/soiltestR) with:
+You can install the development version of soiltestR from [GitHub](https://github.com/adriancorrendo/soiltestR) with:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("adriancorrendo/soiltestR")
-
 ```
 
 ```{r setup}
 library(soiltestR)
 ```
 
-
 ## 2. Example
 
-This is a basic example which shows you how to use the package: <br/>
+This is a basic example which shows you how to use the package:
 
 Complementary libraries
 ```{r warning=FALSE, message=FALSE}
 # Other suggested packages
 # Install if needed 
 library(ggplot2) # Plots
-library(ggpp) 
 library(dplyr) # Data wrangling
 library(tidyr) # Data wrangling
 library(purrr) # Mapping
-
+library(tidyverse)
 
 ```
 
@@ -131,10 +58,10 @@ library(purrr) # Mapping
 data_1 = data.frame("RY" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
                    "STV" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
   
-
-# Example 2. Native dataset from modalcc package
+# Example 2. Native dataset from soiltestR package
 
 data_2 = soiltestR::data_test
+
 
 # Example 3. Native dataset from soiltestR package, used by Cate & Nelson (1971)
 data_3 <- soiltestR::freitas1966
@@ -142,26 +69,30 @@ data_3 <- soiltestR::freitas1966
 # Create nested structure as example of multiple datasets
 # Note that STV column needs to have the same name in order to bind rows
 data.all = bind_rows(data_1, data_2, 
-                     data_3 %>% dplyr::rename(STV = STK),
+                     data_3 %>% rename(STV = STK),
                      .id = "id") %>% 
   tidyr::nest(data = c("STV", "RY"))
 
 ```
-
-## 3. Fit examples <br/>
-
+## 3. Fit examples
 ### 3.1. Fit ALCC models individually
 ```{r warning=TRUE, message=TRUE}
 
 # RY target = 90%, confidence level = 0.95, replace with your desired values
 
 # Data 1
-# Using dataframe
-fit_example_1 = soiltestR::modALCC(data = data_1, RY = RY, STV = STV, target=90, confidence = 0.95)
-# Alternative using the vectors
-#fit_example_1 = ALCC(RY = data_1$RY,STV = data_1$STV, target=90,confidence = 0.95)
+# Using dataframe argument, tidy = FALSE -> return a LIST
+fit_example_1 = soiltestR::modALCC(data = data_1, RY = RY, STV = STV, target=90, confidence = 0.95, plot = FALSE, tidy = FALSE)
 
 fit_example_1
+
+# Using dataframe argument, tidy = TRUE -> return a DATA FRAME
+fit_example_1.tidy = soiltestR::modALCC(data = data_1, RY = RY, STV = STV, target=90, confidence = 0.95, tidy = TRUE, plot = FALSE)
+
+fit_example_1.tidy
+
+# Alternative using the vectors
+#fit_example_1 = ALCC(RY = data_1$RY,STV = data_1$STV, target=90,confidence = 0.95)
 
 # Data 2
 fit_example_2 = soiltestR::modALCC(data = data_2, RY = RY, STV = STV, target=90, confidence = 0.95)
@@ -181,16 +112,17 @@ fit_example_3
 ```{r warning=T, message=F}
 # Run multiple examples at once with map()
 fit_examples = data.all %>%
-  mutate(modALCC = map(data, ~ soiltestR::modALCC(RY = .$RY, STV = .$STV, target=90, confidence = 0.95))) 
+  mutate(modALCC = map(data, ~ soiltestR::modALCC(RY = .$RY, STV = .$STV, target=90, confidence = 0.95)))
 
-head(fit_examples)
+#head(fit_examples)
 
 # Alternative with group_map, this does not required nested data.
 fit_all = bind_rows(data_1, data_2, .id = "id") %>% 
   group_by(id) %>% 
   group_map(~ soiltestR::modALCC(data = ., RY = RY, STV = STV, target = 90, confidence = 0.95))
 
-head(fit_all)
+#head(fit_all)
+
 ```
 
 ### 3.2. Fit Cate & Nelson 1965
@@ -238,7 +170,7 @@ Examples using ggplot <br/>
 
 soiltestR::modALCC(data = data_3, RY = RY, STV = STK, target=95, confidence = 0.95, plot = TRUE)
 
-# SMA regression
+# Extract SMA regression fit and residuals
 
 SMA_example3 = fit_example_3$SMA %>% as.data.frame()
  
