@@ -34,21 +34,18 @@ devtools::install_github("adriancorrendo/soiltestR")
 library(soiltestR)
 ```
 
-## 2. Example
-
-This is a basic example which shows you how to use the package:
-
-Complementary libraries
+# Suggested packages
 ```{r warning=FALSE, message=FALSE}
-# Other suggested packages
 # Install if needed 
 library(ggplot2) # Plots
 library(dplyr) # Data wrangling
 library(tidyr) # Data wrangling
 library(purrr) # Mapping
-library(tidyverse)
-
 ```
+
+## 2. Example
+
+This is a basic example which shows you how to use the package: <br/>
 
 ### 2.1. Load a dataset
 ```{r}
