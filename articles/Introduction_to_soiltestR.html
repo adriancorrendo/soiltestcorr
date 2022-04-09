@@ -64,6 +64,7 @@
 <script src="Introduction_to_soiltestR_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <main id="main"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Introduction to soiltestR</h1>
+                        <h4 data-toc-skip class="author">Adrian Correndo &amp; Austin Pearce</h4>
             
       
       
@@ -72,57 +73,12 @@
 
     
     
-<p>The goal of <code>soiltestR</code> is to assist users on the analysis of relationships between relative yield (RY) and soil test values (STV) following different approaches. <br></p>
-<p><img src="../reference/figures/soiltestR_logo.png" height="300" align="right"></p>
-<p><b> 1. modALCC() </b> <br></p>
-<p>The first calibration method available is the Modified Arcsine-log Calibration Curve (<code><a href="../reference/modALCC.html">modALCC()</a></code>) originally described by Dyson and Conyers (2013) and modified by Correndo et al. (2017). This function produces the estimation of critical soil test values (CSTV) for a target relative yield (RY) with confidence intervals at adjustable confidence levels. <br></p>
-<p>Instructions <br></p>
-<ol style="list-style-type: lower-roman">
-<li><p>Load your dataframe with soil test value (STV) and relative yield (RY) data. <br></p></li>
-<li><p>Specify the following arguments into the function -modALCC()-: <br></p></li>
-</ol>
-<p>(a). <code>data</code> (optional), <br></p>
-<p>(b). soil test value <code>STV</code> and relative yield <code>RY</code>, <br></p>
-<p>(c). <code>target</code> of relative yield (e.g. 90%), <br></p>
-<p>(d). desired <code>confidence</code> level (e.g. 0.95 for 1 - alpha(0.05)). Used for the estimation of critical soil test value (CSTV) lower and upper limits. <br></p>
-<ol start="3" style="list-style-type: lower-roman">
-<li><p>Run and check results. <br></p></li>
-<li><p>Check residuals plot, and warnings related to potential leverage points. <br></p></li>
-<li><p>Adjust curve plots as desired. <br></p></li>
-</ol>
-<p><code>soiltestR</code> also allows users to implement the quadrants analysis approach, also known as the Cate-Nelson analysis. There are two versions of the Cate-Nelson technique: <br></p>
-<p><b> 1. cate_nelson_1965() </b> <br></p>
-<p>The second alternative is based on Cate and Nelson (1965) (<code><a href="../reference/cate_nelson_1965.html">cate_nelson_1965()</a></code>). The first step of this method is to apply an arbitrarily fixed value of RY as a target (y-axis) that divides the data into two categories (below &amp; equal or above RY target). In a second stage, it estimates the CSTV (x-axis) as the minimum STV that divides the data into four quadrants (target RY level combined with STV lower or greater than the CSTV) maximizing the number of points under well-classified quadrants (II, STV &gt;= CSTV &amp; RY &gt;= RY target; and IV, STV &lt; CSTV &amp; RY &lt; RY target). This is also known as the “graphical” version of the Cate-Nelson approach. <br></p>
-<p>Instructions <br></p>
-<ol style="list-style-type: lower-roman">
-<li><p>Load your dataframe with soil test value (STV) and relative yield (RY) data. <br></p></li>
-<li><p>Specify the following arguments into the function -cate_nelson_1965()-: <br></p></li>
-</ol>
-<p>(a). <code>data</code> (optional), <br></p>
-<p>(b). soil test value <code>STV</code> and relative yield <code>RY</code>, <br></p>
-<p>(c). <code>target</code> of relative yield (e.g. 90%), <br></p>
-<ol start="3" style="list-style-type: lower-roman">
-<li><p>Run and check results. <br></p></li>
-<li><p>Adjust plot as desired. <br></p></li>
-</ol>
-<p><b> 1. cate_nelson_1971() </b> <br></p>
-<p>The third alternative is based on Cate and Nelson (1971) (<code><a href="../reference/cate_nelson_1971.html">cate_nelson_1971()</a></code>). The first step of this alternative version is to estimates the CSTV (x-axis) as the minimum STV that minimizes the residual sum of squares when dividing data points in two classes (lower or greater than the CSTV) without using a fixed RY. This refined version does not constrains the model performance (measured with the coefficient of determination -R2-) but the user has no control on the RY level for the CSTV. This is also known as the “statistical” version of the Cate-Nelson approach. <br></p>
-<p>Instructions <br></p>
-<ol style="list-style-type: lower-roman">
-<li><p>Load your dataframe with soil test value (STV) and relative yield (RY) data. <br></p></li>
-<li><p>Specify the following arguments into the function -cate_nelson_1965()-: <br></p></li>
-</ol>
-<p>(a). <code>data</code> (optional), <br></p>
-<p>(b). soil test value <code>STV</code> and relative yield <code>RY</code>, <br></p>
-<ol start="3" style="list-style-type: lower-roman">
-<li><p>Run and check results. <br></p></li>
-<li><p>Adjust plot as desired. <br></p></li>
-</ol>
-<p>MORE FUNCTIONS COMING SOON…. <br></p>
-<div class="section level2">
-<h2 id="installation">1. Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
-</h2>
-<p>You can install the development version of modalcc from <a href="https://github.com/adriancorrendo/soiltestR" class="external-link">GitHub</a> with:</p>
+<p><img src="../reference/figures/soiltestR_logo.png" height="150" align="right"></p>
+<p>This tutorial is intended to assist on the use of the available functions from the <code>soiltestR</code> package for the analysis of relationships between relative yield (RY) and soil test values (STV). <br></p>
+<div class="section level3">
+<h3 id="installation">1. Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h3>
+<p>You can install the development version of soiltestR from <a href="https://github.com/adriancorrendo/soiltestR" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"adriancorrendo/soiltestR"</span><span class="op">)</span></code></pre></div>
@@ -130,21 +86,21 @@
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://adriancorrendo.github.io/soiltestR/">soiltestR</a></span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="example">2. Example<a class="anchor" aria-label="anchor" href="#example"></a>
+<h2 id="suggested-packages">Suggested packages<a class="anchor" aria-label="anchor" href="#suggested-packages"></a>
 </h2>
-<p>This is a basic example which shows you how to use the package: <br></p>
-<p>Complementary libraries</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Other suggested packages</span>
-<span class="co"># Install if needed </span>
+<code class="sourceCode R"><span class="co"># Install if needed </span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span> <span class="co"># Plots</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.r4photobiology.info/ggpp/" class="external-link">ggpp</a></span><span class="op">)</span> 
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span> <span class="co"># Data wrangling</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span> <span class="co"># Data wrangling</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://purrr.tidyverse.org" class="external-link">purrr</a></span><span class="op">)</span> <span class="co"># Mapping</span></code></pre></div>
 <div class="section level3">
-<h3 id="load-a-dataset">2.1. Load a dataset<a class="anchor" aria-label="anchor" href="#load-a-dataset"></a>
+<h3 id="example">2. Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h3>
+<p>This is a basic example which shows you how to use the package: <br></p>
+<div class="section level4">
+<h4 id="load-a-dataset">2.1. Load a dataset<a class="anchor" aria-label="anchor" href="#load-a-dataset"></a>
+</h4>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="co"># Example 1 dataset</span>
@@ -152,10 +108,10 @@
 <span class="va">data_1</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="st">"RY"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">65</span>,<span class="fl">80</span>,<span class="fl">85</span>,<span class="fl">88</span>,<span class="fl">90</span>,<span class="fl">94</span>,<span class="fl">93</span>,<span class="fl">96</span>,<span class="fl">97</span>,<span class="fl">95</span>,<span class="fl">98</span>,<span class="fl">100</span>,<span class="fl">99</span>,<span class="fl">99</span>,<span class="fl">100</span><span class="op">)</span>,
                    <span class="st">"STV"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">7</span>,<span class="fl">8</span>,<span class="fl">9</span>,<span class="fl">10</span>,<span class="fl">11</span>,<span class="fl">12</span>,<span class="fl">13</span>,<span class="fl">14</span>,<span class="fl">15</span><span class="op">)</span><span class="op">)</span>
   
-
-<span class="co"># Example 2. Native dataset from modalcc package</span>
+<span class="co"># Example 2. Native dataset from soiltestR package</span>
 
 <span class="va">data_2</span> <span class="op">=</span> <span class="fu">soiltestR</span><span class="fu">::</span><span class="va"><a href="../reference/data_test.html">data_test</a></span>
+
 
 <span class="co"># Example 3. Native dataset from soiltestR package, used by Cate &amp; Nelson (1971)</span>
 <span class="va">data_3</span> <span class="op">&lt;-</span> <span class="fu">soiltestR</span><span class="fu">::</span><span class="va"><a href="../reference/freitas1966.html">freitas1966</a></span>
@@ -163,29 +119,27 @@
 <span class="co"># Create nested structure as example of multiple datasets</span>
 <span class="co"># Note that STV column needs to have the same name in order to bind rows</span>
 <span class="va">data.all</span> <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">data_1</span>, <span class="va">data_2</span>, 
-                     <span class="va">data_3</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>STV <span class="op">=</span> <span class="va">STK</span><span class="op">)</span>,
+                     <span class="va">data_3</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>STV <span class="op">=</span> <span class="va">STK</span><span class="op">)</span>,
                      .id <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">nest</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"STV"</span>, <span class="st">"RY"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
-<div class="section level2">
-<h2 id="fit-examples">3. Fit examples <br><a class="anchor" aria-label="anchor" href="#fit-examples"></a>
-</h2>
 <div class="section level3">
-<h3 id="fit-alcc-models-individually">3.1. Fit ALCC models individually<a class="anchor" aria-label="anchor" href="#fit-alcc-models-individually"></a>
+<h3 id="fit-examples">3. Fit examples<a class="anchor" aria-label="anchor" href="#fit-examples"></a>
 </h3>
+<div class="section level4">
+<h4 id="fit-alcc-models-individually">3.1. Fit ALCC models individually<a class="anchor" aria-label="anchor" href="#fit-alcc-models-individually"></a>
+</h4>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="co"># RY target = 90%, confidence level = 0.95, replace with your desired values</span>
 
 <span class="co"># Data 1</span>
-<span class="co"># Using dataframe</span>
-<span class="va">fit_example_1</span> <span class="op">=</span> <span class="fu">soiltestR</span><span class="fu">::</span><span class="fu"><a href="../reference/modALCC.html">modALCC</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_1</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STV</span>, target<span class="op">=</span><span class="fl">90</span>, confidence <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span>
+<span class="co"># Using dataframe argument, tidy = FALSE -&gt; return a LIST</span>
+<span class="va">fit_example_1</span> <span class="op">=</span> <span class="fu">soiltestR</span><span class="fu">::</span><span class="fu"><a href="../reference/modALCC.html">modALCC</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_1</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STV</span>, target<span class="op">=</span><span class="fl">90</span>, confidence <span class="op">=</span> <span class="fl">0.95</span>, plot <span class="op">=</span> <span class="cn">FALSE</span>, tidy <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="co">#&gt; Warning: 7 STV points exceeded two-times (2x) </span>
 <span class="co">#&gt;   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by </span>
 <span class="co">#&gt;   removing extreme points, re-run the modALCC(), and check results.</span>
-<span class="co"># Alternative using the vectors</span>
-<span class="co">#fit_example_1 = ALCC(RY = data_1$RY,STV = data_1$STV, target=90,confidence = 0.95)</span>
 
 <span class="va">fit_example_1</span>
 <span class="co">#&gt; $n</span>
@@ -262,6 +216,25 @@
 <span class="co">#&gt; <span style="color: #BCBCBC;">13</span>  2.56   0.222    2.50      0.065<span style="text-decoration: underline;">0</span>      3.57  </span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">14</span>  2.64   0.222    2.50      0.139       3.64  </span>
 <span class="co">#&gt; <span style="color: #BCBCBC;">15</span>  2.71   0.322    2.95     -<span style="color: #BB0000;">0.244</span>       4.16</span>
+
+<span class="co"># Using dataframe argument, tidy = TRUE -&gt; return a DATA FRAME</span>
+<span class="va">fit_example_1.tidy</span> <span class="op">=</span> <span class="fu">soiltestR</span><span class="fu">::</span><span class="fu"><a href="../reference/modALCC.html">modALCC</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_1</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STV</span>, target<span class="op">=</span><span class="fl">90</span>, confidence <span class="op">=</span> <span class="fl">0.95</span>, tidy <span class="op">=</span> <span class="cn">TRUE</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="co">#&gt; Warning: 7 STV points exceeded two-times (2x) </span>
+<span class="co">#&gt;   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by </span>
+<span class="co">#&gt;   removing extreme points, re-run the modALCC(), and check results.</span>
+
+<span class="va">fit_example_1.tidy</span>
+<span class="co">#&gt;    n         r target     CSTV       LL       UL confidence      p_value</span>
+<span class="co">#&gt; 1 15 0.9682908     90 4.478476 3.947041 5.081463       0.95 3.296044e-09</span>
+<span class="co">#&gt;     CSTV90 n.90x2  CSTV100 n.100</span>
+<span class="co">#&gt; 1 4.478476      7 19.15054     0</span>
+<span class="co">#&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        Curve</span>
+<span class="co">#&gt; 1 65.000000, 65.200000, 65.400000, 65.600000, 65.800000, 66.000000, 66.200000, 66.400000, 66.600000, 66.800000, 67.000000, 67.200000, 67.400000, 67.600000, 67.800000, 68.000000, 68.200000, 68.400000, 68.600000, 68.800000, 69.000000, 69.200000, 69.400000, 69.600000, 69.800000, 70.000000, 70.200000, 70.400000, 70.600000, 70.800000, 71.000000, 71.200000, 71.400000, 71.600000, 71.800000, 72.000000, 72.200000, 72.400000, 72.600000, 72.800000, 73.000000, 73.200000, 73.400000, 73.600000, 73.800000, 74.000000, 74.200000, 74.400000, 74.600000, 74.800000, 75.000000, 75.200000, 75.400000, 75.600000, 75.800000, 76.000000, 76.200000, 76.400000, 76.600000, 76.800000, 77.000000, 77.200000, 77.400000, 77.600000, 77.800000, 78.000000, 78.200000, 78.400000, 78.600000, 78.800000, 79.000000, 79.200000, 79.400000, 79.600000, 79.800000, 80.000000, 80.200000, 80.400000, 80.600000, 80.800000, 81.000000, 81.200000, 81.400000, 81.600000, 81.800000, 82.000000, 82.200000, 82.400000, 82.600000, 82.800000, 83.000000, 83.200000, 83.400000, 83.600000, 83.800000, 84.000000, 84.200000, 84.400000, 84.600000, 84.800000, 85.000000, 85.200000, 85.400000, 85.600000, 85.800000, 86.000000, 86.200000, 86.400000, 86.600000, 86.800000, 87.000000, 87.200000, 87.400000, 87.600000, 87.800000, 88.000000, 88.200000, 88.400000, 88.600000, 88.800000, 89.000000, 89.200000, 89.400000, 89.600000, 89.800000, 90.000000, 90.200000, 90.400000, 90.600000, 90.800000, 91.000000, 91.200000, 91.400000, 91.600000, 91.800000, 92.000000, 92.200000, 92.400000, 92.600000, 92.800000, 93.000000, 93.200000, 93.400000, 93.600000, 93.800000, 94.000000, 94.200000, 94.400000, 94.600000, 94.800000, 95.000000, 95.200000, 95.400000, 95.600000, 95.800000, 96.000000, 96.200000, 96.400000, 96.600000, 96.800000, 97.000000, 97.200000, 97.400000, 97.600000, 97.800000, 98.000000, 98.200000, 98.400000, 98.600000, 98.800000, 99.000000, 99.200000, 99.400000, 99.600000, 99.800000, 100.000000, 1.097927, 1.108379, 1.118944, 1.129625, 1.140423, 1.151339, 1.162376, 1.173535, 1.184817, 1.196225, 1.207760, 1.219425, 1.231221, 1.243150, 1.255214, 1.267415, 1.279755, 1.292236, 1.304860, 1.317630, 1.330548, 1.343616, 1.356836, 1.370210, 1.383742, 1.397433, 1.411286, 1.425303, 1.439488, 1.453842, 1.468369, 1.483071, 1.497951, 1.513012, 1.528257, 1.543689, 1.559311, 1.575127, 1.591138, 1.607350, 1.623765, 1.640386, 1.657217, 1.674262, 1.691525, 1.709008, 1.726717, 1.744655, 1.762826, 1.781234, 1.799883, 1.818779, 1.837924, 1.857325, 1.876985, 1.896910, 1.917103, 1.937572, 1.958319, 1.979352, 2.000675, 2.022293, 2.044214, 2.066441, 2.088983, 2.111844, 2.135031, 2.158551, 2.182410, 2.206616, 2.231175, 2.256095, 2.281384, 2.307048, 2.333097, 2.359537, 2.386379, 2.413629, 2.441298, 2.469395, 2.497929, 2.526910, 2.556347, 2.586252, 2.616636, 2.647508, 2.678882, 2.710768, 2.743179, 2.776127, 2.809626, 2.843690, 2.878331, 2.913565, 2.949407, 2.985872, 3.022976, 3.060736, 3.099169, 3.138294, 3.178128, 3.218691, 3.260004, 3.302086, 3.344960, 3.388649, 3.433176, 3.478564, 3.524841, 3.572032, 3.620165, 3.669269, 3.719374, 3.770512, 3.822716, 3.876020, 3.930460, 3.986075, 4.042904, 4.100988, 4.160372, 4.221100, 4.283223, 4.346790, 4.411856, 4.478476, 4.546710, 4.616622, 4.688278, 4.761749, 4.837110, 4.914440, 4.993823, 5.075351, 5.159117, 5.245225, 5.333784, 5.424910, 5.518728, 5.615374, 5.714992, 5.817737, 5.923779, 6.033299, 6.146495, 6.263582, 6.384794, 6.510388, 6.640644, 6.775870, 6.916408, 7.062634, 7.214969, 7.373879, 7.539891, 7.713596, 7.895664, 8.086860, 8.288063, 8.500287, 8.724716, 8.962742, 9.216022, 9.486552, 9.776766, 10.089688, 10.429142, 10.800084, 11.209119, 11.665380, 12.182103, 12.779738, 13.492946, 14.389790, 15.647308, 19.150544</span>
+<span class="co">#&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             SMA</span>
+<span class="co">#&gt; 1 0.00000000, 0.69314718, 1.09861229, 1.38629436, 1.60943791, 1.79175947, 1.94591015, 2.07944154, 2.19722458, 2.30258509, 2.39789527, 2.48490665, 2.56494936, 2.63905733, 2.70805020, -0.31130128, -0.14189705, -0.07594886, -0.03199105, 0.00000000, 0.07428349, 0.05398723, 0.12039263, 0.14766754, 0.09623715, 0.17985350, 0.32175055, 0.22158313, 0.22158313, 0.32175055, 0.09342397, 0.85846552, 1.15629226, 1.35480886, 1.49928272, 1.83475226, 1.74309289, 2.04298443, 2.16615987, 1.93389654, 2.31151393, 2.95233114, 2.49996793, 2.49996793, 2.95233114, -0.09342397, -0.16531834, -0.05767997, 0.03148550, 0.11015519, -0.04299279, 0.20281726, 0.03645711, 0.03106471, 0.36868855, 0.08638134, -0.46742449, 0.06498143, 0.13908940, -0.24428093, -1.40585875, 0.05232998, 0.75562183, 1.24182049, 1.60943791, 2.12722900, 2.18972031, 2.62314325, 2.86410172, 2.73719891, 3.21012648, 3.93795506, 3.56563456, 3.63974254, 4.16109861</span>
+
+<span class="co"># Alternative using the vectors</span>
+<span class="co">#fit_example_1 = ALCC(RY = data_1$RY,STV = data_1$STV, target=90,confidence = 0.95)</span>
 
 <span class="co"># Data 2</span>
 <span class="va">fit_example_2</span> <span class="op">=</span> <span class="fu">soiltestR</span><span class="fu">::</span><span class="fu"><a href="../reference/modALCC.html">modALCC</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_2</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STV</span>, target<span class="op">=</span><span class="fl">90</span>, confidence <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span>
@@ -427,13 +400,13 @@
 <span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   4.03  0.222      4.89   -<span style="color: #BB0000;">0.867</span>         4.57</span>
 <span class="co">#&gt; <span style="color: #949494;"># … with 14 more rows</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="fit-multiple-alcc-models-with-mapping">3.1.2. Fit multiple ALCC models with mapping<a class="anchor" aria-label="anchor" href="#fit-multiple-alcc-models-with-mapping"></a>
-</h3>
+<div class="section level4">
+<h4 id="fit-multiple-alcc-models-with-mapping">3.1.2. Fit multiple ALCC models with mapping<a class="anchor" aria-label="anchor" href="#fit-multiple-alcc-models-with-mapping"></a>
+</h4>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Run multiple examples at once with map()</span>
 <span class="va">fit_examples</span> <span class="op">=</span> <span class="va">data.all</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>modALCC <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">data</span>, <span class="op">~</span> <span class="fu">soiltestR</span><span class="fu">::</span><span class="fu"><a href="../reference/modALCC.html">modALCC</a></span><span class="op">(</span>RY <span class="op">=</span> <span class="va">.</span><span class="op">$</span><span class="va">RY</span>, STV <span class="op">=</span> <span class="va">.</span><span class="op">$</span><span class="va">STV</span>, target<span class="op">=</span><span class="fl">90</span>, confidence <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>modALCC <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">data</span>, <span class="op">~</span> <span class="fu">soiltestR</span><span class="fu">::</span><span class="fu"><a href="../reference/modALCC.html">modALCC</a></span><span class="op">(</span>RY <span class="op">=</span> <span class="va">.</span><span class="op">$</span><span class="va">RY</span>, STV <span class="op">=</span> <span class="va">.</span><span class="op">$</span><span class="va">STV</span>, target<span class="op">=</span><span class="fl">90</span>, confidence <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; Warning: 7 STV points exceeded two-times (2x) </span>
 <span class="co">#&gt;   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by </span>
 <span class="co">#&gt;   removing extreme points, re-run the modALCC(), and check results.</span>
@@ -452,13 +425,7 @@
 <span class="co">#&gt;   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by </span>
 <span class="co">#&gt;   removing extreme points, re-run the modALCC(), and check results.</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fit_examples</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span>
-<span class="co">#&gt;   id    data               modALCC          </span>
-<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>           </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1     <span style="color: #949494;">&lt;tibble [15 × 2]&gt;</span>  <span style="color: #949494;">&lt;named list [14]&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2     <span style="color: #949494;">&lt;tibble [137 × 2]&gt;</span> <span style="color: #949494;">&lt;named list [14]&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 3     <span style="color: #949494;">&lt;tibble [24 × 2]&gt;</span>  <span style="color: #949494;">&lt;named list [14]&gt;</span></span>
+<span class="co">#head(fit_examples)</span>
 
 <span class="co"># Alternative with group_map, this does not required nested data.</span>
 <span class="va">fit_all</span> <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">data_1</span>, <span class="va">data_2</span>, .id <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
@@ -474,160 +441,11 @@
 <span class="co">#&gt;   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by </span>
 <span class="co">#&gt;   removing extreme points, re-run the modALCC(), and check results.</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fit_all</span><span class="op">)</span>
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; [[1]]$n</span>
-<span class="co">#&gt; [1] 15</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[1]]$r</span>
-<span class="co">#&gt; [1] 0.9682908</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[1]]$target</span>
-<span class="co">#&gt; [1] 90</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[1]]$CSTV</span>
-<span class="co">#&gt; [1] 4.478476</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[1]]$LL</span>
-<span class="co">#&gt; [1] 3.947041</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[1]]$UL</span>
-<span class="co">#&gt; [1] 5.081463</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[1]]$confidence</span>
-<span class="co">#&gt; [1] 0.95</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[1]]$p_value</span>
-<span class="co">#&gt; [1] 3.296044e-09</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[1]]$CSTV90</span>
-<span class="co">#&gt; [1] 4.478476</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[1]]$n.90x2</span>
-<span class="co">#&gt; [1] 7</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[1]]$CSTV100</span>
-<span class="co">#&gt; [1] 19.15054</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[1]]$n.100</span>
-<span class="co">#&gt; [1] 0</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[1]]$Curve</span>
-<span class="co">#&gt; [[1]]$Curve[[1]]</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 176 × 2</span></span>
-<span class="co">#&gt;    RY.fitted STV.fitted</span>
-<span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>      65         1.10</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>      65.2       1.11</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>      65.4       1.12</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>      65.6       1.13</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>      65.8       1.14</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>      66         1.15</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>      66.2       1.16</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>      66.4       1.17</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>      66.6       1.18</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span>      66.8       1.20</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 166 more rows</span></span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[1]]$SMA</span>
-<span class="co">#&gt; [[1]]$SMA[[1]]</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 15 × 5</span></span>
-<span class="co">#&gt;    ln_STV  arc_RY SMA_line residuals fitted_axis</span>
-<span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  0     -<span style="color: #BB0000;">0.311</span>    0.093<span style="text-decoration: underline;">4</span>   -<span style="color: #BB0000;">0.093</span><span style="color: #BB0000; text-decoration: underline;">4</span>     -<span style="color: #BB0000;">1.41</span>  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  0.693 -<span style="color: #BB0000;">0.142</span>    0.858    -<span style="color: #BB0000;">0.165</span>       0.052<span style="text-decoration: underline;">3</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  1.10  -<span style="color: #BB0000;">0.075</span><span style="color: #BB0000; text-decoration: underline;">9</span>   1.16     -<span style="color: #BB0000;">0.057</span><span style="color: #BB0000; text-decoration: underline;">7</span>      0.756 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  1.39  -<span style="color: #BB0000;">0.032</span><span style="color: #BB0000; text-decoration: underline;">0</span>   1.35      0.031<span style="text-decoration: underline;">5</span>      1.24  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  1.61   0        1.50      0.110       1.61  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  1.79   0.074<span style="text-decoration: underline;">3</span>   1.83     -<span style="color: #BB0000;">0.043</span><span style="color: #BB0000; text-decoration: underline;">0</span>      2.13  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  1.95   0.054<span style="text-decoration: underline;">0</span>   1.74      0.203       2.19  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  2.08   0.120    2.04      0.036<span style="text-decoration: underline;">5</span>      2.62  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  2.20   0.148    2.17      0.031<span style="text-decoration: underline;">1</span>      2.86  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  2.30   0.096<span style="text-decoration: underline;">2</span>   1.93      0.369       2.74  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">11</span>  2.40   0.180    2.31      0.086<span style="text-decoration: underline;">4</span>      3.21  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">12</span>  2.48   0.322    2.95     -<span style="color: #BB0000;">0.467</span>       3.94  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">13</span>  2.56   0.222    2.50      0.065<span style="text-decoration: underline;">0</span>      3.57  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">14</span>  2.64   0.222    2.50      0.139       3.64  </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">15</span>  2.71   0.322    2.95     -<span style="color: #BB0000;">0.244</span>       4.16  </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]</span>
-<span class="co">#&gt; [[2]]$n</span>
-<span class="co">#&gt; [1] 137</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]$r</span>
-<span class="co">#&gt; [1] 0.7164928</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]$target</span>
-<span class="co">#&gt; [1] 90</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]$CSTV</span>
-<span class="co">#&gt; [1] 23.25457</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]$LL</span>
-<span class="co">#&gt; [1] 21.57156</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]$UL</span>
-<span class="co">#&gt; [1] 25.06888</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]$confidence</span>
-<span class="co">#&gt; [1] 0.95</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]$p_value</span>
-<span class="co">#&gt; [1] 7.314913e-23</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]$CSTV90</span>
-<span class="co">#&gt; [1] 23.25457</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]$n.90x2</span>
-<span class="co">#&gt; [1] 22</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]$CSTV100</span>
-<span class="co">#&gt; [1] 53.10299</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]$n.100</span>
-<span class="co">#&gt; [1] 9</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]$Curve</span>
-<span class="co">#&gt; [[2]]$Curve[[1]]</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 441 × 2</span></span>
-<span class="co">#&gt;    RY.fitted STV.fitted</span>
-<span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>      12         2.34</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>      12.2       2.36</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>      12.4       2.37</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>      12.6       2.39</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>      12.8       2.41</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>      13         2.43</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>      13.2       2.45</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>      13.4       2.47</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>      13.6       2.49</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span>      13.8       2.50</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 431 more rows</span></span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]$SMA</span>
-<span class="co">#&gt; [[2]]$SMA[[1]]</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 137 × 5</span></span>
-<span class="co">#&gt;    ln_STV  arc_RY SMA_line residuals fitted_axis</span>
-<span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>   1.39 -<span style="color: #BB0000;">0.895</span>     0.849     0.537      -<span style="color: #BB0000;">0.911</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>   1.61 -<span style="color: #BB0000;">0.474</span>     1.93     -<span style="color: #BB0000;">0.322</span>       0.394</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>   1.79 -<span style="color: #BB0000;">0.247</span>     2.51     -<span style="color: #BB0000;">0.721</span>       1.16 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>   1.79 -<span style="color: #BB0000;">0.414</span>     2.09     -<span style="color: #BB0000;">0.293</span>       0.730</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>   1.95 -<span style="color: #BB0000;">0.061</span><span style="color: #BB0000; text-decoration: underline;">7</span>    2.99     -<span style="color: #BB0000;">1.04</span>        1.79 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   1.95 -<span style="color: #BB0000;">0.311</span>     2.35     -<span style="color: #BB0000;">0.402</span>       1.15 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   2.20 -<span style="color: #BB0000;">0.016</span><span style="color: #BB0000; text-decoration: underline;">3</span>    3.10     -<span style="color: #BB0000;">0.907</span>       2.16 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   2.20 -<span style="color: #BB0000;">0.103</span>     2.88     -<span style="color: #BB0000;">0.684</span>       1.93 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   2.30 -<span style="color: #BB0000;">0.154</span>     2.75     -<span style="color: #BB0000;">0.448</span>       1.91 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   2.30 -<span style="color: #BB0000;">0.142</span>     2.78     -<span style="color: #BB0000;">0.480</span>       1.94 </span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 127 more rows</span></span></code></pre></div>
+<span class="co">#head(fit_all)</span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="fit-cate-nelson-1965">3.2. Fit Cate &amp; Nelson 1965<a class="anchor" aria-label="anchor" href="#fit-cate-nelson-1965"></a>
-</h3>
+<div class="section level4">
+<h4 id="fit-cate-nelson-1965">3.2. Fit Cate &amp; Nelson 1965<a class="anchor" aria-label="anchor" href="#fit-cate-nelson-1965"></a>
+</h4>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="va">cate_nelson_1965_example_2</span> <span class="op">=</span> <span class="fu">soiltestR</span><span class="fu">::</span><span class="fu"><a href="../reference/cate_nelson_1965.html">cate_nelson_1965</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_2</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STV</span>, target<span class="op">=</span><span class="fl">90</span>, tidy <span class="op">=</span> <span class="cn">FALSE</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
@@ -677,9 +495,9 @@
 <span class="co">#&gt;   quadrants.positive quadrants.negative        R2</span>
 <span class="co">#&gt; 1                 19                  5 0.5896666</span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="fit-cate-nelson-1971">3.3. Fit Cate &amp; Nelson 1971<a class="anchor" aria-label="anchor" href="#fit-cate-nelson-1971"></a>
-</h3>
+<div class="section level4">
+<h4 id="fit-cate-nelson-1971">3.3. Fit Cate &amp; Nelson 1971<a class="anchor" aria-label="anchor" href="#fit-cate-nelson-1971"></a>
+</h4>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="va">cate_nelson_1971_example_2</span> <span class="op">=</span> <span class="fu">soiltestR</span><span class="fu">::</span><span class="fu"><a href="../reference/cate_nelson_1971.html">cate_nelson_1971</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_2</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STV</span>, tidy <span class="op">=</span> <span class="cn">TRUE</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
@@ -700,9 +518,9 @@
 <span class="co">#&gt;   quadrants.positive quadrants.negative        R2</span>
 <span class="co">#&gt; 1                 23                  1 0.7066536</span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="fit-linear-plateau-model">3.4. Fit Linear-plateau model<a class="anchor" aria-label="anchor" href="#fit-linear-plateau-model"></a>
-</h3>
+<div class="section level4">
+<h4 id="fit-linear-plateau-model">3.4. Fit Linear-plateau model<a class="anchor" aria-label="anchor" href="#fit-linear-plateau-model"></a>
+</h4>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="va">linear_plateau_example_3</span> <span class="op">=</span> <span class="fu">soiltestR</span><span class="fu">::</span><span class="fu"><a href="../reference/linear_plateau.html">linear_plateau</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STK</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
@@ -712,20 +530,20 @@
 <span class="co">#&gt; 1     39.24  0.75 39.2 + 0.75x   75 46.4 103.6    95.6 188  190 0.34</span></code></pre></div>
 </div>
 </div>
-<div class="section level2">
-<h2 id="plots">4. Plots<a class="anchor" aria-label="anchor" href="#plots"></a>
-</h2>
-<p>Examples using ggplot <br></p>
 <div class="section level3">
-<h3 id="modalcc">4.1. modALCC<a class="anchor" aria-label="anchor" href="#modalcc"></a>
+<h3 id="plots">4. Plots<a class="anchor" aria-label="anchor" href="#plots"></a>
 </h3>
+<p>Examples using ggplot <br></p>
+<div class="section level4">
+<h4 id="modalcc">4.1. modALCC<a class="anchor" aria-label="anchor" href="#modalcc"></a>
+</h4>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="fu">soiltestR</span><span class="fu">::</span><span class="fu"><a href="../reference/modALCC.html">modALCC</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STK</span>, target<span class="op">=</span><span class="fl">95</span>, confidence <span class="op">=</span> <span class="fl">0.95</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p><img src="Introduction_to_soiltestR_files/figure-html/unnamed-chunk-9-1.png" width="576"></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-<span class="co"># SMA regression</span>
+<span class="co"># Extract SMA regression fit and residuals</span>
 
 <span class="va">SMA_example3</span> <span class="op">=</span> <span class="va">fit_example_3</span><span class="op">$</span><span class="va">SMA</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="op">)</span>
  
@@ -757,25 +575,25 @@
 <p><img src="Introduction_to_soiltestR_files/figure-html/unnamed-chunk-9-3.png" width="576"></p>
 <div style="page-break-after: always;"></div>
 </div>
-<div class="section level3">
-<h3 id="cate-nelson-1965">4.2. Cate &amp; Nelson 1965<a class="anchor" aria-label="anchor" href="#cate-nelson-1965"></a>
-</h3>
+<div class="section level4">
+<h4 id="cate-nelson-1965">4.2. Cate &amp; Nelson 1965<a class="anchor" aria-label="anchor" href="#cate-nelson-1965"></a>
+</h4>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="fu">soiltestR</span><span class="fu">::</span><span class="fu"><a href="../reference/cate_nelson_1965.html">cate_nelson_1965</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STK</span>, target<span class="op">=</span><span class="fl">95</span>, tidy <span class="op">=</span> <span class="cn">TRUE</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p><img src="Introduction_to_soiltestR_files/figure-html/unnamed-chunk-10-1.png" width="576"></p>
 </div>
-<div class="section level3">
-<h3 id="cate-nelson-1971">4.3. Cate &amp; Nelson 1971<a class="anchor" aria-label="anchor" href="#cate-nelson-1971"></a>
-</h3>
+<div class="section level4">
+<h4 id="cate-nelson-1971">4.3. Cate &amp; Nelson 1971<a class="anchor" aria-label="anchor" href="#cate-nelson-1971"></a>
+</h4>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="fu">soiltestR</span><span class="fu">::</span><span class="fu"><a href="../reference/cate_nelson_1971.html">cate_nelson_1971</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STK</span>, tidy <span class="op">=</span> <span class="cn">TRUE</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p><img src="Introduction_to_soiltestR_files/figure-html/unnamed-chunk-11-1.png" width="576"></p>
 </div>
-<div class="section level3">
-<h3 id="linear-plateau">4.4. Linear-plateau<a class="anchor" aria-label="anchor" href="#linear-plateau"></a>
-</h3>
+<div class="section level4">
+<h4 id="linear-plateau">4.4. Linear-plateau<a class="anchor" aria-label="anchor" href="#linear-plateau"></a>
+</h4>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="fu">soiltestR</span><span class="fu">::</span><span class="fu"><a href="../reference/linear_plateau.html">linear_plateau</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STK</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, resid <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
@@ -786,6 +604,7 @@
 <p><em>Cate, R.B. Jr., and Nelson, L.A., 1971. A simple statistical procedure for partitioning soil test correlation data into two classes. Soil Sci. Soc. Am. Proc. 35:658-659 </em> <br></p>
 <p><em>Dyson, C.B., Conyers, M.K., 2013. Methodology for online biometric analysis of soil test-crop response datasets. Crop &amp; Pasture Science 64: 435–441. <a href="https://doi.org/10.1071/CP13009" class="external-link uri">https://doi.org/10.1071/CP13009</a> </em> <br></p>
 <p><em>Warton, D.I., Wright, I.J., Falster, D.S., Westoby, M., 2006. Bivariate line-fitting methods for allometry. Biol. Rev. Camb. Philos. Soc. 81, 259–291. <a href="https://doi.org/10.1017/S1464793106007007" class="external-link uri">https://doi.org/10.1017/S1464793106007007</a> </em> <br></p>
+</div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
