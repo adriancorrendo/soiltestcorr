@@ -3,7 +3,7 @@ pkgdown: 2.0.2
 pkgdown_sha: ~
 articles:
   Introduction_to_soiltestR: Introduction_to_soiltestR.html
-last_built: 2022-04-15T02:50Z
+last_built: 2022-04-15T03:00Z
 urls:
   reference: https://adriancorrendo.github.io/soiltestR/reference
   article: https://adriancorrendo.github.io/soiltestR/articles
