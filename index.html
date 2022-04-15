@@ -5,14 +5,14 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="the soiltestR package is designed to assist users on the analysis of relative yield:soil test value relationships. The soiltestR package estimates critical soil test values using R following different approaches such as: i) the modified ALCC model originally described by Dyson and Conyers (2013) and modified by Correndo et al. (2017); ii) the graphical Cate &amp; Nelson approach (Cate &amp; Nelson, 1965), iii) the statistical Cate &amp; Nelson approach (Cate &amp; Nelson, 1965), and iv) regression models such as linear-plateau, quadratic-plateau, and others.">
-<title>Soil Test Calibration in R • soiltestR</title>
+<meta name="description" content="the soiltestcorr-package is designed to assist users on the correlation analysis of crop yield and soil test value. The soiltestcorr package estimates critical soil test values using R several different approaches such as: i) the modified ALCC model originally described by Dyson and Conyers (2013) and modified by Correndo et al. (2017); ii) the graphical Cate &amp; Nelson approach (Cate &amp; Nelson, 1965), iii) the statistical Cate &amp; Nelson approach (Cate &amp; Nelson, 1965), and iv) regression models such as linear-plateau, quadratic-plateau, and others.">
+<title>Soil Test Correlation &amp; Calibration in R • soiltestcorr</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Soil Test Calibration in R">
-<meta property="og:description" content="the soiltestR package is designed to assist users on the analysis of relative yield:soil test value relationships. The soiltestR package estimates critical soil test values using R following different approaches such as: i) the modified ALCC model originally described by Dyson and Conyers (2013) and modified by Correndo et al. (2017); ii) the graphical Cate &amp; Nelson approach (Cate &amp; Nelson, 1965), iii) the statistical Cate &amp; Nelson approach (Cate &amp; Nelson, 1965), and iv) regression models such as linear-plateau, quadratic-plateau, and others.">
+<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Soil Test Correlation &amp; Calibration in R">
+<meta property="og:description" content="the soiltestcorr-package is designed to assist users on the correlation analysis of crop yield and soil test value. The soiltestcorr package estimates critical soil test values using R several different approaches such as: i) the modified ALCC model originally described by Dyson and Conyers (2013) and modified by Correndo et al. (2017); ii) the graphical Cate &amp; Nelson approach (Cate &amp; Nelson, 1965), iii) the statistical Cate &amp; Nelson approach (Cate &amp; Nelson, 1965), and iv) regression models such as linear-plateau, quadratic-plateau, and others.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -24,9 +24,9 @@
 
     <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
     
-    <a class="navbar-brand me-2" href="index.html">soiltestR</a>
+    <a class="navbar-brand me-2" href="index.html">soiltestcorr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,7 +41,7 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="articles/Introduction_to_soiltestR.html">Introduction to soiltestR</a>
+    <a class="dropdown-item" href="articles/Introduction_to_soiltestR.html">Introduction to soiltestcorr</a>
   </div>
 </li>
 <li class="nav-item">
@@ -60,34 +60,34 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="soiltestr-soil-test-calibration-in-r">soiltestR: Soil Test Calibration in R<a class="anchor" aria-label="anchor" href="#soiltestr-soil-test-calibration-in-r"></a>
+<div class="page-header"><h1 id="soiltestcorr-soil-test-calibration-in-r">soiltestcorr: Soil Test Calibration in R<a class="anchor" aria-label="anchor" href="#soiltestcorr-soil-test-calibration-in-r"></a>
 </h1></div>
 <!-- badges: start -->
 
-<p><img src="reference/figures/soiltestR_logo.png" height="150" align="right"><br></p>
-<p>You can install the development version of soiltestR from <a href="https://github.com/adriancorrendo/soiltestR" class="external-link">GitHub</a> with:</p>
+<p><img src="reference/figures/soiltestcorr_logo.png" align="right" height="200" style="float:right; height:200px;"><br></p>
+<p>You can install the development version of soiltestcorr from <a href="https://github.com/adriancorrendo/soiltestcorr" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"adriancorrendo/soiltestR"</span><span class="op">)</span></code></pre></div>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"adriancorrendo/soiltestcorr"</span><span class="op">)</span></code></pre></div>
 <div class="section level2">
-<h2 id="for-more-details-check-the-tutorial-documentation--">For more details, check the <a href="https://adriancorrendo.github.io/soiltestR/articles/Introduction_to_soiltestR.html">TUTORIAL Documentation</a> <br><a class="anchor" aria-label="anchor" href="#for-more-details-check-the-tutorial-documentation--"></a>
+<h2 id="for-more-details-check-the-tutorial-documentation--">For more details, check the <a href="https://adriancorrendo.github.io/soiltestcorr/articles/Introduction_to_soiltestcorr.html" class="external-link">TUTORIAL Documentation</a> <br><a class="anchor" aria-label="anchor" href="#for-more-details-check-the-tutorial-documentation--"></a>
 </h2>
 </div>
 </div>
 <div class="section level1">
 <h1 id="description--">Description <br><a class="anchor" aria-label="anchor" href="#description--"></a>
 </h1>
-<p>The goal of <code>soiltestR</code> is to assist users on the analysis of relationships between relative yield (RY) and soil test values (STV) following different approaches. <br></p>
+<p>The goal of <code>soiltestcorr</code> is to assist users on the analysis of relationships between relative yield (RY) and soil test values (STV) following different approaches. <br></p>
 <p>Available functions (version 1.0.3, 04-08-2022): <br></p>
 <div class="section level2">
 <h2 id="1-modified-arcsine-log-calibration-curve--">1. Modified Arcsine-Log Calibration Curve <br><a class="anchor" aria-label="anchor" href="#1-modified-arcsine-log-calibration-curve--"></a>
 </h2>
-<p>The first calibration method available is the Modified Arcsine-log Calibration Curve (<code><a href="reference/modALCC.html">modALCC()</a></code>) originally described by Dyson and Conyers (2013) and modified by Correndo et al. (2017). This function produces the estimation of critical soil test values (CSTV) for a target relative yield (RY) with confidence intervals at adjustable confidence levels. <br></p>
-<p><b> modALCC() </b> <br></p>
+<p>The first calibration method available is the Modified Arcsine-log Calibration Curve (<code><a href="reference/mod_alcc.html">mod_alcc()</a></code>) originally described by Dyson and Conyers (2013) and modified by Correndo et al. (2017). This function produces the estimation of critical soil test values (CSTV) for a target relative yield (RY) with confidence intervals at adjustable confidence levels. <br></p>
+<p><b> mod_alcc() </b> <br></p>
 <p>Instructions <br></p>
 <ol style="list-style-type: decimal">
 <li><p>Load your dataframe with soil test value (STV) and relative yield (RY) data. <br></p></li>
-<li><p>Specify the following arguments into the function -modALCC()-: <br></p></li>
+<li><p>Specify the following arguments into the function -mod_alcc()-: <br></p></li>
 </ol>
 <p>(a). <code>data</code> (optional), <br></p>
 <p>(b). <code>STV</code> (soil test value) and <code>RY</code> (relative yield) columns or vectors, <br></p>
@@ -100,14 +100,14 @@
 <li><p>Check residuals plot, and warnings related to potential leverage points. <br></p></li>
 <li><p>Adjust curve plots as desired. <br></p></li>
 </ol>
-<p>Example of modALCC() output <img src="reference/figures/README-unnamed-chunk-3-1.png" width="100%"></p>
+<p>Example of mod_alcc() output <img src="reference/figures/README-unnamed-chunk-3-1.png" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="2-cate--nelson-quadrants-analysis-1965--">2. Cate &amp; Nelson Quadrants Analysis (1965) <br><a class="anchor" aria-label="anchor" href="#2-cate--nelson-quadrants-analysis-1965--"></a>
 </h2>
-<p><code>soiltestR</code> also allows users to implement the quadrants analysis approach, also known as the Cate-Nelson analysis. There are two versions of the Cate-Nelson technique: <br></p>
+<p><code>soiltestcorr</code> also allows users to implement the quadrants analysis approach, also known as the Cate-Nelson analysis. There are two versions of the Cate-Nelson technique: <br></p>
 <p>Thus, the second alternative is based on Cate and Nelson (1965) (<code><a href="reference/cate_nelson_1965.html">cate_nelson_1965()</a></code>). The first step of this method is to apply an arbitrarily fixed value of RY as a target (y-axis) that divides the data into two categories (below &amp; equal or above RY target). In a second stage, it estimates the CSTV (x-axis) as the minimum STV that divides the data into four quadrants (target RY level combined with STV lower or greater than the CSTV) maximizing the number of points under well-classified quadrants (II, STV &gt;= CSTV &amp; RY &gt;= RY target; and IV, STV &lt; CSTV &amp; RY &lt; RY target). This is also known as the “graphical” version of the Cate-Nelson approach. <br></p>
-<p><b> 2. cate_nelson_1965() </b> <br></p>
+<p><b> cate_nelson_1965() </b> <br></p>
 <p>Instructions <br></p>
 <ol style="list-style-type: decimal">
 <li><p>Load your dataframe with soil test value (STV) and relative yield (RY) data. <br></p></li>
@@ -185,7 +185,7 @@
 <div class="citation">
 <h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li><a href="authors.html#citation">Citing soiltestR</a></li>
+<li><a href="authors.html#citation">Citing soiltestcorr</a></li>
 </ul>
 </div>
 
@@ -202,10 +202,9 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://ci.appveyor.com/project/adriancorrendo/soiltestR" class="external-link"><img src="https://ci.appveyor.com/api/projects/status/github/adriancorrendo/soiltestR?branch=main&amp;svg=true" alt="AppVeyor build status"></a></li>
+<li><a href="https://ci.appveyor.com/project/adriancorrendo/soiltestcorr" class="external-link"><img src="https://ci.appveyor.com/api/projects/status/github/adriancorrendo/soiltestcorr?branch=main&amp;svg=true" alt="AppVeyor build status"></a></li>
+<li><a href="https://github.com/adriancorrendo/soiltestcorr/actions" class="external-link"><img src="https://github.com/adriancorrendo/soiltestcorr/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://circleci.com/gh/adriancorrendo/soiltestR" class="external-link"><img src="https://circleci.com/gh/adriancorrendo/soiltestR.svg?style=svg" alt="CircleCI build status"></a></li>
-<li><a href="https://app.codecov.io/gh/adriancorrendo/modalcc?branch=main" class="external-link"><img src="https://codecov.io/gh/adriancorrendo/modalcc/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
-<li><a href="https://github.com/adriancorrendo/soiltestR/actions" class="external-link"><img src="https://github.com/adriancorrendo/soiltestR/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
 </div>
 
