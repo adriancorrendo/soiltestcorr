@@ -21,7 +21,7 @@
 #'  dat <- data.frame("ry" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
 #'                    "stv" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
 #'  # Run
-#'  fit_example <- modALCC(data = dat, RY = ry, STV = stv, target=90, confidence = 0.95)
+#'  fit_example <- mod_alcc(data = dat, RY = ry, STV = stv, target=90, confidence = 0.95)
 #'  fit_example
 #'  }
 #' }
@@ -32,7 +32,7 @@
 #'  \code{\link[tidyr]{nest}}
 #'  \code{\link[ggplot2]{ggplot}},\code{\link[ggplot2]{aes}},\code{\link[ggplot2]{geom_point}},\code{\link[ggplot2]{scale_manual}},\code{\link[ggplot2]{geom_rug}},\code{\link[ggplot2]{geom_abline}},\code{\link[ggplot2]{geom_path}},\code{\link[ggplot2]{scale_continuous}},\code{\link[ggplot2]{annotate}},\code{\link[ggplot2]{labs}},\code{\link[ggplot2]{ggtheme}},\code{\link[ggplot2]{theme}}
 #'  \code{\link[ggpp]{annotate}}
-#' @rdname modALCC
+#' @rdname mod_alcc
 #' @export 
 #' @importFrom rlang eval_tidy quo
 #' @importFrom stats qt cor cor.test sd
@@ -40,7 +40,7 @@
 #' @importFrom tidyr nest
 #' @importFrom ggplot2 ggplot aes geom_point scale_shape_manual geom_rug geom_hline geom_vline geom_path scale_y_continuous annotate labs theme_bw theme annotate 
 
-modALCC <- function(data=NULL, 
+mod_alcc <- function(data=NULL, 
                     RY, 
                     STV, 
                     target, 
@@ -134,11 +134,11 @@ modALCC <- function(data=NULL,
   # STV data points
   if (results$n.100 > 0) {warning(paste0(n.100," STV points exceeded the CSTV for 100% of RY.
   Risk of leverage. You may consider a sensitivity analysis by removing extreme points, 
-  re-run the modALCC(), and check results."), call. = FALSE) }
+  re-run the mod_alcc(), and check results."), call. = FALSE) }
   
   if (results$n.90x2 > 0) {warning(paste0(n.90x2," STV points exceeded two-times (2x) 
   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by 
-  removing extreme points, re-run the modALCC(), and check results."), call. = FALSE) }
+  removing extreme points, re-run the mod_alcc(), and check results."), call. = FALSE) }
 
 ### STAGE 3 ====================================================================
   

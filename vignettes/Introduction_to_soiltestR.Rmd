@@ -1,9 +1,9 @@
 ---
-title: "Introduction to soiltestR"
+title: "Introduction to soiltestcorr"
 author: Adrian Correndo & Austin Pearce 
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction_to_soiltestR}
+  %\VignetteIndexEntry{Introduction_to_soiltestcorr}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -17,21 +17,21 @@ knitr::opts_chunk$set(
 )
 ```
 
-<img src="../man/figures/soiltestR_logo.png" height="150" align="right"/>
+<img src="../man/figures/soiltestcorr_logo.png" align="right" height="150" style="float:right; height:150px;">
 
-This tutorial is intended to assist on the use of the available functions from the `soiltestR` package for the analysis of relationships between relative yield (RY) and soil test values (STV). <br/>
+This tutorial is intended to assist on the use of the available functions from the `soiltestcorr` package for the analysis of relationships between relative yield (RY) and soil test values (STV). <br/>
 
 ## 1. Installation
 
-You can install the development version of soiltestR from [GitHub](https://github.com/adriancorrendo/soiltestR) with:
+You can install the development version of soiltestcorr from [GitHub](https://github.com/adriancorrendo/soiltestcorr) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("adriancorrendo/soiltestR")
+devtools::install_github("adriancorrendo/soiltestcorr")
 ```
 
 ```{r setup}
-library(soiltestR)
+library(soiltestcorr)
 ```
 
 # Suggested packages
@@ -55,13 +55,13 @@ This is a basic example which shows you how to use the package: <br/>
 data_1 = data.frame("RY" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
                    "STV" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
   
-# Example 2. Native dataset from soiltestR package
+# Example 2. Native dataset from soiltestcorr package
 
-data_2 = soiltestR::data_test
+data_2 = soiltestcorr::data_test
 
 
-# Example 3. Native dataset from soiltestR package, used by Cate & Nelson (1971)
-data_3 <- soiltestR::freitas1966
+# Example 3. Native dataset from soiltestcorr package, used by Cate & Nelson (1971)
+data_3 <- soiltestcorr::freitas1966
 
 # Create nested structure as example of multiple datasets
 # Note that STV column needs to have the same name in order to bind rows
@@ -79,12 +79,12 @@ data.all = bind_rows(data_1, data_2,
 
 # Data 1
 # Using dataframe argument, tidy = FALSE -> return a LIST
-fit_example_1 = soiltestR::modALCC(data = data_1, RY = RY, STV = STV, target=90, confidence = 0.95, plot = FALSE, tidy = FALSE)
+fit_example_1 = soiltestcorr::mod_alcc(data = data_1, RY = RY, STV = STV, target=90, confidence = 0.95, plot = FALSE, tidy = FALSE)
 
 fit_example_1
 
 # Using dataframe argument, tidy = TRUE -> return a DATA FRAME
-fit_example_1.tidy = soiltestR::modALCC(data = data_1, RY = RY, STV = STV, target=90, confidence = 0.95, tidy = TRUE, plot = FALSE)
+fit_example_1.tidy = soiltestcorr::mod_alcc(data = data_1, RY = RY, STV = STV, target=90, confidence = 0.95, tidy = TRUE, plot = FALSE)
 
 fit_example_1.tidy
 
@@ -92,12 +92,12 @@ fit_example_1.tidy
 #fit_example_1 = ALCC(RY = data_1$RY,STV = data_1$STV, target=90,confidence = 0.95)
 
 # Data 2
-fit_example_2 = soiltestR::modALCC(data = data_2, RY = RY, STV = STV, target=90, confidence = 0.95)
+fit_example_2 = soiltestcorr::mod_alcc(data = data_2, RY = RY, STV = STV, target=90, confidence = 0.95)
 
 fit_example_2
 
 # Data 3. Freitas et al. 1966
-fit_example_3 = soiltestR::modALCC(data = data_3, RY = RY, STV = STK, target=90, confidence = 0.95)
+fit_example_3 = soiltestcorr::mod_alcc(data = data_3, RY = RY, STV = STK, target=90, confidence = 0.95)
 
 fit_example_3
 
@@ -109,14 +109,14 @@ fit_example_3
 ```{r warning=T, message=F}
 # Run multiple examples at once with map()
 fit_examples = data.all %>%
-  mutate(modALCC = map(data, ~ soiltestR::modALCC(RY = .$RY, STV = .$STV, target=90, confidence = 0.95)))
+  mutate(mod_alcc = map(data, ~ soiltestcorr::mod_alcc(RY = .$RY, STV = .$STV, target=90, confidence = 0.95)))
 
 #head(fit_examples)
 
 # Alternative with group_map, this does not required nested data.
 fit_all = bind_rows(data_1, data_2, .id = "id") %>% 
   group_by(id) %>% 
-  group_map(~ soiltestR::modALCC(data = ., RY = RY, STV = STV, target = 90, confidence = 0.95))
+  group_map(~ soiltestcorr::mod_alcc(data = ., RY = RY, STV = STV, target = 90, confidence = 0.95))
 
 #head(fit_all)
 
@@ -125,11 +125,11 @@ fit_all = bind_rows(data_1, data_2, .id = "id") %>%
 ### 3.2. Fit Cate & Nelson 1965
 ```{r}
 
-cate_nelson_1965_example_2 = soiltestR::cate_nelson_1965(data = data_2, RY = RY, STV = STV, target=90, tidy = FALSE, plot = FALSE)
+cate_nelson_1965_example_2 = soiltestcorr::cate_nelson_1965(data = data_2, RY = RY, STV = STV, target=90, tidy = FALSE, plot = FALSE)
 
 cate_nelson_1965_example_2
 
-cate_nelson_1965_example_3 = soiltestR::cate_nelson_1965(data = data_3, RY = RY, STV = STK, target=95, tidy = TRUE, plot = FALSE)
+cate_nelson_1965_example_3 = soiltestcorr::cate_nelson_1965(data = data_3, RY = RY, STV = STK, target=95, tidy = TRUE, plot = FALSE)
 
 cate_nelson_1965_example_3
 
@@ -139,11 +139,11 @@ cate_nelson_1965_example_3
 ### 3.3. Fit Cate & Nelson 1971
 ```{r}
 
-cate_nelson_1971_example_2 = soiltestR::cate_nelson_1971(data = data_2, RY = RY, STV = STV, tidy = TRUE, plot = FALSE)
+cate_nelson_1971_example_2 = soiltestcorr::cate_nelson_1971(data = data_2, RY = RY, STV = STV, tidy = TRUE, plot = FALSE)
 
 cate_nelson_1971_example_2
 
-cate_nelson_1971_example_3 = soiltestR::cate_nelson_1971(data = data_3, RY = RY, STV = STK, tidy = TRUE, plot = FALSE)
+cate_nelson_1971_example_3 = soiltestcorr::cate_nelson_1971(data = data_3, RY = RY, STV = STK, tidy = TRUE, plot = FALSE)
 
 cate_nelson_1971_example_3
 
@@ -152,7 +152,7 @@ cate_nelson_1971_example_3
 ### 3.4. Fit Linear-plateau model
 ```{r}
 
-linear_plateau_example_3 = soiltestR::linear_plateau(data = data_3, RY = RY, STV = STK, plot = FALSE)
+linear_plateau_example_3 = soiltestcorr::linear_plateau(data = data_3, RY = RY, STV = STK, plot = FALSE)
 
 linear_plateau_example_3
 
@@ -162,10 +162,10 @@ linear_plateau_example_3
 
 Examples using ggplot <br/>
 
-### 4.1. modALCC
+### 4.1. mod_alcc
 ```{r warning=F, message=F}
 
-soiltestR::modALCC(data = data_3, RY = RY, STV = STK, target=95, confidence = 0.95, plot = TRUE)
+soiltestcorr::mod_alcc(data = data_3, RY = RY, STV = STK, target=95, confidence = 0.95, plot = TRUE)
 
 # Extract SMA regression fit and residuals
 
@@ -202,21 +202,21 @@ SMA_example3 %>%
 ### 4.2. Cate & Nelson 1965
 ```{r warning=F, message=F}
 
-soiltestR::cate_nelson_1965(data = data_3, RY = RY, STV = STK, target=95, tidy = TRUE, plot = TRUE)
+soiltestcorr::cate_nelson_1965(data = data_3, RY = RY, STV = STK, target=95, tidy = TRUE, plot = TRUE)
 
 ```
 
 ### 4.3. Cate & Nelson 1971
 ```{r warning=F, message=F}
 
-soiltestR::cate_nelson_1971(data = data_3, RY = RY, STV = STK, tidy = TRUE, plot = TRUE)
+soiltestcorr::cate_nelson_1971(data = data_3, RY = RY, STV = STK, tidy = TRUE, plot = TRUE)
 
 ```
 
 ### 4.4. Linear-plateau
 ```{r warning=F, message=F}
 
-soiltestR::linear_plateau(data = data_3, RY = RY, STV = STK, plot = TRUE, resid = TRUE)
+soiltestcorr::linear_plateau(data = data_3, RY = RY, STV = STK, plot = TRUE, resid = TRUE)
 
 ```
 

@@ -1,4 +1,4 @@
 library(testthat)
-library(soiltestR)
+library(soiltestcorr)
 
-test_check("soiltestR")
+test_check("soiltestcorr")

@@ -1,26 +1,28 @@
-context("run modALCC() with packaged dataset data_test")
+context("run mod_alcc() with packaged dataset data_test")
 
 data("freitas1966")
 
-modALCC.test <- try(modALCC(data = freitas1966, RY = RY, STV = STK, target=90, confidence = 0.95,
+## mod_alcc
+
+mod_alcc.test <- try(mod_alcc(data = freitas1966, RY = RY, STV = STK, target=90, confidence = 0.95,
                                        plot = FALSE, tidy = FALSE),
            silent = TRUE)
 
-test_that("no error in fitting modALCC() for the example dataset", {
+test_that("no error in fitting mod_alcc() for the example dataset", {
   
-  expect_false(inherits(modALCC.test, "try-error"))
+  expect_false(inherits(mod_alcc.test, "try-error"))
   
 })
 
-## cate.nelson.1965
+## cate_nelson_1965
 
-context("run cate.nelson.1965() with packaged dataset freitas1966")
+context("run cate_nelson_1965() with packaged dataset freitas1966")
 
 cate_nelson_1965.test <- try(cate_nelson_1965(data = freitas1966, STV = STK, RY = RY, target = 90,
                                               plot = FALSE, tidy = FALSE),
            silent = TRUE)
 
-test_that("no error in fitting cate.nelson.1965() for the example dataset", {
+test_that("no error in fitting cate_nelson_1965() for the example dataset", {
   
   expect_false(inherits(cate_nelson_1965.test, "try-error"))
   

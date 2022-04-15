@@ -1,35 +1,33 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# soiltestR: Soil Test Calibration in R
+# soiltestcorr: Soil Test Calibration in R
 
 <!-- badges: start -->
 
 [![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/adriancorrendo/soiltestR?branch=main&svg=true)](https://ci.appveyor.com/project/adriancorrendo/soiltestR)
+status](https://ci.appveyor.com/api/projects/status/github/adriancorrendo/soiltestcorr?branch=main&svg=true)](https://ci.appveyor.com/project/adriancorrendo/soiltestcorr)
+[![R-CMD-check](https://github.com/adriancorrendo/soiltestcorr/workflows/R-CMD-check/badge.svg)](https://github.com/adriancorrendo/soiltestcorr/actions)
 [![CircleCI build
 status](https://circleci.com/gh/adriancorrendo/soiltestR.svg?style=svg)](https://circleci.com/gh/adriancorrendo/soiltestR)
-[![Codecov test
-coverage](https://codecov.io/gh/adriancorrendo/modalcc/branch/main/graph/badge.svg)](https://app.codecov.io/gh/adriancorrendo/modalcc?branch=main)
-[![R-CMD-check](https://github.com/adriancorrendo/soiltestR/workflows/R-CMD-check/badge.svg)](https://github.com/adriancorrendo/soiltestR/actions)
 <!-- badges: end -->
 
-<img src="man/figures/soiltestR_logo.png" height="150" align="right"/>
+<img src="man/figures/soiltestcorr_logo.png" align="right" height="200" style="float:right; height:200px;">
 <br/>
 
-You can install the development version of soiltestR from
-[GitHub](https://github.com/adriancorrendo/soiltestR) with:
+You can install the development version of soiltestcorr from
+[GitHub](https://github.com/adriancorrendo/soiltestcorr) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("adriancorrendo/soiltestR")
+devtools::install_github("adriancorrendo/soiltestcorr")
 ```
 
-## For more details, check the [TUTORIAL Documentation](https://adriancorrendo.github.io/soiltestR/articles/Introduction_to_soiltestR.html) <br/>
+## For more details, check the [TUTORIAL Documentation](https://adriancorrendo.github.io/soiltestcorr/articles/Introduction_to_soiltestcorr.html) <br/>
 
 # Description <br/>
 
-The goal of `soiltestR` is to assist users on the analysis of
+The goal of `soiltestcorr` is to assist users on the analysis of
 relationships between relative yield (RY) and soil test values (STV)
 following different approaches. <br/>
 
@@ -38,20 +36,21 @@ Available functions (version 1.0.3, 04-08-2022): <br/>
 ## 1. Modified Arcsine-Log Calibration Curve <br/>
 
 The first calibration method available is the Modified Arcsine-log
-Calibration Curve (`modALCC()`) originally described by Dyson and
+Calibration Curve (`mod_alcc()`) originally described by Dyson and
 Conyers (2013) and modified by Correndo et al. (2017). This function
 produces the estimation of critical soil test values (CSTV) for a target
 relative yield (RY) with confidence intervals at adjustable confidence
 levels. <br/>
 
-<b> modALCC() </b> <br/>
+<b> mod_alcc() </b> <br/>
 
 Instructions <br/>
 
 1.  Load your dataframe with soil test value (STV) and relative yield
     (RY) data. <br/>
 
-2.  Specify the following arguments into the function -modALCC()-: <br/>
+2.  Specify the following arguments into the function -mod_alcc()-:
+    <br/>
 
 (a). `data` (optional), <br/>
 
@@ -77,12 +76,12 @@ limits. <br/>
 
 5.  Adjust curve plots as desired. <br/>
 
-Example of modALCC() output
+Example of mod_alcc() output
 <img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
 
 ## 2. Cate & Nelson Quadrants Analysis (1965) <br/>
 
-`soiltestR` also allows users to implement the quadrants analysis
+`soiltestcorr` also allows users to implement the quadrants analysis
 approach, also known as the Cate-Nelson analysis. There are two versions
 of the Cate-Nelson technique: <br/>
 
@@ -97,7 +96,7 @@ well-classified quadrants (II, STV \>= CSTV & RY \>= RY target; and IV,
 STV \< CSTV & RY \< RY target). This is also known as the “graphical”
 version of the Cate-Nelson approach. <br/>
 
-<b> 2. cate_nelson_1965() </b> <br/>
+<b> cate_nelson_1965() </b> <br/>
 
 Instructions <br/>
 
