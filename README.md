@@ -30,7 +30,7 @@ The goal of `soiltestcorr` is to assist users on the analysis of
 relationships between relative yield (RY) and soil test values (STV)
 following different approaches. <br/>
 
-Available functions (version 1.0.3, 04-08-2022): <br/>
+Available functions (version 1.0.5, 04-18-2022): <br/>
 
 ## 1. Modified Arcsine-Log Calibration Curve <br/>
 
