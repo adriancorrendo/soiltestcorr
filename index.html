@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="index.html">soiltestcorr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -147,7 +147,7 @@
 <div class="section level2">
 <h2 id="4-linear-plateau-regression---">4. Linear-plateau Regression  <br><a class="anchor" aria-label="anchor" href="#4-linear-plateau-regression---"></a>
 </h2>
-<p>The next calibration method available is the linear-plateau model (<code><a href="reference/linear_plateau.html">linear_plateau()</a></code>). This function fits the classical regression response model that follows two phases: i) a first linear phase described as y = b0 + b1 x, and ii) a second phase were the RY response to increasing STV becomes NULL (flat), described as plateau = y = b0 + b1 Xc, where Xc represents the CSTV. The function works automatically with self starting initial values to facilitate the model to converge. <br></p>
+<p>The next calibration method available is the linear-plateau model (<code><a href="reference/linear_plateau.html">linear_plateau()</a></code>). This function fits the classical regression response model that follows two phases: i) a first linear phase described as y = b0 + b1 x, and ii) a second phase were the RY response to increasing STV becomes NULL (flat), described as plateau = y = b0 + b1 Xc, where Xc represents the CSTV. The function works automatically with self starting initial values to facilitate the model’s convergence. <br></p>
 <p><b> linear_plateau() </b> <br></p>
 <p>Instructions <br></p>
 <ol style="list-style-type: decimal">
@@ -164,6 +164,27 @@
 <li><p>Adjust curve plots as desired. <br></p></li>
 </ol>
 <p>Example of linear_plateau() output <img src="reference/figures/README-unnamed-chunk-6-1.png" width="100%"></p>
+</div>
+<div class="section level2">
+<h2 id="5-quadratic-plateau-regression---">5. Quadratic-plateau Regression  <br><a class="anchor" aria-label="anchor" href="#5-quadratic-plateau-regression---"></a>
+</h2>
+<p>The following calibration method available is the quadratic-plateau model (<code><a href="reference/quadratic_plateau.html">quadratic_plateau()</a></code>). This function fits the classical regression response model that follows two phases: i) a first curvilinear phase described as y = b0 + b1 x + b2 x^2, and ii) a second phase were the RY response to increasing STV becomes NULL (flat), described as plateau = y = b0 + b1 Xc + b2 * Xc, where Xc represents the CSTV. The function works automatically with self starting initial values to facilitate the model convergence. <br></p>
+<p><b> linear_plateau() </b> <br></p>
+<p>Instructions <br></p>
+<ol style="list-style-type: decimal">
+<li><p>Load your dataframe with soil test value (STV) and relative yield (RY) data. <br></p></li>
+<li><p>Specify the following arguments into the function -quadratic_plateau()-: <br></p></li>
+</ol>
+<p>(a). <code>data</code> (optional), <br></p>
+<p>(b). <code>STV</code> (soil test value) and <code>RY</code> (relative yield) columns or vectors, <br></p>
+<p>(c). <code>plot</code> TRUE (produces a ggplot as main output) or FALSE (no plot, only results as data.frame), <br></p>
+<p>(d). <code>resid</code> TRUE (produces plots with residuals analysis) or FALSE (no plot), <br></p>
+<ol start="3" style="list-style-type: decimal">
+<li><p>Run and check results. <br></p></li>
+<li><p>Check residuals plot, and warnings related to potential limitations of this model. <br></p></li>
+<li><p>Adjust curve plots as desired. <br></p></li>
+</ol>
+<p>Example of linear_plateau() output <img src="reference/figures/README-unnamed-chunk-7-1.png" width="100%"></p>
 <p><b> MORE FUNCTIONS COMING SOON…. </b> <br></p>
 <p><b> References </b> <br></p>
 <p><em>Correndo, A.A., Salvagiotti, F., García, F.O. and Gutiérrez-Boem, F.H., 2017. A modification of the arcsine–log calibration curve for analysing soil test value–relative yield relationships. Crop and Pasture Science, 68(3), pp.297-304. <a href="https://doi.org/10.1071/CP16444" class="external-link uri">https://doi.org/10.1071/CP16444</a> </em> <br></p>
