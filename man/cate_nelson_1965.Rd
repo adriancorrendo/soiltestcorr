@@ -15,9 +15,9 @@ cate_nelson_1965(data = NULL, STV, RY, target, tidy = FALSE, plot = FALSE)
 
 \item{target}{argument to specify the RY target (numeric) to estimate the critical STV}
 
-\item{tidy}{\code{boolean} to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).}
+\item{tidy}{logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).}
 
-\item{plot}{\code{boolean} to decide the type of return. TRUE returns a ggplot,
+\item{plot}{logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a ggplot,
 FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE).}
 }
 \value{

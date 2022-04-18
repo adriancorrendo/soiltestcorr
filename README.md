@@ -171,7 +171,7 @@ response model that follows two phases: i) a first linear phase
 described as y = b0 + b1 x, and ii) a second phase were the RY response
 to increasing STV becomes NULL (flat), described as plateau = y = b0 +
 b1 Xc, where Xc represents the CSTV. The function works automatically
-with self starting initial values to facilitate the model to converge.
+with self starting initial values to facilitate the model’s convergence.
 <br/>
 
 <b> linear_plateau() </b> <br/>
@@ -204,6 +204,48 @@ plot), <br/>
 
 Example of linear_plateau() output
 <img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
+
+## 5. Quadratic-plateau Regression </b> <br/>
+
+The following calibration method available is the quadratic-plateau
+model (`quadratic_plateau()`). This function fits the classical
+regression response model that follows two phases: i) a first
+curvilinear phase described as y = b0 + b1 x + b2 x^2, and ii) a second
+phase were the RY response to increasing STV becomes NULL (flat),
+described as plateau = y = b0 + b1 Xc + b2 \* Xc, where Xc represents
+the CSTV. The function works automatically with self starting initial
+values to facilitate the model convergence. <br/>
+
+<b> linear_plateau() </b> <br/>
+
+Instructions <br/>
+
+1.  Load your dataframe with soil test value (STV) and relative yield
+    (RY) data. <br/>
+
+2.  Specify the following arguments into the function
+    -quadratic_plateau()-: <br/>
+
+(a). `data` (optional), <br/>
+
+(b). `STV` (soil test value) and `RY` (relative yield) columns or
+vectors, <br/>
+
+(c). `plot` TRUE (produces a ggplot as main output) or FALSE (no plot,
+only results as data.frame), <br/>
+
+(d). `resid` TRUE (produces plots with residuals analysis) or FALSE (no
+plot), <br/>
+
+3.  Run and check results. <br/>
+
+4.  Check residuals plot, and warnings related to potential limitations
+    of this model. <br/>
+
+5.  Adjust curve plots as desired. <br/>
+
+Example of linear_plateau() output
+<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
 
 <b> MORE FUNCTIONS COMING SOON…. </b> <br/>
 

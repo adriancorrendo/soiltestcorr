@@ -4,8 +4,8 @@
 #' @param data argument to call a data.frame or data.table containing the data
 #' @param STV argument to call the vector or column containing the soil test value (STV) data
 #' @param RY argument to call the vector or column containing the relative yield (RY) data
-#' @param tidy `boolean` to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).
-#' @param plot `boolean` to decide the type of return. TRUE returns a ggplot,
+#' @param tidy logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).
+#' @param plot logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a ggplot,
 #' FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE). 
 #' @return it returns an object of type `ggplot` when plot == TRUE. If plot == FALSE, it returns an object of type `data.frame` if tidy == TRUE, otherwise, it returns a list
 #' @return it returns an object of type list containing the main results plus a ggplot object with the figure display

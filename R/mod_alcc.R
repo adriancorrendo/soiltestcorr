@@ -9,8 +9,8 @@
 #' @param target `numeric` value of relative yield target (e.g. 90 for 90%) to estimate the CSTV.
 #' @param confidence `numeric` value of confidence level (e.g. 0.95 for 
 #' significance = 0.05)
-#' @param tidy `boolean` to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).
-#' @param plot `boolean` to decide the type of return. TRUE returns a ggplot,
+#' @param tidy logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).
+#' @param plot logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a ggplot,
 #' FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE). 
 #' @return an object of type `data.frame` if tidy == TRUE, otherwise, it returns a list
 #' @details See Correndo et al. (2017)

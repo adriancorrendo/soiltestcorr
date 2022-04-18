@@ -57,3 +57,17 @@ test_that("no error in fitting linear_plateau() for the example dataset", {
   
 })
 
+## quadratic_plateau
+
+context("run quadratic_plateau() with packaged dataset freitas1966")
+
+quadratic_plateau.test <- try(quadratic_plateau(data = freitas1966, STV = STK, RY = RY,
+                                          plot = FALSE),
+                           silent = TRUE)
+
+test_that("no error in fitting quadratic_plateau() for the example dataset", {
+  
+  expect_false(inherits(quadratic_plateau.test, "try-error"))
+  
+})
+

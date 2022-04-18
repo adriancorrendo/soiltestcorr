@@ -92,7 +92,8 @@ fit_example_1.tidy
 #fit_example_1 = ALCC(RY = data_1$RY,STV = data_1$STV, target=90,confidence = 0.95)
 
 # Data 2
-fit_example_2 = soiltestcorr::mod_alcc(data = data_2, RY = RY, STV = STV, target=90, confidence = 0.95)
+fit_example_2 = soiltestcorr::mod_alcc(data = data_2, RY = RY, STV = STV, 
+                                       target=90, confidence = 0.95)
 
 fit_example_2
 
@@ -152,9 +153,26 @@ cate_nelson_1971_example_3
 ### 3.4. Fit Linear-plateau model
 ```{r}
 
-linear_plateau_example_3 = soiltestcorr::linear_plateau(data = data_3, RY = RY, STV = STK, plot = FALSE)
+linear_plateau_example_3_list = soiltestcorr::linear_plateau(data = data_3, RY = RY, STV = STK, 
+                                                        tidy = FALSE, plot = FALSE)
 
-linear_plateau_example_3
+linear_plateau_example_3_list
+
+linear_plateau_example_3_tidy = soiltestcorr::linear_plateau(data = data_3, RY = RY, STV = STK, 
+                                                        tidy = TRUE, plot = FALSE)
+
+linear_plateau_example_3_tidy
+
+```
+
+### 3.5. Fit Quadratic-plateau model
+```{r}
+
+quadratic_plateau_example_3 = soiltestcorr::quadratic_plateau(data = data_3, RY = RY, STV = STK, 
+                                                              plot = FALSE, tidy = TRUE)
+
+quadratic_plateau_example_3
+
 
 ```
 
@@ -217,6 +235,13 @@ soiltestcorr::cate_nelson_1971(data = data_3, RY = RY, STV = STK, tidy = TRUE, p
 ```{r warning=F, message=F}
 
 soiltestcorr::linear_plateau(data = data_3, RY = RY, STV = STK, plot = TRUE, resid = TRUE)
+
+```
+
+### 4.5. Quadratic-plateau
+```{r warning=F, message=F}
+
+soiltestcorr::quadratic_plateau(data = data_3, RY = RY, STV = STK, plot = TRUE, resid = TRUE)
 
 ```
 

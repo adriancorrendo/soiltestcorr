@@ -5,8 +5,8 @@
 #' @param STV argument to call the vector or column containing the soil test value (STV) data
 #' @param RY argument to call the vector or column containing the relative yield (RY) data
 #' @param target argument to specify the RY target (numeric) to estimate the critical STV
-#' @param tidy `boolean` to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).
-#' @param plot `boolean` to decide the type of return. TRUE returns a ggplot,
+#' @param tidy logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).
+#' @param plot logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a ggplot,
 #' FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE). 
 #' @return it returns an object of type `ggplot` when plot == TRUE. If plot == FALSE, it returns an object of type `data.frame` if tidy == TRUE, otherwise, it returns a list
 #' @details See Cate, R. B. Jr., and L. A. Nelson. 1965. A rapid method for correlation of soil test analysis

@@ -19,9 +19,9 @@ containing the STV and RY data, Default: NULL}
 \item{confidence}{\code{numeric} value of confidence level (e.g. 0.95 for
 significance = 0.05)}
 
-\item{tidy}{\code{boolean} to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).}
+\item{tidy}{logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).}
 
-\item{plot}{\code{boolean} to decide the type of return. TRUE returns a ggplot,
+\item{plot}{logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a ggplot,
 FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE).}
 }
 \value{
