@@ -1,4 +1,4 @@
-# soiltestR 1.0.4
+# soiltestR 1.0.5
 
 
 * Apr, 18, 2022. The soiltestcorr v1.0.5 includes the option for fitting selfs-starting quadratic-plateau models with the quadratic_plateau() function.
