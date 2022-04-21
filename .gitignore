@@ -2,3 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
+README.Rmd
+/doc/
+/Meta/
+docs

@@ -4,7 +4,7 @@
 \name{soiltestcorr-package}
 \alias{soiltestcorr}
 \alias{soiltestcorr-package}
-\title{soiltestcorr: Soil Test Correlation & Calibration in R}
+\title{soiltestcorr: Soil Test Correlation and Calibration in R}
 \description{
 the soiltestcorr-package is designed to assist users on the correlation analysis of crop yield and soil test value. The soiltestcorr package estimates critical soil test values using R several different approaches such as: i) the modified ALCC model originally described by Dyson and Conyers (2013) and modified by Correndo et al. (2017); ii) the graphical Cate & Nelson approach (Cate & Nelson, 1965), iii) the statistical Cate & Nelson approach (Cate & Nelson, 1965), and iv) regression models such as linear-plateau, quadratic-plateau, and others.
 }
