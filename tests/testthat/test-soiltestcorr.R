@@ -47,7 +47,7 @@ test_that("no error in fitting cate_nelson_1971() for the example dataset", {
 
 context("run linear_plateau() with packaged dataset freitas1966")
 
-linear_plateau.test <- try(linear_plateau(data = freitas1966, STV = STK, RY = RY,
+linear_plateau.test <- try(linear_plateau(data = freitas1966, stv = STK, ry = RY,
                                           tidy=FALSE,
                                           plot = FALSE,
                                           resid = FALSE),
@@ -61,7 +61,7 @@ test_that("no error in fitting linear_plateau() for the example dataset", {
 
 context("run linear_plateau() with packaged dataset freitas1966")
 
-linear_plateau.test <- try(linear_plateau(data = freitas1966, STV = STK, RY = RY,
+linear_plateau.test <- try(linear_plateau(data = freitas1966, stv = STK, ry = RY,
                                           tidy=FALSE,
                                           plot = FALSE,
                                           resid = FALSE),
@@ -75,7 +75,7 @@ test_that("no error in fitting linear_plateau() for the example dataset", {
 
 context("run linear_plateau() with packaged dataset freitas1966")
 
-linear_plateau.test <- try(linear_plateau(data = freitas1966, STV = STK, RY = RY,
+linear_plateau.test <- try(linear_plateau(data = freitas1966, stv = STK, ry = RY,
                                           tidy=FALSE,
                                           plot = FALSE,
                                           resid = TRUE),
@@ -89,7 +89,7 @@ test_that("no error in fitting linear_plateau() for the example dataset", {
 
 context("run linear_plateau() with packaged dataset freitas1966")
 
-linear_plateau.test <- try(linear_plateau(data = freitas1966, STV = STK, RY = RY,
+linear_plateau.test <- try(linear_plateau(data = freitas1966, stv = STK, ry = RY,
                                           tidy=FALSE,
                                           plot = TRUE,
                                           resid = TRUE),
@@ -103,7 +103,7 @@ test_that("no error in fitting linear_plateau() for the example dataset", {
 
 context("run linear_plateau() with packaged dataset freitas1966")
 
-linear_plateau.test <- try(linear_plateau(data = freitas1966, STV = STK, RY = RY,
+linear_plateau.test <- try(linear_plateau(data = freitas1966, stv = STK, ry = RY,
                                           tidy = TRUE,
                                           plot = FALSE,
                                           resid = FALSE),
@@ -117,7 +117,7 @@ test_that("no error in fitting linear_plateau() for the example dataset", {
 
 context("run linear_plateau() with packaged dataset freitas1966")
 
-linear_plateau.test <- try(linear_plateau(data = freitas1966, STV = STK, RY = RY,
+linear_plateau.test <- try(linear_plateau(data = freitas1966, stv = STK, ry = RY,
                                           tidy = TRUE,
                                           plot = FALSE,
                                           resid = TRUE),
