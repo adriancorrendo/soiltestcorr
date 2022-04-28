@@ -73,12 +73,12 @@
 
     
     
-<p><img src="../reference/figures/soiltestcorr_logo.png" align="right" height="150" style="float:right; height:150px;"></p>
-<p>This tutorial is intended to assist on the use of the available functions from the <code>soiltestcorr</code> package for the analysis of relationships between relative yield (RY) and soil test values (STV). <br></p>
+<p><img src="../reference/figures/soiltestcorr_logo.png" align="right" height="200" style="float:right; height:200px;"></p>
+<p>The functions in the <code>soiltestcorr</code> package are intended to be used when analyzing the correlation between soil test values (STV) and relative yield (RY). This tutorial will introduce and demonstrate the currently available functions. <br></p>
 <div class="section level3">
 <h3 id="installation">1. Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h3>
-<p>You can install the development version of soiltestcorr from <a href="https://github.com/adriancorrendo/soiltestcorr" class="external-link">GitHub</a> with:</p>
+<p>You can install the development version of <code>soiltestcorr</code> from <a href="https://github.com/adriancorrendo/soiltestcorr" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"adriancorrendo/soiltestcorr"</span><span class="op">)</span></code></pre></div>
@@ -105,12 +105,12 @@
 <code class="sourceCode R">
 <span class="co"># Example 1 dataset</span>
 <span class="co"># Fake dataset manually created</span>
-<span class="va">data_1</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="st">"RY"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">65</span>,<span class="fl">80</span>,<span class="fl">85</span>,<span class="fl">88</span>,<span class="fl">90</span>,<span class="fl">94</span>,<span class="fl">93</span>,<span class="fl">96</span>,<span class="fl">97</span>,<span class="fl">95</span>,<span class="fl">98</span>,<span class="fl">100</span>,<span class="fl">99</span>,<span class="fl">99</span>,<span class="fl">100</span><span class="op">)</span>,
-                   <span class="st">"STV"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">7</span>,<span class="fl">8</span>,<span class="fl">9</span>,<span class="fl">10</span>,<span class="fl">11</span>,<span class="fl">12</span>,<span class="fl">13</span>,<span class="fl">14</span>,<span class="fl">15</span><span class="op">)</span><span class="op">)</span>
+<span class="va">data_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="st">"RY"</span>  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">65</span>,<span class="fl">80</span>,<span class="fl">85</span>,<span class="fl">88</span>,<span class="fl">90</span>,<span class="fl">94</span>,<span class="fl">93</span>,<span class="fl">96</span>,<span class="fl">97</span>,<span class="fl">95</span>,<span class="fl">98</span>,<span class="fl">100</span>,<span class="fl">99</span>,<span class="fl">99</span>,<span class="fl">100</span><span class="op">)</span>,
+                     <span class="st">"STV"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">7</span>,<span class="fl">8</span>,<span class="fl">9</span>,<span class="fl">10</span>,<span class="fl">11</span>,<span class="fl">12</span>,<span class="fl">13</span>,<span class="fl">14</span>,<span class="fl">15</span><span class="op">)</span><span class="op">)</span>
   
 <span class="co"># Example 2. Native dataset from soiltestcorr package</span>
 
-<span class="va">data_2</span> <span class="op">=</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="va"><a href="../reference/data_test.html">data_test</a></span>
+<span class="va">data_2</span> <span class="op">&lt;-</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="va"><a href="../reference/data_test.html">data_test</a></span>
 
 
 <span class="co"># Example 3. Native dataset from soiltestcorr package, used by Cate &amp; Nelson (1971)</span>
@@ -118,8 +118,8 @@
 
 <span class="co"># Create nested structure as example of multiple datasets</span>
 <span class="co"># Note that STV column needs to have the same name in order to bind rows</span>
-<span class="va">data.all</span> <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">data_1</span>, <span class="va">data_2</span>, 
-                     <span class="va">data_3</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>STV <span class="op">=</span> <span class="va">STK</span><span class="op">)</span>,
+<span class="va">data.all</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">data_1</span>, <span class="va">data_2</span>,
+                      <span class="va">data_3</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>STV <span class="op">=</span> <span class="va">STK</span><span class="op">)</span>,
                      .id <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">nest</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"STV"</span>, <span class="st">"RY"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
@@ -449,7 +449,9 @@
 </h4>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-<span class="va">cate_nelson_1965_example_2</span> <span class="op">=</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/cate_nelson_1965.html">cate_nelson_1965</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_2</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STV</span>, target<span class="op">=</span><span class="fl">90</span>, tidy <span class="op">=</span> <span class="cn">FALSE</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="va">cate_nelson_1965_example_2</span> <span class="op">&lt;-</span> 
+  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/cate_nelson_1965.html">cate_nelson_1965</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_2</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STV</span>,
+                                 target <span class="op">=</span> <span class="fl">90</span>, tidy <span class="op">=</span> <span class="cn">FALSE</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
 <span class="va">cate_nelson_1965_example_2</span>
 <span class="co">#&gt; $n</span>
@@ -486,7 +488,10 @@
 <span class="co">#&gt; $R2</span>
 <span class="co">#&gt; [1] 0.3936824</span>
 
-<span class="va">cate_nelson_1965_example_3</span> <span class="op">=</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/cate_nelson_1965.html">cate_nelson_1965</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STK</span>, target<span class="op">=</span><span class="fl">95</span>, tidy <span class="op">=</span> <span class="cn">TRUE</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+
+<span class="va">cate_nelson_1965_example_3</span> <span class="op">&lt;-</span> 
+  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/cate_nelson_1965.html">cate_nelson_1965</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STK</span>,
+                                 target <span class="op">=</span> <span class="fl">95</span>, tidy <span class="op">=</span> <span class="cn">TRUE</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="co">#&gt; Warning in stats::chisq.test(data.frame(row.1, row.2)): Chi-squared</span>
 <span class="co">#&gt; approximation may be incorrect</span>
 
@@ -501,7 +506,9 @@
 </h4>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-<span class="va">cate_nelson_1971_example_2</span> <span class="op">=</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/cate_nelson_1971.html">cate_nelson_1971</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_2</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STV</span>, tidy <span class="op">=</span> <span class="cn">TRUE</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="va">cate_nelson_1971_example_2</span> <span class="op">&lt;-</span> 
+  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/cate_nelson_1971.html">cate_nelson_1971</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_2</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STV</span>,
+                                 tidy <span class="op">=</span> <span class="cn">TRUE</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
 <span class="va">cate_nelson_1971_example_2</span>
 <span class="co">#&gt;     n CRYV CSTV quadrants.q.I quadrants.q.II quadrants.q.III quadrants.q.IV</span>
@@ -509,7 +516,9 @@
 <span class="co">#&gt;   quadrants.positive quadrants.negative        R2</span>
 <span class="co">#&gt; 1                118                 19 0.3936824</span>
 
-<span class="va">cate_nelson_1971_example_3</span> <span class="op">=</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/cate_nelson_1971.html">cate_nelson_1971</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STK</span>, tidy <span class="op">=</span> <span class="cn">TRUE</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="va">cate_nelson_1971_example_3</span> <span class="op">&lt;-</span>
+  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/cate_nelson_1971.html">cate_nelson_1971</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STK</span>,
+                                 tidy <span class="op">=</span> <span class="cn">TRUE</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="co">#&gt; Warning in stats::chisq.test(data.frame(row.1, row.2)): Chi-squared</span>
 <span class="co">#&gt; approximation may be incorrect</span>
 
@@ -520,12 +529,13 @@
 <span class="co">#&gt; 1                 23                  1 0.7066536</span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="fit-linear-plateau-model">3.4. Fit Linear-plateau model<a class="anchor" aria-label="anchor" href="#fit-linear-plateau-model"></a>
+<h4 id="fit-linear-plateau-model">3.4. Fit linear-plateau model<a class="anchor" aria-label="anchor" href="#fit-linear-plateau-model"></a>
 </h4>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-<span class="va">linear_plateau_example_3_list</span> <span class="op">=</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/linear_plateau.html">linear_plateau</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STK</span>, 
-                                                        tidy <span class="op">=</span> <span class="cn">FALSE</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="va">linear_plateau_example_3_list</span> <span class="op">&lt;-</span>
+  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/linear_plateau.html">linear_plateau</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, stv <span class="op">=</span> <span class="va">STK</span>, ry <span class="op">=</span> <span class="va">RY</span>,
+                               tidy <span class="op">=</span> <span class="cn">FALSE</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
 <span class="va">linear_plateau_example_3_list</span>
 <span class="co">#&gt; $intercept</span>
@@ -546,6 +556,9 @@
 <span class="co">#&gt; $UL</span>
 <span class="co">#&gt; [1] 103.6</span>
 <span class="co">#&gt; </span>
+<span class="co">#&gt; $CI_type</span>
+<span class="co">#&gt; [1] "Wald Conf. Interval"</span>
+<span class="co">#&gt; </span>
 <span class="co">#&gt; $plateau</span>
 <span class="co">#&gt; [1] 95.6</span>
 <span class="co">#&gt; </span>
@@ -558,20 +571,24 @@
 <span class="co">#&gt; $R2</span>
 <span class="co">#&gt; [1] 0.66</span>
 
-<span class="va">linear_plateau_example_3_tidy</span> <span class="op">=</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/linear_plateau.html">linear_plateau</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STK</span>, 
-                                                        tidy <span class="op">=</span> <span class="cn">TRUE</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="va">linear_plateau_example_3_tidy</span> <span class="op">&lt;-</span>
+  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/linear_plateau.html">linear_plateau</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, stv <span class="op">=</span> <span class="va">STK</span>, ry <span class="op">=</span> <span class="va">RY</span>,
+                               tidy <span class="op">=</span> <span class="cn">TRUE</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
 <span class="va">linear_plateau_example_3_tidy</span>
-<span class="co">#&gt;   intercept slope               equation CSTV   LL    UL plateau AIC AICc   R2</span>
-<span class="co">#&gt; 1     39.24  0.75 39.2 + 0.75x if x&lt;CSTV   75 46.4 103.6    95.6 188  190 0.66</span></code></pre></div>
+<span class="co">#&gt;   intercept slope               equation CSTV   LL    UL             CI_type</span>
+<span class="co">#&gt; 1     39.24  0.75 39.2 + 0.75x if x&lt;CSTV   75 46.4 103.6 Wald Conf. Interval</span>
+<span class="co">#&gt;   plateau AIC AICc   R2</span>
+<span class="co">#&gt; 1    95.6 188  190 0.66</span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="fit-quadratic-plateau-model">3.5. Fit Quadratic-plateau model<a class="anchor" aria-label="anchor" href="#fit-quadratic-plateau-model"></a>
+<h4 id="fit-quadratic-plateau-model">3.5. Fit quadratic-plateau model<a class="anchor" aria-label="anchor" href="#fit-quadratic-plateau-model"></a>
 </h4>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-<span class="va">quadratic_plateau_example_3</span> <span class="op">=</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/quadratic_plateau.html">quadratic_plateau</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STK</span>, 
-                                                              plot <span class="op">=</span> <span class="cn">FALSE</span>, tidy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="va">quadratic_plateau_example_3</span> <span class="op">&lt;-</span>
+  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/quadratic_plateau.html">quadratic_plateau</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STK</span>,
+                                  plot <span class="op">=</span> <span class="cn">FALSE</span>, tidy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
 <span class="va">quadratic_plateau_example_3</span>
 <span class="co">#&gt;   intercept slope                          equation CSTV   LL    UL plateau AIC</span>
@@ -646,7 +663,7 @@
 </h4>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-<span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/linear_plateau.html">linear_plateau</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STK</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, resid <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/linear_plateau.html">linear_plateau</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, stv <span class="op">=</span> <span class="va">STK</span>, ry <span class="op">=</span> <span class="va">RY</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, resid <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p><img src="Introduction_to_soiltestcorr_files/figure-html/unnamed-chunk-13-1.png" width="576"><img src="Introduction_to_soiltestcorr_files/figure-html/unnamed-chunk-13-2.png" width="576"></p>
 </div>
 <div class="section level4">
@@ -678,7 +695,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
     </footer>
