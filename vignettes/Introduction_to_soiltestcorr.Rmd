@@ -1,9 +1,9 @@
 ---
-title: "Introduction to soiltestcorr"
+title: "Introduction"
 author: Adrian Correndo & Austin Pearce 
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction_to_soiltestcorr}
+  %\VignetteIndexEntry{Introduction}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -34,240 +34,24 @@ devtools::install_github("adriancorrendo/soiltestcorr")
 library(soiltestcorr)
 ```
 
-# Suggested packages
+Suggested packages are
 ```{r warning=FALSE, message=FALSE}
-# Install if needed 
-require(ggplot2) # Plots
-require(dplyr) # Data wrangling
-require(tidyr) # Data wrangling
-require(purrr) # Mapping
+library(ggplot2) # Plots
+library(dplyr) # Data wrangling
+library(tidyr) # Data wrangling
+library(purrr) # Mapping
 
 ```
 
-## 2. Example
+## 2. Available models in `soiltestcorr`: <br/>
 
-This is a basic example which shows you how to use the package: <br/>
+### 2.1. [Modified Arcsine-Log Calibration Curve](https://adriancorrendo.github.io/soiltestcorr/articles/mod_alcc_tutorial.html) <br/>
 
-### 2.1. Load a dataset
-```{r}
+### 2.2. [Cate & Nelson (1965)](https://adriancorrendo.github.io/soiltestcorr/articles/cate_nelson_1965_tutorial.html) <br/>
 
-# Example 1 dataset
-# Fake dataset manually created
-data_1 <- data.frame("RY"  = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
-                     "STV" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
-  
-# Example 2. Native dataset from soiltestcorr package
+### 2.3. [Cate & Nelson (1971)](https://adriancorrendo.github.io/soiltestcorr/articles/cate_nelson_1971_tutorial.html) <br/>
 
-data_2 <- soiltestcorr::data_test
+### 2.4. [Linear-plateau](https://adriancorrendo.github.io/soiltestcorr/articles/linear_plateau_tutorial.html) <br/>
 
+### 2.5. [Quadratic-plateau](https://adriancorrendo.github.io/soiltestcorr/articles/quadratic_plateau_tutorial.html) <br/>
 
-# Example 3. Native dataset from soiltestcorr package, used by Cate & Nelson (1971)
-data_3 <- soiltestcorr::freitas1966
-
-# Create nested structure as example of multiple datasets
-# Note that STV column needs to have the same name in order to bind rows
-data.all <- bind_rows(data_1, data_2,
-                      data_3 %>% dplyr::rename(STV = STK),
-                     .id = "id") %>% 
-  tidyr::nest(data = c("STV", "RY"))
-
-```
-## 3. Fit examples
-### 3.1. Fit ALCC models individually
-```{r warning=TRUE, message=TRUE}
-
-# RY target = 90%, confidence level = 0.95, replace with your desired values
-
-# Data 1
-# Using dataframe argument, tidy = FALSE -> return a LIST
-fit_example_1 = soiltestcorr::mod_alcc(data = data_1, ry = RY, stv = STV, target=90, confidence = 0.95, plot = FALSE, tidy = FALSE)
-
-fit_example_1
-
-# Using dataframe argument, tidy = TRUE -> return a DATA FRAME
-fit_example_1.tidy = soiltestcorr::mod_alcc(data = data_1, ry = RY, stv = STV, target=90, confidence = 0.95, tidy = TRUE, plot = FALSE)
-
-fit_example_1.tidy
-
-# Alternative using the vectors
-#fit_example_1 = ALCC(ry = data_1$RY,stv = data_1$STV, target=90,confidence = 0.95)
-
-# Data 2
-fit_example_2 = soiltestcorr::mod_alcc(data = data_2, ry = RY, stv = STV, 
-                                       target=90, confidence = 0.95)
-
-fit_example_2
-
-# Data 3. Freitas et al. 1966
-fit_example_3 = soiltestcorr::mod_alcc(data = data_3, ry = RY, stv = STK, target=90, confidence = 0.95)
-
-fit_example_3
-
-
-```
-
-### 3.1.2. Fit multiple ALCC models with mapping
-
-```{r warning=T, message=F}
-
-# Run multiple examples at once with map()
-fit_examples = data.all %>%
-  mutate(mod_alcc = map(data, ~ soiltestcorr::mod_alcc(ry = .$RY, stv = .$STV,
-                                                       target=90, confidence = 0.95)))
-
-#head(fit_examples)
-
-# Alternative with group_map, this does not required nested data.
-fit_all = bind_rows(data_1, data_2, .id = "id") %>% 
-  group_by(id) %>% 
-  group_map(~ soiltestcorr::mod_alcc(data = ., ry = RY, stv = STV, target = 90, confidence = 0.95))
-
-#head(fit_all)
-
-```
-
-### 3.2. Fit Cate & Nelson 1965
-```{r}
-
-cate_nelson_1965_example_2 <- 
-  soiltestcorr::cate_nelson_1965(data = data_2, ry = RY, stv = STV,
-                                 target = 90, tidy = FALSE, plot = FALSE)
-
-cate_nelson_1965_example_2
-
-
-cate_nelson_1965_example_3 <- 
-  soiltestcorr::cate_nelson_1965(data = data_3, ry = RY, stv = STK,
-                                 target = 95, tidy = TRUE, plot = FALSE)
-
-cate_nelson_1965_example_3
-
-
-```
-
-### 3.3. Fit Cate & Nelson 1971
-```{r}
-
-cate_nelson_1971_example_2 <- 
-  soiltestcorr::cate_nelson_1971(data = data_2, ry = RY, stv = STV,
-                                 tidy = TRUE, plot = FALSE)
-
-cate_nelson_1971_example_2
-
-cate_nelson_1971_example_3 <-
-  soiltestcorr::cate_nelson_1971(data = data_3, ry = RY, stv = STK,
-                                 tidy = TRUE, plot = FALSE)
-
-cate_nelson_1971_example_3
-
-```
-
-### 3.4. Fit linear-plateau model
-```{r}
-
-linear_plateau_example_3_list <-
-  soiltestcorr::linear_plateau(data = data_3, stv = STK, ry = RY,
-                               tidy = FALSE, plot = FALSE)
-
-linear_plateau_example_3_list
-
-linear_plateau_example_3_tidy <-
-  soiltestcorr::linear_plateau(data = data_3, stv = STK, ry = RY,
-                               tidy = TRUE, plot = FALSE)
-
-linear_plateau_example_3_tidy
-
-```
-
-### 3.5. Fit quadratic-plateau model
-```{r}
-
-quadratic_plateau_example_3 <-
-  soiltestcorr::quadratic_plateau(data = data_3, ry = RY, stv = STK,
-                                  plot = FALSE, tidy = TRUE)
-
-quadratic_plateau_example_3
-
-
-```
-
-## 4. Plots
-
-Examples using ggplot <br/>
-
-### 4.1. mod_alcc
-```{r warning=F, message=F}
-
-soiltestcorr::mod_alcc(data = data_3, ry = RY, stv = STK, target=95, confidence = 0.95, plot = TRUE)
-
-# Extract SMA regression fit and residuals
-
-SMA_example3 = fit_example_3$SMA %>% as.data.frame()
- 
-SMA_example3 %>% 
-  ggplot(aes(x = arc_RY, y = ln_STV))+
-  ggtitle("SMA Regression. Dataset 3")+
-  geom_point(shape=21, fill = "orange", size = 4, alpha = 0.75)+
-  #SMA Line
-  geom_path(aes(x=arc_RY, y = SMA_line, linetype = "SMA_fit"), size = 2, col = "grey25")+
-  scale_linetype_manual(name="", values = c("solid"))+
-  #Critical value
-  geom_vline(xintercept = 0, col = "grey10", size = 1.25, linetype = "dashed")+
-  theme_bw()+
-  # Axis titles
-  labs(y = "ln_STV", y = "asin(sqrt(RY))-centered")
-
-# Residuals plot
-
-SMA_example3 %>% 
-  ggplot(aes(x = fitted_axis, y = residuals))+
-  ggtitle("Residuals SMA. Dataset 3")+
-  geom_point(shape=21, fill = "orange", size = 4, alpha = 0.75)+
-  geom_hline(yintercept = 0, col = "grey10", size = 1.25, linetype = "dashed")+
-  theme_bw()+
-  # Axis titles
-  labs(x = "Fitted Axis -SMA- (see Warton et al. 2006)", y = "Residuals (STV units)")
-
-```
-
-\newpage
-
-### 4.2. Cate & Nelson 1965
-```{r warning=F, message=F}
-
-soiltestcorr::cate_nelson_1965(data = data_3, ry = RY, stv = STK, target=95, tidy = TRUE, plot = TRUE)
-
-```
-
-### 4.3. Cate & Nelson 1971
-```{r warning=F, message=F}
-
-soiltestcorr::cate_nelson_1971(data = data_3, ry = RY, stv = STK, tidy = TRUE, plot = TRUE)
-
-```
-
-### 4.4. Linear-plateau
-```{r warning=F, message=F}
-
-soiltestcorr::linear_plateau(data = data_3, stv = STK, ry = RY, plot = TRUE, resid = TRUE)
-
-```
-
-### 4.5. Quadratic-plateau
-```{r warning=F, message=F}
-
-soiltestcorr::quadratic_plateau(data = data_3, ry = RY, stv = STK, plot = TRUE, resid = TRUE)
-
-```
-
-<b> References </b> <br/>
-
-*Correndo, A.A., Salvagiotti, F., García, F.O. and Gutiérrez-Boem, F.H., 2017. A modification of the arcsine–log calibration curve for analysing soil test value–relative yield relationships. Crop and Pasture Science, 68(3), pp.297-304. https://doi.org/10.1071/CP16444 * <br/>
-
-*Cate, R.B. Jr., and Nelson, L.A., 1965. A rapid method for correlation of soil test analysis with plant response data. North Carolina Agric. Exp. Stn., International soil Testing Series Bull. No. 1. * <br/>
-
-*Cate, R.B. Jr., and Nelson, L.A., 1971. A simple statistical procedure for partitioning soil test correlation data into two classes. Soil Sci. Soc. Am. Proc. 35:658-659 * <br/>
-
-*Dyson, C.B., Conyers, M.K., 2013. Methodology for online biometric analysis of soil test-crop response datasets. Crop & Pasture Science 64: 435–441. https://doi.org/10.1071/CP13009 * <br/>
-
-*Warton, D.I., Wright, I.J., Falster, D.S., Westoby, M., 2006. Bivariate line-fitting methods for allometry. Biol. Rev. Camb. Philos. Soc. 81, 259–291. https://doi.org/10.1017/S1464793106007007 * <br/>

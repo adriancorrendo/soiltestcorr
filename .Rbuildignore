@@ -6,3 +6,6 @@
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^appveyor\.yml$
+^LICENSE\.md$
+^README\.Rmd$

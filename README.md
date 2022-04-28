@@ -9,7 +9,8 @@
 status](https://ci.appveyor.com/api/projects/status/github/adriancorrendo/soiltestcorr?branch=main&svg=true)](https://ci.appveyor.com/project/adriancorrendo/soiltestcorr)
 [![R-CMD-check](https://github.com/adriancorrendo/soiltestcorr/workflows/R-CMD-check/badge.svg)](https://github.com/adriancorrendo/soiltestcorr/actions)
 [![codecov](https://codecov.io/gh/adriancorrendo/soiltestcorr/branch/main/graph/badge.svg?token=OUH9NBPBXI)](https://codecov.io/gh/adriancorrendo/soiltestcorr)
-[![DOI](https://zenodo.org/badge/473710007.svg)](https://zenodo.org/badge/latestdoi/473710007)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6500335.svg)](https://doi.org/10.5281/zenodo.6500335)
+
 <!-- badges: end -->
 
 <img src="man/figures/soiltestcorr_logo.png" align="right" height="200" style="float:right; height:200px;">
@@ -23,7 +24,31 @@ You can install the development version of soiltestcorr from
 devtools::install_github("adriancorrendo/soiltestcorr")
 ```
 
-## For more details, check the [TUTORIAL Documentation](https://adriancorrendo.github.io/soiltestcorr/articles/Introduction_to_soiltestcorr.html) <br/>
+## For more details, visit the Vignettes <br/>
+
+[1.
+Intro](https://adriancorrendo.github.io/soiltestcorr/articles/Introduction_to_soiltestcorr.html)
+<br/>
+
+[2. Modified Arcsine-Log Calibration
+Curve](https://adriancorrendo.github.io/soiltestcorr/articles/mod_alcc_tutorial.html)
+<br/>
+
+[3. Cate & Nelson
+(1965)](https://adriancorrendo.github.io/soiltestcorr/articles/cate_nelson_1965_tutorial.html)
+<br/>
+
+[4. Cate & Nelson
+(1971)](https://adriancorrendo.github.io/soiltestcorr/articles/cate_nelson_1971_tutorial.html)
+<br/>
+
+[5.
+Linear-plateau](https://adriancorrendo.github.io/soiltestcorr/articles/linear_plateau_tutorial.html)
+<br/>
+
+[6.
+Quadratic-plateau](https://adriancorrendo.github.io/soiltestcorr/articles/quadratic_plateau_tutorial.html)
+<br/>
 
 # Description <br/>
 
@@ -87,13 +112,13 @@ of the Cate-Nelson technique: <br/>
 
 Thus, the second alternative is based on Cate and Nelson (1965)
 (`cate_nelson_1965()`). The first step of this method is to apply an
-arbitrarily fixed value of RY as a target (y-axis) that divides the data
-into two categories (below & equal or above RY target). In a second
-stage, it estimates the CSTV (x-axis) as the minimum STV that divides
-the data into four quadrants (target RY level combined with STV lower or
+arbitrarily fixed value of ry as a target (y-axis) that divides the data
+into two categories (below & equal or above ry target). In a second
+stage, it estimates the CSTV (x-axis) as the minimum stv that divides
+the data into four quadrants (target ry level combined with STV lower or
 greater than the CSTV) maximizing the number of points under
-well-classified quadrants (II, STV \>= CSTV & RY \>= RY target; and IV,
-STV \< CSTV & RY \< RY target). This is also known as the “graphical”
+well-classified quadrants (II, stv \>= CSTV & ry \>= ry target; and IV,
+stv \< CSTV & ry \< RY target). This is also known as the “graphical”
 version of the Cate-Nelson approach. <br/>
 
 <b> cate_nelson_1965() </b> <br/>
@@ -128,13 +153,13 @@ Example of cate_nelson_1965() output
 
 The third alternative is based on Cate and Nelson (1971)
 (`cate_nelson_1971()`). The first step of this alternative version is to
-estimates the CSTV (x-axis) as the minimum STV that minimizes the
+estimate the CSTV (x-axis) as the minimum stv that minimizes the
 residual sum of squares when dividing data points in two classes (lower
-or greater than the CSTV) without using a fixed RY. This refined version
-does not constrains the model performance (measured with the coefficient
-of determination -R2-) but the user has no control on the RY level for
-the CSTV. This is also known as the “statistical” version of the
-Cate-Nelson approach. <br/>
+or greater than the CSTV) without using an arbitrary ry. This refined
+version does not constrains the model performance (measured with the
+coefficient of determination -R2-) but the user has no control on the RY
+level for the CSTV. This is also known as the “statistical” version of
+the Cate-Nelson approach. <br/>
 
 <b> cate_nelson_1971() </b> <br/>
 
@@ -144,7 +169,7 @@ Instructions <br/>
     (ry) data. <br/>
 
 2.  Specify the following arguments into the function
-    -cate_nelson_1965()-: <br/>
+    -cate_nelson_1971()-: <br/>
 
 (a). `data` (optional), <br/>
 

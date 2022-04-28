@@ -1,0 +1,288 @@
+---
+title: "Linear-plateau response"
+author: Adrian Correndo & Austin Pearce 
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Linear-plateau response}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width=6, 
+  fig.height=4
+)
+```
+
+<img src="../man/figures/soiltestcorr_logo.png" align="right" height="200" style="float:right; height:200px;">
+
+## Description <br/>
+
+This tutorial is intended to show how to deploy the linear_plateau() function for estimating a continuous response model with a critical soil test value. This function fits the classical regression response model that follows two phases: i) a first linear phase described as y = b0 + b1 x, and ii) a second phase were the RY response to increasing STV becomes NULL (flat), described as plateau = y = b0 + b1 Xc, where Xc represents the CSTV. The function works automatically with self starting initial values to facilitate the model's convergence. This approach is one of the regression models with simple interpretation of its parameters. Some disadvantages are that: i) the user does not have control to estimate the critical value (the model parameter) for an specific ry level; and ii) the confidence interval of the critical level is generally unreliable. Preferably, the user would have need to use a re-sampling technique for a more reliable confidence interval estimation (e.g. bootstrapping) <br/>
+
+## General Instructions <br/>
+
+  i. Load your dataframe with soil test value (stv) and relative yield (ry) data. <br/>
+
+  ii. Specify the following arguments into the function -linear_plateau()-: <br/>
+
+    (a). `data` (optional), <br/>
+
+    (b). `stv` (soil test value) and `ry` (relative yield)  columns or vectors, <br/>
+
+    (c). `plot` TRUE (produces a ggplot as main output) or FALSE (no plot, only results as data.frame), <br/>
+
+    (d). `resid` TRUE (produces plots with residuals analysis) or FALSE (no plot), <br/>
+
+  iii. Run and check results. <br/>
+
+  iv. Check residuals plot, and warnings related to potential limitations of this model. <br/>
+
+  v. Adjust curve plots as desired. <br/>
+  
+# Tutorial  
+
+```{r setup}
+library(soiltestcorr)
+```
+
+Suggested packages
+```{r warning=FALSE, message=FALSE}
+# Install if needed 
+require(ggplot2) # Plots
+require(dplyr) # Data wrangling
+require(tidyr) # Data wrangling
+require(purrr) # Mapping
+
+```
+
+This is a basic example using three different datasets: <br/>
+
+## Load datasets
+```{r}
+
+# Example 1 dataset
+# Fake dataset manually created
+data_1 <- data.frame("RY"  = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
+                     "STV" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
+  
+# Example 2. Native fake dataset from soiltestcorr package
+
+data_2 <- soiltestcorr::data_test
+
+
+# Example 3. Native dataset from soiltestcorr package, Freitas et al.  (1966), used by Cate & Nelson (1971)
+data_3 <- soiltestcorr::freitas1966
+
+
+```
+
+
+# Fit linear_plateau()
+
+## 1. Individual fits <br/>
+
+RY target = 90%, confidence level = 0.95, replace with your desired values <br/>
+
+### 1.1. `tidy` = FALSE <br/>
+
+It returns a LIST (more efficient for multiple fits at once) <br/>
+```{r warning=TRUE, message=TRUE}
+
+# Using dataframe argument, tidy = FALSE -> return a LIST
+fit_1_tidy_false <- 
+  soiltestcorr::linear_plateau(data = data_1, 
+                               ry = RY, 
+                               stv = STV, 
+                               tidy = FALSE)
+
+head(fit_1_tidy_false)
+
+```
+
+### 1.2. `tidy` = TRUE <br/>
+
+It returns a data.frame (more organized results) <br/>
+```{r warning=TRUE, message=TRUE}
+
+# Using dataframe argument, tidy = FALSE -> return a LIST
+fit_1_tidy_true <- 
+  soiltestcorr::linear_plateau(data = data_1, 
+                               ry = RY, 
+                               stv = STV,
+                               tidy = TRUE)
+
+fit_1_tidy_true
+
+```
+
+### 1.3. Alternative using the vectors <br/>
+
+You can call `stv` and `ry` vectors using the `$`. <br/>
+
+The `tidy` argument still applies for controlling the output type
+```{r warning=TRUE, message=TRUE}
+
+fit_1_vectors_list <-
+  soiltestcorr::linear_plateau(ry = data_1$RY,
+                               stv = data_1$STV,
+                               tidy = FALSE)
+
+fit_1_vectors_tidy <- 
+  soiltestcorr::linear_plateau(ry = data_1$RY,
+                               stv = data_1$STV,
+                               tidy = TRUE)
+
+```
+
+### 1.4. Data 2. Test dataset <br/>
+
+```{r warning=TRUE, message=TRUE}
+
+fit_2 <-
+  soiltestcorr::linear_plateau(data = data_2, 
+                               ry = RY,
+                               stv = STV)
+
+head(fit_2)
+```
+
+### 1.5. Data 3. Freitas et al. 1966 <br/>
+
+```{r warning=TRUE, message=TRUE}
+
+fit_3 <-
+  soiltestcorr::linear_plateau(data = data_3, 
+                               ry = RY,
+                               stv = STK)
+head(fit_3)
+
+```
+
+## 2. Multiple fits at once <br/>
+
+### 2.1. Using map
+
+#### Create nested data <br/>
+
+<i> Note: the `stv` column needs to have the same name for all datasets <i/> <br/>
+```{r warning=T, message=F}
+# 
+data.all <- bind_rows(data_1, data_2,
+                      data_3 %>% dplyr::rename(STV = STK),
+                     .id = "id") %>% 
+  tidyr::nest(data = c("STV", "RY"))
+```
+
+#### Fit
+```{r warning=T, message=F}
+
+# Run multiple examples at once with map()
+fit_multiple_map <-
+  data.all %>%
+  mutate(linear_plateau = purrr::map(data, 
+                                     ~ soiltestcorr::linear_plateau(ry = .$RY,
+                                                                    stv = .$STV,
+                                                                    tidy = TRUE)))
+
+head(fit_multiple_map)
+
+```
+
+### 2.1. Using group_map <br/>
+
+Alternatively, with group_map, we do not require nested data. <br/>
+
+However, it requires to bind_rows and add an `id` column specifying the name of each dataset. <br/>
+
+This option return models as lists objects.
+```{r warning=T, message=F}
+
+fit_multiple_group_map <- 
+  bind_rows(data_1, data_2, .id = "id") %>% 
+  group_by(id) %>% 
+  group_map(~ soiltestcorr::linear_plateau(data = ., 
+                                           ry = RY,
+                                           stv = STV,
+                                           tidy = TRUE))
+
+head(fit_multiple_group_map)
+
+```
+
+## 3. Plots
+
+### 3.1. Calibration Curve 
+
+We can generate a ggplot with the same linear_plateau() function. <br/>
+
+We just need to specify the argument `plot = TRUE`. <br/>
+
+```{r warning=F, message=F}
+
+linear_plateau_plot <- 
+  soiltestcorr::linear_plateau(data = data_3, 
+                               ry = RY, 
+                               stv = STK, 
+                               plot = TRUE)
+
+linear_plateau_plot
+```
+### 3.1.2 Fine-tune the plots <br/>
+
+As ggplot object, plots can be adjusted in several ways. <br/>
+
+For example, modifying titles <br/>
+```{r warning=F, message=F}
+linear_plateau_plot_2 <- 
+  linear_plateau_plot +
+  # Main title
+  ggtitle("My own plot title")+
+  # Axis titles
+  labs(x = "Soil Test K (ppm)",
+       y = "Cotton RY(%)")
+
+linear_plateau_plot_2
+```
+
+Or modifying axis scales <br/>
+
+```{r warning=F, message=F}
+linear_plateau_plot_3 <-
+linear_plateau_plot_2 +
+  # Axis scales
+  scale_x_continuous(limits = c(20,220),
+                     breaks = seq(0,220, by = 20))+
+  # Axis limits
+  scale_y_continuous(limits = c(30,100),
+                     breaks = seq(30,100, by = 10))
+
+linear_plateau_plot_3
+  
+```
+
+
+### 3.3. Residuals <br/>
+
+We can generate a plot with the same linear_plateau() function. <br/>
+
+We just need to specify the argument `resid` = TRUE`. <br/>
+
+
+```{r warning=F, message=F}
+
+# Residuals plot
+
+soiltestcorr::linear_plateau(data = data_3, 
+                               ry = RY, 
+                               stv = STK, 
+                               resid = TRUE)
+
+```
+
+<b> References </b> <br/>
+
+

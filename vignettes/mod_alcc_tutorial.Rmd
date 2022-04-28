@@ -1,0 +1,335 @@
+---
+title: "Modified ALCC"
+author: Adrian Correndo & Austin Pearce 
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Modified ALCC}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width=6, 
+  fig.height=4
+)
+```
+
+<img src="../man/figures/soiltestcorr_logo.png" align="right" height="200" style="float:right; height:200px;">
+
+## Description <br/>
+
+This tutorial is intended to show how to deploy the mod_alcc() function for estimating critical soil test values using the Modified Arcsine-Log Calibration Curve, originally introduced by Dyson & Conyers (2013) and modified by Correndo et al. (2017). This function produces the estimation of critical soil test values (CSTV) for a target relative yield (ry) with confidence intervals at adjustable confidence levels. Behind the scenes, the mod_alcc() is based on the standardized major axis (SMA), a bivariate regression model that assumes that both axis are random variables (Warton et al., 2006) <br/>
+
+## General Instructions <br/>
+
+  i. Load your dataframe with soil test value (stv) and relative yield (ry) data. <br/>
+
+  ii. Specify the following arguments into the function -mod_alcc()-: <br/>
+
+    (a). `data` (optional), <br/>
+
+    (b). `stv` (soil test value) and `ry` (relative yield)  columns or vectors, <br/>
+  
+    (c). `target` of relative yield (e.g. 90%), <br/>
+
+    (d). desired `confidence` level (e.g. 0.95 for 1 - alpha(0.05)). Used for the estimation of critical soil test value (CSTV) lower and upper limits. <br/>
+  
+    (e). `tidy` TRUE (produces a data.frame with results) or FALSE-default- (store results as list), <br/>
+    
+    (f). `plot` TRUE (produces a ggplot as main output) or FALSE -default- (no plot, only results as list or data.frame), <br/>
+
+  iii. Run and check results. <br/>
+
+  iv. Check residuals plot, and warnings related to potential leverage points. <br/>
+
+  v. Adjust curve plots as desired. <br/>
+  
+# Tutorial  
+
+```{r setup}
+library(soiltestcorr)
+```
+
+Suggested packages
+```{r warning=FALSE, message=FALSE}
+# Install if needed 
+require(ggplot2) # Plots
+require(dplyr) # Data wrangling
+require(tidyr) # Data wrangling
+require(purrr) # Mapping
+
+```
+
+This is a basic example using three different datasets: <br/>
+
+## Load datasets
+```{r}
+
+# Example 1 dataset
+# Fake dataset manually created
+data_1 <- data.frame("RY"  = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
+                     "STV" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
+  
+# Example 2. Native fake dataset from soiltestcorr package
+
+data_2 <- soiltestcorr::data_test
+
+
+# Example 3. Native dataset from soiltestcorr package, Freitas et al.  (1966), used by Cate & Nelson (1971)
+data_3 <- soiltestcorr::freitas1966
+
+
+```
+
+
+# Fit mod_alcc()
+
+## 1. Individual fits <br/>
+
+RY target = 90%, confidence level = 0.95, replace with your desired values <br/>
+
+### 1.1. `tidy` = FALSE <br/>
+
+It returns a LIST (more efficient for multiple fits at once) <br/>
+```{r warning=TRUE, message=TRUE}
+
+# Using dataframe argument, tidy = FALSE -> return a LIST
+fit_1_tidy_false <-
+  soiltestcorr::mod_alcc(data = data_1, 
+                         ry = RY, 
+                         stv = STV, 
+                         target=90, 
+                         confidence = 0.95, 
+                         tidy = FALSE)
+
+head(fit_1_tidy_false)
+
+```
+
+### 1.2. `tidy` = TRUE <br/>
+
+It returns a data.frame (more organized results) <br/>
+```{r warning=TRUE, message=TRUE}
+
+# Using dataframe argument, tidy = FALSE -> return a LIST
+fit_1_tidy_true <-
+  soiltestcorr::mod_alcc(data = data_1, 
+                         ry = RY, 
+                         stv = STV, 
+                         target=90, 
+                         confidence = 0.95, 
+                         tidy = TRUE)
+
+fit_1_tidy_true
+
+```
+
+### 1.3. Alternative using the vectors <br/>
+
+You can call `stv` and `ry` vectors using the `$`. <br/>
+
+The `tidy` argument still applies for controlling the output type
+```{r warning=TRUE, message=TRUE}
+
+fit_1_vectors_list <-
+  soiltestcorr::mod_alcc(ry = data_1$RY,
+                         stv = data_1$STV, 
+                         target=90,
+                         confidence = 0.95,
+                         tidy = FALSE)
+
+fit_1_vectors_tidy <-
+  soiltestcorr::mod_alcc(ry = data_1$RY,
+                         stv = data_1$STV, 
+                         target=90,
+                         confidence = 0.95,
+                         tidy = TRUE)
+
+```
+
+### 1.4. Data 2. Test dataset <br/>
+
+```{r warning=TRUE, message=TRUE}
+
+fit_2 <-
+  soiltestcorr::mod_alcc(data = data_2, 
+                         ry = RY,
+                         stv = STV,
+                         target=90, 
+                         confidence = 0.95)
+
+head(fit_2)
+```
+
+### 1.5. Data 3. Freitas et al. 1966 <br/>
+
+```{r warning=TRUE, message=TRUE}
+
+fit_3 <-
+  soiltestcorr::mod_alcc(data = data_3, 
+                         ry = RY,
+                         stv = STK,
+                         target=90,
+                         confidence = 0.95)
+head(fit_3)
+
+```
+
+## 2. Multiple fits at once <br/>
+
+### 2.1. Using map
+
+#### Create nested data <br/>
+
+<i> Note: the `stv` column needs to have the same name for all datasets <i/> <br/>
+```{r warning=T, message=F}
+# 
+data.all <- bind_rows(data_1, data_2,
+                      data_3 %>% dplyr::rename(STV = STK),
+                     .id = "id") %>% 
+  tidyr::nest(data = c("STV", "RY"))
+```
+
+#### Fit
+```{r warning=T, message=F}
+
+# Run multiple examples at once with map()
+fit_multiple_map = data.all %>%
+  mutate(mod_alcc = purrr::map(data, 
+                               ~ soiltestcorr::mod_alcc(ry = .$RY,
+                                                        stv = .$STV,
+                                                        target=90,
+                                                        confidence = 0.95,
+                                                        tidy = TRUE)))
+
+head(fit_multiple_map)
+
+```
+
+### 2.1. Using group_map <br/>
+
+Alternatively, with group_map, we do not require nested data. <br/>
+
+However, it requires to bind_rows and add an `id` column specifying the name of each dataset. <br/>
+
+This option return models as lists objects.
+```{r warning=T, message=F}
+
+fit_multiple_group_map <- 
+  bind_rows(data_1, data_2, .id = "id") %>% 
+  group_by(id) %>% 
+  group_map(~ soiltestcorr::mod_alcc(data = ., 
+                                     ry = RY,
+                                     stv = STV, 
+                                     target = 90, 
+                                     confidence = 0.95, tidy = TRUE))
+
+head(fit_multiple_group_map)
+
+```
+
+## 3. Plots
+
+### 3.1. Calibration Curve 
+
+We can generate a ggplot with the same mod_alcc() function. <br/>
+
+We just need to specify the argument `plot = TRUE`. <br/>
+
+```{r warning=F, message=F}
+
+modalcc_plot <- 
+  soiltestcorr::mod_alcc(data = data_3,
+                         ry = RY, 
+                         stv = STK, 
+                         target=95, 
+                         confidence = 0.95, 
+                         plot = TRUE)
+
+modalcc_plot
+```
+### 3.1.2 Fine-tune the plots <br/>
+
+As ggplot object, plots can be adjusted in several ways. <br/>
+
+For example, modifying titles <br/>
+```{r warning=F, message=F}
+modalcc_plot_2 <- 
+  modalcc_plot +
+  # Main title
+  ggtitle("My own plot title")+
+  # Axis titles
+  labs(x = "Soil Test K (ppm)",
+       y = "Cotton RY(%)")
+
+modalcc_plot_2
+```
+Or modifying axis scales <br/>
+
+```{r warning=F, message=F}
+
+modalcc_plot_3 <-
+modalcc_plot_2 +
+  # Axis scales
+  scale_x_continuous(limits = c(20,220),
+                     breaks = seq(0,220, by = 20))+
+  # Axis limits
+  scale_y_continuous(limits = c(30,100),
+                     breaks = seq(30,100, by = 10))
+
+modalcc_plot_3
+  
+```
+
+
+### 3.2. SMA regression <br/>
+
+Behind the scenes, the mod_alcc() runs a Standardized Major Axis regression (SMA). <br/>
+
+We can extract the SMA fit and also check the residuals of this model out as follows: <br/>
+
+```{r warning=F, message=F}
+
+# Extract SMA regression fit and residuals from fit_3 (data_3, (Freitas et al., 1966))
+SMA_freitas_1966 <- fit_3$SMA %>% as.data.frame()
+ 
+SMA_freitas_1966 %>% 
+  ggplot(aes(x = arc_RY, y = ln_STV))+
+  ggtitle("SMA Regression. Dataset 3")+
+  geom_point(shape=21, fill = "orange", size = 4, alpha = 0.75)+
+  #SMA Line
+  geom_path(aes(x=arc_RY, y = SMA_line, linetype = "SMA_fit"), size = 2, col = "grey25")+
+  scale_linetype_manual(name="", values = c("solid"))+
+  #Critical value
+  geom_vline(xintercept = 0, col = "grey10", size = 1.25, linetype = "dashed")+
+  theme_bw()+
+  # Axis titles
+  labs(y = "ln_STV", y = "asin(sqrt(RY))-centered")
+```
+
+### 3.3. SMA residuals <br/>
+
+```{r warning=F, message=F}
+
+# Residuals plot
+SMA_freitas_1966 %>% 
+  ggplot(aes(x = fitted_axis, y = residuals))+
+  ggtitle("Residuals SMA. Dataset 3")+
+  geom_point(shape=21, fill = "orange", size = 4, alpha = 0.75)+
+  geom_hline(yintercept = 0, col = "grey10", size = 1.25, linetype = "dashed")+
+  theme_bw()+
+  # Axis titles
+  labs(x = "Fitted Axis -SMA- (see Warton et al. 2006)", y = "Residuals (STV units)")
+
+```
+
+<b> References </b> <br/>
+
+*Correndo, A.A., Salvagiotti, F., García, F.O. and Gutiérrez-Boem, F.H., 2017. A modification of the arcsine–log calibration curve for analysing soil test value–relative yield relationships. Crop and Pasture Science, 68(3), pp.297-304. https://doi.org/10.1071/CP16444 * <br/>
+
+*Dyson, C.B., Conyers, M.K., 2013. Methodology for online biometric analysis of soil test-crop response datasets. Crop & Pasture Science 64: 435–441. https://doi.org/10.1071/CP13009 * <br/>
+
+*Warton, D.I., Wright, I.J., Falster, D.S., Westoby, M., 2006. Bivariate line-fitting methods for allometry. Biol. Rev. Camb. Philos. Soc. 81, 259–291. https://doi.org/10.1017/S1464793106007007 * <br/>
