@@ -41,7 +41,12 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="articles/Introduction_to_soiltestcorr.html">Introduction to soiltestcorr</a>
+    <a class="dropdown-item" href="articles/Introduction_to_soiltestcorr.html">Introduction</a>
+    <a class="dropdown-item" href="articles/cate_nelson_1965_tutorial.html">Cate and Nelson (1965)</a>
+    <a class="dropdown-item" href="articles/cate_nelson_1971_tutorial.html">Cate and Nelson (1971)</a>
+    <a class="dropdown-item" href="articles/linear_plateau_tutorial.html">Linear-plateau response</a>
+    <a class="dropdown-item" href="articles/mod_alcc_tutorial.html">Modified ALCC</a>
+    <a class="dropdown-item" href="articles/quadratic_plateau_tutorial.html">Quadratic-plateau response</a>
   </div>
 </li>
 <li class="nav-item">
@@ -63,13 +68,21 @@
 <div class="page-header"><h1 id="soiltestcorr-soil-test-correlation-and-calibration-in-r">soiltestcorr: Soil Test Correlation and Calibration in R<a class="anchor" aria-label="anchor" href="#soiltestcorr-soil-test-correlation-and-calibration-in-r"></a>
 </h1></div>
 <!-- badges: start -->
-<p><img src="reference/figures/soiltestcorr_logo.png" align="right" height="200" style="float:right; height:200px;"><br></p>
+<!-- badges: end --><p><img src="reference/figures/soiltestcorr_logo.png" align="right" height="200" style="float:right; height:200px;"><br></p>
 <p>You can install the development version of soiltestcorr from <a href="https://github.com/adriancorrendo/soiltestcorr" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"adriancorrendo/soiltestcorr"</span><span class="op">)</span></code></pre></div>
-<div class="section level2"><h2 id="for-more-details-check-the-tutorial-documentation--">For more details, check the <a href="https://adriancorrendo.github.io/soiltestcorr/articles/Introduction_to_soiltestcorr.html">TUTORIAL Documentation</a> <br><a class="anchor" aria-label="anchor" href="#for-more-details-check-the-tutorial-documentation--"></a>
-</h2></div>
+<div class="section level2">
+<h2 id="for-more-details-visit-the-vignettes--">For more details, visit the Vignettes <br><a class="anchor" aria-label="anchor" href="#for-more-details-visit-the-vignettes--"></a>
+</h2>
+<p><a href="https://adriancorrendo.github.io/soiltestcorr/articles/Introduction_to_soiltestcorr.html">1. Intro</a> <br></p>
+<p><a href="https://adriancorrendo.github.io/soiltestcorr/articles/mod_alcc_tutorial.html">2. Modified Arcsine-Log Calibration Curve</a> <br></p>
+<p><a href="https://adriancorrendo.github.io/soiltestcorr/articles/cate_nelson_1965_tutorial.html">3. Cate &amp; Nelson (1965)</a> <br></p>
+<p><a href="https://adriancorrendo.github.io/soiltestcorr/articles/cate_nelson_1971_tutorial.html">4. Cate &amp; Nelson (1971)</a> <br></p>
+<p><a href="https://adriancorrendo.github.io/soiltestcorr/articles/linear_plateau_tutorial.html">5. Linear-plateau</a> <br></p>
+<p><a href="https://adriancorrendo.github.io/soiltestcorr/articles/quadratic_plateau_tutorial.html">6. Quadratic-plateau</a> <br></p>
+</div>
 </div>
 <div class="section level1">
 <h1 id="description--">Description <br><a class="anchor" aria-label="anchor" href="#description--"></a>
@@ -103,7 +116,7 @@
 <h2 id="2-cate--nelson-quadrants-analysis-1965--">2. Cate &amp; Nelson Quadrants Analysis (1965) <br><a class="anchor" aria-label="anchor" href="#2-cate--nelson-quadrants-analysis-1965--"></a>
 </h2>
 <p><code>soiltestcorr</code> also allows users to implement the quadrants analysis approach, also known as the Cate-Nelson analysis. There are two versions of the Cate-Nelson technique: <br></p>
-<p>Thus, the second alternative is based on Cate and Nelson (1965) (<code><a href="reference/cate_nelson_1965.html">cate_nelson_1965()</a></code>). The first step of this method is to apply an arbitrarily fixed value of RY as a target (y-axis) that divides the data into two categories (below &amp; equal or above RY target). In a second stage, it estimates the CSTV (x-axis) as the minimum STV that divides the data into four quadrants (target RY level combined with STV lower or greater than the CSTV) maximizing the number of points under well-classified quadrants (II, STV &gt;= CSTV &amp; RY &gt;= RY target; and IV, STV &lt; CSTV &amp; RY &lt; RY target). This is also known as the “graphical” version of the Cate-Nelson approach. <br></p>
+<p>Thus, the second alternative is based on Cate and Nelson (1965) (<code><a href="reference/cate_nelson_1965.html">cate_nelson_1965()</a></code>). The first step of this method is to apply an arbitrarily fixed value of ry as a target (y-axis) that divides the data into two categories (below &amp; equal or above ry target). In a second stage, it estimates the CSTV (x-axis) as the minimum stv that divides the data into four quadrants (target ry level combined with STV lower or greater than the CSTV) maximizing the number of points under well-classified quadrants (II, stv &gt;= CSTV &amp; ry &gt;= ry target; and IV, stv &lt; CSTV &amp; ry &lt; RY target). This is also known as the “graphical” version of the Cate-Nelson approach. <br></p>
 <p><b> cate_nelson_1965() </b> <br></p>
 <p>Instructions <br></p>
 <ol style="list-style-type: decimal">
@@ -123,12 +136,12 @@
 <div class="section level2">
 <h2 id="3-cate--nelson-quadrants-analysis-1971--">3. Cate &amp; Nelson Quadrants Analysis (1971) <br><a class="anchor" aria-label="anchor" href="#3-cate--nelson-quadrants-analysis-1971--"></a>
 </h2>
-<p>The third alternative is based on Cate and Nelson (1971) (<code><a href="reference/cate_nelson_1971.html">cate_nelson_1971()</a></code>). The first step of this alternative version is to estimates the CSTV (x-axis) as the minimum STV that minimizes the residual sum of squares when dividing data points in two classes (lower or greater than the CSTV) without using a fixed RY. This refined version does not constrains the model performance (measured with the coefficient of determination -R2-) but the user has no control on the RY level for the CSTV. This is also known as the “statistical” version of the Cate-Nelson approach. <br></p>
+<p>The third alternative is based on Cate and Nelson (1971) (<code><a href="reference/cate_nelson_1971.html">cate_nelson_1971()</a></code>). The first step of this alternative version is to estimate the CSTV (x-axis) as the minimum stv that minimizes the residual sum of squares when dividing data points in two classes (lower or greater than the CSTV) without using an arbitrary ry. This refined version does not constrains the model performance (measured with the coefficient of determination -R2-) but the user has no control on the RY level for the CSTV. This is also known as the “statistical” version of the Cate-Nelson approach. <br></p>
 <p><b> cate_nelson_1971() </b> <br></p>
 <p>Instructions <br></p>
 <ol style="list-style-type: decimal">
 <li><p>Load your dataframe with soil test value (stv) and relative yield (ry) data. <br></p></li>
-<li><p>Specify the following arguments into the function -cate_nelson_1965()-: <br></p></li>
+<li><p>Specify the following arguments into the function -cate_nelson_1971()-: <br></p></li>
 </ol>
 <p>(a). <code>data</code> (optional), <br></p>
 <p>(b). <code>stv</code> (soil test value) and <code>ry</code> (relative yield) columns or vectors, <br></p>
@@ -223,7 +236,7 @@
 <li><a href="https://ci.appveyor.com/project/adriancorrendo/soiltestcorr" class="external-link"><img src="https://ci.appveyor.com/api/projects/status/github/adriancorrendo/soiltestcorr?branch=main&amp;svg=true" alt="AppVeyor build status"></a></li>
 <li><a href="https://github.com/adriancorrendo/soiltestcorr/actions" class="external-link"><img src="https://github.com/adriancorrendo/soiltestcorr/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://codecov.io/gh/adriancorrendo/soiltestcorr" class="external-link"><img src="https://codecov.io/gh/adriancorrendo/soiltestcorr/branch/main/graph/badge.svg?token=OUH9NBPBXI" alt="codecov"></a></li>
-<li><a href="https://zenodo.org/badge/latestdoi/473710007" class="external-link"><img src="https://zenodo.org/badge/473710007.svg" alt="DOI"></a></li>
+<li><a href="https://doi.org/10.5281/zenodo.6500335" class="external-link"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6500335.svg" alt="DOI"></a></li>
 </ul>
 </div>
 
