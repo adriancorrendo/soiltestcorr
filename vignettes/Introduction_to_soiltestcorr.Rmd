@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-<img src="../man/figures/soiltestcorr_logo.png" align="right" height="150" style="float:right; height:150px;">
+<img src="../man/figures/soiltestcorr_logo.png" align="right" height="200" style="float:right; height:200px;">
 
 The functions in the `soiltestcorr` package are intended to be used when analyzing the correlation between soil test values (STV) and relative yield (RY). This tutorial will introduce and demonstrate the currently available functions. <br/>
 
