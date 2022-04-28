@@ -1,6 +1,6 @@
 Package: soiltestcorr
 Title: Soil Test Correlation and Calibration in R
-Version: 1.0.5
+Version: 1.0.6
 Authors@R: 
     c(person(given = "Adrian A.", family = "Correndo",
              email = "correndo@ksu.edu", role = "cre",comment = c(ORCID = "0000-0002-4172-289X")),

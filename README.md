@@ -28,7 +28,7 @@ devtools::install_github("adriancorrendo/soiltestcorr")
 # Description <br/>
 
 The goal of `soiltestcorr` is to assist users on the analysis of
-relationships between relative yield (RY) and soil test values (STV)
+relationships between relative yield (ry) and soil test values (stv)
 following different approaches. <br/>
 
 Available functions (version 1.0.5, 04-18-2022): <br/>
@@ -39,22 +39,22 @@ The first calibration method available is the Modified Arcsine-log
 Calibration Curve (`mod_alcc()`) originally described by Dyson and
 Conyers (2013) and modified by Correndo et al. (2017). This function
 produces the estimation of critical soil test values (CSTV) for a target
-relative yield (RY) with confidence intervals at adjustable confidence
+relative yield (ry) with confidence intervals at adjustable confidence
 levels. <br/>
 
 <b> mod_alcc() </b> <br/>
 
 Instructions <br/>
 
-1.  Load your dataframe with soil test value (STV) and relative yield
-    (RY) data. <br/>
+1.  Load your dataframe with soil test value (stv) and relative yield
+    (ry) data. <br/>
 
 2.  Specify the following arguments into the function -mod_alcc()-:
     <br/>
 
 (a). `data` (optional), <br/>
 
-(b). `STV` (soil test value) and `RY` (relative yield) columns or
+(b). `stv` (soil test value) and `ry` (relative yield) columns or
 vectors, <br/>
 
 (c). `target` of relative yield (e.g. 90%), <br/>
@@ -100,15 +100,15 @@ version of the Cate-Nelson approach. <br/>
 
 Instructions <br/>
 
-1.  Load your dataframe with soil test value (STV) and relative yield
-    (RY) data. <br/>
+1.  Load your dataframe with soil test value (stv) and relative yield
+    (ry) data. <br/>
 
 2.  Specify the following arguments into the function
     -cate_nelson_1965()-: <br/>
 
 (a). `data` (optional), <br/>
 
-(b). `STV` (soil test value) and `RY` (relative yield) columns or
+(b). `stv` (soil test value) and `ry` (relative yield) columns or
 vectors, <br/>
 
 (c). `plot` TRUE (produces a ggplot as main output) or FALSE (no plot,
@@ -140,15 +140,15 @@ Cate-Nelson approach. <br/>
 
 Instructions <br/>
 
-1.  Load your dataframe with soil test value (STV) and relative yield
-    (RY) data. <br/>
+1.  Load your dataframe with soil test value (stv) and relative yield
+    (ry) data. <br/>
 
 2.  Specify the following arguments into the function
     -cate_nelson_1965()-: <br/>
 
 (a). `data` (optional), <br/>
 
-(b). `STV` (soil test value) and `RY` (relative yield) columns or
+(b). `stv` (soil test value) and `ry` (relative yield) columns or
 vectors, <br/>
 
 (c). `plot` TRUE (produces a ggplot as main output) or FALSE (no plot,
@@ -179,15 +179,15 @@ with self starting initial values to facilitate the model’s convergence.
 
 Instructions <br/>
 
-1.  Load your dataframe with soil test value (STV) and relative yield
-    (RY) data. <br/>
+1.  Load your dataframe with soil test value (stv) and relative yield
+    (ry) data. <br/>
 
 2.  Specify the following arguments into the function
     -linear_plateau()-: <br/>
 
 (a). `data` (optional), <br/>
 
-(b). `STV` (soil test value) and `RY` (relative yield) columns or
+(b). `stv` (soil test value) and `ry` (relative yield) columns or
 vectors, <br/>
 
 (c). `plot` TRUE (produces a ggplot as main output) or FALSE (no plot,
@@ -221,15 +221,15 @@ values to facilitate the model convergence. <br/>
 
 Instructions <br/>
 
-1.  Load your dataframe with soil test value (STV) and relative yield
-    (RY) data. <br/>
+1.  Load your dataframe with soil test value (stv) and relative yield
+    (ry) data. <br/>
 
 2.  Specify the following arguments into the function
     -quadratic_plateau()-: <br/>
 
 (a). `data` (optional), <br/>
 
-(b). `STV` (soil test value) and `RY` (relative yield) columns or
+(b). `stv` (soil test value) and `ry` (relative yield) columns or
 vectors, <br/>
 
 (c). `plot` TRUE (produces a ggplot as main output) or FALSE (no plot,

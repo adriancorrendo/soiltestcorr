@@ -2,9 +2,9 @@
 #' @title Cate & Nelson Quadrants Analysis, 1965
 #' @description This function runs the quadrants analysis suggested by Cate and Nelson (1965)
 #' @param data argument to call a data.frame or data.table containing the data
-#' @param STV argument to call the vector or column containing the soil test value (STV) data
-#' @param RY argument to call the vector or column containing the relative yield (RY) data
-#' @param target argument to specify the RY target (numeric) to estimate the critical STV
+#' @param stv argument to call the vector or column containing the soil test value (stv) data
+#' @param ry argument to call the vector or column containing the relative yield (ry) data
+#' @param target argument to specify the ry target (numeric) to estimate the critical stv
 #' @param tidy logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).
 #' @param plot logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a ggplot,
 #' FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE). 
@@ -30,11 +30,24 @@
 #' @importFrom stats lm anova
 #' @importFrom ggplot2 ggplot aes geom_point scale_shape_manual scale_color_manual labs geom_vline geom_hline annotate theme_bw theme
 #' 
-cate_nelson_1965 <- function(data=NULL, STV, RY, target, tidy = FALSE, plot = FALSE){
-
-  x <- rlang::eval_tidy(data = data, rlang::quo({{STV}}) )
+cate_nelson_1965 <- function(data=NULL, stv, ry, target, tidy = FALSE, plot = FALSE){
   
-  y <- rlang::eval_tidy(data = data, rlang::quo({{RY}}) )
+  if (missing(stv)) {
+    stop("Please specify the variable name for soil test values using the `stv` argument")
+  }
+  
+  if (missing(ry)) {
+    stop("Please specify the variable name for relative yield using the `ry` argument")
+  }
+  
+  if (missing(target)) {
+    stop("Please specify the relative yield target to estimate the critical soil test value using the
+         the `target` argument (e.g. target = 90)")
+  }
+
+  x <- rlang::eval_tidy(data = data, rlang::quo({{stv}}) )
+  
+  y <- rlang::eval_tidy(data = data, rlang::quo({{ry}}) )
   
   n <- length(x) 
   

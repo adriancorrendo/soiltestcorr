@@ -1,0 +1,99 @@
+# Test for cate_nelson_1965()
+
+# 1
+## cate_nelson_1965
+## nrow<4
+context("run cate_nelson_1965() with packaged dataset freitas1966")
+
+freitas_less_4 <- soiltestcorr::freitas1966 %>% dplyr::slice_head(n=3)
+
+cate_nelson_1965.test <- try(cate_nelson_1965(data = freitas_less_4, stv = STK, ry = RY, target = 90,
+                                          tidy=FALSE,
+                                          plot = FALSE),
+                           silent = TRUE)
+
+test_that("no error in fitting cate_nelson_1965() for the example dataset", {
+  
+  expect_false(inherits(cate_nelson_1965.test, "try-error"))
+  
+})
+
+# 2
+## cate_nelson_1965
+## missing stv
+
+cate_nelson_1965.test <- try(cate_nelson_1965(data = freitas1966, ry = RY, target = 90,
+                                          tidy=FALSE,
+                                          plot = FALSE),
+                           silent = TRUE)
+
+test_that("no error in fitting cate_nelson_1965() for the example dataset", {
+  
+  expect_true(inherits(cate_nelson_1965.test, "try-error"))
+  
+})
+
+# 3
+## cate_nelson_1965
+## missing ry
+
+cate_nelson_1965.test <- try(cate_nelson_1965(data = freitas1966, stv = STK, target = 90,
+                                          tidy=FALSE,
+                                          plot = FALSE),
+                           silent = TRUE)
+
+test_that("no error in fitting cate_nelson_1965() for the example dataset", {
+  
+  expect_true(inherits(cate_nelson_1965.test, "try-error"))
+  
+})
+
+
+
+#######################################
+# 4
+## cate_nelson_1965
+## Options plot = FALSE, tidy = FALSE
+context("run cate_nelson_1965() with packaged dataset freitas1966")
+
+cate_nelson_1965.test <- try(cate_nelson_1965(data = freitas1966, stv = STK, ry = RY, target = 90,
+                                              plot = FALSE, tidy = FALSE),
+                             silent = TRUE)
+
+test_that("no error in fitting cate_nelson_1965() for the example dataset", {
+  
+  expect_false(inherits(cate_nelson_1965.test, "try-error"))
+  
+})
+
+#######################################
+# 5
+## cate_nelson_1965
+## Options plot = FALSE, tidy = TRUE
+context("run cate_nelson_1965() with packaged dataset freitas1966")
+
+cate_nelson_1965.test <- try(cate_nelson_1965(data = freitas1966, stv = STK, ry = RY, target = 90,
+                                              plot = FALSE, tidy = TRUE),
+                             silent = TRUE)
+
+test_that("no error in fitting cate_nelson_1965() for the example dataset", {
+  
+  expect_false(inherits(cate_nelson_1965.test, "try-error"))
+  
+})
+
+#######################################
+# 6
+## cate_nelson_1965
+## Options plot = TRUE, tidy = FALSE
+context("run cate_nelson_1965() with packaged dataset freitas1966")
+
+cate_nelson_1965.test <- try(cate_nelson_1965(data = freitas1966, stv = STK, ry = RY, target = 90,
+                                              plot = TRUE, tidy = FALSE),
+                             silent = TRUE)
+
+test_that("no error in fitting cate_nelson_1965() for the example dataset", {
+  
+  expect_false(inherits(cate_nelson_1965.test, "try-error"))
+  
+})

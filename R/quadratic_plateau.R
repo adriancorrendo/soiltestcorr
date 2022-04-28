@@ -3,9 +3,9 @@
 #' @description This function helps to fit a linear-plateau model in order to
 #' estimate critical soil test values (CSTV) above which yield response becomes flat.
 #' @param data Optional argument to call and object of type data.frame or data.table 
-#' containing the STV and RY data, Default: NULL
-#' @param STV name of the vector containing soil test values (-) of type `numeric`.
-#' @param RY name of the vector containing relative yield values (%) of type `numeric`.
+#' containing the stv and ry data, Default: NULL
+#' @param stv name of the vector containing soil test values (-) of type `numeric`.
+#' @param ry name of the vector containing relative yield values (%) of type `numeric`.
 #' @param tidy logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).
 #' @param resid logical operator (TRUE/FALSE) to plot residuals analysis, Default: FALSE
 #' @param plot logical operator (TRUE/FALSE) to plot the quadratic-plateau model, Default: FALSE
@@ -23,7 +23,7 @@
 #'  dat <- data.frame("ry" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
 #'                    "stv" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
 #'  # Run
-#'  fit_example_lp <- quadratic_plateau(data = dat, RY = ry, STV = stv, resid = TRUE, plot = FALSE)
+#'  fit_example_lp <- quadratic_plateau(data = dat, ry = ry, stv = stv, resid = TRUE, plot = FALSE)
 #'  fit_example_lp
 #'  }
 #' }
@@ -130,17 +130,24 @@ SS_QP <- stats::selfStart(QP_f, initial = QP_init, c("intercept","slope","Xc"))
 #' @return quadratic_plateau: function
 #' @export 
 quadratic_plateau <- function(data = NULL,
-                                STV,
-                                RY,
+                                stv,
+                                ry,
                                 tidy = FALSE,
                                 plot = FALSE,
                                 resid = FALSE
                                 ) {
+  if (missing(stv)) {
+    stop("Please specify the variable name for soil test values using the `stv` argument")
+  }
   
-  # Re-define x and y from STV and RY
-  x <- rlang::eval_tidy(data = data, rlang::quo({{STV}}) )
+  if (missing(ry)) {
+    stop("Please specify the variable name for relative yields using the `ry` argument")
+  }
   
-  y <- rlang::eval_tidy(data = data, rlang::quo({{RY}}) )
+  # Re-define x and y from stv and ry
+  x <- rlang::eval_tidy(data = data, rlang::quo({{stv}}) )
+  
+  y <- rlang::eval_tidy(data = data, rlang::quo({{ry}}) )
   
   # Create data.frame if it doesn't exist yet (data from vectors)
   test.data <- data.frame(x=x, y=y)

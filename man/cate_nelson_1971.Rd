@@ -4,14 +4,14 @@
 \alias{cate_nelson_1971}
 \title{Cate & Nelson Quadrants Analysis, 1971}
 \usage{
-cate_nelson_1971(data = NULL, STV, RY, tidy = FALSE, plot = FALSE)
+cate_nelson_1971(data = NULL, stv, ry, tidy = FALSE, plot = FALSE)
 }
 \arguments{
 \item{data}{argument to call a data.frame or data.table containing the data}
 
-\item{STV}{argument to call the vector or column containing the soil test value (STV) data}
+\item{stv}{argument to call the vector or column containing the soil test value (stv) data}
 
-\item{RY}{argument to call the vector or column containing the relative yield (RY) data}
+\item{ry}{argument to call the vector or column containing the relative yield (ry) data}
 
 \item{tidy}{logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).}
 

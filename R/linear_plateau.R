@@ -148,11 +148,11 @@ linear_plateau <- function(data = NULL,
                            resid = FALSE) {
   
   if (missing(stv)) {
-    stop("Please specify the variable name for soil test concentrations using the `stv` argument")
+    stop("Please specify the variable name for soil test values using the `stv` argument")
   }
   
   if (missing(ry)) {
-    stop("Please specify the variable name for relative yields using the `ry` argmuent")
+    stop("Please specify the variable name for relative yields using the `ry` argument")
   }
   
   # Re-define x and y from stv and ry

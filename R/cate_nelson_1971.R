@@ -2,8 +2,8 @@
 #' @title Cate & Nelson Quadrants Analysis, 1971
 #' @description This function runs the quadrants analysis suggested by Cate and Nelson (1965)
 #' @param data argument to call a data.frame or data.table containing the data
-#' @param STV argument to call the vector or column containing the soil test value (STV) data
-#' @param RY argument to call the vector or column containing the relative yield (RY) data
+#' @param stv argument to call the vector or column containing the soil test value (stv) data
+#' @param ry argument to call the vector or column containing the relative yield (ry) data
 #' @param tidy logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).
 #' @param plot logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a ggplot,
 #' FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE). 
@@ -30,11 +30,19 @@
 #' @importFrom stats lm anova
 #' @importFrom ggplot2 ggplot aes geom_point scale_shape_manual scale_color_manual labs geom_vline geom_hline annotate theme_bw theme
 
-cate_nelson_1971 <- function(data=NULL, STV, RY, tidy = FALSE, plot = FALSE){
+cate_nelson_1971 <- function(data=NULL, stv, ry, tidy = FALSE, plot = FALSE){
   
-  x <- rlang::eval_tidy(data = data, rlang::quo({{STV}}) )
+  if (missing(stv)) {
+    stop("Please specify the variable name for soil test values using the `stv` argument")
+  }
   
-  y <- rlang::eval_tidy(data = data, rlang::quo({{RY}}) )
+  if (missing(ry)) {
+    stop("Please specify the variable name for relative yield using the `ry` argument")
+  }
+  
+  x <- rlang::eval_tidy(data = data, rlang::quo({{stv}}) )
+  
+  y <- rlang::eval_tidy(data = data, rlang::quo({{ry}}) )
   
   n <- length(x) 
   

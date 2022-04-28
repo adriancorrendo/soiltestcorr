@@ -4,15 +4,23 @@
 \alias{mod_alcc}
 \title{Modified Arcsine-Log Calibration Curve}
 \usage{
-mod_alcc(data = NULL, RY, STV, target, confidence, tidy = FALSE, plot = FALSE)
+mod_alcc(
+  data = NULL,
+  ry,
+  stv,
+  target,
+  confidence = 0.95,
+  tidy = FALSE,
+  plot = FALSE
+)
 }
 \arguments{
 \item{data}{Optional argument to call and object of type data.frame or data.table
-containing the STV and RY data, Default: NULL}
+containing the stv and ry data, Default: NULL}
 
-\item{RY}{name of the vector containing relative yield values (\%) of type \code{numeric}.}
+\item{ry}{name of the vector containing relative yield values (\%) of type \code{numeric}.}
 
-\item{STV}{name of the vector containing soil test values (-) of type \code{numeric}.}
+\item{stv}{name of the vector containing soil test values of type \code{numeric}.}
 
 \item{target}{\code{numeric} value of relative yield target (e.g. 90 for 90\%) to estimate the CSTV.}
 

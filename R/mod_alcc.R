@@ -3,9 +3,9 @@
 #' @description This function runs the modified arcsine-log calibration curve to
 #' estimate critical soil test values (CSTV) following Correndo et al. (2017)
 #' @param data Optional argument to call and object of type data.frame or data.table 
-#' containing the STV and RY data, Default: NULL
-#' @param RY name of the vector containing relative yield values (%) of type `numeric`.
-#' @param STV name of the vector containing soil test values (-) of type `numeric`.
+#' containing the stv and ry data, Default: NULL
+#' @param stv name of the vector containing soil test values of type `numeric`.
+#' @param ry name of the vector containing relative yield values (%) of type `numeric`.
 #' @param target `numeric` value of relative yield target (e.g. 90 for 90%) to estimate the CSTV.
 #' @param confidence `numeric` value of confidence level (e.g. 0.95 for 
 #' significance = 0.05)
@@ -41,24 +41,43 @@
 #' @importFrom ggplot2 ggplot aes geom_point scale_shape_manual geom_rug geom_hline geom_vline geom_path scale_y_continuous annotate labs theme_bw theme annotate 
 
 mod_alcc <- function(data=NULL, 
-                    RY, 
-                    STV, 
+                    ry, 
+                    stv, 
                     target, 
-                    confidence, 
+                    confidence = 0.95, 
                     tidy = FALSE,
                     plot = FALSE
                     ){
+  
+  if (missing(stv)) {
+    stop("Please specify the variable name for soil test values using the `stv` argument")
+  }
+  
+  if (missing(ry)) {
+    stop("Please specify the variable name for relative yield using the `ry` argument")
+  }
+  
+  if (missing(target)) {
+    stop("Please specify the relative yield target to estimate the critical soil test value using the
+         the `target` argument (e.g. target = 90)")
+  }
+  
+  if (missing(confidence)) {warning("You have not specified the confidence level. 
+                                Please, modify if your desired confidence is different than the default (0.95)", 
+                                call. = FALSE) 
+  }
+  
 ### STAGE 1 ====================================================================
   # Add a function to cap if there are RY values > 100
-  ry <- rlang::eval_tidy(data = data, rlang::quo(ifelse({{RY}} > 100, 100, as.double({{RY}})) ))
+  RY <- rlang::eval_tidy(data = data, rlang::quo(ifelse({{ry}} > 100, 100, as.double({{ry}})) ))
   # Re-define STV as stv
-  stv <- rlang::eval_tidy(data = data, rlang::quo({{STV}}))
-  n <- length(ry) # Sample size
+  STV <- rlang::eval_tidy(data = data, rlang::quo({{stv}}))
+  n <- length(RY) # Sample size
   df <- n - 2 # Degrees of freedom
   prob <- 1-((1-confidence)/2) # Probability for t-dist
   tvalue <- stats::qt(p=prob, df = df) # Student-t value
-  arc_RY <- asin(sqrt(ry/100)) - asin(sqrt(target/100)) # RY transformation (centered to target)
-  ln_STV <- log(stv) # STV natural log transformation
+  arc_RY <- asin(sqrt(RY/100)) - asin(sqrt(target/100)) # RY transformation (centered to target)
+  ln_STV <- log(STV) # STV natural log transformation
   r <- stats::cor(ln_STV, arc_RY, method = "pearson") # Pearson correlation (r)
   p_value <- stats::cor.test(ln_STV,arc_RY, method = "pearson")$p.value # p-value of r
   slope <- stats::sd(ln_STV)/stats::sd(arc_RY) # SMA slope for ln_STV ~ arc_RY
@@ -70,22 +89,22 @@ mod_alcc <- function(data=NULL,
   SE_int <- sqrt(MSE*((1/n)+ ((mean(arc_RY)^2)/SSx)))  # Standard Error intercept
   CSTV_lower <- exp(intercept - (tvalue * SE_int))  # Lower limit of CSTV
   CSTV_upper <- exp(intercept + (tvalue * SE_int)) # Upper limit of CSTV
-  new_RY <- seq(min(ry),100, by=0.2) # New RY vector up to %100 to fit curve
+  new_RY <- seq(min(RY),100, by=0.2) # New RY vector up to %100 to fit curve
   new_arc_RY <- asin(sqrt(new_RY/100)) - asin(sqrt(target/100)) # Transforming new_RY vector
   fitted_Line <- intercept + slope * new_arc_RY # Fitted ln_STV for curve plot
   fitted_STV <- exp(fitted_Line) # Fitted ln_STV for new_RY
   residuals <- ln_STV - SMA_line # Residuals of SMA Regression
   fitted_axis <- ln_STV + slope * arc_RY # Fitted axis to check SMA residuals
-  target <- target # Target RY to show on summary
-  confidence <- confidence # Confidence level to show on summary
+  target <- target # Target RY to show on summaRY
+  confidence <- confidence # Confidence level to show on summaRY
   # Critical STV for RY = 90 & 100
-  arc_ry_100 <- asin(sqrt(ry/100)) - asin(sqrt(1)) 
-  cstv.100 <- exp(mean(ln_STV) - (mean(arc_ry_100)*(sd(ln_STV)/sd(arc_ry_100))))
-  arc_ry_90 <- asin(sqrt(ry/100)) - asin(sqrt(90/100)) 
-  cstv.90 <- exp(mean(ln_STV) - (mean(arc_ry_90)*(sd(ln_STV)/sd(arc_ry_90))))
+  arc_RY_100 <- asin(sqrt(RY/100)) - asin(sqrt(1)) 
+  cstv.100 <- exp(mean(ln_STV) - (mean(arc_RY_100)*(sd(ln_STV)/sd(arc_RY_100))))
+  arc_RY_90 <- asin(sqrt(RY/100)) - asin(sqrt(90/100)) 
+  cstv.90 <- exp(mean(ln_STV) - (mean(arc_RY_90)*(sd(ln_STV)/sd(arc_RY_90))))
   # Count cases with STV > x2 cstv90 and STV > cstv100
-  n.90x2 <- rlang::eval_tidy(data=data, rlang::quo(length(which({{STV}} > (2*cstv.90))) ) )
-  n.100 <- rlang::eval_tidy(data=data, rlang::quo(length(which({{STV}} > cstv.100)) ) )
+  n.90x2 <- rlang::eval_tidy(data=data, rlang::quo(length(which({{stv}} > (2*cstv.90))) ) )
+  n.100 <- rlang::eval_tidy(data=data, rlang::quo(length(which({{stv}} > cstv.100)) ) )
   
   ### STAGE 2 ====================================================================
   # Outputs
@@ -123,7 +142,7 @@ mod_alcc <- function(data=NULL,
   # WARNINGS
   rlang::eval_tidy(data = data, rlang::quo(
     # RY > 100%
-    if (max({{RY}}) > 100) {warning("One or more original RY values exceeded 100%. All RY values greater 
+  if (max({{ry}}) > 100) {warning("One or more original RY values exceeded 100%. All RY values greater 
           than 100% have been capped to 100%.", call. = FALSE) } ) )
   # Sample size
   if (results$n <= 8) {warning(paste0("n =",n,". Limited sample size. Consider adding more 
@@ -143,24 +162,24 @@ mod_alcc <- function(data=NULL,
 ### STAGE 3 ====================================================================
   
   # Plot
-  datapoints <- data.frame(stv=stv, ry=ry)
+  datapoints <- data.frame(STV=STV, RY=RY)
   curve <- data.frame(fitted_STV=fitted_STV, new_RY = new_RY)
   
   modalcc.ggplot <- datapoints %>% 
-    ggplot2::ggplot(ggplot2::aes(x=stv, y=ry)) +
+    ggplot2::ggplot(ggplot2::aes(x=STV, y=RY)) +
     # Data points
     ggplot2::geom_point(shape = 21, size = 3, alpha = 0.75, fill = "#e09f3e") +
     # Highlight potential leverage points >2xCSTV90
-    { if (length(stv[stv > 2*cstv.90]) > 0)
+    { if (length(STV[STV > 2*cstv.90]) > 0)
       ggplot2::geom_point(data = datapoints %>% 
-                            dplyr::filter(stv > 2*cstv.90),
-                          aes(x=stv, y=ry, shape = ">2xCSTV90"), 
+                            dplyr::filter(STV > 2*cstv.90),
+                          aes(x=STV, y=RY, shape = ">2xCSTV90"), 
                           col = "#CE1141", size = 3, alpha = 0.5) } +
     # Highlight potential leverage points >2xCSTV90
-    { if (length(stv[stv > cstv.100]) > 0)
+    { if (length(STV[STV > cstv.100]) > 0)
       ggplot2::geom_point(data = datapoints %>% 
-                            dplyr::filter(stv > cstv.100),
-                          aes(x=stv, y=ry, shape = ">CSTV100"), 
+                            dplyr::filter(STV > cstv.100),
+                          aes(x=STV, y=RY, shape = ">CSTV100"), 
                           col = "#CE1141", size = 3, alpha = 0.5) } +
     ggplot2::scale_shape_manual(name = "", values = c(15,8))+
     ggplot2::geom_rug(alpha = 0.2, length = ggplot2::unit(2, "pt")) +
@@ -175,18 +194,18 @@ mod_alcc <- function(data=NULL,
     # ALCC curve
     ggplot2::geom_path(data = curve, ggplot2::aes(x=fitted_STV,y=new_RY),
                        color="grey15", size = 1.5) +
-    ggplot2::scale_y_continuous(limits = c(0, max(ry)),breaks=seq(0,max(ry)*2,10)) +
+    ggplot2::scale_y_continuous(limits = c(0, max(RY)),breaks=seq(0,max(RY)*2,10)) +
     # Text annotations
     ggplot2::annotate("text",label = paste("CSTV =", round(CSTV,1), "ppm"),
                       x = CSTV, y = 0, angle = 90, hjust = 0, vjust = 1.5, col = "grey25") +
     ggplot2::annotate("text",label = paste0("Target = ", round(target, 1), "%"),
-                      x = max(max(stv),max(fitted_STV)), 
+                      x = max(max(STV),max(fitted_STV)), 
                       y = target, hjust = 1,vjust = 1.5, col = "grey25") +
     ggplot2::annotate("text", col = "grey25",
-                   label = paste0("n = ", length(stv),
+                   label = paste0("n = ", length(STV),
                                   "\nr = ", round(r, 2),
                                   "\nCI = [", round(CSTV_lower,1)," - ", round(CSTV_upper,1),"]"),
-                   x = max(max(stv),max(fitted_STV)), y = 0, vjust = 0, hjust = 1) +
+                   x = max(max(STV),max(fitted_STV)), y = 0, vjust = 0, hjust = 1) +
     # Shade
     #ggpp::annotate(geom = "rect", xmin = CSTV_lower, xmax = CSTV_upper,
      #              ymin = min(ry), ymax = 100, alpha = 0.3, fill = "#13274F")+
