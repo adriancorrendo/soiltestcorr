@@ -6,11 +6,11 @@
 \alias{SS_LP}
 \title{Linear Plateau}
 \usage{
-LP_f(x, intercept, slope, Xc)
+LP_f(x, intercept, slope, cx)
 
-SS_LP(x, intercept, slope, Xc)
+SS_LP(x, intercept, slope, cx)
 
-linear_plateau(data = NULL, STV, RY, tidy = FALSE, plot = FALSE, resid = FALSE)
+linear_plateau(data = NULL, stv, ry, tidy = FALSE, plot = FALSE, resid = FALSE)
 }
 \arguments{
 \item{x}{selfstart vector for independent variable, Default: NULL}
@@ -19,14 +19,14 @@ linear_plateau(data = NULL, STV, RY, tidy = FALSE, plot = FALSE, resid = FALSE)
 
 \item{slope}{selfstart arg. for slope Default: NULL}
 
-\item{Xc}{selfstart arg. for critical value Default: NULL}
+\item{cx}{selfstart arg. for critical X (cx) value Default: NULL}
 
 \item{data}{Optional argument to call and object of type data.frame or data.table
-containing the STV and RY data, Default: NULL}
+containing the soil test value (STV) and relative yield (RY) data, Default: NULL}
 
-\item{STV}{name of the vector containing soil test values (-) of type \code{numeric}.}
+\item{stv}{name of the vector containing soil test values (-) of type \code{numeric}.}
 
-\item{RY}{name of the vector containing relative yield values (\%) of type \code{numeric}.}
+\item{ry}{name of the vector containing relative yield values (\%) of type \code{numeric}.}
 
 \item{tidy}{logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).}
 
@@ -61,7 +61,7 @@ if(interactive()){
  dat <- data.frame("ry" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
                    "stv" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
  # Run
- fit_example_lp <- linear_plateau(data = dat, RY = ry, STV = stv, resid = TRUE, plot = FALSE)
+ fit_example_lp <- linear_plateau(data = dat, ry = ry, stv = stv, resid = TRUE, plot = FALSE)
  fit_example_lp
  }
 }

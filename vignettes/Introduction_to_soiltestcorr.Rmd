@@ -17,13 +17,13 @@ knitr::opts_chunk$set(
 )
 ```
 
-<img src="../man/figures/soiltestcorr_logo.png" align="right" height="150" style="float:right; height:150px;">
+<img src="../man/figures/soiltestcorr_logo.png" align="right" height="200" style="float:right; height:200px;">
 
-This tutorial is intended to assist on the use of the available functions from the `soiltestcorr` package for the analysis of relationships between relative yield (RY) and soil test values (STV). <br/>
+The functions in the `soiltestcorr` package are intended to be used when analyzing the correlation between soil test values (STV) and relative yield (RY). This tutorial will introduce and demonstrate the currently available functions. <br/>
 
 ## 1. Installation
 
-You can install the development version of soiltestcorr from [GitHub](https://github.com/adriancorrendo/soiltestcorr) with:
+You can install the development version of `soiltestcorr` from [GitHub](https://github.com/adriancorrendo/soiltestcorr) with:
 
 ``` r
 # install.packages("devtools")
@@ -52,12 +52,12 @@ This is a basic example which shows you how to use the package: <br/>
 
 # Example 1 dataset
 # Fake dataset manually created
-data_1 = data.frame("RY" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
-                   "STV" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
+data_1 <- data.frame("RY"  = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
+                     "STV" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
   
 # Example 2. Native dataset from soiltestcorr package
 
-data_2 = soiltestcorr::data_test
+data_2 <- soiltestcorr::data_test
 
 
 # Example 3. Native dataset from soiltestcorr package, used by Cate & Nelson (1971)
@@ -65,8 +65,8 @@ data_3 <- soiltestcorr::freitas1966
 
 # Create nested structure as example of multiple datasets
 # Note that STV column needs to have the same name in order to bind rows
-data.all = bind_rows(data_1, data_2, 
-                     data_3 %>% rename(STV = STK),
+data.all <- bind_rows(data_1, data_2,
+                      data_3 %>% rename(STV = STK),
                      .id = "id") %>% 
   tidyr::nest(data = c("STV", "RY"))
 
@@ -126,11 +126,16 @@ fit_all = bind_rows(data_1, data_2, .id = "id") %>%
 ### 3.2. Fit Cate & Nelson 1965
 ```{r}
 
-cate_nelson_1965_example_2 = soiltestcorr::cate_nelson_1965(data = data_2, RY = RY, STV = STV, target=90, tidy = FALSE, plot = FALSE)
+cate_nelson_1965_example_2 <- 
+  soiltestcorr::cate_nelson_1965(data = data_2, RY = RY, STV = STV,
+                                 target = 90, tidy = FALSE, plot = FALSE)
 
 cate_nelson_1965_example_2
 
-cate_nelson_1965_example_3 = soiltestcorr::cate_nelson_1965(data = data_3, RY = RY, STV = STK, target=95, tidy = TRUE, plot = FALSE)
+
+cate_nelson_1965_example_3 <- 
+  soiltestcorr::cate_nelson_1965(data = data_3, RY = RY, STV = STK,
+                                 target = 95, tidy = TRUE, plot = FALSE)
 
 cate_nelson_1965_example_3
 
@@ -140,36 +145,43 @@ cate_nelson_1965_example_3
 ### 3.3. Fit Cate & Nelson 1971
 ```{r}
 
-cate_nelson_1971_example_2 = soiltestcorr::cate_nelson_1971(data = data_2, RY = RY, STV = STV, tidy = TRUE, plot = FALSE)
+cate_nelson_1971_example_2 <- 
+  soiltestcorr::cate_nelson_1971(data = data_2, RY = RY, STV = STV,
+                                 tidy = TRUE, plot = FALSE)
 
 cate_nelson_1971_example_2
 
-cate_nelson_1971_example_3 = soiltestcorr::cate_nelson_1971(data = data_3, RY = RY, STV = STK, tidy = TRUE, plot = FALSE)
+cate_nelson_1971_example_3 <-
+  soiltestcorr::cate_nelson_1971(data = data_3, RY = RY, STV = STK,
+                                 tidy = TRUE, plot = FALSE)
 
 cate_nelson_1971_example_3
 
 ```
 
-### 3.4. Fit Linear-plateau model
+### 3.4. Fit linear-plateau model
 ```{r}
 
-linear_plateau_example_3_list = soiltestcorr::linear_plateau(data = data_3, RY = RY, STV = STK, 
-                                                        tidy = FALSE, plot = FALSE)
+linear_plateau_example_3_list <-
+  soiltestcorr::linear_plateau(data = data_3, stv = STK, ry = RY,
+                               tidy = FALSE, plot = FALSE)
 
 linear_plateau_example_3_list
 
-linear_plateau_example_3_tidy = soiltestcorr::linear_plateau(data = data_3, RY = RY, STV = STK, 
-                                                        tidy = TRUE, plot = FALSE)
+linear_plateau_example_3_tidy <-
+  soiltestcorr::linear_plateau(data = data_3, stv = STK, ry = RY,
+                               tidy = TRUE, plot = FALSE)
 
 linear_plateau_example_3_tidy
 
 ```
 
-### 3.5. Fit Quadratic-plateau model
+### 3.5. Fit quadratic-plateau model
 ```{r}
 
-quadratic_plateau_example_3 = soiltestcorr::quadratic_plateau(data = data_3, RY = RY, STV = STK, 
-                                                              plot = FALSE, tidy = TRUE)
+quadratic_plateau_example_3 <-
+  soiltestcorr::quadratic_plateau(data = data_3, RY = RY, STV = STK,
+                                  plot = FALSE, tidy = TRUE)
 
 quadratic_plateau_example_3
 
@@ -234,7 +246,7 @@ soiltestcorr::cate_nelson_1971(data = data_3, RY = RY, STV = STK, tidy = TRUE, p
 ### 4.4. Linear-plateau
 ```{r warning=F, message=F}
 
-soiltestcorr::linear_plateau(data = data_3, RY = RY, STV = STK, plot = TRUE, resid = TRUE)
+soiltestcorr::linear_plateau(data = data_3, stv = STK, ry = RY, plot = TRUE, resid = TRUE)
 
 ```
 
