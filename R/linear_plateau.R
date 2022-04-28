@@ -3,16 +3,16 @@
 #' @description This function helps to fit a linear-plateau model in order to
 #' estimate critical soil test values (CSTV) above which yield response becomes flat.
 #' @param data Optional argument to call and object of type data.frame or data.table 
-#' containing the STV and RY data, Default: NULL
-#' @param STV name of the vector containing soil test values (-) of type `numeric`.
-#' @param RY name of the vector containing relative yield values (%) of type `numeric`.
+#' containing the soil test value (STV) and relative yield (RY) data, Default: NULL
+#' @param stv name of the vector containing soil test values (-) of type `numeric`.
+#' @param ry name of the vector containing relative yield values (%) of type `numeric`.
 #' @param tidy logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).
 #' @param resid logical operator (TRUE/FALSE) to plot residuals analysis, Default: FALSE
 #' @param plot logical operator (TRUE/FALSE) to plot the linear-plateau model, Default: FALSE
 #' @param x selfstart vector for independent variable, Default: NULL
 #' @param intercept selfstart arg. for intercept Default: NULL
 #' @param slope selfstart arg. for slope Default: NULL
-#' @param Xc selfstart arg. for critical value Default: NULL
+#' @param cx selfstart arg. for critical X (cx) value Default: NULL
 #' @rdname linear_plateau
 #' @return returns a `data.frame` if plot = FALSE, if plot = TRUE
 #' @details This function fits a linear-plateau model using a native selfStart function
@@ -23,7 +23,7 @@
 #'  dat <- data.frame("ry" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
 #'                    "stv" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
 #'  # Run
-#'  fit_example_lp <- linear_plateau(data = dat, RY = ry, STV = stv, resid = TRUE, plot = FALSE)
+#'  fit_example_lp <- linear_plateau(data = dat, ry = ry, stv = stv, resid = TRUE, plot = FALSE)
 #'  fit_example_lp
 #'  }
 #' }
@@ -74,7 +74,7 @@ LP_init <- function(mCall, LHS, data, ...){
   
   ## Optimization of starting values
   objfun <- function(cfs){
-    pred <- LP_f(xy[,"x"], intercept=cfs[1], slope=cfs[2], Xc=cfs[3])
+    pred <- LP_f(xy[,"x"], intercept=cfs[1], slope=cfs[2], cx=cfs[3])
     ans <- sum((xy[,"y"] - pred)^2)
     ans
   }
@@ -87,18 +87,18 @@ LP_init <- function(mCall, LHS, data, ...){
   if(class(op) != "try-error"){
     intercept <- op$par[1]
     slope <- op$par[2]
-    Xc <- op$par[3]
+    cx <- op$par[3]
   } else {
-    ## If it fails I use the mean for the CSTV (Xc)
+    ## If it fails I use the mean for the CSTV (cx)
     ## and initial values guess by fiting a lm() to half the data
     
     intercept <- stats::coef(fit1)[1]
     slope <- stats::coef(fit1)[2]
-    Xc <- mean(xy[,"x"])
+    cx <- mean(xy[,"x"])
   }
   
-  value <- c(intercept, slope, Xc)
-  names(value) <- mCall[c("intercept","slope","Xc")]
+  value <- c(intercept, slope, cx)
+  names(value) <- mCall[c("intercept","slope","cx")]
   value
 }
 
@@ -106,26 +106,26 @@ LP_init <- function(mCall, LHS, data, ...){
 #' @return LP_f: vector of the same length as x using the linear-plateau function
 #' @export
 #' 
-LP_f <- function(x, intercept, slope, Xc){
+LP_f <- function(x, intercept, slope, cx){
   
-  .asym <- intercept + slope * Xc
-  .value <- (x < Xc) * (intercept + slope * x) + (x >= Xc) * .asym
+  .asym <- intercept + slope * cx
+  .value <- (x < cx) * (intercept + slope * x) + (x >= cx) * .asym
   
-  ## Derivative with respect to a when (x < Xc)
-  .exp1 <- 1 ## ifelse(x < Xc, 1, 1)
+  ## Derivative with respect to a when (x < cx)
+  .exp1 <- 1 ## ifelse(x < cx, 1, 1)
   ## Derivative with respect to slope
-  .exp2 <- ifelse(x < Xc, x, Xc)
-  ## Derivative with respect to Xc
-  .exp3 <- ifelse(x < Xc, 0, slope)
+  .exp2 <- ifelse(x < cx, x, cx)
+  ## Derivative with respect to cx
+  .exp3 <- ifelse(x < cx, 0, slope)
   
-  .actualArgs <- as.list(match.call()[c("intercept","slope","Xc")])
+  .actualArgs <- as.list(match.call()[c("intercept","slope","cx")])
   
   ##  Gradient
   if (all(unlist(lapply(.actualArgs, is.name)))) {
-    .grad <- array(0, c(length(.value), 3L), list(NULL, c("intercept","slope","Xc")))
+    .grad <- array(0, c(length(.value), 3L), list(NULL, c("intercept","slope","cx")))
     .grad[, "intercept"] <- .exp1
     .grad[, "slope"] <- .exp2
-    .grad[, "Xc"] <- .exp3
+    .grad[, "cx"] <- .exp3
     dimnames(.grad) <- list(NULL, .actualArgs)
     attr(.value, "gradient") <- .grad
   }
@@ -135,26 +135,34 @@ LP_f <- function(x, intercept, slope, Xc){
 #' @rdname linear_plateau
 #' @return SS_LP: selfStart object to pass into the linear_plateau fit
 #' @export 
-SS_LP <- stats::selfStart(LP_f, initial = LP_init, c("intercept","slope","Xc"))
+SS_LP <- stats::selfStart(LP_f, initial = LP_init, c("intercept","slope","cx"))
 
 #' @rdname linear_plateau
 #' @return linear_plateau: function
 #' @export 
 linear_plateau <- function(data = NULL,
-                                STV,
-                                RY,
-                                tidy = FALSE,
-                                plot = FALSE,
-                                resid = FALSE
-                                ) {
+                           stv,
+                           ry,
+                           tidy = FALSE,
+                           plot = FALSE,
+                           resid = FALSE) {
   
-  # Re-define x and y from STV and RY
-  x <- rlang::eval_tidy(data = data, rlang::quo({{STV}}) )
+  if (missing(stv)) {
+    stop("Please specify the variable name for soil test concentrations using the `stv` argument")
+  }
   
-  y <- rlang::eval_tidy(data = data, rlang::quo({{RY}}) )
+  if (missing(ry)) {
+    stop("Please specify the variable name for relative yields using the `ry` argmuent")
+  }
+  
+  # Re-define x and y from stv and ry
+  x <- rlang::eval_tidy(data = data, rlang::quo({{stv}}) )
+  
+  y <- rlang::eval_tidy(data = data, rlang::quo({{ry}}) )
   
   # Create data.frame if it doesn't exist yet (data from vectors)
-  test.data <- data.frame(x=x, y=y)
+  test.data <- data.frame(x = as.numeric(x), 
+                          y = as.numeric(y))
   
   # Error message for insufficient sample size
   if (length(x) < 4) {
@@ -198,7 +206,7 @@ linear_plateau <- function(data = NULL,
   
   # have to make a line because the SS_LP doesn't plot right
   lp_line <- data.frame(x = c(minx, CSTV, maxx),
-                    y = c(b0 + b1 * minx, plateau, plateau))
+                        y = c(b0 + b1 * minx, plateau, plateau))
   
   equation <- paste0(round(b0, 1), " + ",
                      round(b1, 2), "x if x<CSTV")
@@ -218,6 +226,7 @@ linear_plateau <- function(data = NULL,
       CSTV = round(CSTV, 1),
       LL = round(CSTV_lower,1),
       UL = round(CSTV_upper,1),
+      CI_type = "Wald Conf. Interval",
       plateau = round(plateau, 1),
       AIC,
       AICc,
@@ -238,13 +247,8 @@ linear_plateau <- function(data = NULL,
         plot(nlstools::nlsResiduals(lp_model), which = 0)
     }
     
-    # Generate predicted values
-    predicted <- stats::predict(lp_model, newdata = test.data) %>%
-      as.data.frame() %>%
-      dplyr::bind_cols(test.data)
-    
     # GGPLOT output =================================================   
-    lp_plot <- predicted %>%
+    lp_plot <- test.data %>%
       ggplot2::ggplot(ggplot2::aes(x, y)) +
       ggplot2::geom_rug(alpha = 0.2, length = ggplot2::unit(2, "pt")) +
       # Data points
@@ -258,7 +262,7 @@ linear_plateau <- function(data = NULL,
       # Plateau
       ggplot2::geom_hline(yintercept = plateau, alpha = 0.2) +
       # LP Curve
-      ggplot2::geom_path(data = lp_line, ggplot2::aes(x=x,y=y), color="grey15", size = 1.5) +
+      ggplot2::geom_line(data = lp_line, ggplot2::aes(x=x,y=y), color="grey15", size = 1.5) +
       # Text annotations
       ggplot2::annotate("text",label = paste("CSTV =", CSTV, "ppm"),
                         x = CSTV, y = 0, angle = 90, hjust = 0, vjust = 1.5, col = "grey25") +
@@ -280,5 +284,4 @@ linear_plateau <- function(data = NULL,
     
     return(lp_plot)
   }
-  
 }
