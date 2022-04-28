@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">soiltestcorr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,10 +90,10 @@
 </h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Install if needed </span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span> <span class="co"># Plots</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span> <span class="co"># Data wrangling</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span> <span class="co"># Data wrangling</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://purrr.tidyverse.org" class="external-link">purrr</a></span><span class="op">)</span> <span class="co"># Mapping</span></code></pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span> <span class="co"># Plots</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span> <span class="co"># Data wrangling</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span> <span class="co"># Data wrangling</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="http://purrr.tidyverse.org" class="external-link">purrr</a></span><span class="op">)</span> <span class="co"># Mapping</span></code></pre></div>
 <div class="section level3">
 <h3 id="example">2. Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h3>
@@ -119,7 +119,7 @@
 <span class="co"># Create nested structure as example of multiple datasets</span>
 <span class="co"># Note that STV column needs to have the same name in order to bind rows</span>
 <span class="va">data.all</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">data_1</span>, <span class="va">data_2</span>,
-                      <span class="va">data_3</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>STV <span class="op">=</span> <span class="va">STK</span><span class="op">)</span>,
+                      <span class="va">data_3</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>STV <span class="op">=</span> <span class="va">STK</span><span class="op">)</span>,
                      .id <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">nest</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"STV"</span>, <span class="st">"RY"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
@@ -136,7 +136,7 @@
 
 <span class="co"># Data 1</span>
 <span class="co"># Using dataframe argument, tidy = FALSE -&gt; return a LIST</span>
-<span class="va">fit_example_1</span> <span class="op">=</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mod_alcc.html">mod_alcc</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_1</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STV</span>, target<span class="op">=</span><span class="fl">90</span>, confidence <span class="op">=</span> <span class="fl">0.95</span>, plot <span class="op">=</span> <span class="cn">FALSE</span>, tidy <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="va">fit_example_1</span> <span class="op">=</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mod_alcc.html">mod_alcc</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_1</span>, ry <span class="op">=</span> <span class="va">RY</span>, stv <span class="op">=</span> <span class="va">STV</span>, target<span class="op">=</span><span class="fl">90</span>, confidence <span class="op">=</span> <span class="fl">0.95</span>, plot <span class="op">=</span> <span class="cn">FALSE</span>, tidy <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="co">#&gt; Warning: 7 STV points exceeded two-times (2x) </span>
 <span class="co">#&gt;   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by </span>
 <span class="co">#&gt;   removing extreme points, re-run the mod_alcc(), and check results.</span>
@@ -218,7 +218,7 @@
 <span class="co">#&gt; <span style="color: #BCBCBC;">15</span>  2.71   0.322    2.95     -<span style="color: #BB0000;">0.244</span>       4.16</span>
 
 <span class="co"># Using dataframe argument, tidy = TRUE -&gt; return a DATA FRAME</span>
-<span class="va">fit_example_1.tidy</span> <span class="op">=</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mod_alcc.html">mod_alcc</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_1</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STV</span>, target<span class="op">=</span><span class="fl">90</span>, confidence <span class="op">=</span> <span class="fl">0.95</span>, tidy <span class="op">=</span> <span class="cn">TRUE</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="va">fit_example_1.tidy</span> <span class="op">=</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mod_alcc.html">mod_alcc</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_1</span>, ry <span class="op">=</span> <span class="va">RY</span>, stv <span class="op">=</span> <span class="va">STV</span>, target<span class="op">=</span><span class="fl">90</span>, confidence <span class="op">=</span> <span class="fl">0.95</span>, tidy <span class="op">=</span> <span class="cn">TRUE</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="co">#&gt; Warning: 7 STV points exceeded two-times (2x) </span>
 <span class="co">#&gt;   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by </span>
 <span class="co">#&gt;   removing extreme points, re-run the mod_alcc(), and check results.</span>
@@ -234,10 +234,10 @@
 <span class="co">#&gt; 1 0.00000000, 0.69314718, 1.09861229, 1.38629436, 1.60943791, 1.79175947, 1.94591015, 2.07944154, 2.19722458, 2.30258509, 2.39789527, 2.48490665, 2.56494936, 2.63905733, 2.70805020, -0.31130128, -0.14189705, -0.07594886, -0.03199105, 0.00000000, 0.07428349, 0.05398723, 0.12039263, 0.14766754, 0.09623715, 0.17985350, 0.32175055, 0.22158313, 0.22158313, 0.32175055, 0.09342397, 0.85846552, 1.15629226, 1.35480886, 1.49928272, 1.83475226, 1.74309289, 2.04298443, 2.16615987, 1.93389654, 2.31151393, 2.95233114, 2.49996793, 2.49996793, 2.95233114, -0.09342397, -0.16531834, -0.05767997, 0.03148550, 0.11015519, -0.04299279, 0.20281726, 0.03645711, 0.03106471, 0.36868855, 0.08638134, -0.46742449, 0.06498143, 0.13908940, -0.24428093, -1.40585875, 0.05232998, 0.75562183, 1.24182049, 1.60943791, 2.12722900, 2.18972031, 2.62314325, 2.86410172, 2.73719891, 3.21012648, 3.93795506, 3.56563456, 3.63974254, 4.16109861</span>
 
 <span class="co"># Alternative using the vectors</span>
-<span class="co">#fit_example_1 = ALCC(RY = data_1$RY,STV = data_1$STV, target=90,confidence = 0.95)</span>
+<span class="co">#fit_example_1 = ALCC(ry = data_1$RY,stv = data_1$STV, target=90,confidence = 0.95)</span>
 
 <span class="co"># Data 2</span>
-<span class="va">fit_example_2</span> <span class="op">=</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mod_alcc.html">mod_alcc</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_2</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STV</span>, 
+<span class="va">fit_example_2</span> <span class="op">=</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mod_alcc.html">mod_alcc</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_2</span>, ry <span class="op">=</span> <span class="va">RY</span>, stv <span class="op">=</span> <span class="va">STV</span>, 
                                        target<span class="op">=</span><span class="fl">90</span>, confidence <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span>
 <span class="co">#&gt; Warning: 9 STV points exceeded the CSTV for 100% of RY.</span>
 <span class="co">#&gt;   Risk of leverage. You may consider a sensitivity analysis by removing extreme points, </span>
@@ -319,7 +319,7 @@
 <span class="co">#&gt; <span style="color: #949494;"># … with 127 more rows</span></span>
 
 <span class="co"># Data 3. Freitas et al. 1966</span>
-<span class="va">fit_example_3</span> <span class="op">=</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mod_alcc.html">mod_alcc</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STK</span>, target<span class="op">=</span><span class="fl">90</span>, confidence <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span>
+<span class="va">fit_example_3</span> <span class="op">=</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mod_alcc.html">mod_alcc</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, ry <span class="op">=</span> <span class="va">RY</span>, stv <span class="op">=</span> <span class="va">STK</span>, target<span class="op">=</span><span class="fl">90</span>, confidence <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span>
 <span class="co">#&gt; Warning: One or more original RY values exceeded 100%. All RY values greater </span>
 <span class="co">#&gt;           than 100% have been capped to 100%.</span>
 <span class="co">#&gt; Warning: 2 STV points exceeded the CSTV for 100% of RY.</span>
@@ -405,9 +405,11 @@
 <h4 id="fit-multiple-alcc-models-with-mapping">3.1.2. Fit multiple ALCC models with mapping<a class="anchor" aria-label="anchor" href="#fit-multiple-alcc-models-with-mapping"></a>
 </h4>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Run multiple examples at once with map()</span>
+<code class="sourceCode R">
+<span class="co"># Run multiple examples at once with map()</span>
 <span class="va">fit_examples</span> <span class="op">=</span> <span class="va">data.all</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>mod_alcc <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">data</span>, <span class="op">~</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mod_alcc.html">mod_alcc</a></span><span class="op">(</span>RY <span class="op">=</span> <span class="va">.</span><span class="op">$</span><span class="va">RY</span>, STV <span class="op">=</span> <span class="va">.</span><span class="op">$</span><span class="va">STV</span>, target<span class="op">=</span><span class="fl">90</span>, confidence <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>mod_alcc <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">data</span>, <span class="op">~</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mod_alcc.html">mod_alcc</a></span><span class="op">(</span>ry <span class="op">=</span> <span class="va">.</span><span class="op">$</span><span class="va">RY</span>, stv <span class="op">=</span> <span class="va">.</span><span class="op">$</span><span class="va">STV</span>,
+                                                       target<span class="op">=</span><span class="fl">90</span>, confidence <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; Warning: 7 STV points exceeded two-times (2x) </span>
 <span class="co">#&gt;   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by </span>
 <span class="co">#&gt;   removing extreme points, re-run the mod_alcc(), and check results.</span>
@@ -431,7 +433,7 @@
 <span class="co"># Alternative with group_map, this does not required nested data.</span>
 <span class="va">fit_all</span> <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">data_1</span>, <span class="va">data_2</span>, .id <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_map.html" class="external-link">group_map</a></span><span class="op">(</span><span class="op">~</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mod_alcc.html">mod_alcc</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">.</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STV</span>, target <span class="op">=</span> <span class="fl">90</span>, confidence <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_map.html" class="external-link">group_map</a></span><span class="op">(</span><span class="op">~</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mod_alcc.html">mod_alcc</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">.</span>, ry <span class="op">=</span> <span class="va">RY</span>, stv <span class="op">=</span> <span class="va">STV</span>, target <span class="op">=</span> <span class="fl">90</span>, confidence <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; Warning: 7 STV points exceeded two-times (2x) </span>
 <span class="co">#&gt;   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by </span>
 <span class="co">#&gt;   removing extreme points, re-run the mod_alcc(), and check results.</span>
@@ -450,7 +452,7 @@
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="va">cate_nelson_1965_example_2</span> <span class="op">&lt;-</span> 
-  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/cate_nelson_1965.html">cate_nelson_1965</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_2</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STV</span>,
+  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/cate_nelson_1965.html">cate_nelson_1965</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_2</span>, ry <span class="op">=</span> <span class="va">RY</span>, stv <span class="op">=</span> <span class="va">STV</span>,
                                  target <span class="op">=</span> <span class="fl">90</span>, tidy <span class="op">=</span> <span class="cn">FALSE</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
 <span class="va">cate_nelson_1965_example_2</span>
@@ -490,7 +492,7 @@
 
 
 <span class="va">cate_nelson_1965_example_3</span> <span class="op">&lt;-</span> 
-  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/cate_nelson_1965.html">cate_nelson_1965</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STK</span>,
+  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/cate_nelson_1965.html">cate_nelson_1965</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, ry <span class="op">=</span> <span class="va">RY</span>, stv <span class="op">=</span> <span class="va">STK</span>,
                                  target <span class="op">=</span> <span class="fl">95</span>, tidy <span class="op">=</span> <span class="cn">TRUE</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="co">#&gt; Warning in stats::chisq.test(data.frame(row.1, row.2)): Chi-squared</span>
 <span class="co">#&gt; approximation may be incorrect</span>
@@ -507,7 +509,7 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="va">cate_nelson_1971_example_2</span> <span class="op">&lt;-</span> 
-  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/cate_nelson_1971.html">cate_nelson_1971</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_2</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STV</span>,
+  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/cate_nelson_1971.html">cate_nelson_1971</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_2</span>, ry <span class="op">=</span> <span class="va">RY</span>, stv <span class="op">=</span> <span class="va">STV</span>,
                                  tidy <span class="op">=</span> <span class="cn">TRUE</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
 <span class="va">cate_nelson_1971_example_2</span>
@@ -517,7 +519,7 @@
 <span class="co">#&gt; 1                118                 19 0.3936824</span>
 
 <span class="va">cate_nelson_1971_example_3</span> <span class="op">&lt;-</span>
-  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/cate_nelson_1971.html">cate_nelson_1971</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STK</span>,
+  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/cate_nelson_1971.html">cate_nelson_1971</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, ry <span class="op">=</span> <span class="va">RY</span>, stv <span class="op">=</span> <span class="va">STK</span>,
                                  tidy <span class="op">=</span> <span class="cn">TRUE</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="co">#&gt; Warning in stats::chisq.test(data.frame(row.1, row.2)): Chi-squared</span>
 <span class="co">#&gt; approximation may be incorrect</span>
@@ -587,7 +589,7 @@
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="va">quadratic_plateau_example_3</span> <span class="op">&lt;-</span>
-  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/quadratic_plateau.html">quadratic_plateau</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STK</span>,
+  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/quadratic_plateau.html">quadratic_plateau</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, ry <span class="op">=</span> <span class="va">RY</span>, stv <span class="op">=</span> <span class="va">STK</span>,
                                   plot <span class="op">=</span> <span class="cn">FALSE</span>, tidy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
 <span class="va">quadratic_plateau_example_3</span>
@@ -606,7 +608,7 @@
 </h4>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-<span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mod_alcc.html">mod_alcc</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STK</span>, target<span class="op">=</span><span class="fl">95</span>, confidence <span class="op">=</span> <span class="fl">0.95</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mod_alcc.html">mod_alcc</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, ry <span class="op">=</span> <span class="va">RY</span>, stv <span class="op">=</span> <span class="va">STK</span>, target<span class="op">=</span><span class="fl">95</span>, confidence <span class="op">=</span> <span class="fl">0.95</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p><img src="Introduction_to_soiltestcorr_files/figure-html/unnamed-chunk-10-1.png" width="576"></p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
@@ -647,7 +649,7 @@
 </h4>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-<span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/cate_nelson_1965.html">cate_nelson_1965</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STK</span>, target<span class="op">=</span><span class="fl">95</span>, tidy <span class="op">=</span> <span class="cn">TRUE</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/cate_nelson_1965.html">cate_nelson_1965</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, ry <span class="op">=</span> <span class="va">RY</span>, stv <span class="op">=</span> <span class="va">STK</span>, target<span class="op">=</span><span class="fl">95</span>, tidy <span class="op">=</span> <span class="cn">TRUE</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p><img src="Introduction_to_soiltestcorr_files/figure-html/unnamed-chunk-11-1.png" width="576"></p>
 </div>
 <div class="section level4">
@@ -655,7 +657,7 @@
 </h4>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-<span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/cate_nelson_1971.html">cate_nelson_1971</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STK</span>, tidy <span class="op">=</span> <span class="cn">TRUE</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/cate_nelson_1971.html">cate_nelson_1971</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, ry <span class="op">=</span> <span class="va">RY</span>, stv <span class="op">=</span> <span class="va">STK</span>, tidy <span class="op">=</span> <span class="cn">TRUE</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p><img src="Introduction_to_soiltestcorr_files/figure-html/unnamed-chunk-12-1.png" width="576"></p>
 </div>
 <div class="section level4">
@@ -671,7 +673,7 @@
 </h4>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-<span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/quadratic_plateau.html">quadratic_plateau</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, RY <span class="op">=</span> <span class="va">RY</span>, STV <span class="op">=</span> <span class="va">STK</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, resid <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/quadratic_plateau.html">quadratic_plateau</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, ry <span class="op">=</span> <span class="va">RY</span>, stv <span class="op">=</span> <span class="va">STK</span>, plot <span class="op">=</span> <span class="cn">TRUE</span>, resid <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p><img src="Introduction_to_soiltestcorr_files/figure-html/unnamed-chunk-14-1.png" width="576"><img src="Introduction_to_soiltestcorr_files/figure-html/unnamed-chunk-14-2.png" width="576"></p>
 <p><b> References </b> <br></p>
 <p><em>Correndo, A.A., Salvagiotti, F., García, F.O. and Gutiérrez-Boem, F.H., 2017. A modification of the arcsine–log calibration curve for analysing soil test value–relative yield relationships. Crop and Pasture Science, 68(3), pp.297-304. <a href="https://doi.org/10.1071/CP16444" class="external-link uri">https://doi.org/10.1071/CP16444</a> </em> <br></p>

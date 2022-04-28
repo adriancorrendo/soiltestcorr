@@ -12,7 +12,7 @@ estimate critical soil test values (CSTV) following Correndo et al. (2017)"><!--
     
     <a class="navbar-brand me-2" href="../index.html">soiltestcorr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,18 +54,26 @@ estimate critical soil test values (CSTV) following Correndo et al. (2017)</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">mod_alcc</span><span class="op">(</span>data <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">RY</span>, <span class="va">STV</span>, <span class="va">target</span>, <span class="va">confidence</span>, tidy <span class="op">=</span> <span class="cn">FALSE</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">mod_alcc</span><span class="op">(</span>
+  data <span class="op">=</span> <span class="cn">NULL</span>,
+  <span class="va">ry</span>,
+  <span class="va">stv</span>,
+  <span class="va">target</span>,
+  confidence <span class="op">=</span> <span class="fl">0.95</span>,
+  tidy <span class="op">=</span> <span class="cn">FALSE</span>,
+  plot <span class="op">=</span> <span class="cn">FALSE</span>
+<span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>data</dt>
 <dd><p>Optional argument to call and object of type data.frame or data.table
-containing the STV and RY data, Default: NULL</p></dd>
-<dt>RY</dt>
+containing the stv and ry data, Default: NULL</p></dd>
+<dt>ry</dt>
 <dd><p>name of the vector containing relative yield values (%) of type <code>numeric</code>.</p></dd>
-<dt>STV</dt>
-<dd><p>name of the vector containing soil test values (-) of type <code>numeric</code>.</p></dd>
+<dt>stv</dt>
+<dd><p>name of the vector containing soil test values of type <code>numeric</code>.</p></dd>
 <dt>target</dt>
 <dd><p><code>numeric</code> value of relative yield target (e.g. 90 for 90%) to estimate the CSTV.</p></dd>
 <dt>confidence</dt>

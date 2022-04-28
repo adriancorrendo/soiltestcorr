@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="index.html">soiltestcorr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,20 +74,20 @@
 <div class="section level1">
 <h1 id="description--">Description <br><a class="anchor" aria-label="anchor" href="#description--"></a>
 </h1>
-<p>The goal of <code>soiltestcorr</code> is to assist users on the analysis of relationships between relative yield (RY) and soil test values (STV) following different approaches. <br></p>
+<p>The goal of <code>soiltestcorr</code> is to assist users on the analysis of relationships between relative yield (ry) and soil test values (stv) following different approaches. <br></p>
 <p>Available functions (version 1.0.5, 04-18-2022): <br></p>
 <div class="section level2">
 <h2 id="1-modified-arcsine-log-calibration-curve--">1. Modified Arcsine-Log Calibration Curve <br><a class="anchor" aria-label="anchor" href="#1-modified-arcsine-log-calibration-curve--"></a>
 </h2>
-<p>The first calibration method available is the Modified Arcsine-log Calibration Curve (<code><a href="reference/mod_alcc.html">mod_alcc()</a></code>) originally described by Dyson and Conyers (2013) and modified by Correndo et al. (2017). This function produces the estimation of critical soil test values (CSTV) for a target relative yield (RY) with confidence intervals at adjustable confidence levels. <br></p>
+<p>The first calibration method available is the Modified Arcsine-log Calibration Curve (<code><a href="reference/mod_alcc.html">mod_alcc()</a></code>) originally described by Dyson and Conyers (2013) and modified by Correndo et al. (2017). This function produces the estimation of critical soil test values (CSTV) for a target relative yield (ry) with confidence intervals at adjustable confidence levels. <br></p>
 <p><b> mod_alcc() </b> <br></p>
 <p>Instructions <br></p>
 <ol style="list-style-type: decimal">
-<li><p>Load your dataframe with soil test value (STV) and relative yield (RY) data. <br></p></li>
+<li><p>Load your dataframe with soil test value (stv) and relative yield (ry) data. <br></p></li>
 <li><p>Specify the following arguments into the function -mod_alcc()-: <br></p></li>
 </ol>
 <p>(a). <code>data</code> (optional), <br></p>
-<p>(b). <code>STV</code> (soil test value) and <code>RY</code> (relative yield) columns or vectors, <br></p>
+<p>(b). <code>stv</code> (soil test value) and <code>ry</code> (relative yield) columns or vectors, <br></p>
 <p>(c). <code>target</code> of relative yield (e.g. 90%), <br></p>
 <p>(d). desired <code>confidence</code> level (e.g. 0.95 for 1 - alpha(0.05)). Used for the estimation of critical soil test value (CSTV) lower and upper limits. <br></p>
 <p>(e). <code>plot</code> TRUE (produces a ggplot as main output) or FALSE -default- (no plot, only results as list or data.frame), <br></p>
@@ -107,11 +107,11 @@
 <p><b> cate_nelson_1965() </b> <br></p>
 <p>Instructions <br></p>
 <ol style="list-style-type: decimal">
-<li><p>Load your dataframe with soil test value (STV) and relative yield (RY) data. <br></p></li>
+<li><p>Load your dataframe with soil test value (stv) and relative yield (ry) data. <br></p></li>
 <li><p>Specify the following arguments into the function -cate_nelson_1965()-: <br></p></li>
 </ol>
 <p>(a). <code>data</code> (optional), <br></p>
-<p>(b). <code>STV</code> (soil test value) and <code>RY</code> (relative yield) columns or vectors, <br></p>
+<p>(b). <code>stv</code> (soil test value) and <code>ry</code> (relative yield) columns or vectors, <br></p>
 <p>(c). <code>plot</code> TRUE (produces a ggplot as main output) or FALSE (no plot, only results as list or data.frame), <br></p>
 <p>(d). <code>tidy</code> TRUE (produces a data.frame with results) or FALSE (store results as list), <br></p>
 <ol start="3" style="list-style-type: decimal">
@@ -127,11 +127,11 @@
 <p><b> cate_nelson_1971() </b> <br></p>
 <p>Instructions <br></p>
 <ol style="list-style-type: decimal">
-<li><p>Load your dataframe with soil test value (STV) and relative yield (RY) data. <br></p></li>
+<li><p>Load your dataframe with soil test value (stv) and relative yield (ry) data. <br></p></li>
 <li><p>Specify the following arguments into the function -cate_nelson_1965()-: <br></p></li>
 </ol>
 <p>(a). <code>data</code> (optional), <br></p>
-<p>(b). <code>STV</code> (soil test value) and <code>RY</code> (relative yield) columns or vectors, <br></p>
+<p>(b). <code>stv</code> (soil test value) and <code>ry</code> (relative yield) columns or vectors, <br></p>
 <p>(c). <code>plot</code> TRUE (produces a ggplot as main output) or FALSE (no plot, only results as list or data.frame), <br></p>
 <p>(d). <code>tidy</code> TRUE (produces a data.frame with results) or FALSE (store results as list), <br></p>
 <ol start="3" style="list-style-type: decimal">
@@ -147,11 +147,11 @@
 <p><b> linear_plateau() </b> <br></p>
 <p>Instructions <br></p>
 <ol style="list-style-type: decimal">
-<li><p>Load your dataframe with soil test value (STV) and relative yield (RY) data. <br></p></li>
+<li><p>Load your dataframe with soil test value (stv) and relative yield (ry) data. <br></p></li>
 <li><p>Specify the following arguments into the function -linear_plateau()-: <br></p></li>
 </ol>
 <p>(a). <code>data</code> (optional), <br></p>
-<p>(b). <code>STV</code> (soil test value) and <code>RY</code> (relative yield) columns or vectors, <br></p>
+<p>(b). <code>stv</code> (soil test value) and <code>ry</code> (relative yield) columns or vectors, <br></p>
 <p>(c). <code>plot</code> TRUE (produces a ggplot as main output) or FALSE (no plot, only results as data.frame), <br></p>
 <p>(d). <code>resid</code> TRUE (produces plots with residuals analysis) or FALSE (no plot), <br></p>
 <ol start="3" style="list-style-type: decimal">
@@ -168,11 +168,11 @@
 <p><b> linear_plateau() </b> <br></p>
 <p>Instructions <br></p>
 <ol style="list-style-type: decimal">
-<li><p>Load your dataframe with soil test value (STV) and relative yield (RY) data. <br></p></li>
+<li><p>Load your dataframe with soil test value (stv) and relative yield (ry) data. <br></p></li>
 <li><p>Specify the following arguments into the function -quadratic_plateau()-: <br></p></li>
 </ol>
 <p>(a). <code>data</code> (optional), <br></p>
-<p>(b). <code>STV</code> (soil test value) and <code>RY</code> (relative yield) columns or vectors, <br></p>
+<p>(b). <code>stv</code> (soil test value) and <code>ry</code> (relative yield) columns or vectors, <br></p>
 <p>(c). <code>plot</code> TRUE (produces a ggplot as main output) or FALSE (no plot, only results as data.frame), <br></p>
 <p>(d). <code>resid</code> TRUE (produces plots with residuals analysis) or FALSE (no plot), <br></p>
 <ol start="3" style="list-style-type: decimal">
