@@ -1,4 +1,4 @@
-# soiltestR 1.0.6
+# soiltestcorr 1.0.6
 
 * Apr, 28, 2022. The soiltestcorr v1.0.6 uses consistent arguments across all functions using lowercase (e.g. stv, ry) and includes warning and stop messages to improve users experience.
 
