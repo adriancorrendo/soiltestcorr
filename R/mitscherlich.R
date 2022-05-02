@@ -9,9 +9,9 @@
 #' @param target `numeric` value of relative yield target (e.g. 90 for 90%) to estimate the CSTV.
 #' Default: NULL
 #' @param type string or number that indicates the type of Mitscherlich model to fit. Default: 1
-#' Type = "no restrictions" or Type = 1 for model with 'no restrictions'; 
-#' Type = "asympotote 100" or Type = 2 for model with 'asymptote = 100';
-#' Type = "asymptote 100 from 0" or Type = 3 for model with 'asymptote = 100 and xintercept = 0'"
+#' `type = "no restrictions"` or `type = 1` for model with 'no restrictions'; 
+#' `type = "asympotote 100"` or `type = 2` for model with 'asymptote = 100';
+#' `type = "asymptote 100 from 0"` or `type = 3` for model with 'asymptote = 100 and xintercept = 0'"
 #' @param tidy logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).
 #' @param resid logical operator (TRUE/FALSE) to plot residuals analysis, Default: FALSE
 #' @param plot logical operator (TRUE/FALSE) to plot the Mitscherlich model, Default: FALSE
