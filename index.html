@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="index.html">soiltestcorr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.7</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,6 +45,7 @@
     <a class="dropdown-item" href="articles/cate_nelson_1965_tutorial.html">Cate and Nelson (1965)</a>
     <a class="dropdown-item" href="articles/cate_nelson_1971_tutorial.html">Cate and Nelson (1971)</a>
     <a class="dropdown-item" href="articles/linear_plateau_tutorial.html">Linear-plateau response</a>
+    <a class="dropdown-item" href="articles/mitscherlich_tutorial.html">Mitscherlich response</a>
     <a class="dropdown-item" href="articles/mod_alcc_tutorial.html">Modified ALCC</a>
     <a class="dropdown-item" href="articles/quadratic_plateau_tutorial.html">Quadratic-plateau response</a>
   </div>
@@ -82,13 +83,14 @@
 <p><a href="https://adriancorrendo.github.io/soiltestcorr/articles/cate_nelson_1971_tutorial.html">4. Cate &amp; Nelson (1971)</a> <br></p>
 <p><a href="https://adriancorrendo.github.io/soiltestcorr/articles/linear_plateau_tutorial.html">5. Linear-plateau</a> <br></p>
 <p><a href="https://adriancorrendo.github.io/soiltestcorr/articles/quadratic_plateau_tutorial.html">6. Quadratic-plateau</a> <br></p>
+<p><a href="https://adriancorrendo.github.io/soiltestcorr/articles/mitscherlich_tutorial.html">7. Mitscherlich</a> <br></p>
 </div>
 </div>
 <div class="section level1">
 <h1 id="description--">Description <br><a class="anchor" aria-label="anchor" href="#description--"></a>
 </h1>
 <p>The goal of <code>soiltestcorr</code> is to assist users on the analysis of relationships between relative yield (ry) and soil test values (stv) following different approaches. <br></p>
-<p>Available functions (version 1.0.5, 04-18-2022): <br></p>
+<p>Available functions (version 1.0.7, 05-02-2022): <br></p>
 <div class="section level2">
 <h2 id="1-modified-arcsine-log-calibration-curve--">1. Modified Arcsine-Log Calibration Curve <br><a class="anchor" aria-label="anchor" href="#1-modified-arcsine-log-calibration-curve--"></a>
 </h2>
@@ -165,8 +167,9 @@
 </ol>
 <p>(a). <code>data</code> (optional), <br></p>
 <p>(b). <code>stv</code> (soil test value) and <code>ry</code> (relative yield) columns or vectors, <br></p>
-<p>(c). <code>plot</code> TRUE (produces a ggplot as main output) or FALSE (no plot, only results as data.frame), <br></p>
-<p>(d). <code>resid</code> TRUE (produces plots with residuals analysis) or FALSE (no plot), <br></p>
+<p>(c). <code>target</code> (optional) if want a CSTV for a different `ry`` than the plateau.</p>
+<p>(d). <code>plot</code> TRUE (produces a ggplot as main output) or FALSE (no plot, only results as data.frame), <br></p>
+<p>(e). <code>resid</code> TRUE (produces plots with residuals analysis) or FALSE (no plot), <br></p>
 <ol start="3" style="list-style-type: decimal">
 <li><p>Run and check results. <br></p></li>
 <li><p>Check residuals plot, and warnings related to potential limitations of this model. <br></p></li>
@@ -186,15 +189,32 @@
 </ol>
 <p>(a). <code>data</code> (optional), <br></p>
 <p>(b). <code>stv</code> (soil test value) and <code>ry</code> (relative yield) columns or vectors, <br></p>
-<p>(c). <code>plot</code> TRUE (produces a ggplot as main output) or FALSE (no plot, only results as data.frame), <br></p>
-<p>(d). <code>resid</code> TRUE (produces plots with residuals analysis) or FALSE (no plot), <br></p>
+<p>(c). <code>target</code> (optional) if want a CSTV for a different `ry`` than the plateau.</p>
+<p>(d). <code>plot</code> TRUE (produces a ggplot as main output) or FALSE (no plot, only results as data.frame), <br></p>
+<p>(e). <code>resid</code> TRUE (produces plots with residuals analysis) or FALSE (no plot), <br></p>
 <ol start="3" style="list-style-type: decimal">
 <li><p>Run and check results. <br></p></li>
 <li><p>Check residuals plot, and warnings related to potential limitations of this model. <br></p></li>
 <li><p>Adjust curve plots as desired. <br></p></li>
 </ol>
-<p>Example of linear_plateau() output <img src="reference/figures/README-unnamed-chunk-7-1.png" width="100%"></p>
-<p><b> MORE FUNCTIONS COMING SOON…. </b> <br></p>
+<p>Example of quadratic_plateau() output <img src="reference/figures/README-unnamed-chunk-7-1.png" width="100%"> ## 6. Mitscherlich Regression  <br></p>
+<p>Instructions <br></p>
+<ol style="list-style-type: decimal">
+<li><p>Load your dataframe with soil test value (stv) and relative yield (ry) data. <br></p></li>
+<li><p>Specify the following arguments into the function -quadratic_plateau()-: <br></p></li>
+</ol>
+<p>(a). <code>data</code> (optional), <br></p>
+<p>(b). <code>stv</code> (soil test value) and <code>ry</code> (relative yield) columns or vectors, <br></p>
+<p>(c). <code>target</code> (optional) if want a CSTV for a different `ry`` than the plateau.</p>
+<p>(d). <code>plot</code> TRUE (produces a ggplot as main output) or FALSE (no plot, only results as data.frame), <br></p>
+<p>(e). <code>resid</code> TRUE (produces plots with residuals analysis) or FALSE (no plot), <br></p>
+<ol start="3" style="list-style-type: decimal">
+<li><p>Run and check results. <br></p></li>
+<li><p>Check residuals plot, and warnings related to potential limitations of this model. <br></p></li>
+<li><p>Adjust curve plots as desired. <br></p></li>
+</ol>
+<p>Example of mitscherlich() output <br></p>
+<p><img src="reference/figures/README-unnamed-chunk-8-1.png" width="100%"></p>
 <p><b> References </b> <br></p>
 <p><em>Correndo, A.A., Salvagiotti, F., García, F.O. and Gutiérrez-Boem, F.H., 2017. A modification of the arcsine–log calibration curve for analysing soil test value–relative yield relationships. Crop and Pasture Science, 68(3), pp.297-304. <a href="https://doi.org/10.1071/CP16444" class="external-link uri">https://doi.org/10.1071/CP16444</a> </em> <br></p>
 <p><em>Cate, R.B. Jr., and Nelson, L.A., 1965. A rapid method for correlation of soil test analysis with plant response data. North Carolina Agric. Exp. Stn., International soil Testing Series Bull. No. 1. </em> <br></p>

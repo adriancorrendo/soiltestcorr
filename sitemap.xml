@@ -25,6 +25,9 @@
     <loc>https://adriancorrendo.github.io/soiltestcorr/articles/linear_plateau_tutorial.html</loc>
   </url>
   <url>
+    <loc>https://adriancorrendo.github.io/soiltestcorr/articles/mitscherlich_tutorial.html</loc>
+  </url>
+  <url>
     <loc>https://adriancorrendo.github.io/soiltestcorr/articles/mod_alcc_tutorial.html</loc>
   </url>
   <url>
@@ -56,6 +59,9 @@
   </url>
   <url>
     <loc>https://adriancorrendo.github.io/soiltestcorr/reference/linear_plateau.html</loc>
+  </url>
+  <url>
+    <loc>https://adriancorrendo.github.io/soiltestcorr/reference/mitscherlich.html</loc>
   </url>
   <url>
     <loc>https://adriancorrendo.github.io/soiltestcorr/reference/mod_alcc.html</loc>

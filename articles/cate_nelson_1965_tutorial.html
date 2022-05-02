@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">soiltestcorr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.7</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,6 +45,7 @@
     <a class="dropdown-item" href="../articles/cate_nelson_1965_tutorial.html">Cate and Nelson (1965)</a>
     <a class="dropdown-item" href="../articles/cate_nelson_1971_tutorial.html">Cate and Nelson (1971)</a>
     <a class="dropdown-item" href="../articles/linear_plateau_tutorial.html">Linear-plateau response</a>
+    <a class="dropdown-item" href="../articles/mitscherlich_tutorial.html">Mitscherlich response</a>
     <a class="dropdown-item" href="../articles/mod_alcc_tutorial.html">Modified ALCC</a>
     <a class="dropdown-item" href="../articles/quadratic_plateau_tutorial.html">Quadratic-plateau response</a>
   </div>
@@ -91,13 +92,10 @@
 <li><p>Load your dataframe with soil test value (stv) and relative yield (ry) data. <br></p></li>
 <li><p>Specify the following arguments into the function -cate_nelson_1965()-: <br></p></li>
 </ol>
-<pre><code>(a). `data` (optional), &lt;br/&gt;
-
-(b). `stv` (soil test value) and `ry` (relative yield)  columns or vectors, &lt;br/&gt;
-
-(c). `plot` TRUE (produces a ggplot as main output) or FALSE (DEFAULT, only produces a list or data.frame), &lt;br/&gt;
-
-(d). `tidy` TRUE (produces a data.frame with results) or FALSE (store results as list), &lt;br/&gt;</code></pre>
+<p>(a). <code>data</code> (optional), <br></p>
+<p>(b). <code>stv</code> (soil test value) and <code>ry</code> (relative yield) columns or vectors, <br></p>
+<p>(c). <code>plot</code> TRUE (produces a ggplot as main output) or FALSE (DEFAULT, only produces a list or data.frame), <br></p>
+<p>(d). <code>tidy</code> TRUE (produces a data.frame with results) or FALSE (store results as list), <br></p>
 <ol start="3" style="list-style-type: lower-roman">
 <li><p>Run and check results. <br></p></li>
 <li><p>Adjust plot as desired. <br></p></li>
@@ -106,10 +104,10 @@
 <div class="section level2">
 <h2 id="tutorial">Tutorial<a class="anchor" aria-label="anchor" href="#tutorial"></a>
 </h2>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://adriancorrendo.github.io/soiltestcorr/">soiltestcorr</a></span><span class="op">)</span></code></pre></div>
 <p>Suggested packages</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Install if needed </span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span> <span class="co"># Plots</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span> <span class="co"># Data wrangling</span>
@@ -119,7 +117,7 @@
 <div class="section level3">
 <h3 id="load-datasets">Load datasets<a class="anchor" aria-label="anchor" href="#load-datasets"></a>
 </h3>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="co"># Example 1 dataset</span>
 <span class="co"># Fake dataset manually created</span>
@@ -146,7 +144,7 @@
 <h4 id="tidy-false">1.1. <code>tidy</code> = FALSE <br><a class="anchor" aria-label="anchor" href="#tidy-false"></a>
 </h4>
 <p>It returns a LIST (more efficient for multiple fits at once) <br></p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="co"># Using dataframe argument, tidy = FALSE -&gt; return a LIST</span>
 <span class="va">fit_1_tidy_false</span> <span class="op">&lt;-</span> 
@@ -195,7 +193,7 @@
 <h4 id="tidy-true">1.2. <code>tidy</code> = TRUE <br><a class="anchor" aria-label="anchor" href="#tidy-true"></a>
 </h4>
 <p>It returns a data.frame (more organized results) <br></p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="co"># Using dataframe argument, tidy = FALSE -&gt; return a LIST</span>
 <span class="va">fit_1_tidy_false</span> <span class="op">&lt;-</span> 
@@ -218,7 +216,7 @@
 </h4>
 <p>You can call <code>stv</code> and <code>ry</code> vectors using the <code>$</code>. <br></p>
 <p>The <code>tidy</code> argument still applies for controlling the output type</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="va">fit_1_vectors_list</span> <span class="op">&lt;-</span>
   <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/cate_nelson_1965.html">cate_nelson_1965</a></span><span class="op">(</span>ry <span class="op">=</span> <span class="va">data_1</span><span class="op">$</span><span class="va">RY</span>,
@@ -239,7 +237,7 @@
 <div class="section level4">
 <h4 id="data-2--test-dataset">1.4. Data 2. Test dataset <br><a class="anchor" aria-label="anchor" href="#data-2--test-dataset"></a>
 </h4>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">fit_2</span> <span class="op">&lt;-</span>
   <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/cate_nelson_1965.html">cate_nelson_1965</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_2</span>,
                                  ry <span class="op">=</span> <span class="va">RY</span>,
@@ -256,7 +254,7 @@
 <div class="section level4">
 <h4 id="data-3--freitas-et-al--1966">1.5. Data 3. Freitas et al. 1966 <br><a class="anchor" aria-label="anchor" href="#data-3--freitas-et-al--1966"></a>
 </h4>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="va">fit_3</span> <span class="op">&lt;-</span>
   <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/cate_nelson_1965.html">cate_nelson_1965</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>,
@@ -284,7 +282,7 @@
 <h5 id="create-nested-data">Create nested data <br><a class="anchor" aria-label="anchor" href="#create-nested-data"></a>
 </h5>
 <p><i> Note: the <code>stv</code> column needs to have the same name for all datasets <i></i> <br></i></p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># </span>
 <span class="va">data.all</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">data_1</span>, <span class="va">data_2</span>,
                       <span class="va">data_3</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>STV <span class="op">=</span> <span class="va">STK</span><span class="op">)</span>,
@@ -294,7 +292,7 @@
 <div class="section level5">
 <h5 id="fit">Fit<a class="anchor" aria-label="anchor" href="#fit"></a>
 </h5>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="co"># Run multiple examples at once with map()</span>
 <span class="va">fit_multiple_map</span> <span class="op">=</span> <span class="va">data.all</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
@@ -323,7 +321,7 @@
 <p>Alternatively, with group_map, we do not require nested data. <br></p>
 <p>However, it requires to bind_rows and add an <code>id</code> column specifying the name of each dataset. <br></p>
 <p>This option return models as lists objects.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="va">fit_multiple_group_map</span> <span class="op">&lt;-</span> 
   <span class="va">data.all</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
@@ -368,7 +366,7 @@
 </h4>
 <p>We can generate a ggplot with the same mod_alcc() function. <br></p>
 <p>We just need to specify the argument <code>plot = TRUE</code>. <br></p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/cate_nelson_1965.html">cate_nelson_1965</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_1</span>, 
                        ry <span class="op">=</span> <span class="va">RY</span>, 
@@ -376,7 +374,7 @@
                        target<span class="op">=</span><span class="fl">90</span>, 
                        plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p><img src="cate_nelson_1965_tutorial_files/figure-html/unnamed-chunk-12-1.png" width="576"></p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/cate_nelson_1965.html">cate_nelson_1965</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_2</span>, 
                        ry <span class="op">=</span> <span class="va">RY</span>, 
@@ -384,7 +382,7 @@
                        target<span class="op">=</span><span class="fl">90</span>, 
                        plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p><img src="cate_nelson_1965_tutorial_files/figure-html/unnamed-chunk-12-2.png" width="576"></p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/cate_nelson_1965.html">cate_nelson_1965</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, 
                        ry <span class="op">=</span> <span class="va">RY</span>, 

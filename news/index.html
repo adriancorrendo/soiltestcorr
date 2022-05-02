@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">soiltestcorr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.7</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,6 +28,7 @@
     <a class="dropdown-item" href="../articles/cate_nelson_1965_tutorial.html">Cate and Nelson (1965)</a>
     <a class="dropdown-item" href="../articles/cate_nelson_1971_tutorial.html">Cate and Nelson (1971)</a>
     <a class="dropdown-item" href="../articles/linear_plateau_tutorial.html">Linear-plateau response</a>
+    <a class="dropdown-item" href="../articles/mitscherlich_tutorial.html">Mitscherlich response</a>
     <a class="dropdown-item" href="../articles/mod_alcc_tutorial.html">Modified ALCC</a>
     <a class="dropdown-item" href="../articles/quadratic_plateau_tutorial.html">Quadratic-plateau response</a>
   </div>
@@ -50,8 +51,9 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0.6" id="soiltestcorr-106">soiltestcorr 1.0.6<a class="anchor" aria-label="anchor" href="#soiltestcorr-106"></a></h2>
-<ul><li><p>Apr, 28, 2022. The soiltestcorr v1.0.6 uses consistent arguments across all functions using lowercase (e.g. stv, ry) and includes warning and stop messages to improve users experience.</p></li>
+<h2 class="pkg-version" data-toc-text="1.0.7" id="soiltestcorr-107">soiltestcorr 1.0.7<a class="anchor" aria-label="anchor" href="#soiltestcorr-107"></a></h2>
+<ul><li><p>May, 02, 2022. The soiltestcorr v1.0.7 introduces the Mitscherlich response model, and it introduces the the “target” argument into linear_plateau() and quadratic_plateau() functions, allowing to estimate critical soil test values for relative yields different than the plateau level. It also fixes some minor typos within the functions.</p></li>
+<li><p>Apr, 28, 2022. The soiltestcorr v1.0.6 uses consistent arguments across all functions using lowercase (e.g. stv, ry) and includes warning and stop messages to improve users experience.</p></li>
 <li><p>Apr, 18, 2022. The soiltestcorr v1.0.5 includes the option for fitting selfs-starting quadratic-plateau models with the quadratic_plateau() function.</p></li>
 <li><p>Apr, 14, 2022. The soiltestcorr v1.0.4 updated its name (previously soiltestR) in order to follow good coding practices using all lowercase letters. For the same resason, the old modALCC() function was renamed as mod_alcc().</p></li>
 <li><p>The soiltestcorr v1.0.3 includes the option for fitting linear-plateau models, includes the ‘plot’ arg (boolean) in all functions, and the ‘tidy’ arg for choosing outputs as type list (tidy = FALSE) or data.frame (tidy = TRUE).</p></li>
