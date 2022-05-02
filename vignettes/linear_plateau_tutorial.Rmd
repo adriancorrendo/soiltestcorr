@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 
 ## Description <br/>
 
-This tutorial is intended to show how to deploy the linear_plateau() function for estimating a continuous response model with a critical soil test value. This function fits the classical regression response model that follows two phases: i) a first linear phase described as y = b0 + b1 x, and ii) a second phase were the RY response to increasing STV becomes NULL (flat), described as plateau = y = b0 + b1 Xc, where Xc represents the CSTV. The function works automatically with self starting initial values to facilitate the model's convergence. This approach is one of the regression models with simple interpretation of its parameters. Some disadvantages are that: i) the user does not have control to estimate the critical value (the model parameter) for an specific ry level; and ii) the confidence interval of the critical level is generally unreliable. Preferably, the user would have need to use a re-sampling technique for a more reliable confidence interval estimation (e.g. bootstrapping) <br/>
+This tutorial is intended to show how to deploy the linear_plateau() function for estimating a continuous response model with a critical soil test value. This function fits the classical regression response model that follows two phases: i) a first linear phase described as y = b0 + b1 x, and ii) a second phase were the RY response to increasing STV becomes NULL (flat), described as plateau = y = b0 + b1 Xc, where Xc represents the CSTV. The function works automatically with self starting initial values to facilitate the model's convergence. This approach is one of the regression models with simple interpretation of its parameters. Some disadvantages are that: i) the user does not have control to estimate the critical value (the model parameter) for an specific ry level; and ii) the confidence interval of the critical level is generally unreliable. We recommend the user to use a re-sampling technique (e.g. bootstrapping) for a more reliable confidence interval estimation for parameters and CSTV <br/>
 
 ## General Instructions <br/>
 
@@ -29,13 +29,15 @@ This tutorial is intended to show how to deploy the linear_plateau() function fo
 
   ii. Specify the following arguments into the function -linear_plateau()-: <br/>
 
-    (a). `data` (optional), <br/>
+   (a). `data` (optional), <br/>
+   
+   (b). `stv` (soil test value) and `ry` (relative yield)  columns or vectors, <br/>
+   
+   (c). `target` (optional) if want a CSTV for a different `ry`` than the plateau.
 
-    (b). `stv` (soil test value) and `ry` (relative yield)  columns or vectors, <br/>
+   (d). `plot` TRUE (produces a ggplot as main output) or FALSE (no plot, only results as data.frame), <br/>
 
-    (c). `plot` TRUE (produces a ggplot as main output) or FALSE (no plot, only results as data.frame), <br/>
-
-    (d). `resid` TRUE (produces plots with residuals analysis) or FALSE (no plot), <br/>
+   (e). `resid` TRUE (produces plots with residuals analysis) or FALSE (no plot), <br/>
 
   iii. Run and check results. <br/>
 

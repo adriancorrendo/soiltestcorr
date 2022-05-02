@@ -1,11 +1,13 @@
 #' @name quadratic_plateau
 #' @title Quadratic Plateau
-#' @description This function helps to fit a linear-plateau model in order to
+#' @description This function helps to fit a quadratic-plateau model in order to
 #' estimate critical soil test values (CSTV) above which yield response becomes flat.
 #' @param data Optional argument to call and object of type data.frame or data.table 
 #' containing the stv and ry data, Default: NULL
 #' @param stv name of the vector containing soil test values (-) of type `numeric`.
 #' @param ry name of the vector containing relative yield values (%) of type `numeric`.
+#' @param target `numeric` value of relative yield target (e.g. 90 for 90%) to estimate the CSTV.
+#' The target needs to be < plateau, otherwise, target = plateau.
 #' @param tidy logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).
 #' @param resid logical operator (TRUE/FALSE) to plot residuals analysis, Default: FALSE
 #' @param plot logical operator (TRUE/FALSE) to plot the quadratic-plateau model, Default: FALSE
@@ -15,7 +17,7 @@
 #' @param Xc selfstart arg. for critical value Default: NULL
 #' @rdname quadratic_plateau
 #' @return returns a `data.frame` if plot = FALSE, if plot = TRUE
-#' @details This function fits a linear-plateau model using a native selfStart function
+#' @details This function fits a quadratic-plateau model using a native selfStart function
 #' @examples 
 #' \dontrun{
 #' if(interactive()){
@@ -66,7 +68,7 @@ QP_init <- function(mCall, LHS, data, ...){
   if(nrow(xy) < 3){
     stop("Too few distinct input values to fit a quadratic-platueau-3-Xc.")
   }
-  ## Guess for a, b and Xc is to fit a quadratic linear regression to all the data
+  ## Guess for a, b and Xc is to fit a quadratic regression to all the data
   fit <- lm(xy[,"y"] ~ xy[,"x"] + I(xy[,"x"]^2))
   a <- coef(fit)[1]
   b <- coef(fit)[2]
@@ -132,6 +134,7 @@ SS_QP <- stats::selfStart(QP_f, initial = QP_init, c("intercept","slope","Xc"))
 quadratic_plateau <- function(data = NULL,
                                 stv,
                                 ry,
+                                target = NULL,
                                 tidy = FALSE,
                                 plot = FALSE,
                                 resid = FALSE
@@ -168,7 +171,7 @@ quadratic_plateau <- function(data = NULL,
     try(minpack.lm::nlsLM(y ~ SS_QP(x, b0, b1, CSTV), data = test.data))
   
   if (inherits(qpmodel, "try-error")) {
-    stop("Linear-plateau model did not converge. Please, consider other models.")
+    stop("Quadratic-plateau model did not converge. Please, consider other models.")
   } else {
     qpmodel <- qpmodel
   }
@@ -186,51 +189,41 @@ quadratic_plateau <- function(data = NULL,
   b0 <- stats::coef(qpmodel)[[1]]
   b1 <- stats::coef(qpmodel)[[2]]
   b2 <- -0.5 * b1 / stats::coef(qpmodel)[[3]]
-  CSTV <- round(stats::coef(qpmodel)[[3]], 1)
+  #CSTV <- round(stats::coef(qpmodel)[[3]], 1)
+  
+  # CSTV for plateau or for target
+  
+  if (!is.null(target)) { 
+    if (target >= stats::coef(qpmodel)[[3]]) {
+      warning("You have specified a relative yield target equal or greater than the CSTV for plateau. 
+          The CSTV estimations have been changed for the plateau level", 
+              call. = FALSE) 
+    }
+  }
+  
+  CSTV <- ifelse(is.null(target), 
+                 round(stats::coef(qpmodel)[[3]], 1),
+                 ifelse(target >= stats::coef(qpmodel)[[3]],
+                        (-b1 + sqrt((b1 ^ 2) - (4 * b2 * (b0 - target) ))) / (2 * b2),
+                        (-b1 + sqrt((b1 ^ 2) - (4 * b2 * (b0 - target) ))) / (2 * b2) )  )
+  
   # confidence interval for CSTV
   qpmodel.confint <- nlstools::confint2(qpmodel)
   CSTV_lower <- qpmodel.confint[[3,1]]
   CSTV_upper <- qpmodel.confint[[3,2]]
-  plateau <- b0 + b1 * CSTV + b2 * (stats::coef(qpmodel)[[3]])^2
+  plateau <- b0 + b1 * stats::coef(qpmodel)[[3]] + b2 * (stats::coef(qpmodel)[[3]])^2
   
   # have to make a line because the SS_QP doesn't plot right
   qp_line <- data.frame(x = seq(minx, maxx, by = maxx/200)) %>%
-                      dplyr::mutate(y = ifelse(x < CSTV, 
+                      dplyr::mutate(y = ifelse(x < stats::coef(qpmodel)[[3]], 
                                         b0 + b1 * x + b2*x^2,
-                                        plateau))
+                                        b0 + b1 * stats::coef(qpmodel)[[3]] + b2*stats::coef(qpmodel)[[3]]^2))
   
   equation <- paste0(round(b0, 1), " + ",
                      round(b1, 2), "x + ",
                      round(b2, 2), "x^2 if x<CSTV")
   ## STAGE 3 ====================================================================
-  # ## CSTV at defined % of max/plateau
-  # @param target numeric value indicating yield target to find the specific CSTV
-  # # To find an X value at a given Y less than predicted plateau
-  # if (!is.null(target)) {
-  # adjust_cstv <- function(b0, b1, b2) {
-  #   CSTV <- -0.5 * b1 / b2
-  #   newplateau <-
-  #     (b0 + (b1 * CSTV) + (b2 * CSTV * CSTV)) * target / 100
-  #   newb0 <- b0 - newplateau
-  #   discriminant <- (b1 ^ 2) - (4 * newb0 * b2)
-  #   
-  #   if (discriminant < 0) {
-  #     return(NA)
-  #   }
-  #   else if (discriminant > 0) {
-  #     cstv_adj <- (-b1 + sqrt(discriminant)) / (2 * b2)
-  #     
-  #     return(cstv_adj)
-  #   }
-  # }
-  # 
-  # cstv_adj <- adjust_cstv(b0, b1, b2)
-  # 
-  # } else {cstv_adj <- NULL}
   
-  
-  
-  ## STAGE 4 ====================================================================
   ## Outputs
   # Table output =================================================
   if (plot == FALSE) {
@@ -242,10 +235,13 @@ quadratic_plateau <- function(data = NULL,
       intercept = round(b0, 2),
       slope = round(b1, 2),
       equation,
-      CSTV = round(CSTV, 1),
-      LL = round(CSTV_lower,1),
-      UL = round(CSTV_upper,1),
       plateau = round(plateau, 1),
+      target = ifelse(!is.null(target),
+                      target,
+                      round(plateau, 1)),
+      CSTV = round(CSTV, 1),
+      LL_cxp = round(CSTV_lower,1),
+      UL_cxp = round(CSTV_upper,1),
       AIC,
       AICc,
       R2
@@ -280,14 +276,16 @@ quadratic_plateau <- function(data = NULL,
       ggplot2::geom_vline(xintercept = CSTV, alpha = 1, color = "#13274F", 
                           size = 0.5, linetype = "dashed") +
       # CI
-      geom_vline(xintercept = CSTV_lower, col = "grey25", size = 0.25, linetype = "dotted")+
-      geom_vline(xintercept = CSTV_upper, col = "grey25", size = 0.25, linetype = "dotted")+
+      { if (is.null(target)) 
+            geom_vline(xintercept = CSTV_lower, col = "grey25", size = 0.25, linetype = "dotted") } +
+      { if (is.null(target))
+            geom_vline(xintercept = CSTV_upper, col = "grey25", size = 0.25, linetype = "dotted") } +
       # Plateau
       ggplot2::geom_hline(yintercept = plateau, alpha = 0.2) +
       # LP Curve
       ggplot2::geom_path(data = qp_line, ggplot2::aes(x=x,y=y), color="grey15", size = 1.5) +
       # Text annotations
-      ggplot2::annotate("text",label = paste("CSTV =", CSTV, "ppm"),
+      ggplot2::annotate("text",label = paste("CSTV =", round(CSTV,1), "ppm"),
                         x = CSTV, y = 0, angle = 90, hjust = 0, vjust = 1.5, col = "grey25") +
       ggplot2::annotate("text",label = paste0("Plateau = ", round(plateau, 1), "%"),
                         x = maxx, y = plateau, hjust = 1,vjust = 1.5, col = "grey25") +

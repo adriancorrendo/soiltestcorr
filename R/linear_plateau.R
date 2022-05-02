@@ -6,6 +6,8 @@
 #' containing the soil test value (STV) and relative yield (RY) data, Default: NULL
 #' @param stv name of the vector containing soil test values (-) of type `numeric`.
 #' @param ry name of the vector containing relative yield values (%) of type `numeric`.
+#' @param target `numeric` value of relative yield target (e.g. 90 for 90%) to estimate the CSTV.
+#' The target needs to be < plateau, otherwise, target = plateau.
 #' @param tidy logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).
 #' @param resid logical operator (TRUE/FALSE) to plot residuals analysis, Default: FALSE
 #' @param plot logical operator (TRUE/FALSE) to plot the linear-plateau model, Default: FALSE
@@ -143,6 +145,7 @@ SS_LP <- stats::selfStart(LP_f, initial = LP_init, c("intercept","slope","cx"))
 linear_plateau <- function(data = NULL,
                            stv,
                            ry,
+                           target = NULL,
                            tidy = FALSE,
                            plot = FALSE,
                            resid = FALSE) {
@@ -197,7 +200,20 @@ linear_plateau <- function(data = NULL,
   # get model coefficients
   b0 <- stats::coef(lp_model)[[1]]
   b1 <- stats::coef(lp_model)[[2]]
-  CSTV <- round(stats::coef(lp_model)[[3]], 1)
+  
+  # CSTV for plateau or for target
+  if (!is.null(target)) { 
+  if (target >= stats::coef(lp_model)[[3]]) {
+  warning("You have specified a relative yield target equal or greater than the CSTV for plateau. 
+          The CSTV estimations have been changed for the plateau level", 
+                                    call. = FALSE) 
+  }
+  }
+  CSTV <- ifelse(is.null(target), 
+                 round(stats::coef(lp_model)[[3]], 1),
+                 ifelse(target < stats::coef(lp_model)[[3]],
+                 (target - b0) / b1,
+                 (target - b0) / b1) )
   # confidence interval for CSTV
   lp_model.confint <- nlstools::confint2(lp_model)
   CSTV_lower <- lp_model.confint[[3,1]]
@@ -205,8 +221,10 @@ linear_plateau <- function(data = NULL,
   plateau <- b0 + b1 * CSTV
   
   # have to make a line because the SS_LP doesn't plot right
-  lp_line <- data.frame(x = c(minx, CSTV, maxx),
-                        y = c(b0 + b1 * minx, plateau, plateau))
+  lp_line <- data.frame(x = seq(minx, maxx, by = maxx/200)) %>%
+    dplyr::mutate(y = ifelse(x < stats::coef(lp_model)[[3]], 
+                             b0 + b1 * x,
+                             b0 + b1 * stats::coef(lp_model)[[3]] ) )
   
   equation <- paste0(round(b0, 1), " + ",
                      round(b1, 2), "x if x<CSTV")
@@ -223,11 +241,14 @@ linear_plateau <- function(data = NULL,
       intercept = round(b0, 2),
       slope = round(b1, 2),
       equation,
-      CSTV = round(CSTV, 1),
-      LL = round(CSTV_lower,1),
-      UL = round(CSTV_upper,1),
-      CI_type = "Wald Conf. Interval",
       plateau = round(plateau, 1),
+      target = ifelse(!is.null(target),
+                      target,
+                      round(plateau, 1)),
+      CSTV = round(CSTV, 1),
+      LL_cxp = round(CSTV_lower,1),
+      UL_cxp = round(CSTV_upper,1),
+      CI_type = "Wald Conf. Interval",
       AIC,
       AICc,
       R2
@@ -257,17 +278,29 @@ linear_plateau <- function(data = NULL,
       ggplot2::geom_vline(xintercept = CSTV, alpha = 1, color = "#13274F", 
                           size = 0.5, linetype = "dashed") +
       # CI
-      geom_vline(xintercept = CSTV_lower, col = "grey25", size = 0.25, linetype = "dotted")+
-      geom_vline(xintercept = CSTV_upper, col = "grey25", size = 0.25, linetype = "dotted")+
+      { if (is.null(target)) 
+        geom_vline(xintercept = CSTV_lower, col = "grey25", size = 0.25, linetype = "dotted") } +
+      { if (is.null(target))
+        geom_vline(xintercept = CSTV_upper, col = "grey25", size = 0.25, linetype = "dotted") } +
       # Plateau
       ggplot2::geom_hline(yintercept = plateau, alpha = 0.2) +
       # LP Curve
       ggplot2::geom_line(data = lp_line, ggplot2::aes(x=x,y=y), color="grey15", size = 1.5) +
       # Text annotations
-      ggplot2::annotate("text",label = paste("CSTV =", CSTV, "ppm"),
+      ggplot2::annotate("text",label = paste("CSTV =", round(CSTV,1), "ppm"),
                         x = CSTV, y = 0, angle = 90, hjust = 0, vjust = 1.5, col = "grey25") +
-      ggplot2::annotate("text",label = paste0("Plateau = ", round(plateau, 1), "%"),
-                        x = maxx, y = plateau, hjust = 1,vjust = 1.5, col = "grey25") +
+      # Target if null
+      {
+        if(is.null(target))
+          ggplot2::annotate("text",label = paste0("Plateau = ", round(plateau, 0), "%"),
+                            x = maxx, y = plateau, hjust = 1,vjust = 1.5, col = "grey25") 
+      } +
+      # Target if null == a
+      {
+        if(!is.null(target))
+          ggplot2::annotate("text",label = paste0("Target = ", round(target, 0), "%"),
+                            x = maxx, y = target, hjust = 1,vjust = 1.5, col = "grey25") 
+      } +
       ggplot2::annotate("text", col = "grey25",
                         label = paste0("y = ", equation, 
                                        "\nn = ", nrow(test.data),

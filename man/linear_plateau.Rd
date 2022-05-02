@@ -10,7 +10,15 @@ LP_f(x, intercept, slope, cx)
 
 SS_LP(x, intercept, slope, cx)
 
-linear_plateau(data = NULL, stv, ry, tidy = FALSE, plot = FALSE, resid = FALSE)
+linear_plateau(
+  data = NULL,
+  stv,
+  ry,
+  target = NULL,
+  tidy = FALSE,
+  plot = FALSE,
+  resid = FALSE
+)
 }
 \arguments{
 \item{x}{selfstart vector for independent variable, Default: NULL}
@@ -27,6 +35,9 @@ containing the soil test value (STV) and relative yield (RY) data, Default: NULL
 \item{stv}{name of the vector containing soil test values (-) of type \code{numeric}.}
 
 \item{ry}{name of the vector containing relative yield values (\%) of type \code{numeric}.}
+
+\item{target}{\code{numeric} value of relative yield target (e.g. 90 for 90\%) to estimate the CSTV.
+The target needs to be < plateau, otherwise, target = plateau.}
 
 \item{tidy}{logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).}
 

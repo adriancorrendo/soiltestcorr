@@ -29,17 +29,17 @@ This tutorial is intended to show how to deploy the mod_alcc() function for esti
 
   ii. Specify the following arguments into the function -mod_alcc()-: <br/>
 
-    (a). `data` (optional), <br/>
+   (a). `data` (optional), <br/>
 
-    (b). `stv` (soil test value) and `ry` (relative yield)  columns or vectors, <br/>
+   (b). `stv` (soil test value) and `ry` (relative yield)  columns or vectors, <br/>
   
-    (c). `target` of relative yield (e.g. 90%), <br/>
+   (c). `target` of relative yield (e.g. 90%), <br/>
 
-    (d). desired `confidence` level (e.g. 0.95 for 1 - alpha(0.05)). Used for the estimation of critical soil test value (CSTV) lower and upper limits. <br/>
+   (d). desired `confidence` level (e.g. 0.95 for 1 - alpha(0.05)). Used for the estimation of critical soil test value (CSTV) lower and upper limits. <br/>
   
-    (e). `tidy` TRUE (produces a data.frame with results) or FALSE-default- (store results as list), <br/>
+   (e). `tidy` TRUE (produces a data.frame with results) or FALSE-default- (store results as list), <br/>
     
-    (f). `plot` TRUE (produces a ggplot as main output) or FALSE -default- (no plot, only results as list or data.frame), <br/>
+   (f). `plot` TRUE (produces a ggplot as main output) or FALSE -default- (no plot, only results as list or data.frame), <br/>
 
   iii. Run and check results. <br/>
 

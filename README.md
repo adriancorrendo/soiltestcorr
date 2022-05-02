@@ -50,13 +50,17 @@ Linear-plateau](https://adriancorrendo.github.io/soiltestcorr/articles/linear_pl
 Quadratic-plateau](https://adriancorrendo.github.io/soiltestcorr/articles/quadratic_plateau_tutorial.html)
 <br/>
 
+[7.
+Mitscherlich](https://adriancorrendo.github.io/soiltestcorr/articles/mitscherlich_tutorial.html)
+<br/>
+
 # Description <br/>
 
 The goal of `soiltestcorr` is to assist users on the analysis of
 relationships between relative yield (ry) and soil test values (stv)
 following different approaches. <br/>
 
-Available functions (version 1.0.5, 04-18-2022): <br/>
+Available functions (version 1.0.7, 05-02-2022): <br/>
 
 ## 1. Modified Arcsine-Log Calibration Curve <br/>
 
@@ -215,10 +219,13 @@ Instructions <br/>
 (b). `stv` (soil test value) and `ry` (relative yield) columns or
 vectors, <br/>
 
-(c). `plot` TRUE (produces a ggplot as main output) or FALSE (no plot,
+(c). `target` (optional) if want a CSTV for a different \`ry\`\` than
+the plateau.
+
+(d). `plot` TRUE (produces a ggplot as main output) or FALSE (no plot,
 only results as data.frame), <br/>
 
-(d). `resid` TRUE (produces plots with residuals analysis) or FALSE (no
+(e). `resid` TRUE (produces plots with residuals analysis) or FALSE (no
 plot), <br/>
 
 3.  Run and check results. <br/>
@@ -257,10 +264,13 @@ Instructions <br/>
 (b). `stv` (soil test value) and `ry` (relative yield) columns or
 vectors, <br/>
 
-(c). `plot` TRUE (produces a ggplot as main output) or FALSE (no plot,
+(c). `target` (optional) if want a CSTV for a different \`ry\`\` than
+the plateau.
+
+(d). `plot` TRUE (produces a ggplot as main output) or FALSE (no plot,
 only results as data.frame), <br/>
 
-(d). `resid` TRUE (produces plots with residuals analysis) or FALSE (no
+(e). `resid` TRUE (produces plots with residuals analysis) or FALSE (no
 plot), <br/>
 
 3.  Run and check results. <br/>
@@ -270,10 +280,42 @@ plot), <br/>
 
 5.  Adjust curve plots as desired. <br/>
 
-Example of linear_plateau() output
-<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
+Example of quadratic_plateau() output
+<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" /> \##
+6. Mitscherlich Regression </b> <br/>
 
-<b> MORE FUNCTIONS COMING SOON…. </b> <br/>
+Instructions <br/>
+
+1.  Load your dataframe with soil test value (stv) and relative yield
+    (ry) data. <br/>
+
+2.  Specify the following arguments into the function
+    -quadratic_plateau()-: <br/>
+
+(a). `data` (optional), <br/>
+
+(b). `stv` (soil test value) and `ry` (relative yield) columns or
+vectors, <br/>
+
+(c). `target` (optional) if want a CSTV for a different \`ry\`\` than
+the plateau.
+
+(d). `plot` TRUE (produces a ggplot as main output) or FALSE (no plot,
+only results as data.frame), <br/>
+
+(e). `resid` TRUE (produces plots with residuals analysis) or FALSE (no
+plot), <br/>
+
+3.  Run and check results. <br/>
+
+4.  Check residuals plot, and warnings related to potential limitations
+    of this model. <br/>
+
+5.  Adjust curve plots as desired. <br/>
+
+Example of mitscherlich() output <br/>
+
+<img src="man/figures/README-unnamed-chunk-8-1.png" width="100%" />
 
 <b> References </b> <br/>
 

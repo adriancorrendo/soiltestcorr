@@ -55,7 +55,7 @@ test_that("no error in fitting quadratic_plateau() for the example dataset", {
 })
 
 
-# 2
+# 4
 ## quadratic_plateau
 ## Options tidy = FALSE, plot = FALSE, resid = FALSE 
 context("run quadratic_plateau() with packaged dataset freitas1966")
@@ -72,19 +72,7 @@ test_that("no error in fitting quadratic_plateau() for the example dataset", {
   
 })
 
-context("run quadratic_plateau() with packaged dataset freitas1966")
-
-quadratic_plateau.test <- try(quadratic_plateau(data = freitas1966, stv = STK, ry = RY,
-                                          tidy=FALSE,
-                                          plot = FALSE,
-                                          resid = FALSE),
-                           silent = TRUE)
-
-test_that("no error in fitting quadratic_plateau() for the example dataset", {
-  
-  expect_false(inherits(quadratic_plateau.test, "try-error"))
-  
-})
+# 5
 
 context("run quadratic_plateau() with packaged dataset freitas1966")
 
@@ -99,6 +87,8 @@ test_that("no error in fitting quadratic_plateau() for the example dataset", {
   expect_false(inherits(quadratic_plateau.test, "try-error"))
   
 })
+
+# 6
 
 context("run quadratic_plateau() with packaged dataset freitas1966")
 
@@ -114,6 +104,8 @@ test_that("no error in fitting quadratic_plateau() for the example dataset", {
   
 })
 
+# 7
+
 context("run quadratic_plateau() with packaged dataset freitas1966")
 
 quadratic_plateau.test <- try(quadratic_plateau(data = freitas1966, stv = STK, ry = RY,
@@ -128,6 +120,8 @@ test_that("no error in fitting quadratic_plateau() for the example dataset", {
   
 })
 
+# 8
+
 context("run quadratic_plateau() with packaged dataset freitas1966")
 
 quadratic_plateau.test <- try(quadratic_plateau(data = freitas1966, stv = STK, ry = RY,
@@ -135,6 +129,42 @@ quadratic_plateau.test <- try(quadratic_plateau(data = freitas1966, stv = STK, r
                                           plot = FALSE,
                                           resid = TRUE),
                            silent = TRUE)
+
+test_that("no error in fitting quadratic_plateau() for the example dataset", {
+  
+  expect_false(inherits(quadratic_plateau.test, "try-error"))
+  
+})
+
+
+# 9
+
+context("run quadratic_plateau() with packaged dataset freitas1966")
+
+quadratic_plateau.test <- try(quadratic_plateau(data = freitas1966, stv = STK, ry = RY,
+                                                tidy = TRUE,
+                                                plot = FALSE,
+                                                resid = TRUE,
+                                                target = 90),
+                              silent = TRUE)
+
+test_that("no error in fitting quadratic_plateau() for the example dataset", {
+  
+  expect_false(inherits(quadratic_plateau.test, "try-error"))
+  
+})
+
+
+# 10
+
+context("run quadratic_plateau() with packaged dataset freitas1966")
+
+quadratic_plateau.test <- try(quadratic_plateau(data = freitas1966, stv = STK, ry = RY,
+                                                tidy = TRUE,
+                                                plot = FALSE,
+                                                resid = TRUE,
+                                                target = 100),
+                              silent = TRUE)
 
 test_that("no error in fitting quadratic_plateau() for the example dataset", {
   
