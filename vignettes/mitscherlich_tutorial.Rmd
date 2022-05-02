@@ -33,7 +33,7 @@ This tutorial is intended to show how to deploy the mitscherlich() function for 
    
    (b). `stv` (soil test value) and `ry` (relative yield)  columns or vectors, <br/>
    
-   (c). `type = 1, target` numeric `ry` value to estimate a CSTV (must be < asymptote).
+   (c). `target` numeric value of relative yield to estimate a CSTV (must be < asymptote).
 
    (d). `plot` TRUE (produces a ggplot as main output) or FALSE (no plot, only results as data.frame), <br/>
 

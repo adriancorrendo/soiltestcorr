@@ -280,9 +280,11 @@ plot), <br/>
 
 5.  Adjust curve plots as desired. <br/>
 
-Example of quadratic_plateau() output
-<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" /> \##
-6. Mitscherlich Regression </b> <br/>
+Example of quadratic_plateau() output <br/>
+
+<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
+
+## 6. Mitscherlich Regression </b> <br/>
 
 Instructions <br/>
 
