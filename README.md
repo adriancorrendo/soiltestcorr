@@ -9,7 +9,7 @@
 status](https://ci.appveyor.com/api/projects/status/github/adriancorrendo/soiltestcorr?branch=main&svg=true)](https://ci.appveyor.com/project/adriancorrendo/soiltestcorr)
 [![R-CMD-check](https://github.com/adriancorrendo/soiltestcorr/workflows/R-CMD-check/badge.svg)](https://github.com/adriancorrendo/soiltestcorr/actions)
 [![codecov](https://codecov.io/gh/adriancorrendo/soiltestcorr/branch/main/graph/badge.svg?token=OUH9NBPBXI)](https://codecov.io/gh/adriancorrendo/soiltestcorr)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6500335.svg)](https://doi.org/10.5281/zenodo.6500335)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6518828.svg)](https://doi.org/10.5281/zenodo.6518828)
 
 <!-- badges: end -->
 
