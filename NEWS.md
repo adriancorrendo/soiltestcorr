@@ -5,9 +5,9 @@
 Major: soiltestcorr v2.0.1 fixes the versioning of the package (this version was previously named as v1.0.7); it 
 introduces the Mitscherlich response model, and it introduces the the "target" argument into linear_plateau() and quadratic_plateau() functions, allowing to estimate critical soil test values for relative yields different than the plateau level. <br/>
 
-Minor: added 'Date' field on DESCRIPTION file. <br/>
+Minor: added 'Date' field on DESCRIPTION file, removed unused Imports-packages from Description file, fixed DOI source of 'data_test.Rd' and 'freitas.Rd'. <br/>
 
-Patch: It also fixes some minor typos in the comments within the functions. <br/>
+Patch: fixes some minor typos in the comments within the functions. <br/>
 
 ## Previous versions
 

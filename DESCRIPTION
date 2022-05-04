@@ -10,7 +10,7 @@ Authors@R: c(
     person(given = "Austin", family = "Pearce",
              email = "awpearc2@ncsu.edu", role = "aut",comment = c(ORCID = "0000-0002-2541-896X")),
     person("Ignacio A.", "Ciampitti", email = "ciampitti@ksu.edu", role = c("aut"), comment = c(ORCID = "0000-0001-9619-5129")) )
-Description: the soiltestcorr-package is designed to assist users on the correlation analysis of crop yield and soil test values. The soiltestcorr package estimates critical soil test values using R several different approaches such as: 1) the modified ALCC model originally described by Dyson and Conyers (2013) and modified by Correndo et al. (2017); 2) the graphical Cate & Nelson approach (Cate & Nelson, 1965), 3) the statistical Cate & Nelson approach (Cate & Nelson, 1965), 4) linear-plateau regression, 5) quadratic-plateau regression, and 6) Mitscherlich regression.
+Description: The soiltestcorr-package is designed to assist users on the correlation analysis of crop yield and soil test values. The soiltestcorr package estimates critical soil test values using R several different approaches such as: 1) the modified Arcsine-log calibration curve model originally described by Dyson and Conyers (2013) and modified by Correndo et al. (2017); 2) the graphical Cate & Nelson approach (Cate & Nelson, 1965), 3) the statistical Cate & Nelson approach (Cate & Nelson, 1965), 4) linear-plateau regression, 5) quadratic-plateau regression, and 6) Mitscherlich regression.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -19,19 +19,17 @@ Suggests:
     smatr,
     covr,
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat
 Imports:
-    testthat,
     stats,
     dplyr,
-    purrr,
     rlang,
     tidyr,
-    ggplot2,
-    ggpp,
-    pacman,
-    data.table,
     utils,
+    purrr,
+    data.table,
+    ggplot2,
     nlstools,
     minpack.lm,
     modelr,
