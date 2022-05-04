@@ -41,9 +41,9 @@ containing the stv and ry data, Default: NULL}
 \item{ry}{name of the vector containing relative yield values (\%) of type \code{numeric}.}
 
 \item{type}{string or number that indicates the type of Mitscherlich model to fit. Default: 1
-Type = "no restrictions" or Type = 1 for model with 'no restrictions';
-Type = "asympotote 100" or Type = 2 for model with 'asymptote = 100';
-Type = "asymptote 100 from 0" or Type = 3 for model with 'asymptote = 100 and xintercept = 0'"}
+\code{type = "no restrictions"} or \code{type = 1} for model with 'no restrictions';
+\code{type = "asympotote 100"} or \code{type = 2} for model with 'asymptote = 100';
+\code{type = "asymptote 100 from 0"} or \code{type = 3} for model with 'asymptote = 100 and xintercept = 0'"}
 
 \item{target}{\code{numeric} value of relative yield target (e.g. 90 for 90\%) to estimate the CSTV.
 Default: NULL}

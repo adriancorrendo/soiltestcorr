@@ -1,6 +1,15 @@
-# soiltestcorr 1.0.7
+# soiltestcorr 2.0.1
 
-* May, 02, 2022. The soiltestcorr v1.0.7 introduces the Mitscherlich response model, and it introduces the the "target" argument into linear_plateau() and quadratic_plateau() functions, allowing to estimate critical soil test values for relative yields different than the plateau level. It also fixes some minor typos within the functions.
+* May, 04, 2022. <br/>
+
+Major: soiltestcorr v2.0.1 fixes the versioning of the package (this version was previously named as v1.0.7); it 
+introduces the Mitscherlich response model, and it introduces the the "target" argument into linear_plateau() and quadratic_plateau() functions, allowing to estimate critical soil test values for relative yields different than the plateau level. <br/>
+
+Minor: added 'Date' field on DESCRIPTION file. <br/>
+
+Patch: It also fixes some minor typos in the comments within the functions. <br/>
+
+## Previous versions
 
 * Apr, 28, 2022. The soiltestcorr v1.0.6 uses consistent arguments across all functions using lowercase (e.g. stv, ry) and includes warning and stop messages to improve users experience.
 

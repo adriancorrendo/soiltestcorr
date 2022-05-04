@@ -1,6 +1,6 @@
 ---
 title: "Cate and Nelson (1965)"
-author: Adrian Correndo & Austin Pearce 
+author: Adrian Correndo 
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Cate and Nelson (1965)}

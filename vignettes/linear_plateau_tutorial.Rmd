@@ -54,10 +54,12 @@ library(soiltestcorr)
 Suggested packages
 ```{r warning=FALSE, message=FALSE}
 # Install if needed 
-require(ggplot2) # Plots
-require(dplyr) # Data wrangling
-require(tidyr) # Data wrangling
-require(purrr) # Mapping
+library(ggplot2) # Plots
+library(dplyr) # Data wrangling
+library(tidyr) # Data wrangling
+library(utils) # Data wrangling
+library(data.table) # Mapping
+library(purrr) # Mapping
 
 ```
 
@@ -101,7 +103,7 @@ fit_1_tidy_false <-
                                stv = STV, 
                                tidy = FALSE)
 
-head(fit_1_tidy_false)
+utils::head(fit_1_tidy_false)
 
 ```
 
@@ -149,7 +151,7 @@ fit_2 <-
                                ry = RY,
                                stv = STV)
 
-head(fit_2)
+utils::head(fit_2)
 ```
 
 ### 1.5. Data 3. Freitas et al. 1966 <br/>
@@ -160,7 +162,7 @@ fit_3 <-
   soiltestcorr::linear_plateau(data = data_3, 
                                ry = RY,
                                stv = STK)
-head(fit_3)
+utils::head(fit_3)
 
 ```
 
@@ -173,7 +175,7 @@ head(fit_3)
 <i> Note: the `stv` column needs to have the same name for all datasets <i/> <br/>
 ```{r warning=T, message=F}
 # 
-data.all <- bind_rows(data_1, data_2,
+data.all <- dplyr::bind_rows(data_1, data_2,
                       data_3 %>% dplyr::rename(STV = STK),
                      .id = "id") %>% 
   tidyr::nest(data = c("STV", "RY"))
@@ -190,7 +192,7 @@ fit_multiple_map <-
                                                                     stv = .$STV,
                                                                     tidy = TRUE)))
 
-head(fit_multiple_map)
+utils::head(fit_multiple_map)
 
 ```
 
@@ -198,20 +200,20 @@ head(fit_multiple_map)
 
 Alternatively, with group_map, we do not require nested data. <br/>
 
-However, it requires to bind_rows and add an `id` column specifying the name of each dataset. <br/>
+However, it requires to dplyr::bind_rows and add an `id` column specifying the name of each dataset. <br/>
 
 This option return models as lists objects.
 ```{r warning=T, message=F}
 
 fit_multiple_group_map <- 
-  bind_rows(data_1, data_2, .id = "id") %>% 
-  group_by(id) %>% 
-  group_map(~ soiltestcorr::linear_plateau(data = ., 
+  dplyr::bind_rows(data_1, data_2, .id = "id") %>% 
+  dplyr::group_by(id) %>% 
+  dplyr::group_map(~ soiltestcorr::linear_plateau(data = ., 
                                            ry = RY,
                                            stv = STV,
                                            tidy = TRUE))
 
-head(fit_multiple_group_map)
+utils::head(fit_multiple_group_map)
 
 ```
 

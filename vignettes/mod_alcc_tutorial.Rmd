@@ -1,6 +1,6 @@
 ---
 title: "Modified ALCC"
-author: Adrian Correndo & Austin Pearce 
+author: Adrian Correndo 
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Modified ALCC}
