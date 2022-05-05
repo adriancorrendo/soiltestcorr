@@ -1,7 +1,7 @@
 Package: soiltestcorr
 Title: Soil Test Correlation and Calibration in R
-Version: 2.0.1
-Date: 2022-05-04
+Version: 2.0.2
+Date: 2022-05-05
 Authors@R: c(
     person(given = "Adrian A.", family = "Correndo",
              email = "correndo@ksu.edu", role = c("cre","cph"),comment = c(ORCID = "0000-0002-4172-289X")),
@@ -30,6 +30,7 @@ Imports:
     purrr,
     data.table,
     ggplot2,
+    ggpp,
     nlstools,
     minpack.lm,
     modelr,

@@ -1,4 +1,10 @@
-# soiltestcorr 2.0.1
+# soiltestcorr 2.0.2
+
+* May, 05, 2022. <br/>
+
+Maintenance update fixing minor bugs related to checks before CRAN submission (e.g. spelling check, links, source URLs, DOIs, etc.)
+
+## Previous versions
 
 * May, 04, 2022. <br/>
 
@@ -8,8 +14,6 @@ introduces the Mitscherlich response model, and it introduces the the "target" a
 Minor: added 'Date' field on DESCRIPTION file, removed unused Imports-packages from Description file, fixed DOI source of 'data_test.Rd' and 'freitas.Rd'. <br/>
 
 Patch: fixes some minor typos in the comments within the functions. <br/>
-
-## Previous versions
 
 * Apr, 28, 2022. The soiltestcorr v1.0.6 uses consistent arguments across all functions using lowercase (e.g. stv, ry) and includes warning and stop messages to improve users experience.
 

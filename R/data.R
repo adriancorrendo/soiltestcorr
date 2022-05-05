@@ -8,7 +8,7 @@
 #'   \item{STV}{soil test value}
 #'   \item{RY}{relative yield, %}
 #'  }
-#' @source \url{https://dataverse.harvard.edu/file.xhtml?fileId=4345756&version=3.0}
+#' @source \doi{10.7910/DVN/NABA57}
 "data_test"
 
 #' Dataset 2
@@ -21,5 +21,5 @@
 #'   \item{RY}{relative yield, %}
 #'   \item{STK}{soil test potassium, ppm}
 #'  }
-#' @source \url{https://acsess.onlinelibrary.wiley.com/doi/10.2136/sssaj1971.03615995003500040048x}
+#' @source \doi{10.2136/sssaj1971.03615995003500040048x}
 "freitas1966"

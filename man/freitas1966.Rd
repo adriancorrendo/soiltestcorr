@@ -12,7 +12,7 @@ this data frame has 24 rows and the following 2 columns:
 }
 }
 \source{
-\url{https://acsess.onlinelibrary.wiley.com/doi/10.2136/sssaj1971.03615995003500040048x}
+\doi{10.2136/sssaj1971.03615995003500040048x}
 }
 \usage{
 freitas1966
