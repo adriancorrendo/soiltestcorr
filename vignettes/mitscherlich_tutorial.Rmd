@@ -107,7 +107,7 @@ utils::head(fit_1_type_1)
 
 ### 1.1.b `type = 2` <br/>
 
-Type = "asympotote 100" or Type = 2 for model with 'asymptote = 100' <br/>
+Type = "asymptote 100" or Type = 2 for model with 'asymptote = 100' <br/>
 ```{r warning=TRUE, message=TRUE}
 
 fit_1_type_2 <- 

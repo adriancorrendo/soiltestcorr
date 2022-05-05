@@ -8,7 +8,7 @@
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/github/adriancorrendo/soiltestcorr?branch=main&svg=true)](https://ci.appveyor.com/project/adriancorrendo/soiltestcorr)
 [![R-CMD-check](https://github.com/adriancorrendo/soiltestcorr/workflows/R-CMD-check/badge.svg)](https://github.com/adriancorrendo/soiltestcorr/actions)
-[![codecov](https://codecov.io/gh/adriancorrendo/soiltestcorr/branch/main/graph/badge.svg?token=OUH9NBPBXI)](https://codecov.io/gh/adriancorrendo/soiltestcorr)
+[![codecov](https://codecov.io/gh/adriancorrendo/soiltestcorr/branch/main/graph/badge.svg?token=OUH9NBPBXI)](https://app.codecov.io/gh/adriancorrendo/soiltestcorr)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6518828.svg)](https://doi.org/10.5281/zenodo.6518828)
 
 <!-- badges: end -->
@@ -324,7 +324,7 @@ Example of mitscherlich() output <br/>
 *Correndo, A.A., Salvagiotti, F., García, F.O. and Gutiérrez-Boem, F.H.,
 2017. A modification of the arcsine–log calibration curve for analysing
 soil test value–relative yield relationships. Crop and Pasture Science,
-68(3), pp.297-304. <https://doi.org/10.1071/CP16444> * <br/>
+68(3), pp.297-304. <DOI:10.1071/CP16444> * <br/>
 
 *Cate, R.B. Jr., and Nelson, L.A., 1965. A rapid method for correlation
 of soil test analysis with plant response data. North Carolina Agric.
@@ -336,8 +336,8 @@ Soc. Am. Proc. 35:658-659 * <br/>
 
 *Dyson, C.B., Conyers, M.K., 2013. Methodology for online biometric
 analysis of soil test-crop response datasets. Crop & Pasture Science 64:
-435–441. <https://doi.org/10.1071/CP13009> * <br/>
+435–441. <DOI:10.1071/CP13009> * <br/>
 
 *Warton, D.I., Wright, I.J., Falster, D.S., Westoby, M., 2006. Bivariate
 line-fitting methods for allometry. Biol. Rev. Camb. Philos. Soc. 81,
-259–291. <https://doi.org/10.1017/S1464793106007007> * <br/>
+259–291. <DOI:10.1017/S1464793106007007> * <br/>
