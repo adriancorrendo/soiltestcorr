@@ -48,9 +48,8 @@
 #'  \code{\link[tidyr]{reexports}}
 #'  \code{\link[dplyr]{bind}}
 #'  \code{\link[ggplot2]{ggplot}},\code{\link[ggplot2]{aes}},\code{\link[ggplot2]{geom_rug}},\code{\link[ggplot2]{geom_point}},\code{\link[ggplot2]{geom_abline}},\code{\link[ggplot2]{geom_path}},\code{\link[ggplot2]{annotate}},\code{\link[ggplot2]{scale_continuous}},\code{\link[ggplot2]{labs}},\code{\link[ggplot2]{ggtheme}},\code{\link[ggplot2]{theme}}
-#'  \code{\link[ggpp]{annotate}}
 #' @note Adapted from Austin Pearce's code. For extended reference, we recommend 
-#' to visit: https://gradcylinder.org/quad-plateau/ & https://github.com/austinwpearce/SoilTestCocaCola.
+#' to visit: https://gradcylinder.org/mitscherlich/ & https://github.com/austinwpearce/SoilTestCocaCola.
 #' @export
 #' @importFrom rlang eval_tidy quo
 #' @importFrom minpack.lm nlsLM
@@ -67,17 +66,17 @@ NULL
 #' @rdname mitscherlich
 #' @return Mitscherlich type 1 formula
 #' @export
-mits_formula_1 <- function(a, b, c, x){ a * (1-exp(c*(x+b)) ) }
+mits_formula_1 <- function(x, a, b, c){ a * (1 - exp(-c * (x + b))) }
 
 #' @rdname mitscherlich
 #' @return Mitscherlich type 2 formula
 #' @export
-mits_formula_2 <- function(b, c, x){ 100 * (1-exp(c*(x+b)) ) }
+mits_formula_2 <- function(x, b, c){ 100 * (1 - exp(-c * (x + b))) }
 
 #' @rdname mitscherlich
 #' @return Mitscherlich type 3 formula
 #' @export
-mits_formula_3 <- function(c, x){ 100 * (1-exp(c*(x)) ) }
+mits_formula_3 <- function(x, c){ 100 * (1-exp(-c * x)) }
 
 #' @rdname mitscherlich
 #' @return mitscherlich: function
@@ -109,57 +108,62 @@ mitscherlich <- function(data = NULL,
     stop("Please specify the variable name for relative yields using the `ry` argument")
   }
   
-  # Re-define x and y from stv and ry
+  # Re-define x from stv argument
   x <- rlang::eval_tidy(data = data, rlang::quo({{stv}}) )
-  
-  y <- rlang::eval_tidy(data = data, rlang::quo({{ry}}) )
-  
-  # Create data.frame if it doesn't exist yet (data from vectors)
-  test.data <- data.frame(x=x, y=y)
   
   # Error message for insufficient sample size
   if (length(x) < 4) {
     stop("Too few distinct input values to fit LP. Try at least 4.")
   }
   
+  # Re-define y from ry argument
+  y <- rlang::eval_tidy(data = data, rlang::quo({{ry}}) )
+  
+  # Error message for soil test correlation data on ratio scale
+  # Modeling steps depend on percentage scale
+  if (max(y) < 2) {
+    stop("The reponse variable does not appear to be on a percentage scale. Please, double check the units of ry.")
+  }
+  
+  # Create data.frame if it doesn't exist yet (data from vectors)
+  test.data <- data.frame(x = as.numeric(x),
+                          y = as.numeric(y))
+  
   # Extreme values
   minx <- min(test.data$x)
   maxx <- max(test.data$x)
   miny <- min(test.data$y)
   maxy <- max(test.data$y)
-  rangex <- maxx - minx
-  start_c <- -0.2*(rangex) / (maxy - miny)
+  # slope of the data divided by 10 gives reasonable starting value for c
+  start_c <- (maxy - miny) / (maxx - minx) / 10
   
   # Run the model combining minpack.lm::nlsLM + defined selfStart
   # Type 1, no restrictions
     if (type == "no restriction" | type == 1) {
       mitsmodel <-
-        try(minpack.lm::nlsLM(formula = y ~ mits_formula_1(a,b,c, x), 
-                          start = list(a = maxy, 
-                                       b = 0, 
-                                       c = start_c),
-                          lower = c(a = 80, b = miny-100, c = -10),
-                          upper = c(a = 150, b = miny*2, c = -start_c/10),
-                          data = test.data))
+        try(minpack.lm::nlsLM(formula = y ~ mits_formula_1(x, a, b, c),
+                              data = test.data,
+                              start = list(a = maxy, b = 0, c = start_c),
+                              lower = c(a = miny, b = -maxx, c = 1e-7),
+                              upper = c(a = Inf, b = 1e3, c = 10)))
     }
     # Type 2
     if (type == "asymptote 100" | type == 2) {
       mitsmodel <-
-        try(minpack.lm::nlsLM(formula = y ~ mits_formula_2(b,c, x), 
-                          start = list(b = 0, 
-                                       c = start_c),
-                          lower = c(b = miny-100, c = -10),
-                          upper = c(b = miny*2, c = -start_c/10),
-                          data = test.data))
+        try(minpack.lm::nlsLM(formula = y ~ mits_formula_2(x, b, c),
+                              data = test.data,
+                              start = list(b = 0, c = start_c),
+                              lower = c(b = -maxx, c = 1e-7),
+                              upper = c(b = 1e3, c = 10)))
     }
     # Type 3
     if (type == "asymptote 100 from 0" | type == 3) {
       mitsmodel <-
-        try(minpack.lm::nlsLM(formula = y ~ mits_formula_3(c, x), 
-                          start = list(c = start_c),
-                          lower = c(c = -10),
-                          upper = c(c = -start_c/10),
-                          data = test.data))
+        try(minpack.lm::nlsLM(formula = y ~ mits_formula_3(x, c),
+                              data = test.data,
+                              start = list(c = start_c),
+                              lower = c(c = 1e-7),
+                              upper = c(c = 10)))
     }
   
   if (inherits(mitsmodel, "try-error")) {
@@ -218,7 +222,7 @@ mitscherlich <- function(data = NULL,
   
   CSTV <- ifelse(is.null(target), 
                  NA,
-                 (log(1 - (target/a)) / c) - b )
+                 (log(1 - (target/a)) / -c) - b )
   
 #  CSTV_target <- log((target - a) / (b-a)) / -c
   # There are no confidence interval for CSTV as it is not a parameter
@@ -227,31 +231,31 @@ mitscherlich <- function(data = NULL,
     if (type == "no restriction" | type == 1) {
       mits_line <-
       data.frame(x = seq(minx, maxx, by = maxx/200)) %>%
-      dplyr::mutate(y = mits_formula_1(a,b,c,x) ) }
+      dplyr::mutate(y = mits_formula_1(x, a, b, c) ) }
     
     if (type == "asymptote 100" | type == 2) {
       mits_line <-
       data.frame(x = seq(minx, maxx, by = maxx/200)) %>%
-      dplyr::mutate(y = mits_formula_2(b,c,x) ) }
+      dplyr::mutate(y = mits_formula_2(x, b, c) ) }
     
     if (type == "asymptote 100 from zero" | type == 3) {
       mits_line <-
       data.frame(x = seq(minx, maxx, by = maxx/200)) %>%
-      dplyr::mutate(y = mits_formula_3(c,x) ) }
+      dplyr::mutate(y = mits_formula_3(x, c) ) }
     
     
   # Equation
   if (b > 0) { 
-    equation <- paste0(round(a, 1), "(1-e^(", 
+    equation <- paste0(round(a, 1), "(1-e^(-", 
                        round(c, 3), "(x+",
                        round(b, 1), ")")
      }
   if (b == 0) { 
-    equation <- paste0(round(a, 1), "(1-e^(", 
+    equation <- paste0(round(a, 1), "(1-e^(-", 
                        round(c, 3), "x)")
   }
   if (b < 0) { 
-    equation <- paste0(round(a, 1), "(1-e^(", 
+    equation <- paste0(round(a, 1), "(1-e^(-", 
                        round(c, 3), "(x",
                        round(b, 1), ")")
   }

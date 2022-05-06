@@ -7,11 +7,11 @@
 \alias{mits_formula_3}
 \title{Mitscherlich}
 \usage{
-mits_formula_1(a, b, c, x)
+mits_formula_1(x, a, b, c)
 
-mits_formula_2(b, c, x)
+mits_formula_2(x, b, c)
 
-mits_formula_3(c, x)
+mits_formula_3(x, c)
 
 mitscherlich(
   data = NULL,
@@ -25,13 +25,13 @@ mitscherlich(
 )
 }
 \arguments{
+\item{x}{selfstart vector. for model fit Default: NULL}
+
 \item{a}{selfstart arg. for asymptote, Default: NULL}
 
 \item{b}{selfstart arg. for xintercept Default: NULL}
 
 \item{c}{selfstart arg. for curvature Default: NULL}
-
-\item{x}{selfstart vector. for model fit Default: NULL}
 
 \item{data}{Optional argument to call and object of type data.frame or data.table
 containing the stv and ry data, Default: NULL}
@@ -77,7 +77,7 @@ Type = 3 for 'asymptote 100 from 0' model"
 }
 \note{
 Adapted from Austin Pearce's code. For extended reference, we recommend
-to visit: https://gradcylinder.org/quad-plateau/ & https://github.com/austinwpearce/SoilTestCocaCola.
+to visit: https://gradcylinder.org/mitscherlich/ & https://github.com/austinwpearce/SoilTestCocaCola.
 }
 \examples{
 \dontrun{
@@ -103,5 +103,4 @@ if(interactive()){
 \code{\link[tidyr]{reexports}}
 \code{\link[dplyr]{bind}}
 \code{\link[ggplot2]{ggplot}},\code{\link[ggplot2]{aes}},\code{\link[ggplot2]{geom_rug}},\code{\link[ggplot2]{geom_point}},\code{\link[ggplot2]{geom_abline}},\code{\link[ggplot2]{geom_path}},\code{\link[ggplot2]{annotate}},\code{\link[ggplot2]{scale_continuous}},\code{\link[ggplot2]{labs}},\code{\link[ggplot2]{ggtheme}},\code{\link[ggplot2]{theme}}
-\code{\link[ggpp]{annotate}}
 }
