@@ -49,7 +49,7 @@ if(interactive()){
  dat <- data.frame("ry" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
                    "stv" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
  # Run
- fit_example <- mod_alcc(data = dat, RY = ry, STV = stv, target=90, confidence = 0.95)
+ fit_example <- mod_alcc(data = dat, ry = ry, ry = stv, target=90, confidence = 0.95)
  fit_example
  }
 }

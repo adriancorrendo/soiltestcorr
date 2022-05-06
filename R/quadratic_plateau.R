@@ -25,8 +25,8 @@
 #'  dat <- data.frame("ry" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
 #'                    "stv" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
 #'  # Run
-#'  fit_example_lp <- quadratic_plateau(data = dat, ry = ry, stv = stv, resid = TRUE, plot = FALSE)
-#'  fit_example_lp
+#'  fit_example_qp <- quadratic_plateau(data = dat, ry = ry, stv = stv, resid = TRUE, plot = FALSE)
+#'  fit_example_qp
 #'  }
 #' }
 #' @seealso 

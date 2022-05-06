@@ -21,5 +21,5 @@
 #'   \item{RY}{relative yield, %}
 #'   \item{STK}{soil test potassium, ppm}
 #'  }
-#' @source \doi{10.2136/sssaj1971.03615995003500040048x}
+#' @source Freitas et al. (1966) cited and used by Cate & Nelson (1971). Soil Sci. Soc. Am. Proc. 35:658-659 
 "freitas1966"

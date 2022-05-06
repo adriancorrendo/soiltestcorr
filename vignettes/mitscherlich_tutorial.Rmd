@@ -29,15 +29,19 @@ This tutorial is intended to show how to deploy the mitscherlich() function for 
 
   ii. Specify the following arguments into the function -mitscherlich()-: <br/>
 
-   (a). `data` (optional), <br/>
+   (a). `type` select the type of parameterization of the model. i) type = 1 corresponds to the model without any restrictions to the parameters (`y = a * (1-exp(c(x + b))`); ii) type = 2 ("asymptote 100"), corresponding to the model with only 2 parameters by setting the asymptote = 100 (`y = 100 * (1-exp(c(x + b))`), and iii) type = 3 ("asymptote 100 from 0"), corresponding to the model with only 1 parameter by constraining the asymptote = 100 and xintercept = 0 (`y = 100 * (1-exp(c(x))`). <br/>
    
-   (b). `stv` (soil test value) and `ry` (relative yield)  columns or vectors, <br/>
+   (b). `data` (optional), <br/>
    
-   (c). `target` numeric value of relative yield to estimate a CSTV (must be < asymptote).
+   (c). `stv` (soil test value) and `ry` (relative yield)  columns or vectors, <br/>
+   
+   (d). `target` (optional) if want a CSTV for a different `ry`` than the plateau.
+   
+   (e). `tidy` TRUE (produces a data.frame with results) or FALSE (store results as list), <br/>
 
-   (d). `plot` TRUE (produces a ggplot as main output) or FALSE (no plot, only results as data.frame), <br/>
+   (f). `plot` TRUE (produces a ggplot as main output) or FALSE (no plot, only results as data.frame), <br/>
 
-   (e). `resid` TRUE (produces plots with residuals analysis) or FALSE (no plot), <br/>
+   (g). `resid` TRUE (produces plots with residuals analysis) or FALSE (no plot), <br/>
 
   iii. Run and check results. <br/>
 

@@ -12,7 +12,7 @@ this data frame has 24 rows and the following 2 columns:
 }
 }
 \source{
-\doi{10.2136/sssaj1971.03615995003500040048x}
+Freitas et al. (1966) cited and used by Cate & Nelson (1971). Soil Sci. Soc. Am. Proc. 35:658-659
 }
 \usage{
 freitas1966

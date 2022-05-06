@@ -1,4 +1,18 @@
-# soiltestcorr 2.0.2
+# soiltestcorr 2.1.0 
+
+## Local R CMD check results 
+
+0 errors v | 0 warnings v | 0 notes v
+
+R CMD check succeeded
+
+
+## Results R-hub check, devtools::check_rhub()
+
+
+PENDING
+
+# soiltestcorr 2.0.3
 
 * This is a new release.
 
@@ -7,26 +21,41 @@
 
 ### Windows Server 2022, R-devel, 64 bit
 
-Build ID:   soiltestcorr_2.0.2.tar.gz-b7539ebe5104477a975804059388eb9d
+Build ID:   soiltestcorr_2.0.3.tar.gz-b7539ebe5104477a975804059388eb9d
   
 
 #### Results
   
   Possibly misspelled words in DESCRIPTION:
-    Arcsine (13:254)
-    Cate (13:396, 13:420, 13:461, 13:485)
-    Conyers (13:324)
-    Correndo (13:355)
-    Mitscherlich (13:577)
-    al (13:367)
-    et (13:364)
-    soiltestcorr (13:18, 13:135)
+    Cate (13:303, 13:354)
+    Mitscherlich (13:468)
+    alcc (13:279)
+    arcsine (13:248)
   
-  Found the following (possibly) invalid URLs:
-    URL: https://doi.org/10.2136/sssaj1971.03615995003500040048x
-      From: man/freitas1966.Rd
-      Status: 503
-      Message: Service Unavailable
+ 
+> checking for detritus in the temp directory ... NOTE
+  Found the following files/directories:
+    'lastMiKTeXException'
+
+0 errors √ | 0 warnings √ | 2 notes x
+
+#### R-hub R CMD Check, devtools
+
+###  Platform:   Windows Server 2022, R-devel, 64 bit
+
+  Build ID:   soiltestcorr_2.0.3.tar.gz-f6311875209440199f436932153af2b3
+  Build log:  https://builder.r-hub.io/status/soiltestcorr_2.0.3.tar.gz-f6311875209440199f436932153af2b3
+  
+> checking CRAN incoming feasibility ... NOTE
+  Maintainer: 'Adrian A. Correndo <correndo@ksu.edu>'
+  
+  New submission
+  
+  Possibly misspelled words in DESCRIPTION:
+    Cate (13:303, 13:354)
+    Mitscherlich (13:468)
+    alcc (13:279)
+    arcsine (13:248)
 
 > checking for detritus in the temp directory ... NOTE
   Found the following files/directories:
@@ -34,15 +63,37 @@ Build ID:   soiltestcorr_2.0.2.tar.gz-b7539ebe5104477a975804059388eb9d
 
 0 errors √ | 0 warnings √ | 2 notes x
 
-#### soiltestcorr 2.0.2: IN-PROGRESS
 
-  Build ID:   soiltestcorr_2.0.2.tar.gz-b0259f52971746778fea4dee5dcceb77
+###  Platform:   Fedora Linux, R-devel, clang, gfortran
+  
+  Build ID:   soiltestcorr_2.0.3.tar.gz-f2278c2448cd4a1398f8ca2a30e040e6
+  build log:  https://builder.r-hub.io/status/soiltestcorr_2.0.3.tar.gz-f2278c2448cd4a1398f8ca2a30e040e6
+
+> checking CRAN incoming feasibility ... NOTE
+  Maintainer: ‘Adrian A. Correndo <correndo@ksu.edu>’
+  
+  New submission
+  
+  Possibly misspelled words in DESCRIPTION:
+    Cate (13:303, 13:354)
+    Mitscherlich (13:468)
+    alcc (13:279)
+    arcsine (13:248)
+
+0 errors √ | 0 warnings √ | 1 note x
+
+
+### Platform:   Ubuntu Linux 20.04.1 LTS, R-release, GCC
+
+  Build ID:   soiltestcorr_2.0.3.tar.gz-ec52492aaa084288b65994f9f2dfb2a9
+  Build log:  https://builder.r-hub.io/status/soiltestcorr_2.0.3.tar.gz-ec52492aaa084288b65994f9f2dfb2a9
+
+-- soiltestcorr 2.0.3: PREPERROR
+
+  Build ID:   soiltestcorr_2.0.3.tar.gz-ec52492aaa084288b65994f9f2dfb2a9
   Platform:   Ubuntu Linux 20.04.1 LTS, R-release, GCC
-  Submitted:  12m 51.8s ago
+  Submitted:  1h 4m 45.7s ago
+  Build time: 1h 52.4s
 
+> Build failed during preparation or aborted
 
-#### soiltestcorr 2.0.2: IN-PROGRESS
-
-  Build ID:   soiltestcorr_2.0.2.tar.gz-23fd0690113d48d7888e20f343d9e1f4
-  Platform:   Fedora Linux, R-devel, clang, gfortran
-  Submitted:  12m 51.8s ago

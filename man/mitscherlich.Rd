@@ -42,7 +42,7 @@ containing the stv and ry data, Default: NULL}
 
 \item{type}{string or number that indicates the type of Mitscherlich model to fit. Default: 1
 \code{type = "no restrictions"} or \code{type = 1} for model with 'no restrictions';
-\code{type = "asympotote 100"} or \code{type = 2} for model with 'asymptote = 100';
+\code{type = "asymptote 100"} or \code{type = 2} for model with 'asymptote = 100';
 \code{type = "asymptote 100 from 0"} or \code{type = 3} for model with 'asymptote = 100 and xintercept = 0'"}
 
 \item{target}{\code{numeric} value of relative yield target (e.g. 90 for 90\%) to estimate the CSTV.
@@ -86,8 +86,10 @@ if(interactive()){
  dat <- data.frame("ry" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
                    "stv" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
  # Run
- fit_example_lp <- mitscherlich(data = dat, ry = ry, stv = stv, resid = TRUE, plot = FALSE)
- fit_example_lp
+ fit_example_mits <- mitscherlich(data = dat, type = 1, ry = ry, stv = stv, 
+ resid = TRUE, plot = FALSE)
+ 
+ fit_example_mits
  }
 }
 }

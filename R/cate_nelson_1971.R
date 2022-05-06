@@ -9,14 +9,21 @@
 #' FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE). 
 #' @return it returns an object of type `ggplot` when plot == TRUE. If plot == FALSE, it returns an object of type `data.frame` if tidy == TRUE, otherwise, it returns a list
 #' @return it returns an object of type list containing the main results plus a ggplot object with the figure display
-#' @details See Cate, R. B. Jr., and L. A. Nelson. 1965. A rapid method for correlation of soil test analysis
-#' with plant response data. North Carolina Agric. Exp. Stn., International soil Testing Series l. No. 1.
+#' @details See Cate, R.B. Jr., and Nelson, L.A., 1971. A simple statistical procedure for partitioning soil test correlation
+#' data into two classes. Soil Sci. Soc. Am. Proc. 35:658-659 
 #' This code was adapted from Mangiafico, S. S. (2013). Cate-Nelson Analysis for Bivariate Data Using R-project.
 #' The Journal of Extension, 51(5), Article 33. https://tigerprints.clemson.edu/joe/vol51/iss5/33
 #' @examples 
 #' \dontrun{
 #' if(interactive()){
-#'  #EXAMPLE1
+#'  # Example 1 dataset
+#'  dat <- data.frame("ry" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
+#'                    "stv" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
+#'  # Run
+#'  fit_example_cn_1971 <- cate_nelson_1971(data = dat, ry = ry, ry = stv, 
+#'  tidy=FALSE, plot=FALSE)
+#'  
+#'  fit_example_cn_1971
 #'  }
 #' }
 #' @seealso 

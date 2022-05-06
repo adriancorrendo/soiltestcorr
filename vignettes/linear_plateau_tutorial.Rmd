@@ -34,10 +34,12 @@ This tutorial is intended to show how to deploy the linear_plateau() function fo
    (b). `stv` (soil test value) and `ry` (relative yield)  columns or vectors, <br/>
    
    (c). `target` (optional) if want a CSTV for a different `ry`` than the plateau.
+   
+   (d). `tidy` TRUE (produces a data.frame with results) or FALSE (store results as list), <br/>
 
-   (d). `plot` TRUE (produces a ggplot as main output) or FALSE (no plot, only results as data.frame), <br/>
+   (e). `plot` TRUE (produces a ggplot as main output) or FALSE (no plot, only results as data.frame), <br/>
 
-   (e). `resid` TRUE (produces plots with residuals analysis) or FALSE (no plot), <br/>
+   (f). `resid` TRUE (produces plots with residuals analysis) or FALSE (no plot), <br/>
 
   iii. Run and check results. <br/>
 

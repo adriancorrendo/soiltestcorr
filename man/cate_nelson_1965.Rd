@@ -35,7 +35,14 @@ The Journal of Extension, 51(5), Article 33. https://tigerprints.clemson.edu/joe
 \examples{
 \dontrun{
 if(interactive()){
- #EXAMPLE1
+ # Example 1 dataset
+ dat <- data.frame("ry" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
+                   "stv" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
+ # Run
+ fit_example_cn_1965 <- cate_nelson_1965(data = dat, ry = ry, ry = stv, 
+ target = 90, tidy=FALSE, plot=FALSE)
+ 
+ fit_example_cn_1965
  }
 }
 }
