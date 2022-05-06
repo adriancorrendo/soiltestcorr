@@ -2,7 +2,7 @@
 
 * May, 06, 2022. <br/>
 
-Maintenance update fixing minor typos on vignettes (linear_plateau(), quadratic_plateau(), mitscherlich()) and fixed bugs on examples within functions cate_nelson_1965(), cate_nelson_1971(), quadratic_plateau(), and mitscherlich().
+Maintenance update fixing minor typos on vignettes (linear_plateau(), quadratic_plateau(), mitscherlich()), fixed bugs on examples within functions cate_nelson_1965(), cate_nelson_1971(), quadratic_plateau(), and mitscherlich().
 
 ## Previous versions
 
