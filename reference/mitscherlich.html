@@ -66,11 +66,11 @@ as a function of soil test values (stv).</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">mits_formula_1</span><span class="op">(</span><span class="va">a</span>, <span class="va">b</span>, <span class="va">c</span>, <span class="va">x</span><span class="op">)</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">mits_formula_1</span><span class="op">(</span><span class="va">x</span>, <span class="va">a</span>, <span class="va">b</span>, <span class="va">c</span><span class="op">)</span>
 
-<span class="fu">mits_formula_2</span><span class="op">(</span><span class="va">b</span>, <span class="va">c</span>, <span class="va">x</span><span class="op">)</span>
+<span class="fu">mits_formula_2</span><span class="op">(</span><span class="va">x</span>, <span class="va">b</span>, <span class="va">c</span><span class="op">)</span>
 
-<span class="fu">mits_formula_3</span><span class="op">(</span><span class="va">c</span>, <span class="va">x</span><span class="op">)</span>
+<span class="fu">mits_formula_3</span><span class="op">(</span><span class="va">x</span>, <span class="va">c</span><span class="op">)</span>
 
 <span class="fu">mitscherlich</span><span class="op">(</span>
   data <span class="op">=</span> <span class="cn">NULL</span>,
@@ -86,14 +86,14 @@ as a function of soil test values (stv).</p>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>a</dt>
+    <dl><dt>x</dt>
+<dd><p>selfstart vector. for model fit Default: NULL</p></dd>
+<dt>a</dt>
 <dd><p>selfstart arg. for asymptote, Default: NULL</p></dd>
 <dt>b</dt>
 <dd><p>selfstart arg. for xintercept Default: NULL</p></dd>
 <dt>c</dt>
 <dd><p>selfstart arg. for curvature Default: NULL</p></dd>
-<dt>x</dt>
-<dd><p>selfstart vector. for model fit Default: NULL</p></dd>
 <dt>data</dt>
 <dd><p>Optional argument to call and object of type data.frame or data.table
 containing the stv and ry data, Default: NULL</p></dd>
@@ -134,7 +134,7 @@ Type = 3 for 'asymptote 100 from 0' model"</p>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
     <p>Adapted from Austin Pearce's code. For extended reference, we recommend
-to visit: https://gradcylinder.org/quad-plateau/ &amp; https://github.com/austinwpearce/SoilTestCocaCola.</p>
+to visit: https://gradcylinder.org/mitscherlich/ &amp; https://github.com/austinwpearce/SoilTestCocaCola.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -146,8 +146,7 @@ to visit: https://gradcylinder.org/quad-plateau/ &amp; https://github.com/austin
 <code><a href="https://rdrr.io/pkg/nlstools/man/nlsResiduals.html" class="external-link">nlsResiduals</a></code>
 <code>reexports</code>
 <code><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind</a></code>
-<code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></code>,<code><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></code>,<code><a href="https://ggplot2.tidyverse.org/reference/geom_rug.html" class="external-link">geom_rug</a></code>,<code><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></code>,<code><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_abline</a></code>,<code><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_path</a></code>,<code><a href="https://ggplot2.tidyverse.org/reference/annotate.html" class="external-link">annotate</a></code>,<code>scale_continuous</code>,<code><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></code>,<code>ggtheme</code>,<code><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></code>
-<code><a href="https://docs.r4photobiology.info/ggpp/reference/annotate.html" class="external-link">annotate</a></code></p></div>
+<code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></code>,<code><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></code>,<code><a href="https://ggplot2.tidyverse.org/reference/geom_rug.html" class="external-link">geom_rug</a></code>,<code><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></code>,<code><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_abline</a></code>,<code><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_path</a></code>,<code><a href="https://ggplot2.tidyverse.org/reference/annotate.html" class="external-link">annotate</a></code>,<code>scale_continuous</code>,<code><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></code>,<code>ggtheme</code>,<code><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></code></p></div>
     </div>
 
     <div class="section level2">
