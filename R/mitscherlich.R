@@ -10,7 +10,7 @@
 #' Default: NULL
 #' @param type string or number that indicates the type of Mitscherlich model to fit. Default: 1
 #' `type = "no restrictions"` or `type = 1` for model with 'no restrictions'; 
-#' `type = "asympotote 100"` or `type = 2` for model with 'asymptote = 100';
+#' `type = "asymptote 100"` or `type = 2` for model with 'asymptote = 100';
 #' `type = "asymptote 100 from 0"` or `type = 3` for model with 'asymptote = 100 and xintercept = 0'"
 #' @param tidy logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).
 #' @param resid logical operator (TRUE/FALSE) to plot residuals analysis, Default: FALSE
@@ -120,7 +120,7 @@ mitscherlich <- function(data = NULL,
   # Error message for soil test correlation data on ratio scale
   # Modeling steps depend on percentage scale
   if (max(y) < 2) {
-    stop("The reponse variable does not appear to be on a percentage scale. If so, please multiply it by 100.")
+    stop("The reponse variable does not appear to be on a percentage scale. Please, double check the units of ry.")
   }
   
   # Create data.frame if it doesn't exist yet (data from vectors)
