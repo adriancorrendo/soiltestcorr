@@ -1,13 +1,29 @@
 # soiltestcorr 2.1.0 
 
-## Local R CMD check results 
+## 1. Local R CMD check results 
 
 0 errors v | 0 warnings v | 0 notes v
 
 R CMD check succeeded
 
+## 2. WIN-DEVEL. Results devtools::check_win_devel()
 
-## Results R-hub check, devtools::check_rhub()
+Build log: https://win-builder.r-project.org/nhzAa2S8fea5/00check.log
+
+Status: 2 NOTEs
+
+New submission
+
+Possibly misspelled words in DESCRIPTION:
+  Cate (13:303, 13:354)
+  Mitscherlich (13:468)
+  alcc (13:279)
+  arcsine (13:248)
+
+
+*Mentioned words are not misspelled Cate and Mitscherlich are last names, alcc is an acronym for arcsine-log-calibration-curve, and arcsine is a trigonometry definition for the "inverse of sine function".
+
+## 3. R-hub check, results from devtools::check_rhub()
 
 
 PENDING

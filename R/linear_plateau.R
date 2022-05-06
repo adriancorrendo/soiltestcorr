@@ -85,19 +85,32 @@ LP_init <- function(mCall, LHS, data, ...){
   op <- try(stats::optim(cfs, objfun, method = "L-BFGS-B",
                          upper = c(Inf, Inf, max(xy[,"x"])),
                          lower = c(-Inf, -Inf, min(xy[,"x"]))), silent = TRUE)
-  
-  if(class(op) != "try-error"){
-    intercept <- op$par[1]
-    slope <- op$par[2]
-    cx <- op$par[3]
-  } else {
-    ## If it fails I use the mean for the CSTV (cx)
+  # use inherits() instead of comparing class to string
+  if (inherits(op, "try-error") ){
+    ## If it fails we use the mean for the CSTV (cx)
     ## and initial values guess by fiting a lm() to half the data
     
     intercept <- stats::coef(fit1)[1]
     slope <- stats::coef(fit1)[2]
     cx <- mean(xy[,"x"])
+  } else {
+    intercept <- op$par[1]
+    slope <- op$par[2]
+    cx <- op$par[3]
   }
+  
+  # if(class(op) != "try-error"){
+  #   intercept <- op$par[1]
+  #   slope <- op$par[2]
+  #   cx <- op$par[3]
+  # } else {
+  #   ## If it fails we use the mean for the CSTV (cx)
+  #   ## and initial values guess by fiting a lm() to half the data
+  #   
+  #   intercept <- stats::coef(fit1)[1]
+  #   slope <- stats::coef(fit1)[2]
+  #   cx <- mean(xy[,"x"])
+  # }
   
   value <- c(intercept, slope, cx)
   names(value) <- mCall[c("intercept","slope","cx")]
