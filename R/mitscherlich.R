@@ -220,7 +220,7 @@ mitscherlich <- function(data = NULL,
   
   CSTV <- ifelse(is.null(target), 
                  NA,
-                 (log(1 - (target/a)) / c) - b )
+                 (log(1 - (target/a)) / -c) - b )
   
 #  CSTV_target <- log((target - a) / (b-a)) / -c
   # There are no confidence interval for CSTV as it is not a parameter
