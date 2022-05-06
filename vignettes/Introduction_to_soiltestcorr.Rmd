@@ -55,3 +55,5 @@ library(purrr) # Mapping
 
 ### 2.5. [Quadratic-plateau](https://adriancorrendo.github.io/soiltestcorr/articles/quadratic_plateau_tutorial.html) <br/>
 
+### 2.6. [Mitscherlich](https://adriancorrendo.github.io/soiltestcorr/articles/mitscherlich_tutorial.html) <br/>
+
