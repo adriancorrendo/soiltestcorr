@@ -4,8 +4,10 @@ author: Adrian Correndo & Austin Pearce
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Mitscherlich response}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r, include = FALSE}
@@ -241,7 +243,7 @@ data.all <- dplyr::bind_rows(data_1, data_2,
 # Run multiple examples at once with map()
 fit_multiple_map <-
   data.all %>%
-  dplyr::mutate(mitscherlich = purrr::map(data, 
+  dplyr::mutate(models = purrr::map(data, 
                                      ~ soiltestcorr::mitscherlich(ry = .$RY,
                                                                   stv = .$STV,
                                                                   type = 1,
@@ -249,6 +251,8 @@ fit_multiple_map <-
                                                                   tidy = TRUE)))
 
 utils::head(fit_multiple_map)
+
+unnest(fit_multiple_map, models)
 
 ```
 
@@ -299,11 +303,12 @@ For example, modifying titles <br/>
 ```{r warning=F, message=F}
 mitscherlich_plot_2 <- 
   mitscherlich_plot +
-  # Main title
-  ggtitle("My own plot title")+
-  # Axis titles
-  labs(x = "Soil Test K (ppm)",
-       y = "Cotton RY(%)")
+  labs(
+    # Main title
+    title = "My own plot title",
+    # Axis titles
+    x = "Soil Test K (ppm)",
+    y = "Cotton RY(%)")
 
 mitscherlich_plot_2
 ```
