@@ -12,7 +12,7 @@ as a function of soil test values (stv)."><!-- mathjax --><script src="https://c
     
     <a class="navbar-brand me-2" href="../index.html">soiltestcorr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,7 +41,13 @@ as a function of soil test values (stv)."><!-- mathjax --><script src="https://c
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
-      <ul class="navbar-nav"></ul></div>
+      <ul class="navbar-nav"><li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/adriancorrendo/soiltestcorr/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div>
 
     
   </div>
@@ -49,7 +55,7 @@ as a function of soil test values (stv)."><!-- mathjax --><script src="https://c
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Mitscherlich</h1>
-      
+      <small class="dont-index">Source: <a href="https://github.com/adriancorrendo/soiltestcorr/blob/HEAD/R/mitscherlich.R" class="external-link"><code>R/mitscherlich.R</code></a></small>
       <div class="d-none name"><code>mitscherlich.Rd</code></div>
     </div>
 
@@ -98,7 +104,7 @@ containing the stv and ry data, Default: NULL</p></dd>
 <dt>type</dt>
 <dd><p>string or number that indicates the type of Mitscherlich model to fit. Default: 1
 <code>type = "no restrictions"</code> or <code>type = 1</code> for model with 'no restrictions';
-<code>type = "asympotote 100"</code> or <code>type = 2</code> for model with 'asymptote = 100';
+<code>type = "asymptote 100"</code> or <code>type = 2</code> for model with 'asymptote = 100';
 <code>type = "asymptote 100 from 0"</code> or <code>type = 3</code> for model with 'asymptote = 100 and xintercept = 0'"</p></dd>
 <dt>target</dt>
 <dd><p><code>numeric</code> value of relative yield target (e.g. 90 for 90%) to estimate the CSTV.
@@ -152,8 +158,10 @@ to visit: https://gradcylinder.org/quad-plateau/ &amp; https://github.com/austin
 <span class="r-in"> <span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="st">"ry"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">65</span>,<span class="fl">80</span>,<span class="fl">85</span>,<span class="fl">88</span>,<span class="fl">90</span>,<span class="fl">94</span>,<span class="fl">93</span>,<span class="fl">96</span>,<span class="fl">97</span>,<span class="fl">95</span>,<span class="fl">98</span>,<span class="fl">100</span>,<span class="fl">99</span>,<span class="fl">99</span>,<span class="fl">100</span><span class="op">)</span>,</span>
 <span class="r-in">                   <span class="st">"stv"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">7</span>,<span class="fl">8</span>,<span class="fl">9</span>,<span class="fl">10</span>,<span class="fl">11</span>,<span class="fl">12</span>,<span class="fl">13</span>,<span class="fl">14</span>,<span class="fl">15</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"> <span class="co"># Run</span></span>
-<span class="r-in"> <span class="va">fit_example_lp</span> <span class="op">&lt;-</span> <span class="fu">mitscherlich</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dat</span>, ry <span class="op">=</span> <span class="va">ry</span>, stv <span class="op">=</span> <span class="va">stv</span>, resid <span class="op">=</span> <span class="cn">TRUE</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"> <span class="va">fit_example_lp</span></span>
+<span class="r-in"> <span class="va">fit_example_mits</span> <span class="op">&lt;-</span> <span class="fu">mitscherlich</span><span class="op">(</span>data <span class="op">=</span> <span class="va">dat</span>, type <span class="op">=</span> <span class="fl">1</span>, ry <span class="op">=</span> <span class="va">ry</span>, stv <span class="op">=</span> <span class="va">stv</span>, </span>
+<span class="r-in"> resid <span class="op">=</span> <span class="cn">TRUE</span>, plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"> </span>
+<span class="r-in"> <span class="va">fit_example_mits</span></span>
 <span class="r-in"> <span class="op">}</span></span>
 <span class="r-in"><span class="op">}</span></span>
 </code></pre></div>
