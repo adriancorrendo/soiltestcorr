@@ -89,11 +89,7 @@ the 'lastMiKTeXException' note only appears on this check.
   Build ID:   soiltestcorr_2.1.0.tar.gz-b643d0234f74406292a7483192736fdd
   build log:  https://builder.r-hub.io/status/soiltestcorr_2.1.0.tar.gz-b643d0234f74406292a7483192736fdd
 
-> Status: success....but
-  getting a PREPERROR message before....
-  
-> Build failed during preparation or aborted
-  
+
 > checking CRAN incoming feasibility ... NOTE
   Maintainer: ‘Adrian A. Correndo <correndo@ksu.edu>’
   
@@ -105,3 +101,17 @@ the 'lastMiKTeXException' note only appears on this check.
     alcc (13:279)
     arcsine (13:248)
 
+0 errors √ | 0 warnings √ | 1 note x
+
+
+*Author comment: Status: success....but
+  I was getting a PREPERROR email message before...indicating that it failed during preparation or aborted but then the test passed with the following final lines...
+  
+
+16019# Build step 'Send files or execute commands over SSH' changed build result to SUCCESS
+
+16020# Pinging https://builder.r-hub.io/build/SUCCESS/soiltestcorr_2.1.0.tar.gz-b643d0234f74406292a7483192736fdd/2022-05-06T20:29:10Z
+
+16021# {"status":"ok"}
+
+16022# Finished: SUCCESS
