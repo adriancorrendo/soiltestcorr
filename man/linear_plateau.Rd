@@ -4,7 +4,7 @@
 \alias{linear_plateau}
 \alias{LP_f}
 \alias{SS_LP}
-\title{Linear Plateau}
+\title{Linear-plateau response function}
 \usage{
 LP_f(x, intercept, slope, cx)
 
@@ -46,7 +46,13 @@ The target needs to be < plateau, otherwise, target = plateau.}
 \item{resid}{logical operator (TRUE/FALSE) to plot residuals analysis, Default: FALSE}
 }
 \value{
-returns a \code{data.frame} if plot = FALSE, if plot = TRUE
+returns an object of type \code{ggplot} if plot = TRUE.
+
+returns a residuals plot if resid = TRUE.
+
+returns an object of class \code{data.frame} if tidy = TRUE,
+
+returns an object of class \code{list} if tidy = FALSE.
 
 LP_f: vector of the same length as x using the linear-plateau function
 
@@ -59,23 +65,28 @@ This function helps to fit a linear-plateau model in order to
 estimate critical soil test values (CSTV) above which yield response becomes flat.
 }
 \details{
-This function fits a linear-plateau model using a native selfStart function
+See \href{https://adriancorrendo.github.io/soiltestcorr/articles/linear_plateau_tutorial.html}{online-documentation} for additional details.
 }
 \note{
-Adapted from Austin Pearce's code. For extended reference, we recommend
-to visit: https://gradcylinder.org/linear-plateau/ & https://github.com/austinwpearce/SoilTestCocaCola.
+For extended reference, we recommend to visit:
+\url{https://gradcylinder.org/linear-plateau/} & \url{https://github.com/austinwpearce/SoilTestCocaCola} by Austin Pearce.
+Self-start function code adapted from nlraa package by F. Miguez \url{https://github.com/femiguez/nlraa}
 }
 \examples{
-\dontrun{
-if(interactive()){
+\donttest{
  # Example dataset
  dat <- data.frame("ry" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
                    "stv" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
  # Run
- fit_example_lp <- linear_plateau(data = dat, ry = ry, stv = stv, resid = TRUE, plot = FALSE)
+ fit_example_lp <- linear_plateau(data = dat, 
+ ry = ry, stv = stv, resid = TRUE, plot = FALSE)
  fit_example_lp
- }
 }
+}
+\references{
+Anderson, R. L., and Nelson, L. A. (1975).
+A Family of Models Involving Intersecting Straight Lines and Concomitant Experimental Designs Useful in Evaluating Response to Fertilizer Nutrients.
+\emph{Biometrics, 31(2), 303–318.} \doi{10.2307/2529422}
 }
 \seealso{
 \code{\link[rlang]{eval_tidy}},\code{\link[rlang]{defusing-advanced}}

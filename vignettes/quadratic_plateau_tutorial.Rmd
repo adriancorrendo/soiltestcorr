@@ -291,4 +291,4 @@ soiltestcorr::quadratic_plateau(data = data_3,
 
 <b> References </b> <br/>
 
-
+*Bullock, D.G. and Bullock, D.S. (1994), Quadratic and Quadratic-Plus-Plateau Models for Predicting Optimal Nitrogen Rate of Corn: A Comparison. Agron. J., 86: 191-195. 10.2134/agronj1994.00021962008600010033x * <br/>

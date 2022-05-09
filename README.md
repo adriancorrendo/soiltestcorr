@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# soiltestcorr: Soil Test Correlation and Calibration in R
+# soiltestcorr: Soil Test Correlation and Calibration
 
 <!-- badges: start -->
 
@@ -60,7 +60,7 @@ The goal of `soiltestcorr` is to assist users on the analysis of
 relationships between relative yield (ry) and soil test values (stv)
 following different approaches. <br/>
 
-Available functions (version 2.1.0, 05-06-2022): <br/>
+Available functions (version 2.1.1, 05-09-2022): <br/>
 
 ## 1. Modified Arcsine-Log Calibration Curve <br/>
 
@@ -321,10 +321,15 @@ Example of mitscherlich() output <br/>
 
 <b> References </b> <br/>
 
-*Correndo, A.A., Salvagiotti, F., García, F.O. and Gutiérrez-Boem, F.H.,
-2017. A modification of the arcsine–log calibration curve for analysing
-soil test value–relative yield relationships. Crop and Pasture Science,
-68(3), pp.297-304. 10.1071/CP16444 * <br/>
+*Anderson, R. L., and Nelson, L. A. (1975). A Family of Models Involving
+Intersecting Straight Lines and Concomitant Experimental Designs Useful
+in Evaluating Response to Fertilizer Nutrients. Biometrics, 31(2),
+303–318. 10.2307/2529422 * <br/>
+
+*Bullock, D.G. and Bullock, D.S. (1994), Quadratic and
+Quadratic-Plus-Plateau Models for Predicting Optimal Nitrogen Rate of
+Corn: A Comparison. Agron. J., 86: 191-195.
+10.2134/agronj1994.00021962008600010033x * <br/>
 
 *Cate, R.B. Jr., and Nelson, L.A., 1965. A rapid method for correlation
 of soil test analysis with plant response data. North Carolina Agric.
@@ -334,10 +339,19 @@ Exp. Stn., International soil Testing Series Bull. No. 1. * <br/>
 for partitioning soil test correlation data into two classes. Soil Sci.
 Soc. Am. Proc. 35:658-659 * <br/>
 
+*Correndo, A.A., Salvagiotti, F., García, F.O. and Gutiérrez-Boem, F.H.,
+2017. A modification of the arcsine–log calibration curve for analysing
+soil test value–relative yield relationships. Crop and Pasture Science,
+68(3), pp.297-304. 10.1071/CP16444 * <br/>
+
 *Dyson, C.B., Conyers, M.K., 2013. Methodology for online biometric
 analysis of soil test-crop response datasets. Crop & Pasture Science 64:
 435–441. 10.1071/CP13009 * <br/>
 
-*Warton, D.I., Wright, I.J., Falster, D.S., Westoby, M., 2006. Bivariate
-line-fitting methods for allometry. Biol. Rev. Camb. Philos. Soc. 81,
-259–291. 10.1017/S1464793106007007 * <br/>
+*Melsted, S.W. and Peck, T.R. (1977). The Mitscherlich-Bray Growth
+Function. In Soil Testing (eds T. Peck, J. Cope and D. Whitney).
+10.2134/asaspecpub29.c1 * <br/>
+
+*Warton, D.I., Wright, I.J., Falster, D.S., and Westoby, M., 2006.
+Bivariate line-fitting methods for allometry. Biol. Rev. Camb. Philos.
+Soc. 81, 259–291. 10.1017/S1464793106007007 * <br/>

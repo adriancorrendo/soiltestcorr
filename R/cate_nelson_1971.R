@@ -1,36 +1,41 @@
 #' @name cate_nelson_1971
-#' @title Cate & Nelson Quadrants Analysis, 1971
-#' @description This function runs the quadrants analysis suggested by Cate and Nelson (1965)
+#' @title Cate & Nelson quadrants analysis (statistical)
+#' @description This function runs the quadrants analysis suggested by Cate and Nelson (1971)
 #' @param data argument to call a data.frame or data.table containing the data
 #' @param stv argument to call the vector or column containing the soil test value (stv) data
 #' @param ry argument to call the vector or column containing the relative yield (ry) data
 #' @param tidy logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).
 #' @param plot logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a ggplot,
 #' FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE). 
-#' @return it returns an object of type `ggplot` when plot == TRUE. If plot == FALSE, it returns an object of type `data.frame` if tidy == TRUE, otherwise, it returns a list
-#' @return it returns an object of type list containing the main results plus a ggplot object with the figure display
-#' @details See Cate, R.B. Jr., and Nelson, L.A., 1971. A simple statistical procedure for partitioning soil test correlation
-#' data into two classes. Soil Sci. Soc. Am. Proc. 35:658-659 
-#' This code was adapted from Mangiafico, S. S. (2013). Cate-Nelson Analysis for Bivariate Data Using R-project.
-#' The Journal of Extension, 51(5), Article 33. https://tigerprints.clemson.edu/joe/vol51/iss5/33
+#' @rdname cate_nelson_1971
+#' @return returns an object of type `ggplot` if plot = TRUE.
+#' @return returns an object of class `data.frame` if tidy = TRUE, 
+#' @return returns an object of class `list` if tidy = FALSE.
+#' @details
+#' See [online-documentation](https://adriancorrendo.github.io/soiltestcorr/articles/cate_nelson_1971_tutorial.html) for additional details. 
+#' @references
+#' Cate & Nelson (1971). 
+#' A simple statistical procedure for partitioning soil test correlation data into two classes. 
+#' _Soil Sci. Soc. Am. Proc. 35:658-660._ \doi{10.2136/sssaj1971.03615995003500040048x}
 #' @examples 
-#' \dontrun{
-#' if(interactive()){
+#' \donttest{
 #'  # Example 1 dataset
 #'  dat <- data.frame("ry" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
 #'                    "stv" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
 #'  # Run
-#'  fit_example_cn_1971 <- cate_nelson_1971(data = dat, ry = ry, ry = stv, 
-#'  tidy=FALSE, plot=FALSE)
+#'  fit_example_cn_1971 <- cate_nelson_1971(data = dat, 
+#'  ry = ry, stv = stv, tidy=FALSE, plot=FALSE)
 #'  
 #'  fit_example_cn_1971
-#'  }
 #' }
 #' @seealso 
 #'  \code{\link[rlang]{eval_tidy}},\code{\link[rlang]{defusing-advanced}}
 #'  \code{\link[stats]{lm}},\code{\link[stats]{anova}}
 #'  \code{\link[ggplot2]{ggplot}},\code{\link[ggplot2]{aes}},\code{\link[ggplot2]{geom_point}},\code{\link[ggplot2]{scale_manual}},\code{\link[ggplot2]{labs}},\code{\link[ggplot2]{geom_abline}},\code{\link[ggplot2]{annotate}},\code{\link[ggplot2]{ggtheme}},\code{\link[ggplot2]{theme}}
-#' @rdname cate_nelson_1971
+#' @note 
+#' This code was adapted from
+#' Mangiafico, S. S. (2013). Cate-Nelson Analysis for Bivariate Data Using R-project.
+#' _The Journal of Extension, 51(5), Article 33._ <https://tigerprints.clemson.edu/joe/vol51/iss5/33>
 #' @export 
 #' @importFrom rlang eval_tidy quo
 #' @importFrom dplyr %>%

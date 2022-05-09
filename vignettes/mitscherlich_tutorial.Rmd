@@ -352,4 +352,4 @@ soiltestcorr::mitscherlich(data = data_3,
 
 <b> References </b> <br/>
 
-
+*Melsted, S.W. and Peck, T.R. (1977). The Mitscherlich-Bray Growth Function. In Soil Testing (eds T. Peck, J. Cope and D. Whitney). 10.2134/asaspecpub29.c1 * <br/>

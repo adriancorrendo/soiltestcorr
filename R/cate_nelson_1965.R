@@ -1,36 +1,42 @@
 #' @name cate_nelson_1965
-#' @title Cate & Nelson Quadrants Analysis, 1965
+#' @title Cate & Nelson quadrants analysis (graphical)
 #' @description This function runs the quadrants analysis suggested by Cate and Nelson (1965)
 #' @param data argument to call a data.frame or data.table containing the data
 #' @param stv argument to call the vector or column containing the soil test value (stv) data
 #' @param ry argument to call the vector or column containing the relative yield (ry) data
-#' @param target argument to specify the ry target (numeric) to estimate the critical stv
+#' @param target argument to specify the ry target (numeric) to estimate the critical stv for
 #' @param tidy logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).
 #' @param plot logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a ggplot,
 #' FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE). 
-#' @return it returns an object of type `ggplot` when plot == TRUE. If plot == FALSE, it returns an object of type `data.frame` if tidy == TRUE, otherwise, it returns a list
-#' @details See Cate, R. B. Jr., and L. A. Nelson. 1965. A rapid method for correlation of soil test analysis
-#' with plant response data. North Carolina Agric. Exp. Stn., International soil Testing Series l. No. 1.
-#' This code was adapted from Mangiafico, S. S. (2013). Cate-Nelson Analysis for Bivariate Data Using R-project.
-#' The Journal of Extension, 51(5), Article 33. https://tigerprints.clemson.edu/joe/vol51/iss5/33
+#' @rdname cate_nelson_1965
+#' @return returns an object of type `ggplot` if plot = TRUE.
+#' @return returns an object of class `data.frame` if tidy = TRUE, 
+#' @return returns an object of class `list` if tidy = FALSE.
+#' @details
+#' See [online-documentation](https://adriancorrendo.github.io/soiltestcorr/articles/cate_nelson_1965_tutorial.html) for additional details. 
+#' @references
+#' Cate & Nelson (1965). 
+#' A rapid method for correlation of soil test analysis with plant response data. 
+#' _North Carolina Agric. Exp. Stn., International soil Testing Series l. No. 1._
 #' @examples 
-#' \dontrun{
-#' if(interactive()){
+#' \donttest{
 #'  # Example 1 dataset
 #'  dat <- data.frame("ry" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
 #'                    "stv" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
 #'  # Run
-#'  fit_example_cn_1965 <- cate_nelson_1965(data = dat, ry = ry, ry = stv, 
-#'  target = 90, tidy=FALSE, plot=FALSE)
+#'  fit_example_cn_1965 <- cate_nelson_1965(data = dat, 
+#'  ry = ry, stv = stv, target = 90, tidy=FALSE, plot=FALSE)
 #'  
 #'  fit_example_cn_1965
-#'  }
 #' }
 #' @seealso 
 #'  \code{\link[rlang]{eval_tidy}},\code{\link[rlang]{defusing-advanced}}
 #'  \code{\link[stats]{lm}},\code{\link[stats]{anova}}
 #'  \code{\link[ggplot2]{ggplot}},\code{\link[ggplot2]{aes}},\code{\link[ggplot2]{geom_point}},\code{\link[ggplot2]{scale_manual}},\code{\link[ggplot2]{labs}},\code{\link[ggplot2]{geom_abline}},\code{\link[ggplot2]{annotate}},\code{\link[ggplot2]{ggtheme}},\code{\link[ggplot2]{theme}}
-#' @rdname cate_nelson_1965
+#' @note
+#' This code was adapted from 
+#' Mangiafico, S. S. (2013). Cate-Nelson Analysis for Bivariate Data Using R-project.
+#' _The Journal of Extension, 51(5), Article 33._ <https://tigerprints.clemson.edu/joe/vol51/iss5/33> 
 #' @export 
 #' @importFrom rlang eval_tidy quo
 #' @importFrom dplyr %>%

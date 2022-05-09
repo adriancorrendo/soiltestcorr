@@ -1,7 +1,7 @@
 #' @name quadratic_plateau
-#' @title Quadratic Plateau
-#' @description This function helps to fit a quadratic-plateau model in order to
-#' estimate critical soil test values (CSTV) above which yield response becomes flat.
+#' @title Quadratic-plateau response function
+#' @description This function helps to fit a quadratic-plateau response model and to
+#' estimate a critical soil test values (CSTV) above which yield response becomes flat.
 #' @param data Optional argument to call and object of type data.frame or data.table 
 #' containing the stv and ry data, Default: NULL
 #' @param stv name of the vector containing soil test values (-) of type `numeric`.
@@ -16,18 +16,24 @@
 #' @param slope selfstart arg. for slope Default: NULL
 #' @param Xc selfstart arg. for critical value Default: NULL
 #' @rdname quadratic_plateau
-#' @return returns a `data.frame` if plot = FALSE, if plot = TRUE
-#' @details This function fits a quadratic-plateau model using a native selfStart function
+#' @return returns an object of type `ggplot` if plot = TRUE.
+#' @return returns a residuals plot if resid = TRUE.
+#' @return returns an object of class `data.frame` if tidy = TRUE, 
+#' @return returns an object of class `list` if tidy = FALSE.
+#' @details See [online-documentation](https://adriancorrendo.github.io/soiltestcorr/articles/quadratic_plateau_tutorial.html) for additional details.
+#' @references
+#' Bullock, D.G. and Bullock, D.S. (1994) 
+#' Quadratic and Quadratic-Plus-Plateau Models for Predicting Optimal Nitrogen Rate of Corn: A Comparison. 
+#' _Agron. J., 86: 191-195._ \doi{10.2134/agronj1994.00021962008600010033x}
 #' @examples 
-#' \dontrun{
-#' if(interactive()){
-#'  # Example dataset
+#' \donttest{
+#' # Example dataset
 #'  dat <- data.frame("ry" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
 #'                    "stv" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
 #'  # Run
-#'  fit_example_qp <- quadratic_plateau(data = dat, ry = ry, stv = stv, resid = TRUE, plot = FALSE)
+#'  fit_example_qp <- quadratic_plateau(data = dat, 
+#'  ry = ry, stv = stv, resid = TRUE, plot = FALSE)
 #'  fit_example_qp
-#'  }
 #' }
 #' @seealso 
 #'  \code{\link[rlang]{eval_tidy}},\code{\link[rlang]{defusing-advanced}}
@@ -40,8 +46,10 @@
 #'  \code{\link[dplyr]{bind}}
 #'  \code{\link[ggplot2]{ggplot}},\code{\link[ggplot2]{aes}},\code{\link[ggplot2]{geom_rug}},\code{\link[ggplot2]{geom_point}},\code{\link[ggplot2]{geom_abline}},\code{\link[ggplot2]{geom_path}},\code{\link[ggplot2]{annotate}},\code{\link[ggplot2]{scale_continuous}},\code{\link[ggplot2]{labs}},\code{\link[ggplot2]{ggtheme}},\code{\link[ggplot2]{theme}}
 #'  \code{\link[ggpp]{annotate}}
-#' @note Adapted from Austin Pearce's code. For extended reference, we recommend 
-#' to visit: https://gradcylinder.org/quad-plateau/ & https://github.com/austinwpearce/SoilTestCocaCola.
+#' @note For extended reference, we recommend to visit 
+#' <https://gradcylinder.org/quad-plateau/> & <https://github.com/austinwpearce/SoilTestCocaCola>
+#' by Austin Pearce.
+#' Self-start function code adapted from nlraa package by F. Miguez <https://github.com/femiguez/nlraa>
 #' @export
 #' @importFrom rlang eval_tidy quo
 #' @importFrom minpack.lm nlsLM

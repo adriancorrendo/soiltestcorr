@@ -2,7 +2,7 @@
 % Please edit documentation in R/cate_nelson_1965.R
 \name{cate_nelson_1965}
 \alias{cate_nelson_1965}
-\title{Cate & Nelson Quadrants Analysis, 1965}
+\title{Cate & Nelson quadrants analysis (graphical)}
 \usage{
 cate_nelson_1965(data = NULL, stv, ry, target, tidy = FALSE, plot = FALSE)
 }
@@ -13,7 +13,7 @@ cate_nelson_1965(data = NULL, stv, ry, target, tidy = FALSE, plot = FALSE)
 
 \item{ry}{argument to call the vector or column containing the relative yield (ry) data}
 
-\item{target}{argument to specify the ry target (numeric) to estimate the critical stv}
+\item{target}{argument to specify the ry target (numeric) to estimate the critical stv for}
 
 \item{tidy}{logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).}
 
@@ -21,30 +21,39 @@ cate_nelson_1965(data = NULL, stv, ry, target, tidy = FALSE, plot = FALSE)
 FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE).}
 }
 \value{
-it returns an object of type \code{ggplot} when plot == TRUE. If plot == FALSE, it returns an object of type \code{data.frame} if tidy == TRUE, otherwise, it returns a list
+returns an object of type \code{ggplot} if plot = TRUE.
+
+returns an object of class \code{data.frame} if tidy = TRUE,
+
+returns an object of class \code{list} if tidy = FALSE.
 }
 \description{
 This function runs the quadrants analysis suggested by Cate and Nelson (1965)
 }
 \details{
-See Cate, R. B. Jr., and L. A. Nelson. 1965. A rapid method for correlation of soil test analysis
-with plant response data. North Carolina Agric. Exp. Stn., International soil Testing Series l. No. 1.
-This code was adapted from Mangiafico, S. S. (2013). Cate-Nelson Analysis for Bivariate Data Using R-project.
-The Journal of Extension, 51(5), Article 33. https://tigerprints.clemson.edu/joe/vol51/iss5/33
+See \href{https://adriancorrendo.github.io/soiltestcorr/articles/cate_nelson_1965_tutorial.html}{online-documentation} for additional details.
+}
+\note{
+This code was adapted from
+Mangiafico, S. S. (2013). Cate-Nelson Analysis for Bivariate Data Using R-project.
+\emph{The Journal of Extension, 51(5), Article 33.} \url{https://tigerprints.clemson.edu/joe/vol51/iss5/33}
 }
 \examples{
-\dontrun{
-if(interactive()){
+\donttest{
  # Example 1 dataset
  dat <- data.frame("ry" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
                    "stv" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
  # Run
- fit_example_cn_1965 <- cate_nelson_1965(data = dat, ry = ry, ry = stv, 
- target = 90, tidy=FALSE, plot=FALSE)
+ fit_example_cn_1965 <- cate_nelson_1965(data = dat, 
+ ry = ry, stv = stv, target = 90, tidy=FALSE, plot=FALSE)
  
  fit_example_cn_1965
- }
 }
+}
+\references{
+Cate & Nelson (1965).
+A rapid method for correlation of soil test analysis with plant response data.
+\emph{North Carolina Agric. Exp. Stn., International soil Testing Series l. No. 1.}
 }
 \seealso{
 \code{\link[rlang]{eval_tidy}},\code{\link[rlang]{defusing-advanced}}

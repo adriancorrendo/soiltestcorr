@@ -1,5 +1,5 @@
 #' @name linear_plateau
-#' @title Linear Plateau
+#' @title Linear-plateau response function
 #' @description This function helps to fit a linear-plateau model in order to
 #' estimate critical soil test values (CSTV) above which yield response becomes flat.
 #' @param data Optional argument to call and object of type data.frame or data.table 
@@ -16,18 +16,24 @@
 #' @param slope selfstart arg. for slope Default: NULL
 #' @param cx selfstart arg. for critical X (cx) value Default: NULL
 #' @rdname linear_plateau
-#' @return returns a `data.frame` if plot = FALSE, if plot = TRUE
-#' @details This function fits a linear-plateau model using a native selfStart function
+#' @return returns an object of type `ggplot` if plot = TRUE.
+#' @return returns a residuals plot if resid = TRUE.
+#' @return returns an object of class `data.frame` if tidy = TRUE, 
+#' @return returns an object of class `list` if tidy = FALSE.
+#' @details See [online-documentation](https://adriancorrendo.github.io/soiltestcorr/articles/linear_plateau_tutorial.html) for additional details.
+#' @references
+#' Anderson, R. L., and Nelson, L. A. (1975). 
+#' A Family of Models Involving Intersecting Straight Lines and Concomitant Experimental Designs Useful in Evaluating Response to Fertilizer Nutrients. 
+#' _Biometrics, 31(2), 303–318._ \doi{10.2307/2529422}
 #' @examples 
-#' \dontrun{
-#' if(interactive()){
+#' \donttest{
 #'  # Example dataset
 #'  dat <- data.frame("ry" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
 #'                    "stv" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
 #'  # Run
-#'  fit_example_lp <- linear_plateau(data = dat, ry = ry, stv = stv, resid = TRUE, plot = FALSE)
+#'  fit_example_lp <- linear_plateau(data = dat, 
+#'  ry = ry, stv = stv, resid = TRUE, plot = FALSE)
 #'  fit_example_lp
-#'  }
 #' }
 #' @seealso 
 #'  \code{\link[rlang]{eval_tidy}},\code{\link[rlang]{defusing-advanced}}
@@ -40,8 +46,9 @@
 #'  \code{\link[dplyr]{bind}}
 #'  \code{\link[ggplot2]{ggplot}},\code{\link[ggplot2]{aes}},\code{\link[ggplot2]{geom_rug}},\code{\link[ggplot2]{geom_point}},\code{\link[ggplot2]{geom_abline}},\code{\link[ggplot2]{geom_path}},\code{\link[ggplot2]{annotate}},\code{\link[ggplot2]{scale_continuous}},\code{\link[ggplot2]{labs}},\code{\link[ggplot2]{ggtheme}},\code{\link[ggplot2]{theme}}
 #'  \code{\link[ggpp]{annotate}}
-#' @note Adapted from Austin Pearce's code. For extended reference, we recommend 
-#' to visit: https://gradcylinder.org/linear-plateau/ & https://github.com/austinwpearce/SoilTestCocaCola.
+#' @note For extended reference, we recommend to visit: 
+#' <https://gradcylinder.org/linear-plateau/> & <https://github.com/austinwpearce/SoilTestCocaCola> by Austin Pearce.
+#' Self-start function code adapted from nlraa package by F. Miguez <https://github.com/femiguez/nlraa>
 #' @export
 #' @importFrom rlang eval_tidy quo
 #' @importFrom minpack.lm nlsLM

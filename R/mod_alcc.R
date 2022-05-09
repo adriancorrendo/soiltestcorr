@@ -1,4 +1,4 @@
-
+#' @name mod_alcc
 #' @title Modified Arcsine-Log Calibration Curve
 #' @description This function runs the modified arcsine-log calibration curve to
 #' estimate critical soil test values (CSTV) following Correndo et al. (2017)
@@ -12,18 +12,23 @@
 #' @param tidy logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).
 #' @param plot logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a ggplot,
 #' FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE). 
-#' @return an object of type `data.frame` if tidy == TRUE, otherwise, it returns a list
-#' @details See Correndo et al. (2017)
+#' @rdname mod_alcc
+#' @return returns an object of type `ggplot` if plot = TRUE.
+#' @return returns an object of class `data.frame` if tidy = TRUE, 
+#' @return returns an object of class `list` if tidy = FALSE.
+#' @details See [online-documentation](https://adriancorrendo.github.io/soiltestcorr/articles/mod_alcc_tutorial.html) for additional details.
+#' @references 
+#' Correndo et al. (2017).
+#' A modification of the arcsine–log calibration curve for analysing soil test value–relative yield relationships. 
+#' _Crop and Pasture Science, 68(3), 297-304._ \doi{10.1071/CP16444}
 #' @examples 
-#' \dontrun{
-#' if(interactive()){
+#' \donttest{
 #'  # Example 1 dataset
 #'  dat <- data.frame("ry" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
 #'                    "stv" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
 #'  # Run
-#'  fit_example <- mod_alcc(data = dat, ry = ry, ry = stv, target=90, confidence = 0.95)
+#'  fit_example <- mod_alcc(data = dat, ry = ry, stv = stv, target=90, confidence = 0.95)
 #'  fit_example
-#'  }
 #' }
 #' @seealso 
 #'  \code{\link[rlang]{eval_tidy}},\code{\link[rlang]{defusing-advanced}}
@@ -32,7 +37,9 @@
 #'  \code{\link[tidyr]{nest}}
 #'  \code{\link[ggplot2]{ggplot}},\code{\link[ggplot2]{aes}},\code{\link[ggplot2]{geom_point}},\code{\link[ggplot2]{scale_manual}},\code{\link[ggplot2]{geom_rug}},\code{\link[ggplot2]{geom_abline}},\code{\link[ggplot2]{geom_path}},\code{\link[ggplot2]{scale_continuous}},\code{\link[ggplot2]{annotate}},\code{\link[ggplot2]{labs}},\code{\link[ggplot2]{ggtheme}},\code{\link[ggplot2]{theme}}
 #'  \code{\link[ggpp]{annotate}}
-#' @rdname mod_alcc
+#' @note 
+#' For extended reference, we recommend to visit \doi{10.7910/DVN/NABA57} and 
+#' <https://github.com/adriancorrendo/modified-ALCC> by Adrian Correndo.
 #' @export 
 #' @importFrom rlang eval_tidy quo
 #' @importFrom stats qt cor cor.test sd

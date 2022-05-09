@@ -33,26 +33,37 @@ significance = 0.05)}
 FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE).}
 }
 \value{
-an object of type \code{data.frame} if tidy == TRUE, otherwise, it returns a list
+returns an object of type \code{ggplot} if plot = TRUE.
+
+returns an object of class \code{data.frame} if tidy = TRUE,
+
+returns an object of class \code{list} if tidy = FALSE.
 }
 \description{
 This function runs the modified arcsine-log calibration curve to
 estimate critical soil test values (CSTV) following Correndo et al. (2017)
 }
 \details{
-See Correndo et al. (2017)
+See \href{https://adriancorrendo.github.io/soiltestcorr/articles/mod_alcc_tutorial.html}{online-documentation} for additional details.
+}
+\note{
+For extended reference, we recommend to visit \doi{10.7910/DVN/NABA57} and
+\url{https://github.com/adriancorrendo/modified-ALCC} by Adrian Correndo.
 }
 \examples{
-\dontrun{
-if(interactive()){
+\donttest{
  # Example 1 dataset
  dat <- data.frame("ry" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
                    "stv" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
  # Run
- fit_example <- mod_alcc(data = dat, ry = ry, ry = stv, target=90, confidence = 0.95)
+ fit_example <- mod_alcc(data = dat, ry = ry, stv = stv, target=90, confidence = 0.95)
  fit_example
- }
 }
+}
+\references{
+Correndo et al. (2017).
+A modification of the arcsine–log calibration curve for analysing soil test value–relative yield relationships.
+\emph{Crop and Pasture Science, 68(3), 297-304.} \doi{10.1071/CP16444}
 }
 \seealso{
 \code{\link[rlang]{eval_tidy}},\code{\link[rlang]{defusing-advanced}}

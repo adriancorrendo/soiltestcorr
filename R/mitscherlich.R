@@ -1,5 +1,5 @@
 #' @name mitscherlich
-#' @title Mitscherlich
+#' @title Mitscherlich response function
 #' @description This function helps to fit a Mitscherlich response model for relative yield (ry)
 #' as a function of soil test values (stv).
 #' @param data Optional argument to call and object of type data.frame or data.table 
@@ -20,23 +20,25 @@
 #' @param c selfstart arg. for curvature Default: NULL
 #' @param x selfstart vector. for model fit Default: NULL
 #' @rdname mitscherlich
-#' @return a `data.frame` if plot = FALSE, if plot = TRUE
-#' @details This function fits a Mitscherlich model with 3 options.
-#' Type = 1 for 'no restrictions' model; 
-#' Type = 2 for 'asymptote 100' model;
-#' Type = 3 for 'asymptote 100 from 0' model"
+#' @return returns an object of type `ggplot` if plot = TRUE.
+#' @return returns a residuals plot if resid = TRUE.
+#' @return returns an object of class `data.frame` if tidy = TRUE, 
+#' @return returns an object of class `list` if tidy = FALSE.
+#' @details See [online-documentation](https://adriancorrendo.github.io/soiltestcorr/articles/mitscherlich_tutorial.html) for additional details.
+#' @references
+#' Melsted, S.W. and Peck, T.R. (1977). 
+#' The Mitscherlich-Bray Growth Function. 
+#' _In Soil Testing (eds T. Peck, J. Cope and D. Whitney)._ \doi{10.2134/asaspecpub29.c1}
 #' @examples 
-#' \dontrun{
-#' if(interactive()){
+#' \donttest{
 #'  # Example dataset
 #'  dat <- data.frame("ry" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
 #'                    "stv" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
 #'  # Run
-#'  fit_example_mits <- mitscherlich(data = dat, type = 1, ry = ry, stv = stv, 
-#'  resid = TRUE, plot = FALSE)
+#'  fit_example_mits <- mitscherlich(data = dat, type = 1, 
+#'  ry = ry, stv = stv, resid = TRUE, plot = FALSE)
 #'  
 #'  fit_example_mits
-#'  }
 #' }
 #' @seealso 
 #'  \code{\link[rlang]{eval_tidy}},\code{\link[rlang]{defusing-advanced}}
@@ -48,8 +50,8 @@
 #'  \code{\link[tidyr]{reexports}}
 #'  \code{\link[dplyr]{bind}}
 #'  \code{\link[ggplot2]{ggplot}},\code{\link[ggplot2]{aes}},\code{\link[ggplot2]{geom_rug}},\code{\link[ggplot2]{geom_point}},\code{\link[ggplot2]{geom_abline}},\code{\link[ggplot2]{geom_path}},\code{\link[ggplot2]{annotate}},\code{\link[ggplot2]{scale_continuous}},\code{\link[ggplot2]{labs}},\code{\link[ggplot2]{ggtheme}},\code{\link[ggplot2]{theme}}
-#' @note Adapted from Austin Pearce's code. For extended reference, we recommend 
-#' to visit: https://gradcylinder.org/mitscherlich/ & https://github.com/austinwpearce/SoilTestCocaCola.
+#' @note For extended reference, we recommend to visit: 
+#' <https://gradcylinder.org/mitscherlich/> & <https://github.com/austinwpearce/SoilTestCocaCola> by Austin Pearce.
 #' @export
 #' @importFrom rlang eval_tidy quo
 #' @importFrom minpack.lm nlsLM

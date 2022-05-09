@@ -291,4 +291,4 @@ soiltestcorr::linear_plateau(data = data_3,
 
 <b> References </b> <br/>
 
-
+*Anderson, R. L., and Nelson, L. A. (1975). A Family of Models Involving Intersecting Straight Lines and Concomitant Experimental Designs Useful in Evaluating Response to Fertilizer Nutrients. Biometrics, 31(2), 303–318. 10.2307/2529422 * <br/>

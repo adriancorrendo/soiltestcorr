@@ -4,7 +4,7 @@
 \alias{quadratic_plateau}
 \alias{QP_f}
 \alias{SS_QP}
-\title{Quadratic Plateau}
+\title{Quadratic-plateau response function}
 \usage{
 QP_f(x, intercept, slope, Xc)
 
@@ -46,7 +46,13 @@ The target needs to be < plateau, otherwise, target = plateau.}
 \item{resid}{logical operator (TRUE/FALSE) to plot residuals analysis, Default: FALSE}
 }
 \value{
-returns a \code{data.frame} if plot = FALSE, if plot = TRUE
+returns an object of type \code{ggplot} if plot = TRUE.
+
+returns a residuals plot if resid = TRUE.
+
+returns an object of class \code{data.frame} if tidy = TRUE,
+
+returns an object of class \code{list} if tidy = FALSE.
 
 QP_f: vector of the same length as x using the quadratic-plateau function
 
@@ -55,27 +61,33 @@ SS_QP: selfStart object to pass into the quadratic_plateau fit
 quadratic_plateau: function
 }
 \description{
-This function helps to fit a quadratic-plateau model in order to
-estimate critical soil test values (CSTV) above which yield response becomes flat.
+This function helps to fit a quadratic-plateau response model and to
+estimate a critical soil test values (CSTV) above which yield response becomes flat.
 }
 \details{
-This function fits a quadratic-plateau model using a native selfStart function
+See \href{https://adriancorrendo.github.io/soiltestcorr/articles/quadratic_plateau_tutorial.html}{online-documentation} for additional details.
 }
 \note{
-Adapted from Austin Pearce's code. For extended reference, we recommend
-to visit: https://gradcylinder.org/quad-plateau/ & https://github.com/austinwpearce/SoilTestCocaCola.
+For extended reference, we recommend to visit
+\url{https://gradcylinder.org/quad-plateau/} & \url{https://github.com/austinwpearce/SoilTestCocaCola}
+by Austin Pearce.
+Self-start function code adapted from nlraa package by F. Miguez \url{https://github.com/femiguez/nlraa}
 }
 \examples{
-\dontrun{
-if(interactive()){
- # Example dataset
+\donttest{
+# Example dataset
  dat <- data.frame("ry" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
                    "stv" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
  # Run
- fit_example_qp <- quadratic_plateau(data = dat, ry = ry, stv = stv, resid = TRUE, plot = FALSE)
+ fit_example_qp <- quadratic_plateau(data = dat, 
+ ry = ry, stv = stv, resid = TRUE, plot = FALSE)
  fit_example_qp
- }
 }
+}
+\references{
+Bullock, D.G. and Bullock, D.S. (1994)
+Quadratic and Quadratic-Plus-Plateau Models for Predicting Optimal Nitrogen Rate of Corn: A Comparison.
+\emph{Agron. J., 86: 191-195.} \doi{10.2134/agronj1994.00021962008600010033x}
 }
 \seealso{
 \code{\link[rlang]{eval_tidy}},\code{\link[rlang]{defusing-advanced}}

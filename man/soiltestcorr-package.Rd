@@ -4,9 +4,9 @@
 \name{soiltestcorr-package}
 \alias{soiltestcorr}
 \alias{soiltestcorr-package}
-\title{soiltestcorr: Soil Test Correlation and Calibration in R}
+\title{soiltestcorr: Soil Test Correlation and Calibration}
 \description{
-The functions offered by this package are designed to assist users on the correlation analysis of crop yield and soil test values. All functions estimate critical soil test values using alternative approaches such as: 1) the modified arcsine-log calibration curve (alcc); 2) the graphical Cate-Nelson quadrants-analysis, 3) the statistical Cate-Nelson quadrants-analysis, 4) the linear-plateau regression, 5) the quadratic-plateau regression, and 6) the Mitscherlich regression.
+A compilation of functions designed to assist users on the correlation analysis of crop yield and soil test values. Functions estimate reponse patterns and critical soil test values using alternative approaches such as: 1) the modified arcsine-log calibration curve (Correndo et al. (2017) <doi:10.1071/CP16444>); 2) the graphical Cate-Nelson quadrants-analysis (Cate & Nelson (1965)), 3) the statistical Cate-Nelson quadrants-analysis (Cate & Nelson (1971) <doi:10.2136/sssaj1971.03615995003500040048x>), 4) the linear-plateau regression (Anderson & Nelson (1975) <doi:10.2307/2529422>), 5) the quadratic-plateau regression (Bullock & Bullock (1994) <doi:10.2134/agronj1994.00021962008600010033x>), and 6) the Mitscherlich regression (Melsted & Peck (1977) <doi:10.2134/asaspecpub29.c1>).
 }
 \seealso{
 Useful links:

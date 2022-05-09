@@ -5,7 +5,7 @@
 \alias{mits_formula_1}
 \alias{mits_formula_2}
 \alias{mits_formula_3}
-\title{Mitscherlich}
+\title{Mitscherlich response function}
 \usage{
 mits_formula_1(x, a, b, c)
 
@@ -55,7 +55,13 @@ Default: NULL}
 \item{resid}{logical operator (TRUE/FALSE) to plot residuals analysis, Default: FALSE}
 }
 \value{
-a \code{data.frame} if plot = FALSE, if plot = TRUE
+returns an object of type \code{ggplot} if plot = TRUE.
+
+returns a residuals plot if resid = TRUE.
+
+returns an object of class \code{data.frame} if tidy = TRUE,
+
+returns an object of class \code{list} if tidy = FALSE.
 
 Mitscherlich type 1 formula
 
@@ -70,28 +76,28 @@ This function helps to fit a Mitscherlich response model for relative yield (ry)
 as a function of soil test values (stv).
 }
 \details{
-This function fits a Mitscherlich model with 3 options.
-Type = 1 for 'no restrictions' model;
-Type = 2 for 'asymptote 100' model;
-Type = 3 for 'asymptote 100 from 0' model"
+See \href{https://adriancorrendo.github.io/soiltestcorr/articles/mitscherlich_tutorial.html}{online-documentation} for additional details.
 }
 \note{
-Adapted from Austin Pearce's code. For extended reference, we recommend
-to visit: https://gradcylinder.org/mitscherlich/ & https://github.com/austinwpearce/SoilTestCocaCola.
+For extended reference, we recommend to visit:
+\url{https://gradcylinder.org/mitscherlich/} & \url{https://github.com/austinwpearce/SoilTestCocaCola} by Austin Pearce.
 }
 \examples{
-\dontrun{
-if(interactive()){
+\donttest{
  # Example dataset
  dat <- data.frame("ry" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
                    "stv" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
  # Run
- fit_example_mits <- mitscherlich(data = dat, type = 1, ry = ry, stv = stv, 
- resid = TRUE, plot = FALSE)
+ fit_example_mits <- mitscherlich(data = dat, type = 1, 
+ ry = ry, stv = stv, resid = TRUE, plot = FALSE)
  
  fit_example_mits
- }
 }
+}
+\references{
+Melsted, S.W. and Peck, T.R. (1977).
+The Mitscherlich-Bray Growth Function.
+\emph{In Soil Testing (eds T. Peck, J. Cope and D. Whitney).} \doi{10.2134/asaspecpub29.c1}
 }
 \seealso{
 \code{\link[rlang]{eval_tidy}},\code{\link[rlang]{defusing-advanced}}
