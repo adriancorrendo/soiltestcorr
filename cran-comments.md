@@ -1,6 +1,7 @@
-# soiltestcorr 2.1.0 
+# soiltestcorr 2.1.1 
 
-* This is a new release.
+* This is a re-submission. Precedent version (v2.1.0)
+
 
 ###########################################################
 
@@ -14,104 +15,126 @@ R CMD check succeeded
 
 ## 2. WIN-DEVEL. Results devtools::check_win_devel()
 
-Build log: https://win-builder.r-project.org/3RB3SgqL84t8/00check.log
-
+Build log: https://win-builder.r-project.org/EbqGOB2VxucR
 
 Status: 1 NOTE
 
 New submission
 
 Possibly misspelled words in DESCRIPTION:
-  Cate (13:303, 13:354)
-  Mitscherlich (13:468)
-  alcc (13:279)
-  arcsine (13:248)
+  Cate (13:374, 13:406, 13:448, 13:480)
+  Correndo (13:310)
+  Melsted (13:779)
+  Mitscherlich (13:754)
+  al (13:322)
+  arcsine (13:279)
+  et (13:319)
 
-*Author comment: Mentioned words are not misspelled Cate and Mitscherlich are last names, alcc is an acronym for arcsine-log-calibration-curve, and arcsine is a trigonometry definition for the "inverse of sine function".
+Found the following (possibly) invalid URLs:
+  URL: https://doi.org/10.2134/agronj1994.00021962008600010033x
+    From: man/quadratic_plateau.Rd
+    Status: 503
+    Message: Service Unavailable
+  URL: https://doi.org/10.2134/asaspecpub29.c1
+    From: man/mitscherlich.Rd
+    Status: 503
+    Message: Service Unavailable
+  URL: https://doi.org/10.2136/sssaj1971.03615995003500040048x
+    From: man/cate_nelson_1971.Rd
+    Status: 503
+    Message: Service Unavailable
+  URL: https://doi.org/10.2307/2529422
+    From: man/linear_plateau.Rd
+    Status: 403
+    Message: Forbidden
+
+Found the following (possibly) invalid DOIs:
+  DOI: 10.2134/agronj1994.00021962008600010033x
+    From: DESCRIPTION
+    Status: Service Unavailable
+    Message: 503
+  DOI: 10.2134/asaspecpub29.c1
+    From: DESCRIPTION
+    Status: Service Unavailable
+    Message: 503
+  DOI: 10.2136/sssaj1971.03615995003500040048x
+    From: DESCRIPTION
+    Status: Service Unavailable
+    Message: 503
+  DOI: 10.2307/2529422
+    From: DESCRIPTION
+    Status: Forbidden
+    Message: 403
+
 
 ###########################################################
 
-## 3. R-hub check, results from devtools::check_rhub()
+# 3. R-hub check, results from devtools::check_rhub()
+
+## Test environments
+- R-hub windows-x86_64-devel (r-devel), build log: https://builder.r-hub.io/status/soiltestcorr_2.1.1.tar.gz-fc3530a292c1427790ca08c2a7463981
+
+- R-hub ubuntu-gcc-release (r-release), build log: https://builder.r-hub.io/status/soiltestcorr_2.1.1.tar.gz-50db37e4acf641f7992fd285701b4c97
+
+- R-hub fedora-clang-devel (r-devel), build log:
+https://builder.r-hub.io/status/soiltestcorr_2.1.1.tar.gz-3f95bcee52374b9893332c657ef74808
 
 ## R CMD check results
-
-### 3.1.  Platform:   Windows Server 2022, R-devel, 64 bit
-
-  Build ID:   soiltestcorr_2.1.0.tar.gz-11a21a95fa8e4b518a7706b616939de6
-  Build log:  https://builder.r-hub.io/status/soiltestcorr_2.1.0.tar.gz-11a21a95fa8e4b518a7706b616939de6
-  
-> checking CRAN incoming feasibility ... NOTE
+> On windows-x86_64-devel (r-devel), ubuntu-gcc-release (r-release), fedora-clang-devel (r-devel)
+  checking CRAN incoming feasibility ... NOTE
   Maintainer: 'Adrian A. Correndo <correndo@ksu.edu>'
   
   New submission
   
   Possibly misspelled words in DESCRIPTION:
-    Cate (13:303, 13:354)
-    Mitscherlich (13:468)
-    alcc (13:279)
-    arcsine (13:248)
+    Cate (13:374, 13:406, 13:448, 13:480)
+    Correndo (13:310)
+    Melsted (13:779)
+    Mitscherlich (13:754)
+    al (13:322)
+    arcsine (13:279)
+    et (13:319)
+  
+  Found the following (possibly) invalid URLs:
+    URL: https://doi.org/10.2134/agronj1994.00021962008600010033x
+      From: man/quadratic_plateau.Rd
+      Status: 503
+      Message: Service Unavailable
+    URL: https://doi.org/10.2134/asaspecpub29.c1
+      From: man/mitscherlich.Rd
+      Status: 503
+      Message: Service Unavailable
+    URL: https://doi.org/10.2136/sssaj1971.03615995003500040048x
+      From: man/cate_nelson_1971.Rd
+      Status: 503
+      Message: Service Unavailable
+  
+  Found the following (possibly) invalid DOIs:
+    DOI: 10.2134/agronj1994.00021962008600010033x
+      From: DESCRIPTION
+      Status: Service Unavailable
+      Message: 503
+    DOI: 10.2134/asaspecpub29.c1
+      From: DESCRIPTION
+      Status: Service Unavailable
+      Message: 503
+    DOI: 10.2136/sssaj1971.03615995003500040048x
+      From: DESCRIPTION
+      Status: Service Unavailable
+      Message: 503
 
-> checking for detritus in the temp directory ... NOTE
+> On windows-x86_64-devel (r-devel)
+  checking for detritus in the temp directory ... NOTE
   Found the following files/directories:
     'lastMiKTeXException'
 
 0 errors √ | 0 warnings √ | 2 notes x
 
-*Author comments: 
+###########################################################
 
-Mentioned words are not misspelled Cate and Mitscherlich are last names, alcc is an acronym for arcsine-log-calibration-curve, and arcsine is a trigonometry definition for the "inverse of sine function".
+*Author comments to NOTES: 
 
-the 'lastMiKTeXException' note only appears on this check. 
+Mentioned words are not misspelled: Cate, Correndo, Melsted, and Mitscherlich are last names, arcsine is a trigonometry definition for the "inverse of sine function", and et al are just the latin of "and col" for citation purposes.
+All links marked as (possibly) invalid are actually working fine and using secured address.
+The 'lastMiKTeXException' note only appears on this check. 
 
-
-### 3.2.  Platform:   Fedora Linux, R-devel, clang, gfortran
-  
-  Build ID:   soiltestcorr_2.1.0.tar.gz-604f46c9ad134454848c6fbb2626a5e6
-  Build log:  https://builder.r-hub.io/status/soiltestcorr_2.1.0.tar.gz-604f46c9ad134454848c6fbb2626a5e6
-  
-  
-> checking CRAN incoming feasibility ... NOTE
-  Maintainer: ‘Adrian A. Correndo <correndo@ksu.edu>’
-  
-  New submission
-  
-  Possibly misspelled words in DESCRIPTION:
-    Cate (13:303, 13:354)
-    Mitscherlich (13:468)
-    alcc (13:279)
-    arcsine (13:248)
-
-0 errors √ | 0 warnings √ | 1 note x
-
-
-### 3.3. Platform:   Ubuntu Linux 20.04.1 LTS, R-release, GCC
-
-  Build ID:   soiltestcorr_2.1.0.tar.gz-b643d0234f74406292a7483192736fdd
-  build log:  https://builder.r-hub.io/status/soiltestcorr_2.1.0.tar.gz-b643d0234f74406292a7483192736fdd
-
-
-> checking CRAN incoming feasibility ... NOTE
-  Maintainer: ‘Adrian A. Correndo <correndo@ksu.edu>’
-  
-  New submission
-  
-  Possibly misspelled words in DESCRIPTION:
-    Cate (13:303, 13:354)
-    Mitscherlich (13:468)
-    alcc (13:279)
-    arcsine (13:248)
-
-0 errors √ | 0 warnings √ | 1 note x
-
-
-*Author comment: Status: success....but
-  I was getting a PREPERROR email message before...indicating that it failed during preparation or aborted but then the test passed with the following final lines...
-  
-
-16019# Build step 'Send files or execute commands over SSH' changed build result to SUCCESS
-
-16020# Pinging https://builder.r-hub.io/build/SUCCESS/soiltestcorr_2.1.0.tar.gz-b643d0234f74406292a7483192736fdd/2022-05-06T20:29:10Z
-
-16021# {"status":"ok"}
-
-16022# Finished: SUCCESS
