@@ -1,6 +1,6 @@
 # soiltestcorr 2.1.1 
 
-* This is a re-submission. Precedent version (v2.1.0)
+* This is a re-submission. Precedent version (v2.1.0, SHA: c7346613269713327ed29dee65b24cb36de72226)
 
 
 ###########################################################
