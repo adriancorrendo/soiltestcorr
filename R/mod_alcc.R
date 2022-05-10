@@ -35,7 +35,7 @@
 #'  \code{\link[stats]{TDist}},\code{\link[stats]{cor}},\code{\link[stats]{cor.test}},\code{\link[stats]{sd}}
 #'  \code{\link[dplyr]{bind}},\code{\link[dplyr]{filter}}
 #'  \code{\link[tidyr]{nest}}
-#'  \code{\link[ggplot2]{ggplot}},\code{\link[ggplot2]{aes}},\code{\link[ggplot2]{geom_point}},\code{\link[ggplot2]{scale_manual}},\code{\link[ggplot2]{geom_rug}},\code{\link[ggplot2]{geom_abline}},\code{\link[ggplot2]{geom_path}},\code{\link[ggplot2]{scale_continuous}},\code{\link[ggplot2]{annotate}},\code{\link[ggplot2]{labs}},\code{\link[ggplot2]{ggtheme}},\code{\link[ggplot2]{theme}}
+#'  \code{\link[ggplot2]{ggplot}},\code{\link[ggplot2]{aes}},\code{\link[ggplot2]{geom_point}},\code{\link[ggplot2]{scale_manual}},\code{\link[ggplot2]{geom_rug}},\code{\link[ggplot2]{geom_abline}},\code{\link[ggplot2]{geom_path}},\code{\link[ggplot2]{annotate}},\code{\link[ggplot2]{labs}},\code{\link[ggplot2]{theme}}
 #'  \code{\link[ggpp]{annotate}}
 #' @note 
 #' For extended reference, we recommend to visit \doi{10.7910/DVN/NABA57} and 

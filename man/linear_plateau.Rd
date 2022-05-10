@@ -95,8 +95,7 @@ A Family of Models Involving Intersecting Straight Lines and Concomitant Experim
 \code{\link[AICcmodavg]{AICc}}
 \code{\link[modelr]{model-quality}}
 \code{\link[nlstools]{nlsResiduals}}
-\code{\link[tidyr]{reexports}}
 \code{\link[dplyr]{bind}}
-\code{\link[ggplot2]{ggplot}},\code{\link[ggplot2]{aes}},\code{\link[ggplot2]{geom_rug}},\code{\link[ggplot2]{geom_point}},\code{\link[ggplot2]{geom_abline}},\code{\link[ggplot2]{geom_path}},\code{\link[ggplot2]{annotate}},\code{\link[ggplot2]{scale_continuous}},\code{\link[ggplot2]{labs}},\code{\link[ggplot2]{ggtheme}},\code{\link[ggplot2]{theme}}
+\code{\link[ggplot2]{ggplot}},\code{\link[ggplot2]{aes}},\code{\link[ggplot2]{geom_rug}},\code{\link[ggplot2]{geom_point}},\code{\link[ggplot2]{geom_abline}},\code{\link[ggplot2]{geom_path}},\code{\link[ggplot2]{annotate}},\code{\link[ggplot2]{labs}},\code{\link[ggplot2]{theme}}
 \code{\link[ggpp]{annotate}}
 }
