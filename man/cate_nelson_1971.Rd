@@ -34,7 +34,7 @@ See \href{https://adriancorrendo.github.io/soiltestcorr/articles/cate_nelson_197
 \note{
 This code was adapted from
 Mangiafico, S. S. (2013). Cate-Nelson Analysis for Bivariate Data Using R-project.
-\emph{The Journal of Extension, 51(5), Article 33.} \url{https://tigerprints.clemson.edu/joe/vol51/iss5/33}
+\emph{The Journal of Extension, 51(5), Article 33.} \url{https://tigerprints.clemson.edu/joe/vol51/iss5/33/}
 }
 \examples{
 \donttest{

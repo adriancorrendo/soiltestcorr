@@ -36,7 +36,7 @@
 #' @note
 #' This code was adapted from 
 #' Mangiafico, S. S. (2013). Cate-Nelson Analysis for Bivariate Data Using R-project.
-#' _The Journal of Extension, 51(5), Article 33._ <https://tigerprints.clemson.edu/joe/vol51/iss5/33> 
+#' _The Journal of Extension, 51(5), Article 33._ <https://tigerprints.clemson.edu/joe/vol51/iss5/33/> 
 #' @export 
 #' @importFrom rlang eval_tidy quo
 #' @importFrom dplyr %>%

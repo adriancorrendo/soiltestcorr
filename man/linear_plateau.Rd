@@ -69,7 +69,7 @@ See \href{https://adriancorrendo.github.io/soiltestcorr/articles/linear_plateau_
 }
 \note{
 For extended reference, we recommend to visit:
-\url{https://gradcylinder.org/linear-plateau/} & \url{https://github.com/austinwpearce/SoilTestCocaCola} by Austin Pearce.
+https://gradcylinder.org/linear-plateau/ & https://github.com/austinwpearce/SoilTestCocaCola by Austin Pearce.
 Self-start function code adapted from nlraa package by F. Miguez \url{https://github.com/femiguez/nlraa}
 }
 \examples{

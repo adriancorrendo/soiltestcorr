@@ -51,7 +51,7 @@
 #'  \code{\link[dplyr]{bind}}
 #'  \code{\link[ggplot2]{ggplot}},\code{\link[ggplot2]{aes}},\code{\link[ggplot2]{geom_rug}},\code{\link[ggplot2]{geom_point}},\code{\link[ggplot2]{geom_abline}},\code{\link[ggplot2]{geom_path}},\code{\link[ggplot2]{annotate}},\code{\link[ggplot2]{scale_continuous}},\code{\link[ggplot2]{labs}},\code{\link[ggplot2]{ggtheme}},\code{\link[ggplot2]{theme}}
 #' @note For extended reference, we recommend to visit: 
-#' <https://gradcylinder.org/mitscherlich/> & <https://github.com/austinwpearce/SoilTestCocaCola> by Austin Pearce.
+#' <https://github.com/austinwpearce/SoilTestCocaCola> by Austin Pearce.
 #' @export
 #' @importFrom rlang eval_tidy quo
 #' @importFrom minpack.lm nlsLM

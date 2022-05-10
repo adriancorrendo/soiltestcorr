@@ -47,7 +47,7 @@
 #'  \code{\link[ggplot2]{ggplot}},\code{\link[ggplot2]{aes}},\code{\link[ggplot2]{geom_rug}},\code{\link[ggplot2]{geom_point}},\code{\link[ggplot2]{geom_abline}},\code{\link[ggplot2]{geom_path}},\code{\link[ggplot2]{annotate}},\code{\link[ggplot2]{scale_continuous}},\code{\link[ggplot2]{labs}},\code{\link[ggplot2]{ggtheme}},\code{\link[ggplot2]{theme}}
 #'  \code{\link[ggpp]{annotate}}
 #' @note For extended reference, we recommend to visit: 
-#' <https://gradcylinder.org/linear-plateau/> & <https://github.com/austinwpearce/SoilTestCocaCola> by Austin Pearce.
+#' https://gradcylinder.org/linear-plateau/ & https://github.com/austinwpearce/SoilTestCocaCola by Austin Pearce.
 #' Self-start function code adapted from nlraa package by F. Miguez <https://github.com/femiguez/nlraa>
 #' @export
 #' @importFrom rlang eval_tidy quo

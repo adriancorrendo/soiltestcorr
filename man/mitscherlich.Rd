@@ -80,7 +80,7 @@ See \href{https://adriancorrendo.github.io/soiltestcorr/articles/mitscherlich_tu
 }
 \note{
 For extended reference, we recommend to visit:
-\url{https://gradcylinder.org/mitscherlich/} & \url{https://github.com/austinwpearce/SoilTestCocaCola} by Austin Pearce.
+\url{https://github.com/austinwpearce/SoilTestCocaCola} by Austin Pearce.
 }
 \examples{
 \donttest{
