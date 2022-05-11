@@ -1,5 +1,9 @@
 # soiltestcorr 2.1.1
 
+* First CRAN release, accepted on May 11th, 2022.
+
+# soiltestcorr 2.1.1
+
 * May, 10, 2022. <br/>
 
 Maintenance update fixing minor details in documentation after feedback from CRAN submission of v2.1.0. 

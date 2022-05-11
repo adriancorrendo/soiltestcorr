@@ -5,19 +5,33 @@
 
 <!-- badges: start -->
 
+[![CRAN
+status](https://www.r-pkg.org/badges/version/soiltestcorr)](https://CRAN.R-project.org/package=soiltestcorr)
+[![CRAN RStudio mirror
+downloads](https://cranlogs.r-pkg.org/badges/grand-total/soiltestcorr?color=blue)](https://r-pkg.org/pkg/soiltestcorr)
+[![CRAN RStudio mirror
+downloads](https://cranlogs.r-pkg.org/badges/last-month/soiltestcorr?color=blue)](https://r-pkg.org/pkg/soiltestcorr)
+<br/>
+
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/github/adriancorrendo/soiltestcorr?branch=main&svg=true)](https://ci.appveyor.com/project/adriancorrendo/soiltestcorr)
 [![R-CMD-check](https://github.com/adriancorrendo/soiltestcorr/workflows/R-CMD-check/badge.svg)](https://github.com/adriancorrendo/soiltestcorr/actions)
 [![codecov](https://codecov.io/gh/adriancorrendo/soiltestcorr/branch/main/graph/badge.svg?token=OUH9NBPBXI)](https://app.codecov.io/gh/adriancorrendo/soiltestcorr)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6518828.svg)](https://doi.org/10.5281/zenodo.6518828)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6539519.svg)](https://doi.org/10.5281/zenodo.6539519)
 
 <!-- badges: end -->
 
 <img src="man/figures/soiltestcorr_logo.png" align="right" height="200" style="float:right; height:200px;">
 <br/>
 
-You can install the development version of soiltestcorr from
-[GitHub](https://github.com/adriancorrendo/soiltestcorr) with:
+You can install the CRAN version of `soiltestcorr` with: <br/>
+
+``` r
+install.packages("soiltestcorr")
+```
+
+Alternatively, you can install the development version of soiltestcorr
+from [GitHub](https://github.com/adriancorrendo/soiltestcorr) with:
 
 ``` r
 # install.packages("devtools")
