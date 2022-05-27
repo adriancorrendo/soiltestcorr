@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">soiltestcorr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,7 +90,7 @@
 <div class="section level3">
 <h3 id="description">Description <br><a class="anchor" aria-label="anchor" href="#description"></a>
 </h3>
-<p>This tutorial is intended to show how to deploy the quadratic_plateau() function for estimating a continuous response model with a critical soil test value. This function fits the classical regression response model that follows two phases: i) a first curvilinear phase described as y = b0 + b1 x + b2 x^2, and ii) a second phase were the RY response to increasing STV becomes NULL (flat), described as plateau = y = b0 + b1 Xc + b2 * Xc, where Xc represents the CSTV. The function works automatically with self starting initial values to facilitate the model convergence. This approach is a little more complex than linear-plateau, but the curvature of the response has more biological sense. Similar to linear-plateau, its disadvantages are that: i) the user does not have control to estimate the critical value (the model parameter) for an specific ry level; and ii) the confidence interval of the critical level is generally unreliable. We recommend the user to use a re-sampling technique (e.g. bootstrapping) for a more reliable confidence interval estimation for parameters and CSTV <br></p>
+<p>This tutorial is intended to show how to deploy the quadratic_plateau() function for estimating a continuous response model with a critical soil test value (CSTV). This function fits the classical regression response model that follows two phases: i) a first curvilinear phase described as <code>y = a + b*x + c*x^2</code>, and ii) a second plateau-phase (Bullock and Bullock, 1994) were the <code>ry</code> response to increasing <code>stv</code> becomes NULL (flat), described as <code>plateau = y = a + b*Xc + c*Xc</code>, where <code>y</code> represents the fitted crop relative yield, <code>x</code> the soil test value, <code>a</code> the intercept (ry when stv = 0) , <code>b</code> the linear slope (as the change in ry per unit of soil nutrient supply or nutrient added), <code>c</code> the quadratic coefficient (giving the curve shape), and <code>X_c</code> the join-point when the plateau-phase starts (i.e. the CSTV). This approach is a bit more complex than linear-plateau, but the curvature of the response brings more biological sense. Similar to linear-plateau, disadvantages are that: i) the user does not have control to estimate the CSTV (the <code>Xc</code> parameter) for an specific ry level; and ii) the default confidence interval estimation of the <code>CSTV</code> is generally unreliable (based on symmetric Wald’s intervals). We recommend the user to use a re-sampling technique (e.g. bootstrapping) for a more reliable confidence interval estimation for parameters and CSTV. The <code><a href="../reference/quadratic_plateau.html">quadratic_plateau()</a></code> function works automatically with self starting initial values to facilitate the model convergence. <br></p>
 </div>
 <div class="section level3">
 <h3 id="general-instructions">General Instructions <br><a class="anchor" aria-label="anchor" href="#general-instructions"></a>
@@ -101,7 +101,7 @@
 </ol>
 <p>(a). <code>data</code> (optional), <br></p>
 <p>(b). <code>stv</code> (soil test value) and <code>ry</code> (relative yield) columns or vectors, <br></p>
-<p>(c). <code>target</code> (optional) if want a CSTV for a different `ry`` than the plateau.</p>
+<p>(c). <code>target</code> (optional) if want a CSTV for a <code>ry</code> different than the plateau.</p>
 <p>(d). <code>tidy</code> TRUE (produces a data.frame with results) or FALSE (store results as list), <br></p>
 <p>(e). <code>plot</code> TRUE (produces a ggplot as main output) or FALSE (no plot, only results as data.frame), <br></p>
 <p>(f). <code>resid</code> TRUE (produces plots with residuals analysis) or FALSE (no plot), <br></p>
@@ -451,7 +451,7 @@
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Adrian A. Correndo, Adrian A. Correndo, Austin Pearce, Ignacio A. Ciampitti.</p>
+<p>Developed by Adrian A. Correndo, Adrian A. Correndo, Austin Pearce, Deanna Osmond, Ignacio A. Ciampitti.</p>
 </div>
 
 <div class="pkgdown-footer-right">

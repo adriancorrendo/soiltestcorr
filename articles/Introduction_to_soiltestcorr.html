@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">soiltestcorr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -87,18 +87,22 @@
     
     
 <p><img src="../reference/figures/soiltestcorr_logo.png" align="right" height="200" style="float:right; height:200px;"></p>
-<p>The functions in the <code>soiltestcorr</code> package are intended to be used when analyzing the correlation between soil test values (stv) and relative yield (ry). This tutorial will introduce and demonstrate the currently available functions. <br></p>
+<p>The <code>soiltestcorr</code> package is a collection of functions intended to contribute to reproducible correlation analysis between crop relative yield (ry) and soil test values (stv). This is a strategic collaborative initiative from the Fertilizer Recommendation Support Tool (<a href="http://www.soiltestfrst.org/" class="external-link">FRST</a>) and the Feed the Future Innovation Lab for Collaborative Research on Sustainable Intensification (<a href="https://digitalconsortium.wixsite.com/dgfsc" class="external-link">SIIL</a>) projects. <br></p>
+<p>This tutorial will introduce and demonstrate the currently available functions. <br></p>
 <div class="section level2">
 <h2 id="installation">1. Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of <code>soiltestcorr</code> from <a href="https://github.com/adriancorrendo/soiltestcorr" class="external-link">GitHub</a> with:</p>
+<p>You can install the latest CRAN version of <code>soiltestcorr</code> with: <br></p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"soiltestcorr"</span><span class="op">)</span></code></pre></div>
+<p>Alternatively, you can install the development version of <code>soiltestcorr</code> from <a href="https://github.com/adriancorrendo/soiltestcorr" class="external-link">GitHub</a> with:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"adriancorrendo/soiltestcorr"</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://adriancorrendo.github.io/soiltestcorr/">soiltestcorr</a></span><span class="op">)</span></code></pre></div>
 <p>Suggested packages are</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span> <span class="co"># Plots</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span> <span class="co"># Data wrangling</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span> <span class="co"># Data wrangling</span>
@@ -140,7 +144,7 @@
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Adrian A. Correndo, Adrian A. Correndo, Austin Pearce, Ignacio A. Ciampitti.</p>
+<p>Developed by Adrian A. Correndo, Adrian A. Correndo, Austin Pearce, Deanna Osmond, Ignacio A. Ciampitti.</p>
 </div>
 
 <div class="pkgdown-footer-right">

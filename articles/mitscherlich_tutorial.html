@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">soiltestcorr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,7 +90,7 @@
 <div class="section level3">
 <h3 id="description">Description <br><a class="anchor" aria-label="anchor" href="#description"></a>
 </h3>
-<p>This tutorial is intended to show how to deploy the mitscherlich() function for estimating a continuous response model with a critical soil test value. This function fits the classical exponential regression response model that follows a curve shape described as <code>y = a * (1-exp(-c(x + b))</code>, where <code>a = asymptote</code>, <code>b = xintercept</code>, <code>c = rate or curvature parameter</code>. The mitscherlich() function works automatically with self starting initial values to facilitate the model’s convergence. This approach is extensively used in agriculture to describe crops response to input since the biological meaning of its curved response. With 3 alternatives to fit the model, the mitscherlich() function brings the advantage of controlling the parameters quantity: i) type = 1 (DEFAULT), corresponding to the model without any restrictions to the parameters (<code>y = a * (1-exp(-c(x + b))</code>); ii) type = 2 (“asymptote 100”), corresponding to the model with only 2 parameters by setting the asymptote = 100 (<code>y = 100 * (1-exp(-c(x + b))</code>), and iii) type = 3 (“asymptote 100 from 0”), corresponding to the model with only 1 parameter by constraining the asymptote = 100 and xintercept = 0 (<code>y = 100 * (1-exp(-c(x))</code>). As disadvantages we can mention that: i) there is no critical value the asymptote (as it would result equal to <code>Inf</code>); and ii) consequently, there is no confidence interval for the CSTV. For this latter purpose, we recommend the user would to use a re-sampling technique (e.g. bootstrapping) for a reliable confidence interval estimation of parameters and CSTV <br></p>
+<p>This tutorial is intended to show how to deploy the mitscherlich() function for estimating a continuous response model with a critical soil test value. This function fits the classical exponential regression response model that follows a curve shape described as <code>y = a * (1-exp(-c(x + b))</code>, where <code>a</code> = asymptote, <code>b</code> = xintercept, <code>c</code> = rate or curvature parameter. This approach is extensively used in agriculture to describe crops response to input since the biological meaning of its curved response. With 3 alternatives to fit the model, the mitscherlich() function brings the advantage of controlling the parameters quantity: i) type = 1 (DEFAULT), corresponding to the model without any restrictions to the parameters (<code>y = a * (1-exp(-c(x + b))</code>); ii) type = 2 (“asymptote 100”), corresponding to the model with only 2 parameters by setting the asymptote = 100 (<code>y = 100 * (1-exp(-c(x + b))</code>), and iii) type = 3 (“asymptote 100 from 0”), corresponding to the model with only 1 parameter by constraining the asymptote = 100 and xintercept = 0 (<code>y = 100 * (1-exp(-c(x))</code>). As disadvantages we can mention that: i) there is no critical value the asymptote (as it would result equal to <code>Inf</code>); and ii) consequently, there is no confidence interval for the CSTV. For this latter purpose, we recommend the user would to use a re-sampling technique (e.g. bootstrapping) for a reliable confidence interval estimation of parameters and CSTV. The <code><a href="../reference/mitscherlich.html">mitscherlich()</a></code> function works automatically with self starting initial values to facilitate the model’s convergence. <br></p>
 </div>
 <div class="section level3">
 <h3 id="general-instructions">General Instructions <br><a class="anchor" aria-label="anchor" href="#general-instructions"></a>
@@ -102,7 +102,7 @@
 <p>(a). <code>type</code> select the type of parameterization of the model. i) type = 1 corresponds to the model without any restrictions to the parameters (<code>y = a * (1-exp(-c(x + b))</code>); ii) type = 2 (“asymptote 100”), corresponding to the model with only 2 parameters by setting the asymptote = 100 (<code>y = 100 * (1-exp(-c(x + b))</code>), and iii) type = 3 (“asymptote 100 from 0”), corresponding to the model with only 1 parameter by constraining the asymptote = 100 and xintercept = 0 (<code>y = 100 * (1-exp(-c(x))</code>). <br></p>
 <p>(b). <code>data</code> (optional), <br></p>
 <p>(c). <code>stv</code> (soil test value) and <code>ry</code> (relative yield) columns or vectors, <br></p>
-<p>(d). <code>target</code> (optional) if want a CSTV for a different `ry`` than the plateau.</p>
+<p>(d). <code>target</code> (optional) if want a CSTV being estimated for a specific <code>ry</code>.</p>
 <p>(e). <code>tidy</code> TRUE (produces a data.frame with results) or FALSE (store results as list), <br></p>
 <p>(f). <code>plot</code> TRUE (produces a ggplot as main output) or FALSE (no plot, only results as data.frame), <br></p>
 <p>(g). <code>resid</code> TRUE (produces plots with residuals analysis) or FALSE (no plot), <br></p>
@@ -551,7 +551,7 @@
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Adrian A. Correndo, Adrian A. Correndo, Austin Pearce, Ignacio A. Ciampitti.</p>
+<p>Developed by Adrian A. Correndo, Adrian A. Correndo, Austin Pearce, Deanna Osmond, Ignacio A. Ciampitti.</p>
 </div>
 
 <div class="pkgdown-footer-right">
