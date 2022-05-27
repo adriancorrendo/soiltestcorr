@@ -6,7 +6,7 @@
 \alias{soiltestcorr-package}
 \title{soiltestcorr: Soil Test Correlation and Calibration}
 \description{
-A compilation of functions designed to assist users on the correlation analysis of crop yield and soil test values. Functions to estimate response patterns to nutrient availability and critical soil test values using alternative approaches such as: 1) the modified arcsine-log calibration curve (Correndo et al. (2017) <doi:10.1071/CP16444>); 2) the graphical Cate-Nelson quadrants-analysis (Cate & Nelson (1965)), 3) the statistical Cate-Nelson quadrants-analysis (Cate & Nelson (1971) <doi:10.2136/sssaj1971.03615995003500040048x>), 4) the linear-plateau regression (Anderson & Nelson (1975) <doi:10.2307/2529422>), 5) the quadratic-plateau regression (Bullock & Bullock (1994) <doi:10.2134/agronj1994.00021962008600010033x>), and 6) the Mitscherlich regression (Melsted & Peck (1977) <doi:10.2134/asaspecpub29.c1>).
+A compilation of functions designed to assist users on the correlation analysis of crop yield and soil test values. Functions to estimate response patterns to nutrient availability and critical soil test values using alternative approaches such as: 1) the modified arcsine-log calibration curve (Correndo et al. (2017) \doi{10.1071/CP16444}); 2) the graphical Cate-Nelson quadrants-analysis (Cate & Nelson (1965)), 3) the statistical Cate-Nelson quadrants-analysis (Cate & Nelson (1971) \doi{10.2136/sssaj1971.03615995003500040048x}), 4) the linear-plateau regression (Anderson & Nelson (1975) \doi{10.2307/2529422}), 5) the quadratic-plateau regression (Bullock & Bullock (1994) \doi{10.2134/agronj1994.00021962008600010033x}), and 6) the Mitscherlich regression (Melsted & Peck (1977) \doi{10.2134/asaspecpub29.c1}). This is a strategic collaborative initiative from the Fertilizer Recommendation Support Tool (FRST) and Feed the Future Innovation Lab for Collaborative Research on Sustainable Intensification (SIIL) projects.
 }
 \seealso{
 Useful links:
@@ -23,6 +23,7 @@ Authors:
 \itemize{
   \item Adrian A. Correndo \email{correndo@ksu.edu} (\href{https://orcid.org/0000-0002-4172-289X}{ORCID})
   \item Austin Pearce \email{awpearc2@ncsu.edu} (\href{https://orcid.org/0000-0002-2541-896X}{ORCID})
+  \item Deanna Osmond \email{deanna_osmond@ncsu.edu} (\href{https://orcid.org/ 0000-0002-6336-8318}{ORCID})
   \item Ignacio A. Ciampitti \email{ciampitti@ksu.edu} (\href{https://orcid.org/0000-0001-9619-5129}{ORCID})
 }
 

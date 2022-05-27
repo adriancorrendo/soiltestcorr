@@ -1,3 +1,11 @@
+# soiltestcorr 2.1.2
+
+* May 27th, 2022. <br/>
+
+General maintenance update. Fixing minor typos on the vignettes, and documentation update regarding authors contributing to the package, and research projects supporting the development of the soiltestcorr-package.
+
+## Previous versions
+
 # soiltestcorr 2.1.1
 
 * First CRAN release, accepted on May 11th, 2022.
@@ -8,8 +16,6 @@
 
 Maintenance update fixing minor details in documentation after feedback from CRAN submission of v2.1.0. 
 Changes include: i) adding references in DESCRIPTION, functions, and vignettes; and ii) removing brackets from examples (replacing 'dontrun' by 'donttest').
-
-## Previous versions
 
 # soiltestcorr 2.1.0
 

@@ -19,11 +19,19 @@ knitr::opts_chunk$set(
 
 <img src="../man/figures/soiltestcorr_logo.png" align="right" height="200" style="float:right; height:200px;">
 
-The functions in the `soiltestcorr` package are intended to be used when analyzing the correlation between soil test values (stv) and relative yield (ry). This tutorial will introduce and demonstrate the currently available functions. <br/>
+The `soiltestcorr` package is a collection of functions intended to contribute to reproducible correlation analysis between crop relative yield (ry) and soil test values (stv). This is a strategic collaborative initiative from the Fertilizer Recommendation Support Tool ([FRST](http://www.soiltestfrst.org/)) and the Feed the Future Innovation Lab for Collaborative Research on Sustainable Intensification ([SIIL](https://digitalconsortium.wixsite.com/dgfsc)) projects. <br/> 
+
+This tutorial will introduce and demonstrate the currently available functions. <br/>
 
 ## 1. Installation
 
-You can install the development version of `soiltestcorr` from [GitHub](https://github.com/adriancorrendo/soiltestcorr) with:
+You can install the latest CRAN version of `soiltestcorr` with: <br/>
+
+``` r
+install.packages("soiltestcorr")
+```
+
+Alternatively, you can install the development version of `soiltestcorr` from [GitHub](https://github.com/adriancorrendo/soiltestcorr) with:
 
 ``` r
 # install.packages("devtools")

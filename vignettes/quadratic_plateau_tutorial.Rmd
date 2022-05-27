@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 
 ## Description <br/>
 
-This tutorial is intended to show how to deploy the quadratic_plateau() function for estimating a continuous response model with a critical soil test value. This function fits the classical regression response model that follows two phases: i) a first curvilinear phase described as y = b0 + b1 x + b2 x^2, and ii) a second phase were the RY response to increasing STV becomes NULL (flat), described as plateau = y = b0 + b1 Xc + b2 * Xc, where Xc represents the CSTV. The function works automatically with self starting initial values to facilitate the model convergence. This approach is a little more complex than linear-plateau, but the curvature of the response has more biological sense. Similar to linear-plateau, its disadvantages are that: i) the user does not have control to estimate the critical value (the model parameter) for an specific ry level; and ii) the confidence interval of the critical level is generally unreliable. We recommend the user to use a re-sampling technique (e.g. bootstrapping) for a more reliable confidence interval estimation for parameters and CSTV <br/>
+This tutorial is intended to show how to deploy the quadratic_plateau() function for estimating a continuous response model with a critical soil test value (CSTV). This function fits the classical regression response model that follows two phases: i) a first curvilinear phase described as `y = a + b*x + c*x^2`, and ii) a second plateau-phase (Bullock and Bullock, 1994) were the `ry` response to increasing `stv` becomes NULL (flat), described as `plateau = y = a + b*Xc + c*Xc`, where `y` represents the fitted crop relative yield, `x` the soil test value, `a` the intercept (ry when stv = 0) , `b` the linear slope (as the change in ry per unit of soil nutrient supply or nutrient added), `c` the quadratic coefficient (giving the curve shape), and `X_c` the join-point when the plateau-phase starts (i.e. the CSTV). This approach is a bit more complex than linear-plateau, but the curvature of the response brings more biological sense. Similar to linear-plateau, disadvantages are that: i) the user does not have control to estimate the CSTV (the `Xc` parameter) for an specific ry level; and ii) the default confidence interval estimation of the `CSTV` is generally unreliable (based on symmetric Wald's intervals). We recommend the user to use a re-sampling technique (e.g. bootstrapping) for a more reliable confidence interval estimation for parameters and CSTV. The `quadratic_plateau()` function works automatically with self starting initial values to facilitate the model convergence. <br/>
 
 ## General Instructions <br/>
 
@@ -33,7 +33,7 @@ This tutorial is intended to show how to deploy the quadratic_plateau() function
    
    (b). `stv` (soil test value) and `ry` (relative yield)  columns or vectors, <br/>
    
-   (c). `target` (optional) if want a CSTV for a different `ry`` than the plateau.
+   (c). `target` (optional) if want a CSTV for a `ry` different than the plateau.
    
    (d). `tidy` TRUE (produces a data.frame with results) or FALSE (store results as list), <br/>
 

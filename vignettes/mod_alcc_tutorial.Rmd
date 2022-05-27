@@ -253,6 +253,8 @@ modalcc_plot <-
 
 modalcc_plot
 ```
+<br/>
+
 ### 3.1.2 Fine-tune the plots <br/>
 
 As ggplot object, plots can be adjusted in several ways. <br/>
@@ -269,6 +271,8 @@ modalcc_plot_2 <-
 
 modalcc_plot_2
 ```
+<br/>
+
 Or modifying axis scales <br/>
 
 ```{r warning=F, message=F}
@@ -285,7 +289,7 @@ modalcc_plot_2 +
 modalcc_plot_3
   
 ```
-
+<br/>
 
 ### 3.2. SMA regression <br/>
 
