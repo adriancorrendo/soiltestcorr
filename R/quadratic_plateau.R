@@ -208,17 +208,20 @@ quadratic_plateau <- function(data = NULL,
     }
   }
   
-  CSTV <- ifelse(is.null(target), 
-                 round(stats::coef(qpmodel)[[3]], 1),
-                 ifelse(target >= stats::coef(qpmodel)[[3]],
-                        (-b1 + sqrt((b1 ^ 2) - (4 * b2 * (b0 - target) ))) / (2 * b2),
-                        (-b1 + sqrt((b1 ^ 2) - (4 * b2 * (b0 - target) ))) / (2 * b2) )  )
-  
   # confidence interval for CSTV
   qpmodel.confint <- nlstools::confint2(qpmodel)
   CSTV_lower <- qpmodel.confint[[3,1]]
   CSTV_upper <- qpmodel.confint[[3,2]]
   plateau <- b0 + b1 * stats::coef(qpmodel)[[3]] + b2 * (stats::coef(qpmodel)[[3]])^2
+  
+  # CSTV estimation either for target or plateau
+  CSTV <- ifelse(is.null(target), 
+                 round(stats::coef(qpmodel)[[3]], 1),
+                 ifelse(target >= plateau,
+                        (-b1 + sqrt((b1 ^ 2) - (4 * b2 * (b0 - plateau) ))) / (2 * b2),
+                        (-b1 + sqrt((b1 ^ 2) - (4 * b2 * (b0 - target) ))) / (2 * b2) )  )
+  
+  
   
   # have to make a line because the SS_QP doesn't plot right
   qp_line <- data.frame(x = seq(minx, maxx, by = maxx/200)) %>%
@@ -249,6 +252,7 @@ quadratic_plateau <- function(data = NULL,
       CSTV = round(CSTV, 1),
       LL_cxp = round(CSTV_lower,1),
       UL_cxp = round(CSTV_upper,1),
+      CI_type = "Wald Conf. Interval",
       AIC,
       AICc,
       R2
@@ -288,14 +292,28 @@ quadratic_plateau <- function(data = NULL,
       { if (is.null(target))
             geom_vline(xintercept = CSTV_upper, col = "grey25", size = 0.25, linetype = "dotted") } +
       # Plateau
-      ggplot2::geom_hline(yintercept = plateau, alpha = 0.2) +
-      # LP Curve
+      { if(is.null(target))
+      ggplot2::geom_hline(yintercept = plateau, alpha = 0.2) } +
+      { if(!is.null(target))
+        ggplot2::geom_hline(yintercept = ifelse(target < plateau, target, plateau), alpha = 0.2) } +
+      # QP Curve
       ggplot2::geom_path(data = qp_line, ggplot2::aes(x=x,y=y), color="grey15", size = 1.5) +
       # Text annotations
+      # Target = null
       ggplot2::annotate("text",label = paste("CSTV =", round(CSTV,1), "ppm"),
                         x = CSTV, y = 0, angle = 90, hjust = 0, vjust = 1.5, col = "grey25") +
-      ggplot2::annotate("text",label = paste0("Plateau = ", round(plateau, 1), "%"),
-                        x = maxx, y = plateau, hjust = 1,vjust = 1.5, col = "grey25") +
+      {
+        if(is.null(target))
+          ggplot2::annotate("text",label = paste0("Plateau = ", round(plateau, 0), "%"),
+                            x = maxx, y = plateau, hjust = 1,vjust = 1.5, col = "grey25") 
+      } +
+      # Target if not null
+      {
+        if(!is.null(target))
+          ggplot2::annotate("text",label = paste0(ifelse(target < plateau, "Target = ", "Plateau = "), round(ifelse(target < plateau, target, plateau), 0), "%"),
+                            x = maxx, y = ifelse(target < plateau, target, plateau), hjust = 1,vjust = 1.5, col = "grey25") 
+      } +
+      
       ggplot2::annotate("text", col = "grey25",
                         label = paste0("y = ", equation,
                                        "\nn = ", nrow(test.data),

@@ -1,8 +1,11 @@
 # soiltestcorr 2.1.2
 
-* May 27th, 2022. <br/>
+* June 7th, 2022. <br/>
 
-General maintenance update. Fixing minor typos on the vignettes, and documentation update regarding authors contributing to the package, and research projects supporting the development of the soiltestcorr-package.
+General maintenance update.
+- Documentation updating authors' contributions, and mention main research projects supporting the development of the package.
+- Fixing minor bugs on the CSTV estimation (and plot) when using the "target" argument within linear_plateau() and quadratic_plateau() functions.
+- Minor typos on the vignettes. 
 
 ## Previous versions
 

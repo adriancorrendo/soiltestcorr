@@ -299,6 +299,8 @@ mitscherlich_plot <-
 
 mitscherlich_plot
 ```
+<br/>
+
 ### 3.1.2 Fine-tune the plots <br/>
 
 As ggplot object, plots can be adjusted in several ways. <br/>
