@@ -103,7 +103,7 @@
 <p>(a). <code>type</code> select the type of parameterization of the model. i) type = 1 corresponds to the model without any restrictions to the parameters (<code>y = a * (1-exp(-c(x + b))</code>); ii) type = 2 (“asymptote 100”), corresponding to the model with only 2 parameters by setting the asymptote = 100 (<code>y = 100 * (1-exp(-c(x + b))</code>), and iii) type = 3 (“asymptote 100 from 0”), corresponding to the model with only 1 parameter by constraining the asymptote = 100 and xintercept = 0 (<code>y = 100 * (1-exp(-c(x))</code>). <br></p>
 <p>(b). <code>data</code> (optional), <br></p>
 <p>(c). <code>stv</code> (soil test value) and <code>ry</code> (relative yield) columns or vectors, <br></p>
-<p>(d). <code>target</code> (optional) if want a CSTV being estimated for a specific <code>ry</code>.</p>
+<p>(d). <code>target</code> (optional) if want to know the stv level needed for a specific <code>ry</code>.</p>
 <p>(e). <code>tidy</code> TRUE (produces a data.frame with results) or FALSE (store results as list), <br></p>
 <p>(f). <code>plot</code> TRUE (produces a ggplot as main output) or FALSE (no plot, only results as data.frame), <br></p>
 <p>(g). <code>resid</code> TRUE (produces plots with residuals analysis) or FALSE (no plot), <br></p>

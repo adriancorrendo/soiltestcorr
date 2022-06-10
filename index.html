@@ -100,12 +100,12 @@
 <div class="section level1">
 <h1 id="description--">Description <br><a class="anchor" aria-label="anchor" href="#description--"></a>
 </h1>
-<p>The goal of <code>soiltestcorr</code> is to assist users on reproducible analysis of relationships between crop relative yield (RY) and soil test values (STV) following different approaches. <br></p>
+<p>The goal of <code>soiltestcorr</code> is to assist users on reproducible analysis of relationships between crop relative yield (ry) and soil test values (stv) following different approaches. <br></p>
 <p>The available methods of correlation analysis in <code>soiltestcorr</code> are: <br></p>
 <div class="section level2">
 <h2 id="1-modified-arcsine-log-calibration-curve--">1. Modified Arcsine-Log Calibration Curve <br><a class="anchor" aria-label="anchor" href="#1-modified-arcsine-log-calibration-curve--"></a>
 </h2>
-<p>The first calibration method available is the Modified Arcsine-log Calibration Curve (<code><a href="reference/mod_alcc.html">mod_alcc()</a></code>) originally described by Dyson and Conyers (2013) and modified by Correndo et al. (2017). This function produces the estimation of critical soil test values (CSTV) for a target relative yield (ry) with confidence intervals at adjustable confidence levels. <br></p>
+<p>The first method available is the Modified Arcsine-log Calibration Curve (<code><a href="reference/mod_alcc.html">mod_alcc()</a></code>) originally described by Dyson and Conyers (2013) and modified by Correndo et al. (2017). This function produces the estimation of critical soil test values (CSTV) for a target relative yield (ry) with confidence intervals at adjustable confidence levels. <br></p>
 <p><b> mod_alcc() </b> <br></p>
 <p>Instructions <br></p>
 <ol style="list-style-type: decimal">
@@ -123,13 +123,22 @@
 <li><p>Check residuals plot (see Section <a href="https://adriancorrendo.github.io/soiltestcorr/articles/mod_alcc_tutorial.html#sma-residuals">3.3 SMA Residuals</a>), and warnings related to potential leverage points. <br></p></li>
 <li><p>Adjust curve plots as desired. <br></p></li>
 </ol>
-<p>Example of mod_alcc() output <img src="reference/figures/README-unnamed-chunk-3-1.png" width="100%"></p>
+<p>Example of mod_alcc() output</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co">#&gt; Warning: One or more original RY values exceeded 100%. All RY values greater </span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt;           than 100% have been capped to 100%.</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="co">#&gt; Warning: 2 STV points exceeded the CSTV for 100% of RY.</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt;   Risk of leverage. You may consider a sensitivity analysis by removing extreme points, </span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="co">#&gt;   re-run the mod_alcc(), and check results.</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="co">#&gt; Warning: 2 STV points exceeded two-times (2x) </span></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="co">#&gt;   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by </span></span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="co">#&gt;   removing extreme points, re-run the mod_alcc(), and check results.</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-3-1.png" width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="2-cate--nelson-quadrants-analysis-1965--">2. Cate &amp; Nelson Quadrants Analysis (1965) <br><a class="anchor" aria-label="anchor" href="#2-cate--nelson-quadrants-analysis-1965--"></a>
 </h2>
 <p><code>soiltestcorr</code> also allows users to implement the quadrants analysis approach, also known as the Cate-Nelson analysis. There are two versions of the Cate-Nelson technique: <br></p>
-<p>Thus, the second alternative is based on Cate and Nelson (1965) (<code><a href="reference/cate_nelson_1965.html">cate_nelson_1965()</a></code>). The first step of this method is to apply an arbitrarily fixed value of RY as a target (y-axis) that divides the data into two categories (below &amp; equal or above RY target). In a second stage, it estimates the CSTV (x-axis) as the minimum STV that divides the data into four quadrants (target ry level combined with STV lower or greater than the CSTV) maximizing the number of points under well-classified quadrants (II, stv &gt;= CSTV &amp; ry &gt;= ry target; and IV, stv &lt; CSTV &amp; ry &lt; RY target). This is also known as the “graphical” version of the Cate-Nelson approach. <br></p>
+<p>Thus, the second alternative is based on Cate and Nelson (1965) (<code><a href="reference/cate_nelson_1965.html">cate_nelson_1965()</a></code>). The first step of this method is to apply an arbitrarily fixed value of ry as a target (y-axis) that divides the data into two categories (below &amp; equal or above ry target). In a second stage, it estimates the CSTV (x-axis) as the minimum stv that divides the data into four quadrants (target ry level combined with STV lower or greater than the CSTV) maximizing the number of points under well-classified quadrants (II, stv &gt;= CSTV &amp; ry &gt;= ry target; and IV, stv &lt; CSTV &amp; ry &lt; RY target). This is also known as the “graphical” version of the Cate-Nelson approach. <br></p>
 <p><b> cate_nelson_1965() </b> <br></p>
 <p>Instructions <br></p>
 <ol style="list-style-type: decimal">
@@ -149,7 +158,7 @@
 <div class="section level2">
 <h2 id="3-cate--nelson-quadrants-analysis-1971--">3. Cate &amp; Nelson Quadrants Analysis (1971) <br><a class="anchor" aria-label="anchor" href="#3-cate--nelson-quadrants-analysis-1971--"></a>
 </h2>
-<p>The third alternative is based on Cate and Nelson (1971) (<code><a href="reference/cate_nelson_1971.html">cate_nelson_1971()</a></code>). The first step of this alternative version is to estimate the CSTV (x-axis) as the minimum STV that minimizes the residual sum of squares when dividing data points in two classes (lower or greater than the CSTV) without using an arbitrary RY. This refined version does not constrains the model performance (measured with the coefficient of determination -R2-) but the user has no control on the RY level for the CSTV. This is also known as the “statistical” version of the Cate-Nelson approach. <br></p>
+<p>The third alternative is based on Cate and Nelson (1971) (<code><a href="reference/cate_nelson_1971.html">cate_nelson_1971()</a></code>). The first step of this alternative version is to estimate the CSTV (x-axis) as the minimum stv that minimizes the residual sum of squares when dividing data points in two classes (lower or greater than the CSTV) without using an arbitrary ry. This refined version does not constrains the model performance (measured with the coefficient of determination -R2-) but the user has no control on the RY level for the CSTV. This is also known as the “statistical” version of the Cate-Nelson approach. <br></p>
 <p><b> cate_nelson_1971() </b> <br></p>
 <p>Instructions <br></p>
 <ol style="list-style-type: decimal">
@@ -169,7 +178,7 @@
 <div class="section level2">
 <h2 id="4-linear-plateau-regression---">4. Linear-plateau Regression  <br><a class="anchor" aria-label="anchor" href="#4-linear-plateau-regression---"></a>
 </h2>
-<p>The next calibration method available is the linear-plateau model (<code><a href="reference/linear_plateau.html">linear_plateau()</a></code>). This function fits the classical regression response model that follows two phases: i) a linear phase described as <code>y = a + b*x</code>, followed by ii) a plateau phase (Anderson and Nelson, 1975) were the <code>ry</code> response to increasing <code>stv</code> becomes NULL (flat), described as <code>plateau = y = a + b*Xc</code>, where <code>y</code> represents the fitted crop relative yield, <code>x</code> the soil test value, <code>a</code> the intercept (ry when stv = 0) , <code>b</code> the slope (as the change in ry per unit of soil nutrient supply or nutrient added), and <code>X_c</code> the join-point when the plateau-phase starts (i.e. the CSTV). The <code><a href="reference/linear_plateau.html">linear_plateau()</a></code> function works automatically with self starting initial values to facilitate the model’s convergence. <br></p>
+<p>The next method available is the linear-plateau model (<code><a href="reference/linear_plateau.html">linear_plateau()</a></code>). This function fits the classical regression response model that follows two phases: i) a first linear phase described as <code>y = a + b*x</code>, and ii) a second plateau-phase (Anderson and Nelson, 1975) were the <code>ry</code> response to increasing <code>stv</code> becomes NULL (flat), described as <code>plateau = y = a + b*Xc</code>, where <code>y</code> represents the fitted crop relative yield, <code>x</code> the soil test value, <code>a</code> the intercept (ry when stv = 0) , <code>b</code> the slope (as the change in ry per unit of soil nutrient supply or nutrient added), and <code>X_c</code> the join-point when the plateau-phase starts (i.e. the CSTV). The <code><a href="reference/linear_plateau.html">linear_plateau()</a></code> function works automatically with self starting initial values to facilitate the model’s convergence. <br></p>
 <p><b> linear_plateau() </b> <br></p>
 <p>Instructions <br></p>
 <ol style="list-style-type: decimal">
@@ -178,7 +187,7 @@
 </ol>
 <p>(a). <code>data</code> (optional), <br></p>
 <p>(b). <code>stv</code> (soil test value) and <code>ry</code> (relative yield) columns or vectors, <br></p>
-<p>(c). <code>target</code> (optional) if want a CSTV for a different `ry`` than the plateau.</p>
+<p>(c). <code>target</code> (optional) if want to know stv level needed for a different `ry`` than the plateau.</p>
 <p>(d). <code>plot</code> TRUE (produces a ggplot as main output) or FALSE (no plot, only results as data.frame), <br></p>
 <p>(e). <code>resid</code> TRUE (produces plots with residuals analysis) or FALSE (no plot), <br></p>
 <ol start="3" style="list-style-type: decimal">
@@ -191,7 +200,7 @@
 <div class="section level2">
 <h2 id="5-quadratic-plateau-regression---">5. Quadratic-plateau Regression  <br><a class="anchor" aria-label="anchor" href="#5-quadratic-plateau-regression---"></a>
 </h2>
-<p>The following calibration method available is the quadratic-plateau model (<code><a href="reference/quadratic_plateau.html">quadratic_plateau()</a></code>). This function fits the classical regression response model that follows two phases: i) a first curvilinear phase described as <code>y = a + b*x + c*x^2</code>, and ii) a second plateau-phase (Bullock and Bullock, 1994) were the <code>ry</code> response to increasing <code>stv</code> becomes NULL (flat), described as <code>plateau = y = a + b*Xc + c*Xc</code>, where <code>y</code> represents the fitted crop relative yield, <code>x</code> the soil test value, <code>a</code> the intercept (ry when stv = 0) , <code>b</code> the linear slope (as the change in ry per unit of soil nutrient supply or nutrient added), <code>c</code> the quadratic coefficient (giving the curve shape), and <code>X_c</code> the join-point when the plateau-phase starts (i.e. the CSTV). The <code><a href="reference/quadratic_plateau.html">quadratic_plateau()</a></code> function works automatically with self starting initial values to facilitate the model convergence. <br></p>
+<p>The following correlation method available is the quadratic-plateau model (<code><a href="reference/quadratic_plateau.html">quadratic_plateau()</a></code>). This function fits the classical regression response model that follows two phases: i) a first curvilinear phase described as <code>y = a + b*x + c*x^2</code>, and ii) a second plateau-phase (Bullock and Bullock, 1994) were the <code>ry</code> response to increasing <code>stv</code> becomes NULL (flat), described as <code>plateau = y = a + b*Xc + c*Xc</code>, where <code>y</code> represents the fitted crop relative yield, <code>x</code> the soil test value, <code>a</code> the intercept (ry when stv = 0) , <code>b</code> the linear slope (as the change in ry per unit of soil nutrient supply or nutrient added), <code>c</code> the quadratic coefficient (giving the curve shape), and <code>X_c</code> the join-point when the plateau-phase starts (i.e. the CSTV). The <code><a href="reference/quadratic_plateau.html">quadratic_plateau()</a></code> function works automatically with self starting initial values to facilitate the model convergence. <br></p>
 <p><b> quadratic_plateau() </b> <br></p>
 <p>Instructions <br></p>
 <ol style="list-style-type: decimal">
@@ -200,7 +209,7 @@
 </ol>
 <p>(a). <code>data</code> (optional), <br></p>
 <p>(b). <code>stv</code> (soil test value) and <code>ry</code> (relative yield) columns or vectors, <br></p>
-<p>(c). <code>target</code> (optional) if want the CSTV being estimated for a <code>ry</code> different than the plateau.</p>
+<p>(c). <code>target</code> (optional) if want to know stv level needed for a different `ry`` than the plateau.</p>
 <p>(d). <code>plot</code> TRUE (produces a ggplot as main output) or FALSE (no plot, only results as data.frame), <br></p>
 <p>(e). <code>resid</code> TRUE (produces plots with residuals analysis) or FALSE (no plot), <br></p>
 <ol start="3" style="list-style-type: decimal">
@@ -214,7 +223,7 @@
 <div class="section level2">
 <h2 id="6-mitscherlich-regression---">6. Mitscherlich Regression  <br><a class="anchor" aria-label="anchor" href="#6-mitscherlich-regression---"></a>
 </h2>
-<p>This function fits a Mitscherlich-type exponential regression model (Melsted and Peck, 1977) that follows a diminishing growth curve described as <code>y = a * (1-exp(-c(x + b))</code>, where <code>a = asymptote</code>, <code>b = xintercept</code>, <code>c = rate or curvature parameter</code>. The <code><a href="reference/mitscherlich.html">mitscherlich()</a></code> function works automatically with self starting initial values to facilitate the model’s convergence. This approach is extensively used in agriculture to describe crops response to input since the biological meaning of its curved response. With 3 alternatives to fit the model, this function brings the advantage of controlling the parameters quantity: i) type = 1 (DEFAULT), corresponding to the model without any restrictions to the parameters (<code>y = a * (1-exp(-c(x + b))</code>); ii) type = 2 (“asymptote 100”), corresponding to the model with only 2 parameters by setting the asymptote = 100 (<code>y = 100 * (1-exp(-c(x + b))</code>), and iii) type = 3 (“asymptote 100 from 0”), corresponding to the model with only 1 parameter by constraining the asymptote = 100 and xintercept = 0 (<code>y = 100 * (1-exp(-c(x))</code>). <br></p>
+<p>This function fits an exponential regression response model (Melsted and Peck, 1977) that follows a curve shape described as <code>y = a * (1-exp(-c(x + b))</code>, where <code>a = asymptote</code>, <code>b = xintercept</code>, <code>c = rate or curvature parameter</code>. The <code><a href="reference/mitscherlich.html">mitscherlich()</a></code> function works automatically with self starting initial values to facilitate the model’s convergence. This approach is extensively used in agriculture to describe crops response to input since the biological meaning of its curved response. With 3 alternatives to fit the model, this function brings the advantage of controlling the parameters quantity: i) type = 1 (DEFAULT), corresponding to the model without any restrictions to the parameters (<code>y = a * (1-exp(-c(x + b))</code>); ii) type = 2 (“asymptote 100”), corresponding to the model with only 2 parameters by setting the asymptote = 100 (<code>y = 100 * (1-exp(-c(x + b))</code>), and iii) type = 3 (“asymptote 100 from 0”), corresponding to the model with only 1 parameter by constraining the asymptote = 100 and xintercept = 0 (<code>y = 100 * (1-exp(-c(x))</code>). <br></p>
 <p>Instructions <br></p>
 <ol style="list-style-type: decimal">
 <li><p>Load your data.frame with soil test value (stv) and relative yield (ry) data. <br></p></li>
@@ -222,7 +231,7 @@
 </ol>
 <p>(a). <code>data</code> (optional), <br></p>
 <p>(b). <code>stv</code> (soil test value) and <code>ry</code> (relative yield) columns or vectors, <br></p>
-<p>(c). <code>target</code> (optional) if want the CSTV being estimated for a specific <code>ry</code>.</p>
+<p>(c). <code>target</code> (optional) if want to know stv level needed for a specific <code>ry</code>.</p>
 <p>(d). <code>plot</code> TRUE (produces a ggplot as main output) or FALSE (no plot, only results as data.frame), <br></p>
 <p>(e). <code>resid</code> TRUE (produces plots with residuals analysis) or FALSE (no plot), <br></p>
 <ol start="3" style="list-style-type: decimal">
