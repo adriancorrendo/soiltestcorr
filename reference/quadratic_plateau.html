@@ -30,7 +30,7 @@ estimate a critical soil test values (CSTV) above which yield response becomes f
     <a class="dropdown-item" href="../articles/cate_nelson_1965_tutorial.html">Cate and Nelson (1965)</a>
     <a class="dropdown-item" href="../articles/cate_nelson_1971_tutorial.html">Cate and Nelson (1971)</a>
     <a class="dropdown-item" href="../articles/linear_plateau_tutorial.html">Linear-plateau response</a>
-    <a class="dropdown-item" href="../articles/mitscherlich_tutorial.html">Mitscherlich response</a>
+    <a class="dropdown-item" href="../articles/mitscherlich_tutorial.html">Mitscherlich-type response</a>
     <a class="dropdown-item" href="../articles/mod_alcc_tutorial.html">Modified ALCC</a>
     <a class="dropdown-item" href="../articles/quadratic_plateau_tutorial.html">Quadratic-plateau response</a>
   </div>
@@ -85,38 +85,73 @@ estimate a critical soil test values (CSTV) above which yield response becomes f
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>x</dt>
 <dd><p>selfstart vector for independent variable, Default: NULL</p></dd>
+
+
 <dt>intercept</dt>
 <dd><p>selfstart arg. for intercept Default: NULL</p></dd>
+
+
 <dt>slope</dt>
 <dd><p>selfstart arg. for slope Default: NULL</p></dd>
+
+
 <dt>Xc</dt>
 <dd><p>selfstart arg. for critical value Default: NULL</p></dd>
+
+
 <dt>data</dt>
 <dd><p>Optional argument to call and object of type data.frame or data.table
 containing the stv and ry data, Default: NULL</p></dd>
+
+
 <dt>stv</dt>
 <dd><p>name of the vector containing soil test values (-) of type <code>numeric</code>.</p></dd>
+
+
 <dt>ry</dt>
 <dd><p>name of the vector containing relative yield values (%) of type <code>numeric</code>.</p></dd>
+
+
 <dt>target</dt>
 <dd><p><code>numeric</code> value of relative yield target (e.g. 90 for 90%) to estimate the CSTV.
 The target needs to be &lt; plateau, otherwise, target = plateau.</p></dd>
+
+
 <dt>tidy</dt>
 <dd><p>logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).</p></dd>
+
+
 <dt>plot</dt>
 <dd><p>logical operator (TRUE/FALSE) to plot the quadratic-plateau model, Default: FALSE</p></dd>
+
+
 <dt>resid</dt>
 <dd><p>logical operator (TRUE/FALSE) to plot residuals analysis, Default: FALSE</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>returns an object of type <code>ggplot</code> if plot = TRUE.
-returns a residuals plot if resid = TRUE.
-returns an object of class <code>data.frame</code> if tidy = TRUE,
-returns an object of class <code>list</code> if tidy = FALSE.
-QP_f: vector of the same length as x using the quadratic-plateau function
-SS_QP: selfStart object to pass into the quadratic_plateau fit
-quadratic_plateau: function</p>
+    
+
+<p>returns an object of type <code>ggplot</code> if plot = TRUE.</p>
+
+
+<p>returns a residuals plot if resid = TRUE.</p>
+
+
+<p>returns an object of class <code>data.frame</code> if tidy = TRUE,</p>
+
+
+<p>returns an object of class <code>list</code> if tidy = FALSE.</p>
+
+
+<p>QP_f: vector of the same length as x using the quadratic-plateau function</p>
+
+
+<p>SS_QP: selfStart object to pass into the quadratic_plateau fit</p>
+
+
+<p>quadratic_plateau: function</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -207,7 +242,7 @@ Quadratic and Quadratic-Plus-Plateau Models for Predicting Optimal Nitrogen Rate
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
     </footer></div>

@@ -6,12 +6,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="soiltestcorr">
-<title>Mitscherlich response • soiltestcorr</title>
+<title>Mitscherlich-type response • soiltestcorr</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Mitscherlich response">
+<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Mitscherlich-type response">
 <meta property="og:description" content="soiltestcorr">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -45,7 +45,7 @@
     <a class="dropdown-item" href="../articles/cate_nelson_1965_tutorial.html">Cate and Nelson (1965)</a>
     <a class="dropdown-item" href="../articles/cate_nelson_1971_tutorial.html">Cate and Nelson (1971)</a>
     <a class="dropdown-item" href="../articles/linear_plateau_tutorial.html">Linear-plateau response</a>
-    <a class="dropdown-item" href="../articles/mitscherlich_tutorial.html">Mitscherlich response</a>
+    <a class="dropdown-item" href="../articles/mitscherlich_tutorial.html">Mitscherlich-type response</a>
     <a class="dropdown-item" href="../articles/mod_alcc_tutorial.html">Modified ALCC</a>
     <a class="dropdown-item" href="../articles/quadratic_plateau_tutorial.html">Quadratic-plateau response</a>
   </div>
@@ -75,8 +75,8 @@
 
 
 <script src="mitscherlich_tutorial_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
-  <main id="main"><div class="page-header">
-      <img src="" class="logo" alt=""><h1>Mitscherlich response</h1>
+  <main id="main" class="col-md-9"><div class="page-header">
+      <img src="" class="logo" alt=""><h1>Mitscherlich-type response</h1>
                         <h4 data-toc-skip class="author">Adrian Correndo &amp; Austin Pearce</h4>
             
       
@@ -90,7 +90,8 @@
 <div class="section level3">
 <h3 id="description">Description <br><a class="anchor" aria-label="anchor" href="#description"></a>
 </h3>
-<p>This tutorial is intended to show how to deploy the mitscherlich() function for estimating a continuous response model with a critical soil test value. This function fits the classical exponential regression response model that follows a curve shape described as <code>y = a * (1-exp(-c(x + b))</code>, where <code>a</code> = asymptote, <code>b</code> = xintercept, <code>c</code> = rate or curvature parameter. This approach is extensively used in agriculture to describe crops response to input since the biological meaning of its curved response. With 3 alternatives to fit the model, the mitscherlich() function brings the advantage of controlling the parameters quantity: i) type = 1 (DEFAULT), corresponding to the model without any restrictions to the parameters (<code>y = a * (1-exp(-c(x + b))</code>); ii) type = 2 (“asymptote 100”), corresponding to the model with only 2 parameters by setting the asymptote = 100 (<code>y = 100 * (1-exp(-c(x + b))</code>), and iii) type = 3 (“asymptote 100 from 0”), corresponding to the model with only 1 parameter by constraining the asymptote = 100 and xintercept = 0 (<code>y = 100 * (1-exp(-c(x))</code>). As disadvantages we can mention that: i) there is no critical value the asymptote (as it would result equal to <code>Inf</code>); and ii) consequently, there is no confidence interval for the CSTV. For this latter purpose, we recommend the user would to use a re-sampling technique (e.g. bootstrapping) for a reliable confidence interval estimation of parameters and CSTV. The <code><a href="../reference/mitscherlich.html">mitscherlich()</a></code> function works automatically with self starting initial values to facilitate the model’s convergence. <br></p>
+<p>This tutorial demonstrates the mitscherlich() function for fitting a continuous response model and estimating a critical soil test value. This function fits a Mitscherlich-type exponential regression model that follows a diminishing growth curve described as <code>y = a * (1-exp(-c(x + b))</code>, where <code>a</code> = asymptote, <code>b</code> = x-intercept, <code>c</code> = rate or curvature parameter. This approach is extensively used in agriculture to describe crops response to input since the biological meaning of its curved response. With 3 alternatives to fit the model, the mitscherlich() function brings the advantage of controlling the parameters quantity: i) type = 1 (DEFAULT), corresponding to the model without any restrictions to the parameters (<code>y = a * (1-exp(-c(x + b))</code>); ii) type = 2 (“asymptote 100”), corresponding to the model with only 2 parameters by setting the asymptote = 100 (<code>y = 100 * (1-exp(-c(x + b))</code>), and iii) type = 3 (“asymptote 100 from 0”), corresponding to the model with only 1 parameter by constraining the asymptote = 100 and xintercept = 0 (<code>y = 100 * (1-exp(-c(x))</code>).</p>
+<p>Disadvantages this model might include: i) lacks a parameter corresponding directly with a critical soil test value (the model cannot be evaluated at the asymptote as it would result in a CSTV equal to <code>Inf</code>); and ii) there is no apparent confidence interval for an estimated CSTV. For this latter purpose, we recommend the user would to use a re-sampling technique (e.g. bootstrapping) for a reliable confidence interval estimation of parameters and CSTV (for examples on bootstrapping, see <a href="https://cran.r-project.org/web/packages/nlraa/vignettes/Bootstrapping.html" class="external-link">nlraa package vignette</a>. The <code><a href="../reference/mitscherlich.html">mitscherlich()</a></code> function works automatically with self-starting initial values to facilitate the model’s convergence. <br></p>
 </div>
 <div class="section level3">
 <h3 id="general-instructions">General Instructions <br><a class="anchor" aria-label="anchor" href="#general-instructions"></a>
@@ -560,7 +561,7 @@
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
     </footer>
