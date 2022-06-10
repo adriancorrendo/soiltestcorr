@@ -21,11 +21,13 @@ knitr::opts_chunk$set(
 
 ## Description <br/>
 
-This tutorial is intended to show how to deploy the `linear_plateau()` function for estimating a continuous response model with a critical soil test value (CSTV). This function fits the classical regression response model that follows two phases: i) a first linear phase described as `y = a + b*x`, and ii) a second plateau-phase (Anderson and Nelson, 1975) were the `ry` response to increasing `stv` becomes NULL (flat), described as `plateau = y = a + b*Xc`, where `y` represents the fitted crop relative yield, `x` the soil test value, `a` the intercept (ry when stv = 0) , `b` the slope (as the change in ry per unit of soil nutrient supply or nutrient added), and `X_c` the join-point when the plateau-phase starts (i.e. the CSTV). This approach is one of the regression models with a simple interpretation of its parameters. Some disadvantages are that: i) the user does not have control to estimate the CSTV (the model `Xc` parameter) for an specific `ry` level; and ii) the default confidence interval estimation of the `CSTV` is generally unreliable (based on symmetric Wald's intervals). We recommend the user to use a re-sampling technique (e.g. bootstrapping) for a more reliable confidence interval estimation for parameters and CSTV. The `linear_plateau()` function works automatically with self starting initial values to facilitate the model's convergence. <br/>
+This tutorial demonstrates the `linear_plateau()` function for fitting a continuous response model and estimating a critical soil test value (CSTV). This function fits a segmented regression model that follows two phases: i) a linear phase described as `y = a + b * x`, followed by ii) a plateau phase (Anderson and Nelson, 1975) were the `ry` response to increasing `stv` becomes NULL (flat), described as `plateau = y = a + b * Xc`, where `y` represents the fitted crop relative yield, `x` the soil test value, `a` the intercept (ry when stv = 0) , `b` the slope (as the change in RY per unit of soil nutrient supply), and `X_c` the break point when the plateau phase starts (i.e. the CSTV).
+
+The parameters of this regression model have a simple interpretation. Some disadvantages are that: i) the user does not have control to estimate the CSTV (the model `Xc` parameter) for an specific `ry` level; and ii) the default confidence interval estimation of the `CSTV` is generally unreliable (based on symmetric Wald's intervals). We recommend the user to use a resampling technique (e.g. bootstrapping) for a more reliable confidence interval estimation for parameters and CSTV (for examples on bootstrapping, see [nlraa package vignette](https://cran.r-project.org/web/packages/nlraa/vignettes/Bootstrapping.html). The `linear_plateau()` function works automatically with self-starting initial values to facilitate the model's convergence. <br/>
 
 ## General Instructions <br/>
 
-  i. Load your dataframe with soil test value (stv) and relative yield (ry) data. <br/>
+  i. Load your dataframe with soil test value and relative yield data. <br/>
 
   ii. Specify the following arguments into the function -linear_plateau()-: <br/>
 
@@ -90,8 +92,6 @@ data_3 <- soiltestcorr::freitas1966
 # Fit linear_plateau()
 
 ## 1. Individual fits <br/>
-
-RY target = 90%, confidence level = 0.95, replace with your desired values <br/>
 
 ### 1.1. `tidy` = FALSE <br/>
 
