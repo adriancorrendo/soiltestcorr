@@ -143,7 +143,7 @@ test_that("no error in fitting linear_plateau() for the example dataset", {
 })
 
 
-# 9
+# 9 Target < plateau
 
 context("run linear_plateau() with packaged dataset freitas1966")
 
@@ -161,7 +161,7 @@ test_that("no error in fitting linear_plateau() for the example dataset", {
 })
 
 
-# 10
+# 10 Target > plateau
 
 context("run linear_plateau() with packaged dataset freitas1966")
 
@@ -169,7 +169,7 @@ linear_plateau.test <- try(linear_plateau(data = freitas1966, stv = STK, ry = RY
                                                 tidy = TRUE,
                                                 plot = FALSE,
                                                 resid = TRUE,
-                                                target = 100),
+                                                target = 99),
                               silent = TRUE)
 
 test_that("no error in fitting linear_plateau() for the example dataset", {

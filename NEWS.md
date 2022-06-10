@@ -1,11 +1,11 @@
 # soiltestcorr 2.1.2
 
-* June 7th, 2022. <br/>
+* June 10th, 2022. <br/>
 
 General maintenance update.
-- Documentation updating authors' contributions, and mention main research projects supporting the development of the package.
-- Fixing minor bugs on the CSTV estimation (and plot) when using the "target" argument within linear_plateau() and quadratic_plateau() functions.
-- Minor typos on the vignettes. 
+- Documentation updating authors' contributions, and mention main research projects supporting the development of the package (FRST and SIIL).
+- Fixing minor bugs on the CSTV estimation (and plot) when using the "target" argument within linear_plateau() and quadratic_plateau() functions. When "target" is activated for these functions, output is STVt (stv-target) instead of CSTV (which corresponds)
+- Minor typos on the vignettes.  
 
 ## Previous versions
 

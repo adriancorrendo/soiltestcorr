@@ -322,7 +322,7 @@ mitscherlich <- function(data = NULL,
       # CSTV
       {
         if(!is.na(CSTV))
-          ggplot2::annotate("text",label = paste("CSTV =", round(CSTV,1), "ppm"),
+          ggplot2::annotate("text",label = paste("STVt =", round(CSTV,1), "ppm"),
                             x = CSTV, y = 0, angle = 90, hjust = 0, vjust = 1.5, col = "grey25") 
       } +
       # Target if null
