@@ -71,8 +71,8 @@ Mitscherlich](https://adriancorrendo.github.io/soiltestcorr/articles/mitscherlic
 # Description <br/>
 
 The goal of `soiltestcorr` is to assist users on reproducible analysis
-of relationships between crop relative yield (ry) and soil test values
-(stv) following different approaches. <br/>
+of relationships between crop relative yield (RY) and soil test values
+(STV) following different approaches. <br/>
 
 The available methods of correlation analysis in `soiltestcorr` are:
 <br/>
@@ -132,9 +132,9 @@ of the Cate-Nelson technique: <br/>
 
 Thus, the second alternative is based on Cate and Nelson (1965)
 (`cate_nelson_1965()`). The first step of this method is to apply an
-arbitrarily fixed value of ry as a target (y-axis) that divides the data
-into two categories (below & equal or above ry target). In a second
-stage, it estimates the CSTV (x-axis) as the minimum stv that divides
+arbitrarily fixed value of RY as a target (y-axis) that divides the data
+into two categories (below & equal or above RY target). In a second
+stage, it estimates the CSTV (x-axis) as the minimum STV that divides
 the data into four quadrants (target ry level combined with STV lower or
 greater than the CSTV) maximizing the number of points under
 well-classified quadrants (II, stv \>= CSTV & ry \>= ry target; and IV,
@@ -173,9 +173,9 @@ Example of cate_nelson_1965() output
 
 The third alternative is based on Cate and Nelson (1971)
 (`cate_nelson_1971()`). The first step of this alternative version is to
-estimate the CSTV (x-axis) as the minimum stv that minimizes the
+estimate the CSTV (x-axis) as the minimum STV that minimizes the
 residual sum of squares when dividing data points in two classes (lower
-or greater than the CSTV) without using an arbitrary ry. This refined
+or greater than the CSTV) without using an arbitrary RY. This refined
 version does not constrains the model performance (measured with the
 coefficient of determination -R2-) but the user has no control on the RY
 level for the CSTV. This is also known as the “statistical” version of
@@ -213,8 +213,8 @@ Example of cate_nelson_1971() output
 
 The next calibration method available is the linear-plateau model
 (`linear_plateau()`). This function fits the classical regression
-response model that follows two phases: i) a first linear phase
-described as `y = a + b*x`, and ii) a second plateau-phase (Anderson and
+response model that follows two phases: i) a linear phase
+described as `y = a + b*x`, followed by ii) a plateau phase (Anderson and
 Nelson, 1975) were the `ry` response to increasing `stv` becomes NULL
 (flat), described as `plateau = y = a + b*Xc`, where `y` represents the
 fitted crop relative yield, `x` the soil test value, `a` the intercept
@@ -312,8 +312,8 @@ Example of quadratic_plateau() output <br/>
 
 ## 6. Mitscherlich Regression </b> <br/>
 
-This function fits an exponential regression response model (Melsted and
-Peck, 1977) that follows a curve shape described as
+This function fits a Mitscherlich-type exponential regression model (Melsted and
+Peck, 1977) that follows a diminishing growth curve described as
 `y = a * (1-exp(-c(x + b))`, where `a = asymptote`, `b = xintercept`,
 `c = rate or curvature parameter`. The `mitscherlich()` function works
 automatically with self starting initial values to facilitate the
