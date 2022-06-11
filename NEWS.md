@@ -1,6 +1,6 @@
 # soiltestcorr 2.1.2
 
-* June 10th, 2022. <br/>
+* June 11th, 2022. <br/>
 
 General maintenance update.
 - Documentation updating authors' contributions, and mention main research projects supporting the development of the package (FRST and SIIL).

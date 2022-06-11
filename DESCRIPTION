@@ -1,7 +1,7 @@
 Package: soiltestcorr
 Title: Soil Test Correlation and Calibration
 Version: 2.1.2
-Date: 2022-06-10
+Date: 2022-06-11
 Authors@R: c(
     person(given = "Adrian A.", family = "Correndo",
              email = "correndo@ksu.edu", role = c("cre","cph"),comment = c(ORCID = "0000-0002-4172-289X")),
@@ -10,7 +10,7 @@ Authors@R: c(
     person(given = "Austin", family = "Pearce",
              email = "awpearc2@ncsu.edu", role = "aut",comment = c(ORCID = "0000-0002-2541-896X")),
     person(given = "Deanna", family = "Osmond",
-             email = "deanna_osmond@ncsu.edu", role = "aut",comment = c(ORCID = " 0000-0002-6336-8318")),
+             email = "deanna_osmond@ncsu.edu", role = "aut",comment = c(ORCID = "0000-0002-6336-8318")),
     person("Ignacio A.", "Ciampitti", email = "ciampitti@ksu.edu", role = c("aut"), comment = c(ORCID = "0000-0001-9619-5129")) )
 Description: A compilation of functions designed to assist users on the correlation analysis of crop yield and soil test values. Functions to estimate crop response patterns to soil nutrient availability and critical soil test values using various approaches such as: 1) the modified arcsine-log calibration curve (Correndo et al. (2017) <doi:10.1071/CP16444>); 2) the graphical Cate-Nelson quadrants analysis (Cate & Nelson (1965)), 3) the statistical Cate-Nelson quadrants analysis (Cate & Nelson (1971) <doi:10.2136/sssaj1971.03615995003500040048x>), 4) the linear-plateau regression (Anderson & Nelson (1975) <doi:10.2307/2529422>), 5) the quadratic-plateau regression (Bullock & Bullock (1994) <doi:10.2134/agronj1994.00021962008600010033x>), and 6) the Mitscherlich-type exponential regression (Melsted & Peck (1977) <doi:10.2134/asaspecpub29.c1>). The package development stemmed from ongoing work with the Fertilizer Recommendation Support Tool (FRST) and Feed the Future Innovation Lab for Collaborative Research on Sustainable Intensification (SIIL) projects. 
 License: MIT + file LICENSE
