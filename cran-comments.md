@@ -1,13 +1,14 @@
-# soiltestcorr 2.1.1 
+# soiltestcorr 2.1.2 
 
-* This is a re-submission. Precedent version (v2.1.0, SHA: c7346613269713327ed29dee65b24cb36de72226)
+* This is an update of the package. Precedent version (v2.1.1)
 
 
 ###########################################################
 
-## 1. Local R CMD check results 
+## 1. Local R CMD check results ─────────────────────── soiltestcorr 2.1.2 ────
+Duration: 1m 51.8s
 
-0 errors v | 0 warnings v | 0 notes v
+0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 
 R CMD check succeeded
 

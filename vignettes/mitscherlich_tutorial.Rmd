@@ -3,7 +3,7 @@ title: "Mitscherlich-type response"
 author: Adrian Correndo & Austin Pearce 
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Mitscherlich response}
+  %\VignetteIndexEntry{Mitscherlich-type response}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 
 This tutorial demonstrates the mitscherlich() function for fitting a continuous response model and estimating a critical soil test value. This function fits a Mitscherlich-type exponential regression model that follows a diminishing growth curve described as `y = a * (1-exp(-c(x + b))`, where `a` = asymptote, `b` = x-intercept, `c` = rate or curvature parameter. This approach is extensively used in agriculture to describe crops response to input since the biological meaning of its curved response. With 3 alternatives to fit the model, the mitscherlich() function brings the advantage of controlling the parameters quantity: i) type = 1 (DEFAULT), corresponding to the model without any restrictions to the parameters (`y = a * (1-exp(-c(x + b))`); ii) type = 2 ("asymptote 100"), corresponding to the model with only 2 parameters by setting the asymptote = 100 (`y = 100 * (1-exp(-c(x + b))`), and iii) type = 3 ("asymptote 100 from 0"), corresponding to the model with only 1 parameter by constraining the asymptote = 100 and xintercept = 0 (`y = 100 * (1-exp(-c(x))`).
 
-Disadvantages this model might include: i) lacks a parameter corresponding directly with a critical soil test value (the model cannot be evaluated at the asymptote as it would result in a CSTV equal to `Inf`); and ii) there is no apparent confidence interval for an estimated CSTV. For this latter purpose, we recommend the user would to use a re-sampling technique (e.g. bootstrapping) for a  reliable confidence interval estimation of parameters and CSTV (for examples on bootstrapping, see [nlraa package vignette](https://cran.r-project.org/web/packages/nlraa/vignettes/Bootstrapping.html). The `mitscherlich()` function works automatically with self-starting initial values to facilitate the model's convergence. <br/>
+Disadvantages this model might include: i) lacks a parameter corresponding directly with a critical soil test value (the model cannot be evaluated at the asymptote as it would result in a CSTV equal to `Inf`); and ii) there is no apparent confidence interval for an estimated CSTV. For this latter purpose, we recommend the user would to use a re-sampling technique (e.g. bootstrapping) for a  reliable confidence interval estimation of parameters and CSTV (for examples on bootstrapping, see [nlraa package vignette](https://CRAN.R-project.org/package=nlraa). The `mitscherlich()` function works automatically with self-starting initial values to facilitate the model's convergence. <br/>
 
 ## General Instructions <br/>
 
