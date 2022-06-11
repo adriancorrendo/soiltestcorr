@@ -16,38 +16,17 @@ R CMD check succeeded
 
 ## 2. WIN-DEVEL. Results devtools::check_win_devel()
 
-Build log: https://win-builder.r-project.org/EbqGOB2VxucR
+Build log: https://win-builder.r-project.org/YRINbhxvJ9T8/
+
+Platform: x86_64-w64-mingw32 (64-bit)
 
 Status: 1 NOTE
 
-New submission
+Package update submission
 
 Possibly misspelled words in DESCRIPTION:
-  Cate (13:374, 13:406, 13:448, 13:480)
-  Correndo (13:310)
-  Melsted (13:779)
-  Mitscherlich (13:754)
-  al (13:322)
-  arcsine (13:279)
-  et (13:319)
-
-Found the following (possibly) invalid URLs:
-  URL: https://doi.org/10.2134/agronj1994.00021962008600010033x
-    From: man/quadratic_plateau.Rd
-    Status: 503
-    Message: Service Unavailable
-  URL: https://doi.org/10.2134/asaspecpub29.c1
-    From: man/mitscherlich.Rd
-    Status: 503
-    Message: Service Unavailable
-  URL: https://doi.org/10.2136/sssaj1971.03615995003500040048x
-    From: man/cate_nelson_1971.Rd
-    Status: 503
-    Message: Service Unavailable
-  URL: https://doi.org/10.2307/2529422
-    From: man/linear_plateau.Rd
-    Status: 403
-    Message: Forbidden
+  FRST (15:955)
+  SIIL (15:1055)
 
 Found the following (possibly) invalid DOIs:
   DOI: 10.2134/agronj1994.00021962008600010033x
@@ -73,69 +52,106 @@ Found the following (possibly) invalid DOIs:
 # 3. R-hub check, results from devtools::check_rhub()
 
 ## Test environments
-- R-hub windows-x86_64-devel (r-devel), build log: https://builder.r-hub.io/status/soiltestcorr_2.1.1.tar.gz-fc3530a292c1427790ca08c2a7463981
+- R-hub Windows Server 2022, R-devel, 64 bit, build log: https://builder.r-hub.io/status/soiltestcorr_2.1.2.tar.gz-57892e480c7243119e99688243d8c871
 
-- R-hub ubuntu-gcc-release (r-release), build log: https://builder.r-hub.io/status/soiltestcorr_2.1.1.tar.gz-50db37e4acf641f7992fd285701b4c97
+- R-hub Ubuntu Linux 20.04.1 LTS, R-release, GCC, build log: https://builder.r-hub.io/status/soiltestcorr_2.1.2.tar.gz-388ca33cd5c74d24b6b091254ba4e8d0
 
-- R-hub fedora-clang-devel (r-devel), build log:
-https://builder.r-hub.io/status/soiltestcorr_2.1.1.tar.gz-3f95bcee52374b9893332c657ef74808
+- R-hub Fedora Linux, R-devel, clang, gfortran, build log:
+https://builder.r-hub.io/status/soiltestcorr_2.1.2.tar.gz-590ef7eb85f3421191601dc6748175dc
+
+#################
+# SUMMARY
+#################
 
 ## R CMD check results
-> On windows-x86_64-devel (r-devel), ubuntu-gcc-release (r-release), fedora-clang-devel (r-devel)
-  checking CRAN incoming feasibility ... NOTE
-  Maintainer: 'Adrian A. Correndo <correndo@ksu.edu>'
-  
-  New submission
+> On Windows Server 2022, R-devel, 64 bit
+
+0 errors √ | 0 warnings √ | 2 notes x
   
   Possibly misspelled words in DESCRIPTION:
-    Cate (13:374, 13:406, 13:448, 13:480)
-    Correndo (13:310)
-    Melsted (13:779)
-    Mitscherlich (13:754)
-    al (13:322)
-    arcsine (13:279)
-    et (13:319)
-  
-  Found the following (possibly) invalid URLs:
-    URL: https://doi.org/10.2134/agronj1994.00021962008600010033x
-      From: man/quadratic_plateau.Rd
-      Status: 503
-      Message: Service Unavailable
-    URL: https://doi.org/10.2134/asaspecpub29.c1
-      From: man/mitscherlich.Rd
-      Status: 503
-      Message: Service Unavailable
-    URL: https://doi.org/10.2136/sssaj1971.03615995003500040048x
-      From: man/cate_nelson_1971.Rd
-      Status: 503
-      Message: Service Unavailable
-  
-  Found the following (possibly) invalid DOIs:
-    DOI: 10.2134/agronj1994.00021962008600010033x
-      From: DESCRIPTION
-      Status: Service Unavailable
-      Message: 503
-    DOI: 10.2134/asaspecpub29.c1
-      From: DESCRIPTION
-      Status: Service Unavailable
-      Message: 503
-    DOI: 10.2136/sssaj1971.03615995003500040048x
-      From: DESCRIPTION
-      Status: Service Unavailable
-      Message: 503
+  FRST (15:955)
+  SIIL (15:1055)
 
-> On windows-x86_64-devel (r-devel)
-  checking for detritus in the temp directory ... NOTE
+Found the following (possibly) invalid DOIs:
+  DOI: 10.2134/agronj1994.00021962008600010033x
+    From: DESCRIPTION
+    Status: Service Unavailable
+    Message: 503
+  DOI: 10.2134/asaspecpub29.c1
+    From: DESCRIPTION
+    Status: Service Unavailable
+    Message: 503
+  DOI: 10.2136/sssaj1971.03615995003500040048x
+    From: DESCRIPTION
+    Status: Service Unavailable
+    Message: 503
+    From: DESCRIPTION
+    Status: Forbidden
+  DOI: 10.2307/2529422
+    Message: 403
+
+checking for detritus in the temp directory ... NOTE
   Found the following files/directories:
     'lastMiKTeXException'
 
-0 errors √ | 0 warnings √ | 2 notes x
+###########################################################
+> On Ubuntu Linux 20.04.1 LTS, R-release, GCC
+
+0 errors √ | 0 warnings √ | 1 note x
+  
+  Possibly misspelled words in DESCRIPTION:
+  FRST (15:955)
+  SIIL (15:1055)
+
+Found the following (possibly) invalid DOIs:
+  DOI: 10.2134/agronj1994.00021962008600010033x
+    From: DESCRIPTION
+    Status: Service Unavailable
+    Message: 503
+  DOI: 10.2134/asaspecpub29.c1
+    From: DESCRIPTION
+    Status: Service Unavailable
+    Message: 503
+  DOI: 10.2136/sssaj1971.03615995003500040048x
+    From: DESCRIPTION
+    Status: Service Unavailable
+    Message: 503
+    From: DESCRIPTION
+    Status: Forbidden
+  DOI: 10.2307/2529422
+    Message: 403
+
+###########################################################
+> On Fedora Linux, R-devel, clang, gfortran
+  
+0 errors √ | 0 warnings √ | 1 note x
+
+  Possibly misspelled words in DESCRIPTION:
+  FRST (15:955)
+  SIIL (15:1055)
+
+Found the following (possibly) invalid DOIs:
+  DOI: 10.2134/agronj1994.00021962008600010033x
+    From: DESCRIPTION
+    Status: Service Unavailable
+    Message: 503
+  DOI: 10.2134/asaspecpub29.c1
+    From: DESCRIPTION
+    Status: Service Unavailable
+    Message: 503
+  DOI: 10.2136/sssaj1971.03615995003500040048x
+    From: DESCRIPTION
+    Status: Service Unavailable
+    Message: 503
+    From: DESCRIPTION
+    Status: Forbidden
+  DOI: 10.2307/2529422
+    Message: 403
 
 ###########################################################
 
 *Author comments to NOTES: 
 
-Mentioned words are not misspelled: Cate, Correndo, Melsted, and Mitscherlich are last names, arcsine is a trigonometry definition for the "inverse of sine function", and et al are just the latin of "and col" for citation purposes.
-All links marked as (possibly) invalid are actually working fine and using secured address.
-The 'lastMiKTeXException' note only appears on this check. 
+Mentioned words are not misspelled: FRST (Fertilizer Recommendation System Tool) and SIIL (Sustainable Intensification and Innovation Lab) stand for the name of two projects supporting related research. All the DOIs marked as possibly invalid work correctly. 
+The 'lastMiKTeXException' note only appears on the Windows check. 
 
