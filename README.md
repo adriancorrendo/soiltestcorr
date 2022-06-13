@@ -17,7 +17,7 @@ downloads](https://cranlogs.r-pkg.org/badges/last-month/soiltestcorr?color=blue)
 status](https://ci.appveyor.com/api/projects/status/github/adriancorrendo/soiltestcorr?branch=main&svg=true)](https://ci.appveyor.com/project/adriancorrendo/soiltestcorr)
 [![R-CMD-check](https://github.com/adriancorrendo/soiltestcorr/workflows/R-CMD-check/badge.svg)](https://github.com/adriancorrendo/soiltestcorr/actions)
 [![codecov](https://codecov.io/gh/adriancorrendo/soiltestcorr/branch/main/graph/badge.svg?token=OUH9NBPBXI)](https://app.codecov.io/gh/adriancorrendo/soiltestcorr)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6539519.svg)](https://doi.org/10.5281/zenodo.6539519)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6636721.svg)](https://doi.org/10.5281/zenodo.6636721)
 
 <!-- badges: end -->
 
@@ -74,8 +74,8 @@ The goal of `soiltestcorr` is to assist users on reproducible analysis
 of relationships between crop relative yield (ry) and soil test values
 (stv) following different approaches. <br/>
 
-The available methods of correlation analysis in `soiltestcorr` are:
-<br/>
+The current available methods of correlation analysis in `soiltestcorr`
+are: <br/>
 
 ## 1. Modified Arcsine-Log Calibration Curve <br/>
 

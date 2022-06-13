@@ -4,7 +4,7 @@
 
 General maintenance update.
 - Documentation updating authors' contributions, and mention main research projects supporting the development of the package (FRST and SIIL).
-- Fixing minor bugs on the CSTV estimation (and plot) when using the "target" argument within linear_plateau() and quadratic_plateau() functions. When "target" is activated for these functions, output is STVt (stv-target) instead of CSTV (which corresponds)
+- Fixing minor bugs on the CSTV estimation (and plot) when using the "target" argument within linear_plateau() and quadratic_plateau() functions. When "target" is activated for these functions, output is STVt (stv-target) instead of CSTV (which corresponds to the plateau level)
 - Minor typos on the vignettes.  
 
 ## Previous versions
