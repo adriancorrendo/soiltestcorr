@@ -221,7 +221,7 @@ utils::head(fit_multiple_group_map)
 
 ## 3. Bootstrapping <br/>
 
-A suitable alternative for obtaining confidence intervals for parameters of derived quantities is bootstrapping. <br/>
+A suitable alternative for obtaining confidence intervals for parameters or derived quantities is bootstrapping. <br/>
 
 Bootstrapping is a resampling technique (with replacement) that draws samples from the original data with the same size. If you have groups within your data, you can specify grouping variables as arguments in order to maintain, within each resample, the same proportion of observations than in the original dataset. <br/>
 

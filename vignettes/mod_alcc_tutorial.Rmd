@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 
 ## Description <br/>
 
-This tutorial is intended to show how to deploy the mod_alcc() function for estimating critical soil test values using the Modified Arcsine-Log Calibration Curve, originally introduced by Dyson & Conyers (2013) and modified by Correndo et al. (2017). This function produces the estimation of critical soil test values (CSTV) for a target relative yield (ry) with confidence intervals at adjustable confidence levels. Behind the scenes, the mod_alcc() is based on the standardized major axis (SMA), a bivariate regression model that assumes that both axis are random variables (Warton et al., 2006) <br/>
+This tutorial is intended to show how to deploy the mod_alcc() function for estimating critical soil test values using the Modified Arcsine-Log Calibration Curve, originally introduced by Dyson & Conyers (2013) and modified by Correndo et al. (2017). This function produces the estimation of critical soil test values (CSTV) for a target relative yield (ry) with confidence intervals at adjustable confidence levels. Behind the scenes, the mod_alcc() is based on the standardized major axis (SMA), a bivariate regression model that assumes that both axis are random variables (Warton et al., 2006). <br/>
 
 ## General Instructions <br/>
 
@@ -235,7 +235,7 @@ utils::head(fit_multiple_group_map)
 
 ## 3. Bootstrapping <br/>
 
-A suitable alternative for obtaining confidence intervals for parameters of derived quantities is bootstrapping. <br/>
+A suitable alternative for obtaining confidence intervals for parameters or derived quantities is bootstrapping. <br/>
 
 Bootstrapping is a resampling technique (with replacement) that draws samples from the original data with the same size. If you have groups within your data, you can specify grouping variables as arguments in order to maintain, within each resample, the same proportion of observations than in the original dataset. <br/>
 

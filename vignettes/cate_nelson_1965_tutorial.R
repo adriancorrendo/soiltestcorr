@@ -1,55 +1,15 @@
----
-title: "Cate and Nelson (1965)"
-author: Adrian Correndo 
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Cate and Nelson (1965)}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
----
-
-```{r, include = FALSE}
+## ---- include = FALSE---------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.width=6, 
   fig.height=4
 )
-```
 
-<img src="../man/figures/soiltestcorr_logo.png" align="right" height="200" style="float:right; height:200px;">
-
-## Description <br/>
-
-The `soiltestcorr`-package also allows users to implement the quadrants analysis approach, also known as the Cate-Nelson analysis. This tutorial is intended to show how to deploy the `cate_nelson_1965()` function for estimating critical soil test values based on Cate and Nelson (1965). This approach is also known as the "graphical" version of the Cate-Nelson analysis. This method applies an arbitrary fixed value of ry as a target (y-axis) that divides the data into two categories (below & equal or above ry target). In a second stage, it estimates the CSTV (x-axis) as the minimum stv that divides the data into four quadrants (target ry level combined with STV lower or greater than the CSTV) maximizing the number of points under well-classified quadrants (II, stv >= CSTV & ry >= ry target; and IV, stv < CSTV & ry < RY target).  <br/>
-
-## General Instructions <br/>
-
-  i. Load your dataframe with soil test value (stv) and relative yield (ry) data. <br/>
-
-  ii. Specify the following arguments into the function -cate_nelson_1965()-: <br/>
-
-  (a). `data` (optional), <br/>
-
-  (b). `stv` (soil test value) and `ry` (relative yield)  columns or vectors, <br/>
-  
-  (c). `plot` TRUE (produces a ggplot as main output) or FALSE (DEFAULT, only produces a list or data.frame), <br/>
-
-  (d). `tidy` TRUE (produces a data.frame with results) or FALSE (store results as list), <br/>
-
-  
-  iii. Run and check results. <br/>
-
-  iv. Adjust plot as desired. <br/>
-
-# Tutorial
-
-```{r setup}
+## ----setup--------------------------------------------------------------------
 library(soiltestcorr)
-```
 
-Suggested packages
-```{r warning=FALSE, message=FALSE}
+## ----warning=FALSE, message=FALSE---------------------------------------------
 # Install if needed 
 library(ggplot2) # Plots
 library(dplyr) # Data wrangling
@@ -58,12 +18,8 @@ library(utils) # Data wrangling
 library(data.table) # Mapping
 library(purrr) # Mapping
 
-```
 
-This is a basic example using three different datasets: <br/>
-
-## Load datasets
-```{r}
+## -----------------------------------------------------------------------------
 
 # Example 1 dataset
 # Fake dataset manually created
@@ -79,19 +35,8 @@ data_2 <- soiltestcorr::data_test
 data_3 <- soiltestcorr::freitas1966
 
 
-```
 
-
-# Fit cate_nelson_1965()
-
-## 1. Individual fits <br/>
-
-RY target = 90%, replace with your desired value <br/>
-
-### 1.1. `tidy` = FALSE <br/>
-
-It returns a LIST (more efficient for multiple fits at once) <br/>
-```{r warning=TRUE, message=TRUE}
+## ----warning=TRUE, message=TRUE-----------------------------------------------
 
 # Using dataframe argument, tidy = FALSE -> return a LIST
 fit_1_tidy_false <- 
@@ -104,12 +49,8 @@ fit_1_tidy_false <-
 
 utils::head(fit_1_tidy_false)
 
-```
 
-### 1.2. `tidy` = TRUE <br/>
-
-It returns a data.frame (more organized results) <br/>
-```{r warning=TRUE, message=TRUE}
+## ----warning=TRUE, message=TRUE-----------------------------------------------
 
 # Using dataframe argument, tidy = FALSE -> return a LIST
 fit_1_tidy_false <- 
@@ -121,14 +62,8 @@ fit_1_tidy_false <-
 
 utils::head(fit_1_tidy_false)
 
-```
 
-### 1.3. Alternative using the vectors <br/>
-
-You can call `stv` and `ry` vectors using the `$`. <br/>
-
-The `tidy` argument still applies for controlling the output type
-```{r warning=TRUE, message=TRUE}
+## ----warning=TRUE, message=TRUE-----------------------------------------------
 
 fit_1_vectors_list <-
   soiltestcorr::cate_nelson_1965(ry = data_1$RY,
@@ -142,11 +77,8 @@ fit_1_vectors_tidy <-
                                  target=90,
                                  tidy = TRUE)
 
-```
 
-### 1.4. Data 2. Test dataset <br/>
-
-```{r warning=TRUE, message=TRUE}
+## ----warning=TRUE, message=TRUE-----------------------------------------------
 fit_2 <-
   soiltestcorr::cate_nelson_1965(data = data_2,
                                  ry = RY,
@@ -155,11 +87,8 @@ fit_2 <-
                                  tidy = TRUE)
 
 utils::head(fit_2)
-```
 
-### 1.5. Data 3. Freitas et al. 1966 <br/>
-
-```{r warning=TRUE, message=TRUE}
+## ----warning=TRUE, message=TRUE-----------------------------------------------
 
 fit_3 <-
   soiltestcorr::cate_nelson_1965(data = data_3,
@@ -170,25 +99,15 @@ fit_3 <-
 
 utils::head(fit_3)
 
-```
 
-## 2. Multiple fits at once <br/>
-
-### 2.1. Using map
-
-#### Create nested data <br/>
-
-<i> Note: the `stv` column needs to have the same name for all datasets <i/> <br/>
-```{r warning=T, message=F}
+## ----warning=T, message=F-----------------------------------------------------
 # 
 data.all <- dplyr::bind_rows(data_1, data_2,
                       data_3 %>% dplyr::rename(STV = STK),
                      .id = "id") %>% 
   tidyr::nest(data = c("STV", "RY"))
-```
 
-#### Fit
-```{r warning=T, message=F}
+## ----warning=T, message=F-----------------------------------------------------
 
 # Run multiple examples at once with map()
 fit_multiple_map = data.all %>%
@@ -199,16 +118,8 @@ fit_multiple_map = data.all %>%
 
 utils::head(fit_multiple_map)
 
-```
 
-### 2.2. Using group_map <br/>
-
-Alternatively, with group_map, we do not require nested data. <br/>
-
-However, it requires to dplyr::bind_rows and add an `id` column specifying the name of each dataset. <br/>
-
-This option return models as lists objects.
-```{r warning=T, message=F}
+## ----warning=T, message=F-----------------------------------------------------
 
 fit_multiple_group_map <- 
   data.all %>% tidyr::unnest(data) %>% 
@@ -222,17 +133,8 @@ fit_multiple_group_map <-
 
 utils::head(fit_multiple_group_map)
 
-```
 
-## 3. Bootstrapping <br/>
-
-A suitable alternative for obtaining confidence intervals for parameters or derived quantities is bootstrapping. <br/>
-
-Bootstrapping is a resampling technique (with replacement) that draws samples from the original data with the same size. If you have groups within your data, you can specify grouping variables as arguments in order to maintain, within each resample, the same proportion of observations than in the original dataset. <br/>
-
-This function returns a table with as many rows as the resampling size (n) containing the results for each resample.
-
-```{r}
+## -----------------------------------------------------------------------------
 boot_cn65 <- boot_cn_1965(data = data_1,
                           ry = RY, stv = STV, target = 90,
                           n = 99)
@@ -246,17 +148,8 @@ quantile(boot_cn65$CSTV, probs = c(0.025, 0.5, 0.975))
 boot_cn65 %>% 
   ggplot2::ggplot(aes(x = CSTV))+
   geom_histogram(color = "grey25", fill = "#9de0bf", bins = 10)
-```
 
-## 4. Plots
-
-### 4.1. Calibration Curve 
-
-We can generate a ggplot with the same mod_alcc() function. <br/>
-
-We just need to specify the argument `plot = TRUE`. <br/>
-
-```{r warning=F, message=F}
+## ----warning=F, message=F-----------------------------------------------------
 
 soiltestcorr::cate_nelson_1965(data = data_1, 
                        ry = RY, 
@@ -275,8 +168,4 @@ soiltestcorr::cate_nelson_1965(data = data_3,
                        stv = STK, 
                        target=90, 
                        plot = TRUE)
-```
 
-<b> References </b> <br/>
-
-*Cate, R.B. Jr., and Nelson, L.A., 1965. A rapid method for correlation of soil test analysis with plant response data. North Carolina Agric. Exp. Stn., International soil Testing Series Bull. No. 1. * <br/>

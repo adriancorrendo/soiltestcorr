@@ -65,3 +65,11 @@ library(purrr) # Mapping
 
 ### 2.6. [Mitscherlich](https://adriancorrendo.github.io/soiltestcorr/articles/mitscherlich_tutorial.html) <br/>
 
+
+## 3. Publication in `SoftwareX Journal`: <br/>
+
+[https://doi.org/10.1016/j.softx.2022.101275](https://doi.org/10.1016/j.softx.2022.101275) <br/>
+
+## 4. Shinyapp: <br/>
+
+[https://ciampittilab.shinyapps.io/soiltestcorr/](https://ciampittilab.shinyapps.io/soiltestcorr/) <br/>

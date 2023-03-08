@@ -1,0 +1,39 @@
+---
+title: "SoftwareX publication"
+author: Adrian Correndo 
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{SoftwareX_publication}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width=6, 
+  fig.height=4
+)
+```
+
+<img src="../man/figures/soiltestcorr_logo.png" align="right" height="200" style="float:right; height:200px;"/>
+
+## Citation
+
+Correndo, A. A., Pearce, A., Bolster, C. H., Spargo, J. T., Osmond, D., & Ciampitti, I. A. (2023). The soiltestcorr R package: An accessible framework for reproducible correlation analysis of crop yield and soil test data. SoftwareX, 21, 101275.
+
+## Highlights
+
+- soiltestcorr stemmed from the Fertilizer Recommendation Support Tool (FRST) project.  <br/> 
+- soiltestcorr is an accessible R package assembling key soil test correlation models.  <br/> 
+- soiltestcorr facilitates the fitting of multiple models without the need of advanced programming skills.  <br/> 
+- soiltestcorr aligns with the grammar, pipeline, and data visualization practices of the popular tidyverse.  <br/> 
+- A web application based on shiny is also offered for users with no programming skills. <br/> 
+
+## Abstract
+
+The soiltestcorr R package is an open-source software designed to enable accessible and reproducible computation of correlation analyses between crop yield response to fertilization and soil test values. The package compiles a series of functions for analyzing soil test correlation data: (i) Cate & Nelson data partitioning procedure (graphical and statistical versions), (ii) nonlinear regression analysis (linear-plateau, quadratic-plateau, and Mitscherlich-type exponential models), and (iii) the modified arcsine-log calibration curve. The soiltestcorr enables users to correlate crop response to soil nutrient availability and estimate a critical soil test value and visualize results with ggplot without requiring advanced R programming skills. Finally, a web application that facilitates the use of the package is also offered for users with no background in R programming. <br/>
+
+Full publication is open-access here [https://doi.org/10.1016/j.softx.2022.101275](https://doi.org/10.1016/j.softx.2022.101275)
+
