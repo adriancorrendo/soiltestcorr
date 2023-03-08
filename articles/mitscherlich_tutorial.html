@@ -42,12 +42,14 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/Introduction_to_soiltestcorr.html">Introduction</a>
+    <a class="dropdown-item" href="../articles/SoftwareX_publication.html">SoftwareX publication</a>
     <a class="dropdown-item" href="../articles/cate_nelson_1965_tutorial.html">Cate and Nelson (1965)</a>
     <a class="dropdown-item" href="../articles/cate_nelson_1971_tutorial.html">Cate and Nelson (1971)</a>
     <a class="dropdown-item" href="../articles/linear_plateau_tutorial.html">Linear-plateau response</a>
     <a class="dropdown-item" href="../articles/mitscherlich_tutorial.html">Mitscherlich-type response</a>
     <a class="dropdown-item" href="../articles/mod_alcc_tutorial.html">Modified ALCC</a>
     <a class="dropdown-item" href="../articles/quadratic_plateau_tutorial.html">Quadratic-plateau response</a>
+    <a class="dropdown-item" href="../articles/soiltestcorr_shinyapp.html">soiltestcorr shinyapp</a>
   </div>
 </li>
 <li class="nav-item">
@@ -513,7 +515,7 @@ column specifying the name of each dataset. <br></p>
 <h3 id="bootstrapping">3. Bootstrapping <br><a class="anchor" aria-label="anchor" href="#bootstrapping"></a>
 </h3>
 <p>A suitable alternative for obtaining confidence intervals for
-parameters of derived quantities is bootstrapping. <br></p>
+parameters or derived quantities is bootstrapping. <br></p>
 <p>Bootstrapping is a resampling technique (with replacement) that draws
 samples from the original data with the same size. If you have groups
 within your data, you can specify grouping variables as arguments in
@@ -531,22 +533,22 @@ size (n) containing the results for each resample.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   boot_id [200]</span></span></span>
 <span><span class="co">#&gt;    boot_id     a     b     c equation      target  CSTV   AIC  AICc    R2 pvalue</span></span>
 <span><span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>       1  99.0  2.09  0.36 99(1-e^(-0.3…     90   4.6    62    66  0.98      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>       2 101.   5.11  0.22 100.8(1-e^(-…     90   4.9    55    59  0.95      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>       3  99.0  1.89  0.38 99(1-e^(-0.3…     90   4.5    63    67  0.97      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>       4  99.1  2.16  0.35 99.1(1-e^(-0…     90   4.6    56    60  0.98      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>       5  99.9  3.86  0.27 99.9(1-e^(-0…     90   4.6    25    29  0.99      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>       6 101.   4.58  0.25 100.5(1-e^(-…     90   4.6    49    53  0.97      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>       7  99.0  2.23  0.33 99(1-e^(-0.3…     90   5      58    62  0.99      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>       8  99.8  4.35  0.26 99.8(1-e^(-0…     90   4.7    46    50  0.98      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>       9 100.   5.16  0.23 100.4(1-e^(-…     90   4.7    53    57  0.96      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>      10 101.   4.74  0.23 101.4(1-e^(-…     90   4.7    24    28  0.99      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>       1  98.7  1.84  0.4  98.7(1-e^(-0…     90   4.3    63    67  0.97      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>       2  99.2  2.13  0.36 99.2(1-e^(-0…     90   4.5    58    62  0.98      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>       3  98.5  2.25  0.35 98.5(1-e^(-0…     90   4.7    62    66  0.97      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>       4  99.5  2.17  0.34 99.5(1-e^(-0…     90   4.8    43    47  1         0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>       5 102.   6.85  0.18 101.9(1-e^(-…     90   5.3    48    52  0.98      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>       6  98.0  1.74  0.4  98(1-e^(-0.3…     90   4.5    61    65  0.99      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>       7  97.5  1.8   0.41 97.5(1-e^(-0…     90   4.4    67    71  0.96      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>       8  98.4  1.78  0.4  98.4(1-e^(-0…     90   4.3    65    69  0.98      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>       9  96.4  1.02  0.56 96.3(1-e^(-0…     90   3.8    59    63  0.99      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>      10  98.7  1.87  0.4  98.7(1-e^(-0…     90   4.2    64    68  0.98      0</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 190 more rows</span></span></span>
 <span></span>
 <span><span class="co"># CSTV Confidence Interval</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">boot_mits</span><span class="op">$</span><span class="va">CSTV</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   2.5%    50%  97.5% </span></span>
-<span><span class="co">#&gt; 3.9975 4.6000 5.1000</span></span>
+<span><span class="co">#&gt; 3.8000 4.6000 5.1025</span></span>
 <span></span>
 <span><span class="co"># Plot</span></span>
 <span><span class="va">boot_mits</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
