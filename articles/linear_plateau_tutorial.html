@@ -42,6 +42,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/Introduction_to_soiltestcorr.html">Introduction</a>
+    <a class="dropdown-item" href="../articles/Shinyapp.html">Shinyapp</a>
     <a class="dropdown-item" href="../articles/SoftwareX_publication.html">SoftwareX publication</a>
     <a class="dropdown-item" href="../articles/cate_nelson_1965_tutorial.html">Cate and Nelson (1965)</a>
     <a class="dropdown-item" href="../articles/cate_nelson_1971_tutorial.html">Cate and Nelson (1971)</a>
@@ -49,7 +50,6 @@
     <a class="dropdown-item" href="../articles/mitscherlich_tutorial.html">Mitscherlich-type response</a>
     <a class="dropdown-item" href="../articles/mod_alcc_tutorial.html">Modified ALCC</a>
     <a class="dropdown-item" href="../articles/quadratic_plateau_tutorial.html">Quadratic-plateau response</a>
-    <a class="dropdown-item" href="../articles/soiltestcorr_shinyapp.html">soiltestcorr shinyapp</a>
   </div>
 </li>
 <li class="nav-item">
@@ -417,23 +417,23 @@ size (n) containing the results for each resample.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   boot_id [200]</span></span></span>
 <span><span class="co">#&gt;    boot_id intercept slope equation plateau target  CSTV LL_cstv UL_cstv CI_type</span></span>
 <span><span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>       1      73.2  3.44 73.2 + …    98.2     90   7.3     6.3     8.2 Wald C…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>       2      74.7  3.12 74.7 + …    99.2     90   7.9     7       8.7 Wald C…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>       3      61.1  6.43 61.1 + …    98       90   5.7     4.8     6.6 Wald C…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>       4      65.8  4.17 65.8 + …    98       90   7.7     6.4     9.1 Wald C…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>       5      75.6  2.66 75.6 + …    97.6     90   8.2     7.1     9.4 Wald C…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>       6      65.0  4.52 65.1 + …    98.4     90   7.4     6.2     8.6 Wald C…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>       7      66.0  5.11 66 + 5.…    96       90   5.9     4.7     7   Wald C…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>       8      62.0  6.52 62 + 6.…    97.7     90   5.5     4.3     6.6 Wald C…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>       9      75.0  2.64 75 + 2.…    98.6     90   8.9     8       9.9 Wald C…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>      10      64.8  5.27 64.8 + …    98.3     90   6.4     5.4     7.3 Wald C…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>       1      65.5  5.37 65.5 + …    99.2     90   6.3     5       7.6 Wald C…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>       2      80.4  1.9  80.4 + …    99.4     90  10       9.3    10.7 Wald C…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>       3      61.4  5.87 61.4 + …    97.1     90   6.1     5.4     6.8 Wald C…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>       4      58.3  8.16 58.3 + …    96.4     90   4.7     4.1     5.2 Wald C…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>       5      63.4  4.93 63.4 + …    98.6     90   7.1     6.2     8   Wald C…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>       6      54.8 10.7  54.8 + …    98.4     90   4.1     3.5     4.7 Wald C…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>       7      62.4  6.3  62.5 + …    98.4     90   5.7     4.7     6.7 Wald C…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>       8      63.3  5.91 63.3 + …    97.9     90   5.9     4.9     6.8 Wald C…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>       9      59.7  6.09 59.7 + …    97.7     90   6.2     5.6     6.9 Wald C…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>      10      67.0  4.23 67 + 4.…    98.5     90   7.4     6.3     8.6 Wald C…</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 190 more rows, and 5 more variables: STVt &lt;dbl&gt;, AIC &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   AICc &lt;dbl&gt;, R2 &lt;dbl&gt;, pvalue &lt;dbl&gt;</span></span></span>
 <span></span>
 <span><span class="co"># CSTV Confidence Interval</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">boot_lp</span><span class="op">$</span><span class="va">CSTV</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   2.5%    50%  97.5% </span></span>
-<span><span class="co">#&gt; 4.5975 6.7000 9.9000</span></span>
+<span><span class="co">#&gt;  2.5%   50% 97.5% </span></span>
+<span><span class="co">#&gt;   4.7   7.0   9.8</span></span>
 <span></span>
 <span><span class="co"># Plot</span></span>
 <span><span class="va">boot_lp</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>

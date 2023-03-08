@@ -42,6 +42,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/Introduction_to_soiltestcorr.html">Introduction</a>
+    <a class="dropdown-item" href="../articles/Shinyapp.html">Shinyapp</a>
     <a class="dropdown-item" href="../articles/SoftwareX_publication.html">SoftwareX publication</a>
     <a class="dropdown-item" href="../articles/cate_nelson_1965_tutorial.html">Cate and Nelson (1965)</a>
     <a class="dropdown-item" href="../articles/cate_nelson_1971_tutorial.html">Cate and Nelson (1971)</a>
@@ -49,7 +50,6 @@
     <a class="dropdown-item" href="../articles/mitscherlich_tutorial.html">Mitscherlich-type response</a>
     <a class="dropdown-item" href="../articles/mod_alcc_tutorial.html">Modified ALCC</a>
     <a class="dropdown-item" href="../articles/quadratic_plateau_tutorial.html">Quadratic-plateau response</a>
-    <a class="dropdown-item" href="../articles/soiltestcorr_shinyapp.html">soiltestcorr shinyapp</a>
   </div>
 </li>
 <li class="nav-item">
@@ -533,22 +533,22 @@ size (n) containing the results for each resample.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   boot_id [200]</span></span></span>
 <span><span class="co">#&gt;    boot_id     a     b     c equation      target  CSTV   AIC  AICc    R2 pvalue</span></span>
 <span><span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>       1 101.   5.14  0.22 100.7(1-e^(-…     90   5      42    46  0.99      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>       2  99.3  2.11  0.34 99.3(1-e^(-0…     90   4.8    43    47  0.99      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>       3  99.0  1.81  0.39 99(1-e^(-0.3…     90   4.4    57    61  0.98      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>       4  99.4  2.44  0.31 99.4(1-e^(-0…     90   5.2    58    62  0.99      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>       5 102.   6.09  0.2  101.6(1-e^(-…     90   4.9    47    51  0.96      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>       6  97.6  1.76  0.42 97.5(1-e^(-0…     90   4.3    69    73  0.97      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>       7 101.   7.22  0.18 101(1-e^(-0.…     90   5.2    45    49  0.98      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>       8 102.   5.73  0.2  101.6(1-e^(-…     90   5      32    36  0.99      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>       9 101.   4.91  0.23 100.6(1-e^(-…     90   4.8    35    39  0.99      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>      10 101.   5     0.23 101.1(1-e^(-…     90   4.7    47    51  0.98      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>       1  97.0  1.25  0.51 97(1-e^(-0.5…     90   3.9    61    65  0.98      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>       2  99.4  2.26  0.33 99.4(1-e^(-0…     90   4.8    58    62  0.98      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>       3  99.2  2.3   0.34 99.2(1-e^(-0…     90   4.6    61    65  0.98      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>       4  97.8  1.53  0.45 97.8(1-e^(-0…     90   4.1    71    75  0.97      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>       5 100.   4.68  0.24 100.5(1-e^(-…     90   4.8    34    38  0.99      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>       6  99.2  2.77  0.32 99.2(1-e^(-0…     90   4.7    69    73  0.96      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>       7  99.3  2.33  0.34 99.3(1-e^(-0…     90   4.6    64    68  0.97      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>       8  97.1  0.92  0.59 97.1(1-e^(-0…     90   3.5    63    67  0.98      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>       9  97.8  1.48  0.45 97.8(1-e^(-0…     90   4.1    60    64  0.99      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>      10  99.9  4.53  0.25 99.9(1-e^(-0…     90   4.8    56    60  0.94      0</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 190 more rows</span></span></span>
 <span></span>
 <span><span class="co"># CSTV Confidence Interval</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">boot_mits</span><span class="op">$</span><span class="va">CSTV</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   2.5%    50%  97.5% </span></span>
-<span><span class="co">#&gt; 3.9000 4.6000 5.2025</span></span>
+<span><span class="co">#&gt;  2.5%   50% 97.5% </span></span>
+<span><span class="co">#&gt;   3.9   4.6   5.0</span></span>
 <span></span>
 <span><span class="co"># Plot</span></span>
 <span><span class="va">boot_mits</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>

@@ -42,6 +42,7 @@
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/Introduction_to_soiltestcorr.html">Introduction</a>
+    <a class="dropdown-item" href="../articles/Shinyapp.html">Shinyapp</a>
     <a class="dropdown-item" href="../articles/SoftwareX_publication.html">SoftwareX publication</a>
     <a class="dropdown-item" href="../articles/cate_nelson_1965_tutorial.html">Cate and Nelson (1965)</a>
     <a class="dropdown-item" href="../articles/cate_nelson_1971_tutorial.html">Cate and Nelson (1971)</a>
@@ -49,7 +50,6 @@
     <a class="dropdown-item" href="../articles/mitscherlich_tutorial.html">Mitscherlich-type response</a>
     <a class="dropdown-item" href="../articles/mod_alcc_tutorial.html">Modified ALCC</a>
     <a class="dropdown-item" href="../articles/quadratic_plateau_tutorial.html">Quadratic-plateau response</a>
-    <a class="dropdown-item" href="../articles/soiltestcorr_shinyapp.html">soiltestcorr shinyapp</a>
   </div>
 </li>
 <li class="nav-item">
@@ -424,24 +424,24 @@ size (n) containing the results for each resample.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   boot_id [98]</span></span></span>
 <span><span class="co">#&gt;    boot_id     n  CRYV  CSTV quadrants…¹ quadr…² quadr…³ quadr…⁴ quadr…⁵ quadr…⁶</span></span>
 <span><span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>       1    15    90   5             0       8       0       7      15       0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>       1    15    90   4             0      13       0       2      15       0</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>       2    15    90   4.5           0      11       0       4      15       0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>       3    15    90   4.5           0       9       0       6      15       0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>       4    15    90   5.5           0       9       0       6      15       0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>       5    15    90   5.5           0      11       0       4      15       0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>       6    15    90   4.5           0      12       0       3      15       0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>       7    15    90   3.5           0      12       0       3      15       0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>       8    15    90   5             0       9       0       6      15       0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>       9    15    90   4             0      10       0       5      15       0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>      10    15    90   4.5           0       9       0       6      15       0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>       3    15    90   6             0      10       0       5      15       0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>       4    15    90   4.5           0      11       0       4      15       0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>       5    15    90   5             0      12       0       3      15       0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>       6    15    90   5.5           0       9       0       6      15       0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>       7    15    90   5.5           0       8       0       7      15       0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>       8    15    90   5.5           0      11       0       4      15       0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>       9    15    90   3             0      14       0       1      15       0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>      10    15    90   4.5           0      11       0       4      15       0</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 88 more rows, 1 more variable: R2 &lt;dbl&gt;, and abbreviated variable</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   names ¹​quadrants.q.I, ²​quadrants.q.II, ³​quadrants.q.III, ⁴​quadrants.q.IV,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   ⁵​quadrants.positive, ⁶​quadrants.negative</span></span></span>
 <span></span>
 <span><span class="co"># CSTV Confidence Interval</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">boot_cn65</span><span class="op">$</span><span class="va">CSTV</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   2.5%    50%  97.5% </span></span>
-<span><span class="co">#&gt; 3.5000 4.5000 6.7875</span></span>
+<span><span class="co">#&gt;  2.5%   50% 97.5% </span></span>
+<span><span class="co">#&gt; 3.500 4.500 6.575</span></span>
 <span></span>
 <span><span class="co"># Plot</span></span>
 <span><span class="va">boot_cn65</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
