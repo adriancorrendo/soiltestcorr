@@ -97,3 +97,18 @@ test_that("no error in fitting cate_nelson_1965() for the example dataset", {
   expect_false(inherits(cate_nelson_1965.test, "try-error"))
   
 })
+
+# 7
+## boot_cate_nelson_1965
+context("run boot_cate_nelson_1965() with packaged dataset freitas1966")
+
+boot_cn_1965.test <- try(boot_cn_1965(
+                                  data = freitas1966, stv = STK, ry = RY, target = 90,
+                                  n=2),
+                             silent = TRUE)
+
+test_that("no error in fitting boot_cn_1965() for the example dataset", {
+  
+  expect_false(inherits(boot_cn_1965.test, "try-error"))
+  
+})

@@ -241,3 +241,16 @@ test_that("no error in fitting mitscherlich() for the example dataset", {
   expect_false(inherits(mitscherlich.test, "try-error"))
   
 })
+
+# 12
+## boot_mitscherlich
+## context("run boot_mitscherlich() with packaged dataset freitas1966")
+boot_mitscherlich.test <- try(boot_mitscherlich(
+  data = freitas1966, stv = STK, ry = RY, n = 2, type = 1, target = 90),
+  silent = TRUE)
+
+test_that("no error in fitting boot_mitscherlich() for the example dataset", {
+  
+  expect_false(inherits(boot_mitscherlich.test, "try-error"))
+  
+})

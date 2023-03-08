@@ -171,3 +171,16 @@ test_that("no error in fitting quadratic_plateau() for the example dataset", {
   expect_false(inherits(quadratic_plateau.test, "try-error"))
   
 })
+
+# 11
+## boot_quadratic_plateau
+## context("run boot_quadratic_plateau() with packaged dataset freitas1966")
+boot_quadratic_plateau.test <- try(boot_quadratic_plateau(
+                                    data = freitas1966, stv = STK, ry = RY, n = 2),
+                                silent = TRUE)
+
+test_that("no error in fitting boot_quadratic_plateau() for the example dataset", {
+  
+  expect_false(inherits(boot_quadratic_plateau.test, "try-error"))
+  
+})

@@ -187,3 +187,15 @@ test_that("no error in fitting mod_alcc() for the example dataset", {
   expect_false(inherits(mod_alcc.test, "try-error"))
   
 })
+
+## 9 boot_mod_alcc
+
+boot_mod_alcc.test <- try(boot_mod_alcc(data = freitas1966, 
+                                        ry = RY, stv = STK, target=90, n = 2),
+                     silent = TRUE)
+
+test_that("no error in fitting boot_mod_alcc() for the example dataset", {
+  
+  expect_false(inherits(boot_mod_alcc.test, "try-error"))
+  
+})
