@@ -1,0 +1,29 @@
+---
+title: "Shinyapp"
+author: Adrian Correndo 
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Shinyapp}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width=6, 
+  fig.height=4
+)
+```
+
+<img src="../man/figures/soiltestcorr_logo.png" align="right" height="150" style="float:right; height:150px;"/>
+
+## Description
+
+Users without any experience in R programming are highly encouraged to use the soiltestcorr web application designed with R shiny. The purpose of this tool is to serve as a simple demonstration of the package that facilitates its implementation. Users can either select an example dataset or load their own dataset (csv, xls, or xlsx) and choose among the available correlation methods to fit. <br>/
+
+The app is organized into five tabs: (i) Main: displaying the options to select plus the data visualization output, (ii) Data: presenting a table with the loaded data, (iii) Results: rendering a summary table with results of the selected model, (iv) Code: offering the computing code needed to run the analysis in R; and (v) About: presenting details about the app and the `soiltestcorr` package.
+
+The Shinyapp is available open-access here [https://ciampittilab.shinyapps.io/soiltestcorr/](https://ciampittilab.shinyapps.io/soiltestcorr/)
+
