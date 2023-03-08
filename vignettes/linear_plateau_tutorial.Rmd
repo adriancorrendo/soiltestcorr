@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 
 This tutorial demonstrates the `linear_plateau()` function for fitting a continuous response model and estimating a critical soil test value (CSTV). This function fits a segmented regression model that follows two phases: i) a linear phase described as `y = a + b * x`, followed by ii) a plateau phase (Anderson and Nelson, 1975) were the `ry` response to increasing `stv` becomes NULL (flat), described as `plateau = y = a + b * Xc`, where `y` represents the fitted crop relative yield, `x` the soil test value, `a` the intercept (ry when stv = 0) , `b` the slope (as the change in RY per unit of soil nutrient supply), and `X_c` the break point when the plateau phase starts (i.e. the CSTV). <br/>
 
-The parameters of this regression model have a simple interpretation. Some disadvantages are that: i) the user does not have control to estimate the CSTV (the model `Xc` parameter) for an specific `ry` level; and ii) the default confidence interval estimation of the `CSTV` is generally unreliable (based on symmetric Wald's intervals). We recommend the user to use a resampling technique (e.g. bootstrapping) for a more reliable confidence interval estimation for parameters and CSTV (for examples on bootstrapping, see [nlraa package vignette](https://CRAN.R-project.org/package=nlraa). The `linear_plateau()` function works automatically with self-starting initial values to facilitate the model's convergence. <br/>
+The parameters of this regression model have a simple interpretation. Some disadvantages are that: i) the user does not have control to estimate the CSTV (the model `Xc` parameter) for an specific `ry` level; and ii) the default confidence interval estimation of the `CSTV` is generally unreliable (based on symmetric Wald's intervals). We recommend the user to apply the `boot_quadratic_plateau()` function for a  reliable confidence interval estimation of parameters and CSTV via bootstrapping (resampling with replacement). The `linear_plateau()` function works automatically with self-starting initial values to facilitate the model's convergence. <br/>
 
 ## General Instructions <br/>
 
@@ -198,7 +198,7 @@ utils::head(fit_multiple_map)
 
 ```
 
-### 2.1. Using group_map <br/>
+### 2.2. Using group_map <br/>
 
 Alternatively, with group_map, we do not require nested data. <br/>
 
@@ -219,9 +219,33 @@ utils::head(fit_multiple_group_map)
 
 ```
 
-## 3. Plots
+## 3. Bootstrapping <br/>
 
-### 3.1. Calibration Curve 
+A suitable alternative for obtaining confidence intervals for parameters of derived quantities is bootstrapping. <br/>
+
+Bootstrapping is a resampling technique (with replacement) that draws samples from the original data with the same size. If you have groups within your data, you can specify grouping variables as arguments in order to maintain, within each resample, the same proportion of observations than in the original dataset. <br/>
+
+This function returns a table with as many rows as the resampling size (n) containing the results for each resample.
+
+```{r}
+boot_lp <- boot_linear_plateau(data = data_1, 
+                    ry = RY, target = 90,
+                    stv = STV, n = 200)
+
+boot_lp %>% dplyr::slice_head(., n=5)
+
+# CSTV Confidence Interval
+quantile(boot_lp$CSTV, probs = c(0.025, 0.5, 0.975))
+
+# Plot
+boot_lp %>% 
+  ggplot2::ggplot(aes(x = CSTV))+
+  geom_histogram(color = "grey25", fill = "#9de0bf", bins = 10)
+```
+
+## 4. Plots
+
+### 4.1. Correlation Curve 
 
 We can generate a ggplot with the same linear_plateau() function. <br/>
 
@@ -237,7 +261,7 @@ linear_plateau_plot <-
 
 linear_plateau_plot
 ```
-### 3.1.2 Fine-tune the plots <br/>
+### 4.2. Fine-tune the plots <br/>
 
 As ggplot object, plots can be adjusted in several ways. <br/>
 
@@ -271,7 +295,7 @@ linear_plateau_plot_3
 ```
 
 
-### 3.3. Residuals <br/>
+### 4.3. Residuals <br/>
 
 We can generate a plot with the same linear_plateau() function. <br/>
 

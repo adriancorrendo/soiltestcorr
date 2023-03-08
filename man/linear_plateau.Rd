@@ -4,6 +4,7 @@
 \alias{linear_plateau}
 \alias{LP_f}
 \alias{SS_LP}
+\alias{boot_linear_plateau}
 \title{Linear-plateau response function}
 \usage{
 LP_f(x, intercept, slope, cx)
@@ -19,6 +20,8 @@ linear_plateau(
   plot = FALSE,
   resid = FALSE
 )
+
+boot_linear_plateau(data, ry, stv, n = 500, target = NULL, ...)
 }
 \arguments{
 \item{x}{selfstart vector for independent variable, Default: NULL}
@@ -44,6 +47,10 @@ The target needs to be < plateau, otherwise, target = plateau.}
 \item{plot}{logical operator (TRUE/FALSE) to plot the linear-plateau model, Default: FALSE}
 
 \item{resid}{logical operator (TRUE/FALSE) to plot residuals analysis, Default: FALSE}
+
+\item{n}{sample size for the bootstrapping Default: 500}
+
+\item{...}{when running bootstrapped samples, open arguments serve to add grouping Variables (factor or character) Default: NULL}
 }
 \value{
 returns an object of type \code{ggplot} if plot = TRUE.
@@ -59,6 +66,8 @@ LP_f: vector of the same length as x using the linear-plateau function
 SS_LP: selfStart object to pass into the linear_plateau fit
 
 linear_plateau: function
+
+boot_linear_plateau: bootstrapping function
 }
 \description{
 This function helps to fit a linear-plateau model in order to

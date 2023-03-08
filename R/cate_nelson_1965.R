@@ -7,7 +7,9 @@
 #' @param target argument to specify the ry target (numeric) to estimate the critical stv for
 #' @param tidy logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).
 #' @param plot logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a ggplot,
-#' FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE). 
+#' FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE).
+#' @param n sample size for the bootstrapping Default: 500
+#' @param ... when running bootstrapped samples, open arguments serve to add grouping Variables (factor or character) Default: NULL 
 #' @rdname cate_nelson_1965
 #' @return returns an object of type `ggplot` if plot = TRUE.
 #' @return returns an object of class `data.frame` if tidy = TRUE, 
@@ -38,10 +40,12 @@
 #' Mangiafico, S. S. (2013). Cate-Nelson Analysis for Bivariate Data Using R-project.
 #' _The Journal of Extension, 51(5), Article 33._ <https://tigerprints.clemson.edu/joe/vol51/iss5/33/> 
 #' @export 
-#' @importFrom rlang eval_tidy quo
-#' @importFrom dplyr %>%
+#' @importFrom rlang eval_tidy quo enquo
+#' @importFrom dplyr %>% select group_by mutate slice_sample
 #' @importFrom stats lm anova
 #' @importFrom ggplot2 ggplot aes geom_point scale_shape_manual scale_color_manual labs geom_vline geom_hline annotate theme_bw theme
+#' @importFrom tidyr nest unnest expand_grid
+#' @importFrom purrr map possibly
 #' 
 cate_nelson_1965 <- function(data=NULL, stv, ry, target, tidy = FALSE, plot = FALSE){
   
@@ -203,3 +207,36 @@ cate_nelson_1965 <- function(data=NULL, stv, ry, target, tidy = FALSE, plot = FA
     return(results)
   }
 }
+
+#' @rdname cate_nelson_1965
+#' @return boot_cn_1965: bootstrapping function
+#' @export 
+boot_cn_1965 <- 
+  function(data, ry, stv, target = 90, n=5, ...) {
+    # Allow customized column names
+    x <- rlang::enquo(stv)
+    y <- rlang::enquo(ry)
+    # Empty global variables
+    boot_id <- NULL
+    boots <- NULL
+    model <- NULL
+    
+    data %>%  
+      dplyr::select(!!y, !!x, ...) %>%
+      tidyr::expand_grid(boot_id = seq(1, n, by = 1)) %>%
+      dplyr::group_by(boot_id, ...) %>%
+      tidyr::nest(boots = c(!!x, !!y)) %>% 
+      dplyr::mutate(boots = boots %>% 
+                      map(function(boots) 
+                        dplyr::slice_sample(boots, 
+                                            replace = TRUE, n = nrow(boots))) ) %>% 
+      dplyr::mutate(model = map(boots,
+                                purrr::possibly(
+                                  .f = ~soiltestcorr::cate_nelson_1965(
+                                    data = ., ry = !!y, stv = !!x, 
+                                    target = target, tidy = FALSE),
+                                  otherwise = NULL, quiet = TRUE)) ) %>%
+      dplyr::select(-boots) %>% 
+      dplyr::mutate(model = map(model, ~as.data.frame(.[c(1:4,7)]))) %>% 
+      tidyr::unnest(cols = model) 
+  }

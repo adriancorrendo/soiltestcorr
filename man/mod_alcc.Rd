@@ -2,6 +2,7 @@
 % Please edit documentation in R/mod_alcc.R
 \name{mod_alcc}
 \alias{mod_alcc}
+\alias{boot_mod_alcc}
 \title{Modified Arcsine-Log Calibration Curve}
 \usage{
 mod_alcc(
@@ -13,6 +14,8 @@ mod_alcc(
   tidy = FALSE,
   plot = FALSE
 )
+
+boot_mod_alcc(data, ry, stv, n = 500, target = 90, confidence = 0.95, ...)
 }
 \arguments{
 \item{data}{Optional argument to call and object of type data.frame or data.table
@@ -31,6 +34,10 @@ significance = 0.05)}
 
 \item{plot}{logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a ggplot,
 FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE).}
+
+\item{n}{sample size for the bootstrapping Default: 500}
+
+\item{...}{when running bootstrapped samples, open arguments serve to add grouping Variables (factor or character) Default: NULL}
 }
 \value{
 returns an object of type \code{ggplot} if plot = TRUE.
@@ -38,6 +45,8 @@ returns an object of type \code{ggplot} if plot = TRUE.
 returns an object of class \code{data.frame} if tidy = TRUE,
 
 returns an object of class \code{list} if tidy = FALSE.
+
+boot_mod_alcc: bootstrapping function
 }
 \description{
 This function runs the modified arcsine-log calibration curve to

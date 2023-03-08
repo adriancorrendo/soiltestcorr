@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
-  chunk_output_type: console
+  chunk_output_type: inline
 ---
 
 ```{r, include = FALSE}
@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 
 This tutorial demonstrates the mitscherlich() function for fitting a continuous response model and estimating a critical soil test value. This function fits a Mitscherlich-type exponential regression model that follows a diminishing growth curve described as `y = a * (1-exp(-c(x + b))`, where `a` = asymptote, `b` = x-intercept, `c` = rate or curvature parameter. This approach is extensively used in agriculture to describe crops response to input since the biological meaning of its curved response. With 3 alternatives to fit the model, the mitscherlich() function brings the advantage of controlling the parameters quantity: i) type = 1 (DEFAULT), corresponding to the model without any restrictions to the parameters (`y = a * (1-exp(-c(x + b))`); ii) type = 2 ("asymptote 100"), corresponding to the model with only 2 parameters by setting the asymptote = 100 (`y = 100 * (1-exp(-c(x + b))`), and iii) type = 3 ("asymptote 100 from 0"), corresponding to the model with only 1 parameter by constraining the asymptote = 100 and xintercept = 0 (`y = 100 * (1-exp(-c(x))`).
 
-Disadvantages this model might include: i) lacks a parameter corresponding directly with a critical soil test value (the model cannot be evaluated at the asymptote as it would result in a CSTV equal to `Inf`); and ii) there is no apparent confidence interval for an estimated CSTV. For this latter purpose, we recommend the user would to use a re-sampling technique (e.g. bootstrapping) for a  reliable confidence interval estimation of parameters and CSTV (for examples on bootstrapping, see [nlraa package vignette](https://CRAN.R-project.org/package=nlraa). The `mitscherlich()` function works automatically with self-starting initial values to facilitate the model's convergence. <br/>
+Disadvantages this model might include: i) lacks a parameter corresponding directly with a critical soil test value (the model cannot be evaluated at the asymptote as it would result in a CSTV equal to `Inf`); and ii) there is no apparent confidence interval for an estimated CSTV. For this latter purpose, we recommend the user to use the `boot_mitscherlich()` function for a  reliable confidence interval estimation of parameters and CSTV via bootstrapping (resampling with replacement). The `mitscherlich()` function works automatically with self-starting initial values to facilitate the model's convergence. <br/>
 
 ## General Instructions <br/>
 
@@ -262,7 +262,7 @@ unnest(fit_multiple_map, models)
 
 ```
 
-### 2.1. Using group_map <br/>
+### 2.2. Using group_map <br/>
 
 Alternatively, with group_map, we do not require nested data. <br/>
 
@@ -283,9 +283,33 @@ utils::head(fit_multiple_group_map)
 
 ```
 
-## 3. Plots
+## 3. Bootstrapping <br/>
 
-### 3.1. Calibration Curve 
+A suitable alternative for obtaining confidence intervals for parameters of derived quantities is bootstrapping. <br/>
+
+Bootstrapping is a resampling technique (with replacement) that draws samples from the original data with the same size. If you have groups within your data, you can specify grouping variables as arguments in order to maintain, within each resample, the same proportion of observations than in the original dataset. <br/>
+
+This function returns a table with as many rows as the resampling size (n) containing the results for each resample.
+
+```{r}
+boot_mits <- boot_mitscherlich(data = data_1, type = 1,
+                    ry = RY, target = 90,
+                    stv = STV, n = 200)
+
+boot_mits %>% dplyr::slice_head(., n=5)
+
+# CSTV Confidence Interval
+quantile(boot_mits$CSTV, probs = c(0.025, 0.5, 0.975))
+
+# Plot
+boot_mits %>% 
+  ggplot2::ggplot(aes(x = CSTV))+
+  geom_histogram(color = "grey25", fill = "#9de0bf", bins = 10)
+```
+
+## 4. Plots
+
+### 4.1. Calibration Curve 
 
 We can generate a ggplot with the same mitscherlich() function. <br/>
 
@@ -303,7 +327,7 @@ mitscherlich_plot
 ```
 <br/>
 
-### 3.1.2 Fine-tune the plots <br/>
+### 4.1.2 Fine-tune the plots <br/>
 
 As ggplot object, plots can be adjusted in several ways. <br/>
 
@@ -336,7 +360,7 @@ mitscherlich_plot_3
 ```
 
 
-### 3.3. Residuals <br/>
+### 4.3. Residuals <br/>
 
 We can generate a plot with the same mitscherlich() function. <br/>
 

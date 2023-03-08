@@ -19,6 +19,8 @@
 #' @param b selfstart arg. for xintercept Default: NULL
 #' @param c selfstart arg. for curvature Default: NULL
 #' @param x selfstart vector. for model fit Default: NULL
+#' @param n sample size for the bootstrapping Default: 500
+#' @param ... when running bootstrapped samples, open arguments serve to add grouping Variables (factor or character) Default: NULL
 #' @rdname mitscherlich
 #' @return returns an object of type `ggplot` if plot = TRUE.
 #' @return returns a residuals plot if resid = TRUE.
@@ -52,15 +54,17 @@
 #' @note For extended reference, we recommend to visit: 
 #' <https://github.com/austinwpearce/SoilTestCocaCola> by Austin Pearce.
 #' @export
-#' @importFrom rlang eval_tidy quo
+#' @importFrom rlang eval_tidy quo enquo
 #' @importFrom minpack.lm nlsLM
 #' @importFrom stats sortedXyData AIC lm optim coef predict
 #' @importFrom AICcmodavg AICc
 #' @importFrom modelr rsquare
 #' @importFrom nlstools nlsResiduals confint2
-#' @importFrom dplyr bind_cols %>% mutate
+#' @importFrom dplyr bind_cols %>% mutate select slice_sample group_by
 #' @importFrom ggplot2 ggplot aes geom_rug geom_point geom_vline geom_hline geom_path annotate scale_y_continuous labs theme_bw theme unit rel element_blank element_text
-#' @importFrom stats lm AIC optim coef predict
+#' @importFrom stats lm AIC optim coef predict anova
+#' @importFrom tidyr nest unnest expand_grid
+#' @importFrom purrr map possibly
 #' @export 
 #' 
 NULL
@@ -173,6 +177,10 @@ mitscherlich <- function(data = NULL,
     mitsmodel <- mitsmodel
   }
   
+  # Get p-value of model vs. null, Pr(>F)
+  null_model <- stats::lm(y ~ 1, data = test.data)
+  pvalue <- round(stats::anova(mitsmodel, null_model)[,"Pr(>F)"][[2]], 4)
+  # if (pvalue >= 0.001) {pvalue <- round(pvalue, 3)} else{pvalue <- "<0.001"}
   # Find AIC and pseudo R-squared
   # AIC 
   # It makes sense because it's a sort of "simulation" (using training data) to 
@@ -280,7 +288,8 @@ mitscherlich <- function(data = NULL,
       CSTV = round(CSTV, 1),
       AIC,
       AICc,
-      R2
+      R2,
+      pvalue
       )
     
     # Decide type of output
@@ -355,3 +364,37 @@ mitscherlich <- function(data = NULL,
   }
   
 }
+
+#' @rdname mitscherlich
+#' @return boot_mitscherlich: bootstrapping function
+#' @export 
+boot_mitscherlich <- 
+  function(data, ry, stv, type = 1, n=500, target = NULL, ...) {
+    # Allow customized column names
+    x <- rlang::enquo(stv)
+    y <- rlang::enquo(ry)
+    # Empty global variables
+    boot_id <- NULL
+    boots <- NULL
+    model <- NULL
+    
+    data %>%  
+      dplyr::select(!!y, !!x, ...) %>%
+      tidyr::expand_grid(boot_id = seq(1, n, by = 1)) %>%
+      dplyr::group_by(boot_id, ...) %>%
+      tidyr::nest(boots = c(!!x, !!y)) %>% 
+      dplyr::mutate(boots = boots %>% 
+                      purrr::map(function(boots) 
+                        dplyr::slice_sample(boots, 
+                                            replace = TRUE, n = nrow(boots))) ) %>% 
+      dplyr::mutate(model = map(boots, 
+                                purrr::possibly(
+                                  .f = ~as.data.frame(
+                                  soiltestcorr::mitscherlich(data = ., ry = !!y, stv = !!x,
+                                                             type = type,
+                                                             target = target, tidy = TRUE) ), 
+                                  otherwise = NULL)) ) %>%
+      dplyr::select(-boots) %>% 
+      tidyr::unnest(cols = model) 
+  }
+

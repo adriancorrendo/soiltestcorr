@@ -5,6 +5,7 @@
 \alias{mits_formula_1}
 \alias{mits_formula_2}
 \alias{mits_formula_3}
+\alias{boot_mitscherlich}
 \title{Mitscherlich response function}
 \usage{
 mits_formula_1(x, a, b, c)
@@ -23,6 +24,8 @@ mitscherlich(
   plot = FALSE,
   resid = FALSE
 )
+
+boot_mitscherlich(data, ry, stv, type = 1, n = 500, target = NULL, ...)
 }
 \arguments{
 \item{x}{selfstart vector. for model fit Default: NULL}
@@ -53,6 +56,10 @@ Default: NULL}
 \item{plot}{logical operator (TRUE/FALSE) to plot the Mitscherlich model, Default: FALSE}
 
 \item{resid}{logical operator (TRUE/FALSE) to plot residuals analysis, Default: FALSE}
+
+\item{n}{sample size for the bootstrapping Default: 500}
+
+\item{...}{when running bootstrapped samples, open arguments serve to add grouping Variables (factor or character) Default: NULL}
 }
 \value{
 returns an object of type \code{ggplot} if plot = TRUE.
@@ -70,6 +77,8 @@ Mitscherlich type 2 formula
 Mitscherlich type 3 formula
 
 mitscherlich: function
+
+boot_mitscherlich: bootstrapping function
 }
 \description{
 This function helps to fit a Mitscherlich response model for relative yield (ry)

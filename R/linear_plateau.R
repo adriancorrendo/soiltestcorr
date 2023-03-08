@@ -15,6 +15,8 @@
 #' @param intercept selfstart arg. for intercept Default: NULL
 #' @param slope selfstart arg. for slope Default: NULL
 #' @param cx selfstart arg. for critical X (cx) value Default: NULL
+#' @param n sample size for the bootstrapping Default: 500
+#' @param ... when running bootstrapped samples, open arguments serve to add grouping Variables (factor or character) Default: NULL
 #' @rdname linear_plateau
 #' @return returns an object of type `ggplot` if plot = TRUE.
 #' @return returns a residuals plot if resid = TRUE.
@@ -49,15 +51,17 @@
 #' https://gradcylinder.org/linear-plateau/ & https://github.com/austinwpearce/SoilTestCocaCola by Austin Pearce.
 #' Self-start function code adapted from nlraa package by F. Miguez <https://github.com/femiguez/nlraa>
 #' @export
-#' @importFrom rlang eval_tidy quo
+#' @importFrom rlang eval_tidy quo enquo
 #' @importFrom minpack.lm nlsLM
 #' @importFrom stats sortedXyData AIC lm optim coef predict
 #' @importFrom AICcmodavg AICc
 #' @importFrom modelr rsquare
 #' @importFrom nlstools nlsResiduals confint2
-#' @importFrom dplyr bind_cols %>%
+#' @importFrom dplyr bind_cols %>% mutate select slice_sample group_by
 #' @importFrom ggplot2 ggplot aes geom_rug geom_point geom_vline geom_hline geom_path annotate scale_y_continuous labs theme_bw theme unit rel element_blank element_text
-#' @importFrom stats lm AIC optim coef predict
+#' @importFrom stats lm AIC optim coef predict anova
+#' @importFrom tidyr nest unnest expand_grid
+#' @importFrom purrr map possibly
 #' 
 NULL
 
@@ -207,10 +211,15 @@ linear_plateau <- function(data = NULL,
     lp_model <- lp_model
   }
   
+  # Get p-value of model vs. null, Pr(>F)
+  null_model <- stats::lm(y ~ 1, data = test.data)
+  pvalue <- round(stats::anova(lp_model, null_model)[,"Pr(>F)"][[2]], 4)
+    # if (pvalue >= 0.001) {pvalue <- round(pvalue, 3)} else{pvalue <- "<0.001"}
   # Find AIC and pseudo R-squared
   # AIC 
   # It makes sense because it's a sort of "simulation" (using training data) to 
   # test what would happen with out of sample data
+  
   AIC <- round(stats::AIC(lp_model), 0)
   AICc <- round(AICcmodavg::AICc(lp_model), 0)
   # R2
@@ -261,6 +270,7 @@ linear_plateau <- function(data = NULL,
       if (resid == TRUE)
         plot(nlstools::nlsResiduals(lp_model), which = 0)
     }
+    
     results <- data.frame(
       intercept = round(b0, 2),
       slope = round(b1, 2),
@@ -276,7 +286,8 @@ linear_plateau <- function(data = NULL,
       STVt = round(STVt,1),
       AIC,
       AICc,
-      R2
+      R2,
+      pvalue
       )
     
   # Decide type of output
@@ -354,3 +365,35 @@ linear_plateau <- function(data = NULL,
     return(lp_plot)
   }
 }
+
+#' @rdname linear_plateau
+#' @return boot_linear_plateau: bootstrapping function
+#' @export 
+boot_linear_plateau <- 
+  function(data, ry, stv, n=500, target = NULL, ...) {
+    # Allow customized column names
+    x <- rlang::enquo(stv)
+    y <- rlang::enquo(ry)
+    # Empty global variables
+    boot_id <- NULL
+    boots <- NULL
+    model <- NULL
+    
+    data %>%  
+      dplyr::select(!!y, !!x, ...) %>%
+      tidyr::expand_grid(boot_id = seq(1, n, by = 1)) %>%
+      dplyr::group_by(boot_id, ...) %>%
+      tidyr::nest(boots = c(!!x, !!y)) %>% 
+      dplyr::mutate(boots = boots %>% 
+                      purrr::map(function(boots) 
+                        dplyr::slice_sample(boots, 
+                                            replace = TRUE, n = nrow(boots))) ) %>% 
+      dplyr::mutate(model = map(boots, 
+                                purrr::possibly(
+                                  .f = ~as.data.frame(
+                                  soiltestcorr::linear_plateau(data = ., ry = !!y, stv = !!x,
+                                                               target = target, tidy = TRUE) ), 
+                                  otherwise = NULL)) ) %>%
+      dplyr::select(-boots) %>% 
+      tidyr::unnest(cols = model) 
+  }

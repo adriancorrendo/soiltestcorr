@@ -1,3 +1,14 @@
+# soiltestcorr 2.2.0
+
+* March 8th, 2023. <br/>
+
+Details:
+- New bootstrapping functions for all models to better approximate distributions of CSTVs and parameters or derived quantities of interest. Functions include: (i) `boot_cn_1965()`, (ii) `boot_cn_1971()`, (iii) `boot_mod_alcc()`, (iv) `boot_linear_plateau()`, (v) `boot_quadratic_plateau()`, and (vi) `boot_mitscherlich()`.
+- Including `p-value` estimation for non-linear models using an F-test approach comparing the non-linear model vs. a null-model (intercept-only).
+- Updated documentation and vignettes including bootstrapping functions for each of the models.
+- Fixing minor typos on vignettes.
+- Including code of conduct and contribution guidelines.
+
 # soiltestcorr 2.1.2
 
 * June 11th, 2022. <br/>

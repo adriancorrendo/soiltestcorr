@@ -11,7 +11,9 @@
 #' significance = 0.05)
 #' @param tidy logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).
 #' @param plot logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a ggplot,
-#' FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE). 
+#' FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE).
+#' @param n sample size for the bootstrapping Default: 500
+#' @param ... when running bootstrapped samples, open arguments serve to add grouping Variables (factor or character) Default: NULL  
 #' @rdname mod_alcc
 #' @return returns an object of type `ggplot` if plot = TRUE.
 #' @return returns an object of class `data.frame` if tidy = TRUE, 
@@ -41,11 +43,12 @@
 #' For extended reference, we recommend to visit \doi{10.7910/DVN/NABA57} and 
 #' <https://github.com/adriancorrendo/modified-ALCC> by Adrian Correndo.
 #' @export 
-#' @importFrom rlang eval_tidy quo
+#' @importFrom rlang eval_tidy quo enquo
 #' @importFrom stats qt cor cor.test sd
-#' @importFrom dplyr bind_cols filter %>%
-#' @importFrom tidyr nest
+#' @importFrom dplyr bind_cols filter %>% select group_by mutate slice_sample
+#' @importFrom tidyr nest unnest expand_grid
 #' @importFrom ggplot2 ggplot aes geom_point scale_shape_manual geom_rug geom_hline geom_vline geom_path scale_y_continuous annotate labs theme_bw theme annotate 
+#' @importFrom purrr map possibly
 
 mod_alcc <- function(data=NULL, 
                     ry, 
@@ -228,4 +231,36 @@ mod_alcc <- function(data=NULL,
   } else {
     return(results)
     }
+}
+
+#' @rdname mod_alcc
+#' @return boot_mod_alcc: bootstrapping function
+#' @export 
+boot_mod_alcc <- 
+  function(data, ry, stv, n=500, target = 90, confidence = 0.95, ...) {
+    # Allow customized column names
+    x <- rlang::enquo(stv)
+    y <- rlang::enquo(ry)
+    # Empty global variables
+    boot_id <- NULL
+    boots <- NULL
+    model <- NULL
+    
+    data %>%  
+      dplyr::select(!!y, !!x, ...) %>%
+      tidyr::expand_grid(boot_id = seq(1, n, by = 1)) %>%
+      dplyr::group_by(boot_id, ...) %>%
+      tidyr::nest(boots = c(!!x, !!y)) %>% 
+      dplyr::mutate(boots = boots %>% 
+                      map(function(boots) 
+                        dplyr::slice_sample(boots, 
+                                            replace = TRUE, n = nrow(boots))) ) %>% 
+      dplyr::mutate(model = map(boots,
+                                purrr::possibly(
+                                .f = ~as.data.frame(
+                                  soiltestcorr::mod_alcc(data = ., ry = !!y, stv = !!x,
+                                    target = target, confidence = confidence)[c(1:7,9:12)] ),
+                                otherwise = NULL, quiet = TRUE)) ) %>%
+      dplyr::select(-boots) %>% 
+      tidyr::unnest(cols = model) 
   }

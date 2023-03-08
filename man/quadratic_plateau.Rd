@@ -4,6 +4,7 @@
 \alias{quadratic_plateau}
 \alias{QP_f}
 \alias{SS_QP}
+\alias{boot_quadratic_plateau}
 \title{Quadratic-plateau response function}
 \usage{
 QP_f(x, intercept, slope, Xc)
@@ -19,6 +20,8 @@ quadratic_plateau(
   plot = FALSE,
   resid = FALSE
 )
+
+boot_quadratic_plateau(data, ry, stv, n = 500, target = NULL, ...)
 }
 \arguments{
 \item{x}{selfstart vector for independent variable, Default: NULL}
@@ -44,6 +47,10 @@ The target needs to be < plateau, otherwise, target = plateau.}
 \item{plot}{logical operator (TRUE/FALSE) to plot the quadratic-plateau model, Default: FALSE}
 
 \item{resid}{logical operator (TRUE/FALSE) to plot residuals analysis, Default: FALSE}
+
+\item{n}{sample size for the bootstrapping Default: 500}
+
+\item{...}{when running bootstrapped samples, open arguments serve to add grouping Variables (factor or character) Default: NULL}
 }
 \value{
 returns an object of type \code{ggplot} if plot = TRUE.
@@ -59,6 +66,8 @@ QP_f: vector of the same length as x using the quadratic-plateau function
 SS_QP: selfStart object to pass into the quadratic_plateau fit
 
 quadratic_plateau: function
+
+boot_quadratic_plateau: bootstrapping function
 }
 \description{
 This function helps to fit a quadratic-plateau response model and to

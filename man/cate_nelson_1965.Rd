@@ -2,9 +2,12 @@
 % Please edit documentation in R/cate_nelson_1965.R
 \name{cate_nelson_1965}
 \alias{cate_nelson_1965}
+\alias{boot_cn_1965}
 \title{Cate & Nelson quadrants analysis (graphical)}
 \usage{
 cate_nelson_1965(data = NULL, stv, ry, target, tidy = FALSE, plot = FALSE)
+
+boot_cn_1965(data, ry, stv, target = 90, n = 5, ...)
 }
 \arguments{
 \item{data}{argument to call a data.frame or data.table containing the data}
@@ -19,6 +22,10 @@ cate_nelson_1965(data = NULL, stv, ry, target, tidy = FALSE, plot = FALSE)
 
 \item{plot}{logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a ggplot,
 FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE).}
+
+\item{n}{sample size for the bootstrapping Default: 500}
+
+\item{...}{when running bootstrapped samples, open arguments serve to add grouping Variables (factor or character) Default: NULL}
 }
 \value{
 returns an object of type \code{ggplot} if plot = TRUE.
@@ -26,6 +33,8 @@ returns an object of type \code{ggplot} if plot = TRUE.
 returns an object of class \code{data.frame} if tidy = TRUE,
 
 returns an object of class \code{list} if tidy = FALSE.
+
+boot_cn_1965: bootstrapping function
 }
 \description{
 This function runs the quadrants analysis suggested by Cate and Nelson (1965)

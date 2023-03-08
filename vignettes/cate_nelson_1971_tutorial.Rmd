@@ -194,7 +194,7 @@ utils::head(fit_multiple_map)
 
 ```
 
-### 2.1. Using group_map <br/>
+### 2.2. Using group_map <br/>
 
 Alternatively, with group_map, we do not require nested data. <br/>
 
@@ -216,9 +216,32 @@ utils::head(fit_multiple_group_map)
 
 ```
 
-## 3. Plots
+## 3. Bootstrapping <br/>
 
-### 3.1. Calibration Curve 
+A suitable alternative for obtaining confidence intervals for parameters of derived quantities is bootstrapping. <br/>
+
+Bootstrapping is a resampling technique (with replacement) that draws samples from the original data with the same size. If you have groups within your data, you can specify grouping variables as arguments in order to maintain, within each resample, the same proportion of observations than in the original dataset. <br/>
+
+This function returns a table with as many rows as the resampling size (n) containing the results for each resample.
+
+```{r}
+boot_cn71 <- boot_cn_1971(data = data_1,
+                          ry = RY, stv = STV, n = 99)
+
+boot_cn71 %>% dplyr::slice_head(., n=5)
+
+# CSTV Confidence Interval
+quantile(boot_cn71$CSTV, probs = c(0.025, 0.5, 0.975))
+
+# Plot
+boot_cn71 %>% 
+  ggplot2::ggplot(aes(x = CSTV))+
+  geom_histogram(color = "grey25", fill = "#9de0bf", bins = 10)
+```
+
+## 4. Plots
+
+### 4.1. Calibration Curve 
 
 We can generate a ggplot with the same mod_alcc() function. <br/>
 
