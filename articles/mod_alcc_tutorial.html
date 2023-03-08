@@ -457,7 +457,7 @@ size (n) containing the results for each resample.</p>
 <code class="sourceCode R"><span><span class="va">boot_alcc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mod_alcc.html">boot_mod_alcc</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_1</span>, </span>
 <span>                    ry <span class="op">=</span> <span class="va">RY</span>, target <span class="op">=</span> <span class="fl">90</span>, confidence <span class="op">=</span> <span class="fl">0.95</span>,</span>
 <span>                    stv <span class="op">=</span> <span class="va">STV</span>, n <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: There were 200 warnings in `dplyr::mutate()`.</span></span>
+<span><span class="co">#&gt; Warning: There were 201 warnings in `dplyr::mutate()`.</span></span>
 <span><span class="co">#&gt; The first warning was:</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In argument: `model = map(...)`.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In group 1: `boot_id = 1`.</span></span>
@@ -465,29 +465,29 @@ size (n) containing the results for each resample.</p>
 <span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> 7 STV points exceeded two-times (2x) </span></span>
 <span><span class="co">#&gt;   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by </span></span>
 <span><span class="co">#&gt;   removing extreme points, re-run the mod_alcc(), and check results.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 199 remaining warnings.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 200 remaining warnings.</span></span>
 <span></span>
 <span><span class="va">boot_alcc</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_head</a></span><span class="op">(</span><span class="va">.</span>, n<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 200 × 12</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   boot_id [200]</span></span></span>
 <span><span class="co">#&gt;    boot_id     n     r target  CSTV    LL    UL confidence CSTV90 n.90x2 CSTV100</span></span>
 <span><span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>       1    15 0.967     90  4.22  3.66  4.86       0.95   4.22      7    15.8</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>       2    15 0.976     90  4.51  4.04  5.05       0.95   4.51      4    20.0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>       3    15 0.951     90  4.46  3.73  5.31       0.95   4.46      9    17.9</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>       4    15 0.992     90  4.43  4.16  4.72       0.95   4.43      9    19.9</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>       5    15 0.968     90  4.53  4.12  4.97       0.95   4.53      3    20.3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>       6    15 0.981     90  4.40  3.91  4.95       0.95   4.40      6    19.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>       7    15 0.970     90  4.24  3.77  4.78       0.95   4.24      6    17.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>       8    15 0.968     90  4.16  3.58  4.83       0.95   4.16      9    17.2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>       9    15 0.938     90  4.65  4.00  5.41       0.95   4.65      6    16.1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>      10    15 0.987     90  4.66  4.30  5.04       0.95   4.66      6    21.0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>       1    15 0.949     90  4.57  3.89  5.37       0.95   4.57      7    19.7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>       2    15 0.983     90  4.53  4.15  4.95       0.95   4.53      5    20.9</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>       3    15 0.987     90  4.48  4.17  4.80       0.95   4.48      5    19.9</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>       4    15 0.941     90  4.62  3.96  5.38       0.95   4.62      7    20.2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>       5    15 0.977     90  4.28  3.79  4.82       0.95   4.28      6    17.3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>       6    15 0.957     90  4.65  4.23  5.10       0.95   4.65      4    25.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>       7    15 0.978     90  4.56  4.12  5.04       0.95   4.56      5    21.3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>       8    15 0.962     90  4.64  4.16  5.17       0.95   4.64      6    18.9</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>       9    15 0.976     90  4.47  3.96  5.04       0.95   4.47      8    20.7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>      10    15 0.965     90  4.33  3.74  5.02       0.95   4.33     10    15.9</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 190 more rows, and 1 more variable: n.100 &lt;int&gt;</span></span></span>
 <span></span>
 <span><span class="co"># CSTV Confidence Interval</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">boot_alcc</span><span class="op">$</span><span class="va">CSTV</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;     2.5%      50%    97.5% </span></span>
-<span><span class="co">#&gt; 4.161366 4.497033 5.168352</span></span>
+<span><span class="co">#&gt; 4.151272 4.491383 4.918809</span></span>
 <span></span>
 <span><span class="co"># Plot</span></span>
 <span><span class="va">boot_alcc</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>

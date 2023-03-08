@@ -403,37 +403,37 @@ size (n) containing the results for each resample.</p>
 <code class="sourceCode R"><span><span class="va">boot_qp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quadratic_plateau.html">boot_quadratic_plateau</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_1</span>, </span>
 <span>                    ry <span class="op">=</span> <span class="va">RY</span>, target <span class="op">=</span> <span class="fl">90</span>,</span>
 <span>                    stv <span class="op">=</span> <span class="va">STV</span>, n <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: There were 201 warnings in `dplyr::mutate()`.</span></span>
+<span><span class="co">#&gt; Warning: There were 202 warnings in `dplyr::mutate()`.</span></span>
 <span><span class="co">#&gt; The first warning was:</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In argument: `model = map(...)`.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In group 1: `boot_id = 1`.</span></span>
 <span><span class="co">#&gt; Caused by warning:</span></span>
 <span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> You have specified a relative yield target equal or greater than the CSTV for plateau. </span></span>
 <span><span class="co">#&gt;           The CSTV estimations have been changed for the plateau level</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 200 remaining warnings.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 201 remaining warnings.</span></span>
 <span></span>
 <span><span class="va">boot_qp</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_head</a></span><span class="op">(</span><span class="va">.</span>, n<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 200 × 15</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   boot_id [200]</span></span></span>
 <span><span class="co">#&gt;    boot_id intercept slope equation plateau target  CSTV LL_cstv UL_cstv CI_type</span></span>
 <span><span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>       1      63.2  6.3  63.2 + …    98.1     90  11.1     8.3    13.8 Wald C…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>       2      58.6  9.7  58.6 + …    97       90   7.9     6.1     9.8 Wald C…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>       3      55.8 10.9  55.8 + …    97.6     90   7.7     6       9.3 Wald C…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>       4      56.1 10.8  56.1 + …    96.3     90   7.4     6.3     8.6 Wald C…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>       5      80.9  2.29 80.9 + …    99.6     90  16.4    10.1    22.7 Wald C…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>       6      55.5 11.9  55.5 + …    97.5     90   7.1     5.8     8.3 Wald C…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>       7      54.1 13.6  54.1 + …    97.6     90   6.4     5       7.8 Wald C…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>       8      71.1  5.46 71.1 + …    97.2     90   9.6     7.5    11.6 Wald C…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>       9      58.2 10.5  58.3 + …    97.8     90   7.5     6       9   Wald C…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>      10      55.5 11.3  55.5 + …    96.4     90   7.2     5.9     8.6 Wald C…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>       1      75.8  3.11 75.8 + …    99.3     90  15.1    12.2    18   Wald C…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>       2      73.5  4.15 73.5 + …    98.9     90  12.2    10.3    14.1 Wald C…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>       3      76.5  3.27 76.5 + …    99.5     90  14      12      16   Wald C…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>       4      57.8 10.3  57.8 + …    98.3     90   7.9     6.5     9.2 Wald C…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>       5      59.1 10.3  59.1 + …    97.9     90   7.5     5.5     9.6 Wald C…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>       6      59.5  8.7  59.5 + …    97.9     90   8.8     7.3    10.3 Wald C…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>       7      71.8  4.76 71.8 + …    99.1     90  11.5     9.7    13.3 Wald C…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>       8      61.4  8.89 61.4 + …    98.2     90   8.3     6.4    10.1 Wald C…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>       9      75.4  3.32 75.4 + …    98.8     90  14.1    10.8    17.4 Wald C…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>      10      56.4  9.73 56.4 + …    98.1     90   8.6     7.2     9.9 Wald C…</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># … with 190 more rows, and 5 more variables: STVt &lt;dbl&gt;, AIC &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   AICc &lt;dbl&gt;, R2 &lt;dbl&gt;, pvalue &lt;dbl&gt;</span></span></span>
 <span></span>
 <span><span class="co"># CSTV Confidence Interval</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">boot_qp</span><span class="op">$</span><span class="va">CSTV</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    2.5%     50%   97.5% </span></span>
-<span><span class="co">#&gt;  5.9950  8.6000 15.2025</span></span>
+<span><span class="co">#&gt;  5.8975  9.1000 15.9025</span></span>
 <span></span>
 <span><span class="co"># Plot</span></span>
 <span><span class="va">boot_qp</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
