@@ -7,16 +7,16 @@
 \alias{boot_linear_plateau}
 \title{Linear-plateau response function}
 \usage{
-LP_f(x, intercept, slope, cx)
+LP_f(x, intercept, slope, jp)
 
-SS_LP(x, intercept, slope, cx)
+SS_LP(x, intercept, slope, jp)
 
 linear_plateau(
   data = NULL,
   stv,
   ry,
   target = NULL,
-  tidy = FALSE,
+  tidy = TRUE,
   plot = FALSE,
   resid = FALSE
 )
@@ -30,7 +30,7 @@ boot_linear_plateau(data, ry, stv, n = 500, target = NULL, ...)
 
 \item{slope}{selfstart arg. for slope Default: NULL}
 
-\item{cx}{selfstart arg. for critical X (cx) value Default: NULL}
+\item{jp}{selfstart arg. for join point (jp) value Default: NULL}
 
 \item{data}{Optional argument to call and object of type data.frame or data.table
 containing the soil test value (STV) and relative yield (RY) data, Default: NULL}
