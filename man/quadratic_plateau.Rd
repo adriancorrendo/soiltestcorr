@@ -7,21 +7,21 @@
 \alias{boot_quadratic_plateau}
 \title{Quadratic-plateau response function}
 \usage{
-QP_f(x, intercept, slope, Xc)
+QP_f(x, intercept, slope, jp)
 
-SS_QP(x, intercept, slope, Xc)
+SS_QP(x, intercept, slope, jp)
 
 quadratic_plateau(
   data = NULL,
   stv,
   ry,
   target = NULL,
-  tidy = FALSE,
+  tidy = TRUE,
   plot = FALSE,
   resid = FALSE
 )
 
-boot_quadratic_plateau(data, ry, stv, n = 500, target = NULL, ...)
+boot_quadratic_plateau(data, stv, ry, n = 1000, target = NULL, .by = NULL)
 }
 \arguments{
 \item{x}{selfstart vector for independent variable, Default: NULL}
@@ -30,7 +30,7 @@ boot_quadratic_plateau(data, ry, stv, n = 500, target = NULL, ...)
 
 \item{slope}{selfstart arg. for slope Default: NULL}
 
-\item{Xc}{selfstart arg. for critical value Default: NULL}
+\item{jp}{selfstart arg. for critical value Default: NULL}
 
 \item{data}{Optional argument to call and object of type data.frame or data.table
 containing the stv and ry data, Default: NULL}
@@ -42,7 +42,7 @@ containing the stv and ry data, Default: NULL}
 \item{target}{\code{numeric} value of relative yield target (e.g. 90 for 90\%) to estimate the CSTV.
 The target needs to be < plateau, otherwise, target = plateau.}
 
-\item{tidy}{logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).}
+\item{tidy}{logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a tidy data frame or tibble (default), FALSE returns a list.}
 
 \item{plot}{logical operator (TRUE/FALSE) to plot the quadratic-plateau model, Default: FALSE}
 
@@ -50,7 +50,7 @@ The target needs to be < plateau, otherwise, target = plateau.}
 
 \item{n}{sample size for the bootstrapping Default: 500}
 
-\item{...}{when running bootstrapped samples, open arguments serve to add grouping Variables (factor or character) Default: NULL}
+\item{.by}{when running bootstrapped samples, open arguments serve to add grouping Variables (factor or character) Default: NULL}
 }
 \value{
 returns an object of type \code{ggplot} if plot = TRUE.

@@ -21,7 +21,7 @@ linear_plateau(
   resid = FALSE
 )
 
-boot_linear_plateau(data, ry, stv, n = 500, target = NULL, ...)
+boot_linear_plateau(data, stv, ry, n = 1000, target = NULL, .by = NULL)
 }
 \arguments{
 \item{x}{selfstart vector for independent variable, Default: NULL}
@@ -42,7 +42,7 @@ containing the soil test value (STV) and relative yield (RY) data, Default: NULL
 \item{target}{\code{numeric} value of relative yield target (e.g. 90 for 90\%) to estimate the CSTV.
 The target needs to be < plateau, otherwise, target = plateau.}
 
-\item{tidy}{logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).}
+\item{tidy}{logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a tidy data frame or tibble (default), FALSE returns a list.}
 
 \item{plot}{logical operator (TRUE/FALSE) to plot the linear-plateau model, Default: FALSE}
 
@@ -50,7 +50,7 @@ The target needs to be < plateau, otherwise, target = plateau.}
 
 \item{n}{sample size for the bootstrapping Default: 500}
 
-\item{...}{when running bootstrapped samples, open arguments serve to add grouping Variables (factor or character) Default: NULL}
+\item{.by}{when running bootstrapped samples, open arguments serve to add grouping Variables (factor or character) Default: NULL}
 }
 \value{
 returns an object of type \code{ggplot} if plot = TRUE.

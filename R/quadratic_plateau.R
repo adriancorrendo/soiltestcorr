@@ -8,15 +8,15 @@
 #' @param ry name of the vector containing relative yield values (%) of type `numeric`.
 #' @param target `numeric` value of relative yield target (e.g. 90 for 90%) to estimate the CSTV.
 #' The target needs to be < plateau, otherwise, target = plateau.
-#' @param tidy logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).
+#' @param tidy logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a tidy data frame or tibble (default), FALSE returns a list.
 #' @param resid logical operator (TRUE/FALSE) to plot residuals analysis, Default: FALSE
 #' @param plot logical operator (TRUE/FALSE) to plot the quadratic-plateau model, Default: FALSE
 #' @param x selfstart vector for independent variable, Default: NULL
 #' @param intercept selfstart arg. for intercept Default: NULL
 #' @param slope selfstart arg. for slope Default: NULL
-#' @param Xc selfstart arg. for critical value Default: NULL
+#' @param jp selfstart arg. for critical value Default: NULL
 #' @param n sample size for the bootstrapping Default: 500
-#' @param ... when running bootstrapped samples, open arguments serve to add grouping Variables (factor or character) Default: NULL
+#' @param .by when running bootstrapped samples, open arguments serve to add grouping Variables (factor or character) Default: NULL
 #' @rdname quadratic_plateau
 #' @return returns an object of type `ggplot` if plot = TRUE.
 #' @return returns a residuals plot if resid = TRUE.
@@ -77,17 +77,17 @@ QP_init <- function(mCall, LHS, data, ...){
   
   xy <- sortedXyData(mCall[["x"]], LHS, data)
   if(nrow(xy) < 3){
-    stop("Too few distinct input values to fit a quadratic-platueau-3-Xc.")
+    stop("Too few distinct input values to fit a quadratic-platueau-3-jp.")
   }
-  ## Guess for a, b and Xc is to fit a quadratic regression to all the data
+  ## Guess for a, b and jp is to fit a quadratic regression to all the data
   fit <- lm(xy[,"y"] ~ xy[,"x"] + I(xy[,"x"]^2))
   a <- coef(fit)[1]
   b <- coef(fit)[2]
   c <- coef(fit)[3]
-  Xc <- -0.5 * b/c
-  ## If I fix a and b maybe I can try to optimze Xc only
-  value <- c(a, b, Xc)
-  names(value) <- mCall[c("intercept","slope","Xc")]
+  jp <- -0.5 * b / c
+  ## If I fix a and b maybe I can try to optimze jp only
+  value <- c(a, b, jp)
+  names(value) <- mCall[c("intercept","slope","jp")]
   value
 }
 
@@ -95,39 +95,39 @@ QP_init <- function(mCall, LHS, data, ...){
 #' @return QP_f: vector of the same length as x using the quadratic-plateau function
 #' @export
 #' 
-QP_f <- function(x, intercept, slope, Xc){
+QP_f <- function(x, intercept, slope, jp){
   
-  .value <- (x <= Xc) * (intercept + slope * x + (-0.5 * slope/Xc) * x^2) + (x > Xc) * (intercept + (-slope^2)/(4 * -0.5 * slope/Xc))
+  .value <- (x <= jp) * (intercept + slope * x + (-0.5 * slope/jp) * x^2) + (x > jp) * (intercept + (-slope^2)/(4 * -0.5 * slope/jp))
   
   ## Derivative with respect to intercept
   .exp1 <- 1 
   
   ## Derivative with respect to slope
-  ## .exp2 <- deriv(~ intercept + slope * x + (-0.5 * slope/Xc) * x^2, "slope")
-  ## .exp2slope <- deriv(~ intercept + (-slope^2)/(4 * -0.5 * slope/Xc), "slope")
+  ## .exp2 <- deriv(~ intercept + slope * x + (-0.5 * slope/jp) * x^2, "slope")
+  ## .exp2slope <- deriv(~ intercept + (-slope^2)/(4 * -0.5 * slope/jp), "slope")
   .expr2 <- -slope^2
   .expr4 <- 4 * -0.5
-  .expr6 <- .expr4 * slope/Xc
-  .exp2 <- ifelse(x <= Xc, x - 0.5/Xc * x^2, -(2 * slope/.expr6 + .expr2 * (.expr4/Xc)/.expr6^2))
+  .expr6 <- .expr4 * slope/jp
+  .exp2 <- ifelse(x <= jp, x - 0.5/jp * x^2, -(2 * slope/.expr6 + .expr2 * (.expr4/jp)/.expr6^2))
   
-  ## Derivative with respect to Xc
-  ## .exp2 <- deriv(~ (intercept + slope * x + (-0.5 * slope/Xc) * x^2), "Xc")
-  ## .exp2slope <- deriv(~ a + (-slope^2)/(4 * -0.5 * slope/Xc), "Xc")
+  ## Derivative with respect to jp
+  ## .exp2 <- deriv(~ (intercept + slope * x + (-0.5 * slope/jp) * x^2), "jp")
+  ## .exp2slope <- deriv(~ a + (-slope^2)/(4 * -0.5 * slope/jp), "jp")
   .expr4 <- -0.5 * slope
   .expr6 <- x^2
   .expr2 <- -slope^2
   .expr5 <- 4 * -0.5 * slope
-  .expr7 <- .expr5/Xc
-  .exp3 <- ifelse(x <= Xc, -(.expr4/Xc^2 * .expr6), .expr2 * (.expr5/Xc^2)/.expr7^2)
+  .expr7 <- .expr5/jp
+  .exp3 <- ifelse(x <= jp, -(.expr4/jp^2 * .expr6), .expr2 * (.expr5/jp^2)/.expr7^2)
   
-  .actualArgs <- as.list(match.call()[c("intercept","slope","Xc")])
+  .actualArgs <- as.list(match.call()[c("intercept","slope","jp")])
   
   ##  Gradient
   if (all(unlist(lapply(.actualArgs, is.name)))) {
-    .grad <- array(0, c(length(.value), 3L), list(NULL, c("intercept","slope","Xc")))
+    .grad <- array(0, c(length(.value), 3L), list(NULL, c("intercept","slope","jp")))
     .grad[, "intercept"] <- .exp1
     .grad[, "slope"] <- .exp2
-    .grad[, "Xc"] <- .exp3
+    .grad[, "jp"] <- .exp3
     dimnames(.grad) <- list(NULL, .actualArgs)
     attr(.value, "gradient") <- .grad
   }
@@ -137,19 +137,18 @@ QP_f <- function(x, intercept, slope, Xc){
 #' @rdname quadratic_plateau
 #' @return SS_QP: selfStart object to pass into the quadratic_plateau fit
 #' @export 
-SS_QP <- stats::selfStart(QP_f, initial = QP_init, c("intercept","slope","Xc"))
+SS_QP <- stats::selfStart(QP_f, initial = QP_init, c("intercept","slope","jp"))
 
 #' @rdname quadratic_plateau
 #' @return quadratic_plateau: function
 #' @export 
 quadratic_plateau <- function(data = NULL,
-                                stv,
-                                ry,
-                                target = NULL,
-                                tidy = FALSE,
-                                plot = FALSE,
-                                resid = FALSE
-                                ) {
+                              stv,
+                              ry,
+                              target = NULL,
+                              tidy = TRUE,
+                              plot = FALSE,
+                              resid = FALSE) {
   if (missing(stv)) {
     stop("Please specify the variable name for soil test values using the `stv` argument")
   }
@@ -164,7 +163,8 @@ quadratic_plateau <- function(data = NULL,
   y <- rlang::eval_tidy(data = data, rlang::quo({{ry}}) )
   
   # Create data.frame if it doesn't exist yet (data from vectors)
-  test.data <- data.frame(x=x, y=y)
+  test.data <- data.frame(x = as.numeric(x), 
+                          y = as.numeric(y))
   
   # Error message for insufficient sample size
   if (length(x) < 4) {
@@ -178,54 +178,54 @@ quadratic_plateau <- function(data = NULL,
   maxy <- max(test.data$y)
   
   # Run the model combining minpack.lm::nlsLM + defined selfStart (SS_QP)
-  qpmodel <-
-    try(minpack.lm::nlsLM(y ~ SS_QP(x, b0, b1, CSTV), data = test.data))
+  qp_model <-
+    try(minpack.lm::nlsLM(y ~ SS_QP(x, b0, b1, jp), data = test.data))
   
-  if (inherits(qpmodel, "try-error")) {
+  if (inherits(qp_model, "try-error")) {
     stop("Quadratic-plateau model did not converge. Please, consider other models.")
   } else {
-    qpmodel <- qpmodel
+    qp_model <- qp_model
   }
   
   # Get p-value of model vs. null, Pr(>F)
   null_model <- stats::lm(y ~ 1, data = test.data)
-  pvalue <- round(stats::anova(qpmodel, null_model)[,"Pr(>F)"][[2]], 4)
+  pvalue <- round(stats::anova(qp_model, null_model)[,"Pr(>F)"][[2]], 4)
   # Find AIC and pseudo R-squared
   # AIC 
   # It makes sense because it's a sort of "simulation" (using training data) to 
   # test what would happen with out of sample data
-  AIC <- round(stats::AIC(qpmodel), 0)
-  AICc <- round(AICcmodavg::AICc(qpmodel), 0)
+  AIC <- round(stats::AIC(qp_model), 0)
+  AICc <- round(AICcmodavg::AICc(qp_model), 0)
   # R2
-  R2 <- round(modelr::rsquare(qpmodel, test.data), 2)
+  R2 <- round(modelr::rsquare(qp_model, test.data), 2)
   
   # get model coefficients
-  b0 <- stats::coef(qpmodel)[[1]]
-  b1 <- stats::coef(qpmodel)[[2]]
-  b2 <- -0.5 * b1 / stats::coef(qpmodel)[[3]]
-  #CSTV <- round(stats::coef(qpmodel)[[3]], 1)
+  b0 <- stats::coef(qp_model)[[1]]
+  b1 <- stats::coef(qp_model)[[2]]
+  jp <- stats::coef(qp_model)[[3]]
+  b2 <- -0.5 * b1 / jp
+  plateau <- b0 + b1 * jp + b2 * (jp)^2
   
-  # CSTV for plateau or for target
+  # CSTV estimation
+  CSTV <- ifelse(jp > 10, round(jp), round(jp, 1))
+  # Wald confidence interval for CSTV
+  # not as reliable as bootstrapping but sometimes useful
+  qp_model.confint <- nlstools::confint2(qp_model, level = 0.95)
+  lowerCL <- qp_model.confint[[3,1]]
+  upperCL <- qp_model.confint[[3,2]]
   
+  # STVt remains at join point (jp) if > plateau
   if (!is.null(target)) { 
-    if (target >= stats::coef(qpmodel)[[3]]) {
-      warning("You have specified a relative yield target equal or greater than the CSTV for plateau. 
-          The CSTV estimations have been changed for the plateau level", 
+    if (target > plateau) {
+      warning("You have specified a relative yield target > plateau. The STVt therefore remains at the join point at the plateau level", 
               call. = FALSE) 
     }
   }
   
-  # confidence interval for CSTV
-  qpmodel.confint <- nlstools::confint2(qpmodel)
-  CSTV_lower <- qpmodel.confint[[3,1]]
-  CSTV_upper <- qpmodel.confint[[3,2]]
-  plateau <- b0 + b1 * stats::coef(qpmodel)[[3]] + b2 * (stats::coef(qpmodel)[[3]])^2
-  
-  # CSTV estimation either for target or plateau
-  CSTV <- round(stats::coef(qpmodel)[[3]], 1)
-  
+  # STVt is not the same as CSTV unless at join point
+  # CI for STVt require bootstrapping
   STVt <- ifelse(is.null(target), 
-                 round(stats::coef(qpmodel)[[3]], 1),
+                 CSTV,
                  ifelse(target >= plateau,
                         (-b1 + sqrt((b1 ^ 2) - (4 * b2 * (b0 - plateau) ))) / (2 * b2),
                         (-b1 + sqrt((b1 ^ 2) - (4 * b2 * (b0 - target) ))) / (2 * b2) )  )
@@ -234,13 +234,13 @@ quadratic_plateau <- function(data = NULL,
   
   # have to make a line because the SS_QP doesn't plot right
   qp_line <- data.frame(x = seq(minx, maxx, by = maxx/200)) %>%
-                      dplyr::mutate(y = ifelse(x < stats::coef(qpmodel)[[3]], 
-                                        b0 + b1 * x + b2*x^2,
-                                        b0 + b1 * stats::coef(qpmodel)[[3]] + b2*stats::coef(qpmodel)[[3]]^2))
+    dplyr::mutate(y = ifelse(x < jp, 
+                             b0 + b1 * x + b2 * x^2,
+                             plateau))
   
   equation <- paste0(round(b0, 1), " + ",
                      round(b1, 2), "x + ",
-                     round(b2, 2), "x^2 if x<CSTV")
+                     round(b2, 2), "x^2 when x < ", round(jp, 1))
   ## STAGE 3 ====================================================================
   
   ## Outputs
@@ -248,20 +248,20 @@ quadratic_plateau <- function(data = NULL,
   if (plot == FALSE) {
     {
       if (resid == TRUE)
-        plot(nlstools::nlsResiduals(qpmodel), which = 0)
+        plot(nlstools::nlsResiduals(qp_model), which = 0)
     }
-    results <- data.frame(
+    results <- dplyr::tibble(
       intercept = round(b0, 2),
       slope = round(b1, 2),
       equation,
       plateau = round(plateau, 1),
+      CSTV,
+      lowerCL = round(lowerCL, 1),
+      upperCL = round(upperCL, 1),
+      CI_type = "Wald Conf. Interval",
       target = ifelse(!is.null(target),
                       target,
                       round(plateau, 1)),
-      CSTV = round(CSTV, 1),
-      LL_cstv = round(CSTV_lower,1),
-      UL_cstv = round(CSTV_upper,1),
-      CI_type = "Wald Conf. Interval",
       STVt = round(STVt, 1),
       AIC,
       AICc,
@@ -270,77 +270,97 @@ quadratic_plateau <- function(data = NULL,
       )
     
     # Decide type of output
-    if (tidy == TRUE) {results <- results}
+    if (tidy == TRUE) {
+      
+      return(results)
     
-    if (tidy == FALSE) {results <- as.list(results)}
-    
-    return(results)
+    } else if (tidy == FALSE) {
+      
+      return(as.list(results))
+    }
     
   } else {
     # Residual plots and normality
     {
       if (resid == TRUE)
-        plot(nlstools::nlsResiduals(qpmodel), which = 0)
+        plot(nlstools::nlsResiduals(qp_model), which = 0)
     }
     
-    # Generate predicted values
-    predicted <- stats::predict(qpmodel, newdata = test.data) %>%
-      as.data.frame() %>%
-      dplyr::bind_cols(test.data)
-    
     # GGPLOT output =================================================   
-    qp_plot <- predicted %>%
+    qp_plot <- test.data %>%
       ggplot2::ggplot(ggplot2::aes(x, y)) +
       ggplot2::geom_rug(alpha = 0.2, length = ggplot2::unit(2, "pt")) +
       # Data points
       ggplot2::geom_point(shape = 21, size = 3, alpha = 0.75, fill = "#e09f3e") +
+      # QP Curve
+      ggplot2::geom_path(data = qp_line, ggplot2::aes(x, y),
+                         color="grey15", linewidth = 1) +
       # CSTV for break point
       {if (is.null(target))
-        ggplot2::geom_vline(xintercept = CSTV, alpha = 1, color = "#13274F", 
-                            size = 0.5, linetype = "dashed") } +
+        ggplot2::geom_vline(xintercept = jp, alpha = 1, color = "#13274F", 
+                            linewidth = 0.5, linetype = "dashed") } +
       # annotation
       {if (is.null(target))
-          ggplot2::annotate("text",label = paste("CSTV =", round(CSTV,1), "ppm"),
-                            x = CSTV, y = 0, angle = 90, hjust = 0, vjust = 1.5, col = "grey25") } +
+          ggplot2::annotate(
+            "text", label = paste("CSTV =", CSTV, "ppm"),
+            x = jp, y = 0, angle = 90, hjust = 0, vjust = 1.5, col = "grey25") } +
       # STV for TARGET
       {if (!is.null(target))
         ggplot2::geom_vline(xintercept = STVt, alpha = 1, color = "#13274F", 
-                            size = 0.5, linetype = "dashed") } +
+                            linewidth = 0.5, linetype = "dashed") } +
       # CSTV annotation
       {if (!is.null(target))
-        ggplot2::annotate("text",label = paste(ifelse(target < plateau, "STVt =", "CSTV ="), round(STVt,1),"ppm"),
-                          x = STVt, y = 0, angle = 90, hjust = 0, vjust = 1.5, col = "grey25") } +
+        ggplot2::annotate(
+          "text", label = paste(ifelse(target < plateau, "STVt =", "CSTV ="),
+                                round(STVt, 1),"ppm"),
+          x = STVt, y = 0, angle = 90, hjust = 0, vjust = 1.5, col = "grey25") } +
       # CI
-      { if (is.null(target)) 
-            geom_vline(xintercept = CSTV_lower, col = "grey25", size = 0.25, linetype = "dotted") } +
       { if (is.null(target))
-            geom_vline(xintercept = CSTV_upper, col = "grey25", size = 0.25, linetype = "dotted") } +
+        geom_vline(xintercept = c(lowerCL, upperCL),
+                   col = "grey25", linewidth = 0.25, linetype = "dotted") } +
       # Plateau
       { if(is.null(target))
       ggplot2::geom_hline(yintercept = plateau, alpha = 0.2) } +
+      
       { if(!is.null(target))
-        ggplot2::geom_hline(yintercept = ifelse(target < plateau, target, plateau), alpha = 0.2) } +
-      # QP Curve
-      ggplot2::geom_path(data = qp_line, ggplot2::aes(x=x,y=y), color="grey15", size = 1.5) +
+        ggplot2::geom_hline(
+          yintercept = ifelse(target < plateau, target, plateau), alpha = 0.2) } +
       # Text annotations
-      # Target = null
+      # Target = NULL = CSTV @ join point
       { if(is.null(target))
-          ggplot2::annotate("text",label = paste0("Plateau = ", round(plateau, 0), "%"),
-                            x = maxx, y = plateau, hjust = 1,vjust = 1.5, col = "grey25") } +
+          ggplot2::annotate(
+            "text", label = paste0("Plateau = ", round(plateau, 0), "%"),
+            x = maxx, y = plateau, hjust = 1,vjust = 1.5, col = "grey25") } +
       # Target if not null
       { if(!is.null(target))
-          ggplot2::annotate("text",label = paste0(ifelse(target < plateau, "Target = ", "Plateau = "), round(ifelse(target < plateau, target, plateau), 0), "%"),
-                            x = maxx, y = ifelse(target < plateau, target, plateau), hjust = 1,vjust = 1.5, col = "grey25")   } +
+          ggplot2::annotate(
+            "text",label = paste0(
+              ifelse(target < plateau, "Target = ", "Plateau = "),
+              round(ifelse(target < plateau, target, plateau), 0), "%"),
+            x = maxx, y = ifelse(target < plateau, target, plateau),
+            hjust = 1,vjust = 1.5, col = "grey25") } +
       
       ggplot2::annotate("text", col = "grey25",
-                        label = paste0("y = ", equation,
-                                       "\nn = ", nrow(test.data),
-                                       "\npseudo-R2 = ", R2,
-                                       "\nAICc = ", AICc,
-                                       "\nCI = [", round(CSTV_lower,1)," - ", round(CSTV_upper,1),"]"),
+                        label = paste0(
+                          "n = ", nrow(test.data),
+                          "\ny = ", equation,
+                          "\npseudo-R2 = ", R2,
+                          "\nAICc = ", AICc,
+                          "\nCSTV CI = [", ifelse(is.null(target),
+                                                  round(lowerCL,1),
+                                                  NA)," - ",
+                          ifelse(is.null(target), round(upperCL,1), NA), "]"),
                         x = maxx, y = 0, vjust = 0, hjust = 1) +
-      ggplot2::scale_y_continuous(limits = c(0, maxy),breaks=seq(0,maxy*2,10)) +
-      ggplot2::labs(x = "Soil test value (units)", y = "Relative yield (%)",
+      ggplot2::scale_x_continuous(
+        breaks = seq(0, maxx,
+                     by = ifelse(maxx > 300, 30,
+                                 ifelse(maxx > 200, 20,
+                                        ifelse(maxx > 100, 10, 
+                                               ifelse(maxx > 10, 2, 0.5)))))) +
+      ggplot2::scale_y_continuous(limits = c(0, maxy),
+                                  breaks = seq(0, maxy * 2, 10)) +
+      ggplot2::labs(x = "Soil test value (units)",
+                    y = "Relative yield (%)",
                     title = "Quadratic-plateau")+
       ggplot2::theme_bw()+
       ggplot2::theme(panel.grid = ggplot2::element_blank(),
@@ -355,30 +375,38 @@ quadratic_plateau <- function(data = NULL,
 #' @return boot_quadratic_plateau: bootstrapping function
 #' @export 
 boot_quadratic_plateau <- 
-  function(data, ry, stv, n=500, target = NULL, ...) {
+  function(data, stv, ry, n = 1000, target = NULL, .by = NULL) {
     # Allow customized column names
     x <- rlang::enquo(stv)
     y <- rlang::enquo(ry)
+    by <- rlang::enquo(.by)
     # Empty global variables
     boot_id <- NULL
     boots <- NULL
     model <- NULL
+    equation <- NULL
+    CI_type <- NULL
+    lowerCL <- NULL
     
-    data %>%  
-      dplyr::select(!!y, !!x, ...) %>%
+    output_df <- data %>%  
+      dplyr::select(!!y, !!x, !!by) %>%
       tidyr::expand_grid(boot_id = seq(1, n, by = 1)) %>%
-      dplyr::group_by(boot_id, ...) %>%
+      dplyr::group_by(boot_id, !!by) %>%
       tidyr::nest(boots = c(!!x, !!y)) %>% 
       dplyr::mutate(boots = boots %>% 
                       purrr::map(function(boots) 
                         dplyr::slice_sample(boots, 
-                                            replace = TRUE, n = nrow(boots))) ) %>% 
-      dplyr::mutate(model = map(boots, 
-                                purrr::possibly(
-                                  .f = ~as.data.frame(
-                                    soiltestcorr::quadratic_plateau(data = ., ry = !!y, stv = !!x,
-                                                                 target = target, tidy = TRUE) ), 
-                                  otherwise = NULL, quiet = TRUE)) ) %>%
+                                            replace = TRUE, n = nrow(boots)))) %>% 
+      dplyr::mutate(
+        model = map(boots, purrr::possibly(
+          .f = ~ soiltestcorr::quadratic_plateau(
+            data = ., stv = !!x, ry = !!y, target = target)),
+          otherwise = NULL, quiet = TRUE)) %>%
       dplyr::select(-boots) %>% 
-      tidyr::unnest(cols = model) 
+      tidyr::unnest(cols = model) %>% 
+      # irrelevant columns
+      dplyr::select(-equation, -(lowerCL:CI_type)) %>% 
+      dplyr::ungroup()
+    
+    return(output_df)
   }

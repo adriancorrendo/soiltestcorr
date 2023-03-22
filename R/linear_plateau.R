@@ -8,7 +8,7 @@
 #' @param ry name of the vector containing relative yield values (%) of type `numeric`.
 #' @param target `numeric` value of relative yield target (e.g. 90 for 90%) to estimate the CSTV.
 #' The target needs to be < plateau, otherwise, target = plateau.
-#' @param tidy logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).
+#' @param tidy logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a tidy data frame or tibble (default), FALSE returns a list.
 #' @param resid logical operator (TRUE/FALSE) to plot residuals analysis, Default: FALSE
 #' @param plot logical operator (TRUE/FALSE) to plot the linear-plateau model, Default: FALSE
 #' @param x selfstart vector for independent variable, Default: NULL
@@ -16,7 +16,7 @@
 #' @param slope selfstart arg. for slope Default: NULL
 #' @param jp selfstart arg. for join point (jp) value Default: NULL
 #' @param n sample size for the bootstrapping Default: 500
-#' @param ... when running bootstrapped samples, open arguments serve to add grouping Variables (factor or character) Default: NULL
+#' @param .by when running bootstrapped samples, open arguments serve to add grouping Variables (factor or character) Default: NULL
 #' @rdname linear_plateau
 #' @return returns an object of type `ggplot` if plot = TRUE.
 #' @return returns a residuals plot if resid = TRUE.
@@ -234,7 +234,8 @@ linear_plateau <- function(data = NULL,
   
   
   # CSTV
-  CSTV <- round(jp, 1)
+  
+  CSTV <- ifelse(jp > 10, round(jp), round(jp, 1))
   # Wald confidence interval for CSTV
   # not as reliable as bootstrapping but sometimes useful
   lp_model.confint <- nlstools::confint2(lp_model, level = 0.95)
@@ -255,7 +256,7 @@ linear_plateau <- function(data = NULL,
                  CSTV,
                  ifelse(target >= plateau,
                         (plateau - b0) / b1,
-                        (target - b0) / b1) )
+                        (target - b0) / b1))
   
   
   # have to make a line because seq() doesn't plot clean break point
@@ -302,10 +303,8 @@ linear_plateau <- function(data = NULL,
     } else if (tidy == FALSE) {
     
       return(as.list(results))
-    
+      
     }
-    
-    return(results)
     
   } else {
     # Residual plots and normality
@@ -325,13 +324,13 @@ linear_plateau <- function(data = NULL,
                          color = "grey15", linewidth = 1) +
       # CSTV for break point
       {if (is.null(target))
-        ggplot2::geom_vline(xintercept = CSTV, alpha = 1, color = "#13274F", 
+        ggplot2::geom_vline(xintercept = jp, alpha = 1, color = "#13274F", 
                             linewidth = 0.5, linetype = "dashed") } +
       # annotation
       {if (is.null(target))
         ggplot2::annotate(
-          "text",label = paste("CSTV =", round(CSTV, 1), "ppm"),
-          x = CSTV, y = 0, angle = 90, hjust = 0, vjust = 1.5, color = "grey25") } +
+          "text", label = paste("CSTV =", CSTV, "ppm"),
+          x = jp, y = 0, angle = 90, hjust = 0, vjust = 1.5, color = "grey25") } +
       # STV for TARGET
       {if (!is.null(target))
         ggplot2::geom_vline(xintercept = STVt, alpha = 1, color = "#13274F", 
@@ -345,7 +344,7 @@ linear_plateau <- function(data = NULL,
       # CI
       { if (is.null(target)) 
         geom_vline(xintercept = c(lowerCL, upperCL),
-                   color = "grey25", size = 0.25, linetype = "dotted") } +
+                   color = "grey25", linewidth = 0.25, linetype = "dotted") } +
       # Plateau
       { if(is.null(target))
         ggplot2::geom_hline(yintercept = plateau, alpha = 0.2) } +
@@ -387,7 +386,8 @@ linear_plateau <- function(data = NULL,
                                                ifelse(maxx > 10, 2, 0.5)))))) +
       ggplot2::scale_y_continuous(limits = c(0, maxy),
                                   breaks = seq(0, maxy * 2,10)) +
-      ggplot2::labs(x = "Soil test value (units)", y = "Relative yield (%)",
+      ggplot2::labs(x = "Soil test value (units)",
+                    y = "Relative yield (%)",
                     title = "Linear-plateau")+
       ggplot2::theme_bw()+
       ggplot2::theme(panel.grid = ggplot2::element_blank(),
@@ -404,10 +404,11 @@ linear_plateau <- function(data = NULL,
 #' @export 
 
 boot_linear_plateau <-
-  function(data, ry, stv, n = 500, target = NULL, ...) {
+  function(data, stv, ry, n = 1000, target = NULL, .by = NULL) {
     # Allow customized column names
     x <- rlang::enquo(stv)
     y <- rlang::enquo(ry)
+    by <- rlang::enquo(.by)
     # Empty global variables
     boot_id <- NULL
     boots <- NULL
@@ -416,10 +417,10 @@ boot_linear_plateau <-
     CI_type <- NULL
     lowerCL <- NULL
 
-    data %>%
-      dplyr::select(!!y, !!x, ...) %>%
+    output_df <- data %>%
+      dplyr::select(!!y, !!x, !!by) %>%
       tidyr::expand_grid(boot_id = seq(1, n, by = 1)) %>%
-      dplyr::group_by(boot_id, ...) %>%
+      dplyr::group_by(boot_id, !!by) %>%
       tidyr::nest(boots = c(!!x, !!y)) %>%
       dplyr::mutate(boots = boots %>%
                       purrr::map(function(boots)
@@ -427,32 +428,42 @@ boot_linear_plateau <-
                                             replace = TRUE, n = nrow(boots)))) %>%
       dplyr::mutate(
         model = map(boots, purrr::possibly(
-          .f = ~ soiltestcorr::linear_plateau(data = ., ry = !!y, stv = !!x,
-                                            target = target)),
-                                  otherwise = NULL)) %>%
+          .f = ~ soiltestcorr::linear_plateau(
+            data = ., ry = !!y, stv = !!x, target = target)),
+          otherwise = NULL, quiet = TRUE)) %>%
       dplyr::select(-boots) %>%
       tidyr::unnest(cols = model) %>% 
       # irrelevant columns
-      dplyr::select(-equation, -(lowerCL:CI_type))
+      dplyr::select(-equation, -(lowerCL:CI_type)) %>% 
+      dplyr::ungroup()
+    
+    return(output_df)
   }
 
-# Testing for potential future release; needs grouping
-# boot_linear_plateau <- 
-#   function(data, stv, ry, n = 500, target = NULL, ...) {
+#Testing for potential future release
+# boot_linear_plateau2 <-
+#   function(data, stv, ry, n = 500, target = NULL, .by = NULL) {
 #     # Allow customized column names
 #     x <- rlang::enquo(stv)
 #     y <- rlang::enquo(ry)
-#     
-#     data %>%  
-#       dplyr::select(!!y, !!x, ...) %>%
-#       modelr::bootstrap(n = n) %>%
-#       dplyr::transmute(.id, rs_data = map(strap, dplyr::as_tibble)) %>% 
-#       dplyr::mutate(
-#         model = map(rs_data, purrr::possibly(.f = ~ soiltestcorr::linear_plateau(
-#           data = ., ry = !!y, stv = !!x, target = target)), otherwise = NULL)) %>%
-#       dplyr::select(-rs_data) %>% 
+#     by <- rlang::enquo(.by)
+# 
+#     output_df <- data %>%
+#       #dplyr::select(!!x, !!y, !!by) %>%
+#       dplyr::group_by(!!by) %>% 
+#       tidyr::nest() %>% 
+#       mutate(nested_boots = map(data, modelr::bootstrap, n = 5)) %>%
+#       unnest(nested_boots)
+#       mutate(boots = map(strap, dplyr::as_tibble),
+#              model = map(boots, purrr::possibly(
+#                .f = ~ soiltestcorr::linear_plateau(
+#                data = ., stv = !!x, ry = !!y, target = target),
+#              otherwise = NULL))) %>%
+#       dplyr::select(-(data:boots)) %>%
 #       tidyr::unnest(model) %>%
-#       dplyr::ungroup() %>% 
+#       dplyr::ungroup() %>%
 #       # irrelevant columns
 #       dplyr::select(-equation, -(lowerCL:CI_type))
+#       
+#     return(output_df)
 #   }
