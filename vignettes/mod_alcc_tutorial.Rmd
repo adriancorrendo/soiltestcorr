@@ -242,9 +242,9 @@ Bootstrapping is a resampling technique (with replacement) that draws samples fr
 This function returns a table with as many rows as the resampling size (n) containing the results for each resample.
 
 ```{r}
-boot_alcc <- boot_mod_alcc(data = data_1, 
-                    ry = RY, target = 90, confidence = 0.95,
-                    stv = STV, n = 200)
+boot_alcc <- boot_mod_alcc(data = data_3, stv = STK,
+                           ry = RY, target = 90, confidence = 0.95,
+                           n = 500)
 
 boot_alcc %>% dplyr::slice_head(., n=5)
 
@@ -254,7 +254,7 @@ quantile(boot_alcc$CSTV, probs = c(0.025, 0.5, 0.975))
 # Plot
 boot_alcc %>% 
   ggplot2::ggplot(aes(x = CSTV))+
-  geom_histogram(color = "grey25", fill = "#9de0bf", bins = 10)
+  geom_histogram(color = "grey25", fill = "steelblue", bins = 10)
 ```
 
 ## 4. Plots

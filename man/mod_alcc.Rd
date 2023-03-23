@@ -15,7 +15,15 @@ mod_alcc(
   plot = FALSE
 )
 
-boot_mod_alcc(data, ry, stv, n = 500, target = 90, confidence = 0.95, ...)
+boot_mod_alcc(
+  data,
+  ry,
+  stv,
+  n = 500,
+  target = 90,
+  confidence = 0.95,
+  by = NULL
+)
 }
 \arguments{
 \item{data}{Optional argument to call and object of type data.frame or data.table

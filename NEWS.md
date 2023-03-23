@@ -5,11 +5,12 @@
 - `mod_alcc()` update including:
   - including Root Mean Square Error (RMSE) of the ALCC curve with respect to observed RY values as a potential indicator of model's quality.
   - including the estimation of Akaike Information Criteria (AIC), and Bayesian Information Criteria (BIC) for the "underlying" bivariate SMA models.
+  - 'smatr' package is a new dependency (to get AIC and BIC of SMA models).
   - using "tibble" instead of "dataframe".
   - implementing tidy=TRUE as default.
   - using linewidth instead of "size" for geom_line().
   - reordering variables of the output (e.g. goodness of fit indicators first)
-
+  
 * March 8th, 2023. <br/>
 
 Details:

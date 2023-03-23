@@ -34,7 +34,8 @@ Imports:
     nlstools,
     minpack.lm,
     modelr,
-    AICcmodavg
+    AICcmodavg,
+    smatr
 Depends: 
     R (>= 3.6.0)
 LazyData: true

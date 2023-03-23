@@ -157,14 +157,6 @@ mod_alcc <- function(data=NULL,
                                              "fitted_axis" = fitted_axis)) %>%
                          tidyr::nest(SMA =  c("ln_STV", "arc_RY", "SMA_line","residuals", 
                                               "fitted_axis") ) ) 
-      # ,
-      # # Data frame with RY residuals
-      # dplyr::as_tibble(list("STV" = STV,
-      #                    "RY" = RY,
-      #                    "RY_pred" = RY_pred)) %>% 
-      #   mutate(RY_err = RY_pred-RY,
-      #          err2 = RY_err^2) %>% 
-      #   tidyr::nest(RY_err =  c("STV", "RY", "RY_pred", "RY_err", "err2") ) 
     )
   
   # Decide type of output
@@ -260,28 +252,33 @@ mod_alcc <- function(data=NULL,
 #' @return boot_mod_alcc: bootstrapping function
 #' @export 
 boot_mod_alcc <- 
-  function(data, ry, stv, n=500, target = 90, confidence = 0.95, ...) {
+  function(data, ry, stv, n=500, target = 90, confidence = 0.95, by = NULL) {
     # Allow customized column names
     x <- rlang::enquo(stv)
     y <- rlang::enquo(ry)
+    by <- rlang::enquo(by)
     # Empty global variables
     boot_id <- NULL
     boots <- NULL
     model <- NULL
     
     data %>%  
-      dplyr::select(!!y, !!x, ...) %>%
+      dplyr::select(!!y, !!x, !!by) %>%
       tidyr::expand_grid(boot_id = seq(1, n, by = 1)) %>%
-      dplyr::group_by(boot_id, ...) %>%
+      dplyr::group_by(boot_id, !!by) %>%
       tidyr::nest(boots = c(!!x, !!y)) %>% 
       dplyr::mutate(boots = boots %>% 
                       map(function(boots) 
                         dplyr::slice_sample(boots, 
                                             replace = TRUE, n = nrow(boots))) ) %>% 
-      dplyr::mutate(model = map(boots,
-                                purrr::possibly(
-                                  .f = ~dplyr::as_tibble(test_mod_alcc(data = ., ry = !!y, stv = !!x,
-                                                                       target = target, confidence = confidence))[c(1:6,9,13,15)] ),
+      dplyr::mutate(
+        model = map(boots,
+                    purrr::possibly(
+                      .f = ~dplyr::as_tibble(
+                        soiltestcorr::mod_alcc(data = ., 
+                                               ry = !!y, stv = !!x,
+                                               target = target, 
+                                               confidence = confidence))[c(1:6,9,13,15)] ),
                                 otherwise = NULL, quiet = TRUE) ) %>%
       dplyr::select(-boots) %>% 
       tidyr::unnest(cols = model) 
