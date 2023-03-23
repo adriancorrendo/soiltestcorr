@@ -82,7 +82,7 @@ estimate critical soil test values (CSTV) above which yield response becomes fla
 <span>  resid <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">boot_linear_plateau</span><span class="op">(</span><span class="va">data</span>, <span class="va">ry</span>, <span class="va">stv</span>, n <span class="op">=</span> <span class="fl">500</span>, target <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">boot_linear_plateau</span><span class="op">(</span><span class="va">data</span>, <span class="va">stv</span>, <span class="va">ry</span>, n <span class="op">=</span> <span class="fl">1000</span>, target <span class="op">=</span> <span class="cn">NULL</span>, .by <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -122,7 +122,7 @@ The target needs to be &lt; plateau, otherwise, target = plateau.</p></dd>
 
 
 <dt>tidy</dt>
-<dd><p>logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).</p></dd>
+<dd><p>logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a tidy data frame or tibble (default), FALSE returns a list.</p></dd>
 
 
 <dt>plot</dt>
@@ -137,7 +137,7 @@ The target needs to be &lt; plateau, otherwise, target = plateau.</p></dd>
 <dd><p>sample size for the bootstrapping Default: 500</p></dd>
 
 
-<dt>...</dt>
+<dt>.by</dt>
 <dd><p>when running bootstrapped samples, open arguments serve to add grouping Variables (factor or character) Default: NULL</p></dd>
 
 </dl></div>

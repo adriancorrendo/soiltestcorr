@@ -92,60 +92,67 @@
     
 <p><img src="../reference/figures/soiltestcorr_logo.png" align="right" height="200" style="float:right; height:200px;"></p>
 <div class="section level3">
-<h3 id="description">Description <br><a class="anchor" aria-label="anchor" href="#description"></a>
+<h3 id="description">Description<a class="anchor" aria-label="anchor" href="#description"></a>
 </h3>
-<p>This tutorial demonstrates the quadratic_plateau() function for
-fitting a continuous response model and estimating a critical soil test
-value (CSTV). This function fits a segmented regression model that
-follows two phases: i) a curvilinear phase described as
-<code>y = a + b * x + c * x^2</code>, followed by ii) a plateau phase
-(Bullock and Bullock, 1994) were the <code>ry</code> response to
-increasing <code>stv</code> becomes NULL (flat), described as a plateau
-<code>y = a + b*Xc + c*Xc</code>, where <code>y</code> represents the
-fitted crop relative yield, <code>x</code> the soil test value,
-<code>a</code> the intercept (ry when stv = 0) , <code>b</code> the
-linear slope (as the change in ry per unit of soil nutrient supply or
-nutrient added), <code>c</code> the quadratic coefficient (giving the
-curve shape), and <code>X_c</code> the join point when the plateau phase
-starts (i.e. the CSTV).</p>
-<p>This approach is a bit more complex than linear-plateau, but the
-curvature of the response brings more biological sense. Similar to
-linear-plateau, disadvantages are that: i) the user does not have
-control to estimate the CSTV (the <code>Xc</code> parameter) for an
-specific ry level; and ii) the default confidence interval estimation of
-the <code>CSTV</code> is generally unreliable (based on symmetric Wald’s
-intervals). We recommend the user to apply the
+<p>This tutorial demonstrates the <code><a href="../reference/quadratic_plateau.html">quadratic_plateau()</a></code>
+function for fitting a continuous response model and estimating a
+critical soil test value (CSTV). This function fits a segmented
+regression model that follows two phases: a positive curvilinear
+response followed by a flat plateau phase. The join point is often
+interpreted as the CSTV. See Bullock and Bullock (1994) for
+example.<span class="math display">\[
+\begin{cases}
+x &lt; j,\ y = a + bx + cx^2 \\
+x &gt; j,\ y = a + bj + cj^2
+\end{cases}
+\]</span></p>
+<p>where<br><code>y</code> represents the fitted crop relative yield<br><code>x</code> the soil test value<br><code>a</code> the intercept (<code>ry</code> when <code>stv</code> =
+0)<br><code>b</code> the linear slope (as the change in ry per unit of soil
+nutrient supply or nutrient added)<br><code>c</code> the quadratic coefficient (giving the curve shape)<br><code>j</code> the join point when the plateau phase starts (i.e., the
+CSTV).</p>
+<p>This model is slightly more complex than the linear-plateau, but the
+curvature of the response is argued to be more biologically reasonably
+and economical useful. The <code><a href="../reference/quadratic_plateau.html">quadratic_plateau()</a></code> function
+works automatically with self-starting initial values to facilitate the
+model convergence.</p>
+<p>Disadvantages are that:</p>
+<ul>
+<li>the default CSTV confidence interval (based on symmetric Wald’s
+intervals) is generally unreliable. We recommend the user try the
 <code><a href="../reference/quadratic_plateau.html">boot_quadratic_plateau()</a></code> function for a reliable confidence
-interval estimation of parameters and CSTV via bootstrapping (resampling
-with replacement). The <code><a href="../reference/quadratic_plateau.html">quadratic_plateau()</a></code> function works
-automatically with self-starting initial values to facilitate the model
-convergence. <br></p>
+interval estimation of parameters via bootstrapping (resampling with
+replacement).</li>
+</ul>
 </div>
 <div class="section level3">
-<h3 id="general-instructions">General Instructions <br><a class="anchor" aria-label="anchor" href="#general-instructions"></a>
+<h3 id="general-instructions">General Instructions<a class="anchor" aria-label="anchor" href="#general-instructions"></a>
 </h3>
-<ol style="list-style-type: lower-roman">
-<li><p>Load your dataframe with soil test value and relative yield data.
-<br></p></li>
-<li><p>Specify the following arguments into the function
--quadratic_plateau()-: <br></p></li>
+<ol style="list-style-type: decimal">
+<li><p>Load your dataframe with soil test value and relative yield
+data.</p></li>
+<li>
+<p>Specify the following arguments into the function
+<code><a href="../reference/quadratic_plateau.html">quadratic_plateau()</a></code>:</p>
+<ol style="list-style-type: decimal">
+<li><p><code>data</code> (optional)</p></li>
+<li><p><code>stv</code> (soil test value)</p></li>
+<li><p><code>ry</code> (relative yield) columns or vectors</p></li>
+<li><p><code>target</code> (optional) for calculating the soil test
+value at some RY level along the slope segment.</p></li>
+<li><p><code>tidy</code> <code>TRUE</code> (produces a data.frame with
+results) or <code>FALSE</code> (store results as list),</p></li>
+<li><p><code>plot</code> <code>TRUE</code> (produces a ggplot as main
+output) or <code>FALSE</code> (no plot, only results as
+data.frame),</p></li>
+<li><p><code>resid</code> <code>TRUE</code> (produces plots with
+residuals analysis) or <code>FALSE</code> (no plot)</p></li>
 </ol>
-<p>(a). <code>data</code> (optional), <br></p>
-<p>(b). <code>stv</code> (soil test value) and <code>ry</code> (relative
-yield) columns or vectors, <br></p>
-<p>(c). <code>target</code> (optional) if want to know stv level needed
-for a different <code>ry</code> than the plateau.</p>
-<p>(d). <code>tidy</code> TRUE (produces a data.frame with results) or
-FALSE (store results as list), <br></p>
-<p>(e). <code>plot</code> TRUE (produces a ggplot as main output) or
-FALSE (no plot, only results as data.frame), <br></p>
-<p>(f). <code>resid</code> TRUE (produces plots with residuals analysis)
-or FALSE (no plot), <br></p>
-<ol start="3" style="list-style-type: lower-roman">
-<li><p>Run and check results. <br></p></li>
+</li>
+<li><p>Run and check results.</p></li>
 <li><p>Check residuals plot, and warnings related to potential
-limitations of this model. <br></p></li>
-<li><p>Adjust curve plots as desired. <br></p></li>
+limitations of this model.</p></li>
+<li><p>Adjust curve plots as desired with additional
+<code>ggplot2</code> functions.</p></li>
 </ol>
 </div>
 <div class="section level2">
@@ -159,117 +166,46 @@ limitations of this model. <br></p></li>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span> <span class="co"># Plots</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span> <span class="co"># Data wrangling</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span> <span class="co"># Data wrangling</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">utils</span><span class="op">)</span> <span class="co"># Data wrangling</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span> <span class="co"># Mapping</span></span>
+<span><span class="co"># library(utils) # Data wrangling</span></span>
+<span><span class="co"># library(data.table) # Mapping</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/" class="external-link">purrr</a></span><span class="op">)</span> <span class="co"># Mapping</span></span></code></pre></div>
-<p>This is a basic example using three different datasets: <br></p>
+<p>This is a basic example using three different datasets:</p>
 <div class="section level3">
-<h3 id="load-datasets">Load datasets<a class="anchor" aria-label="anchor" href="#load-datasets"></a>
+<h3 id="load-dataset">Load dataset<a class="anchor" aria-label="anchor" href="#load-dataset"></a>
 </h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co"># Example 1 dataset</span></span>
-<span><span class="co"># Fake dataset manually created</span></span>
-<span><span class="va">data_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="st">"RY"</span>  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">65</span>,<span class="fl">80</span>,<span class="fl">85</span>,<span class="fl">88</span>,<span class="fl">90</span>,<span class="fl">94</span>,<span class="fl">93</span>,<span class="fl">96</span>,<span class="fl">97</span>,<span class="fl">95</span>,<span class="fl">98</span>,<span class="fl">100</span>,<span class="fl">99</span>,<span class="fl">99</span>,<span class="fl">100</span><span class="op">)</span>,</span>
-<span>                     <span class="st">"STV"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">7</span>,<span class="fl">8</span>,<span class="fl">9</span>,<span class="fl">10</span>,<span class="fl">11</span>,<span class="fl">12</span>,<span class="fl">13</span>,<span class="fl">14</span>,<span class="fl">15</span><span class="op">)</span><span class="op">)</span></span>
-<span>  </span>
-<span><span class="co"># Example 2. Native fake dataset from soiltestcorr package</span></span>
-<span></span>
-<span><span class="va">data_2</span> <span class="op">&lt;-</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="va"><a href="../reference/data_test.html">data_test</a></span></span>
-<span></span>
-<span></span>
-<span><span class="co"># Example 3. Native dataset from soiltestcorr package, Freitas et al.  (1966), used by Cate &amp; Nelson (1971)</span></span>
-<span><span class="va">data_3</span> <span class="op">&lt;-</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="va"><a href="../reference/freitas1966.html">freitas1966</a></span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Native fake dataset from soiltestcorr package</span></span>
+<span><span class="va">corr_df</span> <span class="op">&lt;-</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="va"><a href="../reference/data_test.html">data_test</a></span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
 <h2 id="fit-quadratic_plateau">Fit quadratic_plateau()<a class="anchor" aria-label="anchor" href="#fit-quadratic_plateau"></a>
 </h2>
 <div class="section level3">
-<h3 id="individual-fits">1. Individual fits <br><a class="anchor" aria-label="anchor" href="#individual-fits"></a>
+<h3 id="individual-fits">1. Individual fits<a class="anchor" aria-label="anchor" href="#individual-fits"></a>
 </h3>
 <div class="section level4">
-<h4 id="tidy-false">1.1. <code>tidy</code> = FALSE <br><a class="anchor" aria-label="anchor" href="#tidy-false"></a>
+<h4 id="tidy-true-default">1.1. <code>tidy</code> = TRUE (default)<a class="anchor" aria-label="anchor" href="#tidy-true-default"></a>
 </h4>
-<p>It returns a LIST (more efficient for multiple fits at once)
-<br></p>
+<p>It returns a tidy data frame (more organized results)</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="co"># Using dataframe argument, tidy = FALSE -&gt; return a LIST</span></span>
-<span><span class="va">fit_1_tidy_false</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/quadratic_plateau.html">quadratic_plateau</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_1</span>, </span>
-<span>                               ry <span class="op">=</span> <span class="va">RY</span>, </span>
-<span>                               stv <span class="op">=</span> <span class="va">STV</span>, </span>
-<span>                               tidy <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fit_1_tidy_false</span><span class="op">)</span></span>
-<span><span class="co">#&gt; $intercept</span></span>
-<span><span class="co">#&gt; [1] 61.01</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $slope</span></span>
-<span><span class="co">#&gt; [1] 8.59</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $equation</span></span>
-<span><span class="co">#&gt; [1] "61 + 8.59x + -0.5x^2 if x&lt;CSTV"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $plateau</span></span>
-<span><span class="co">#&gt; [1] 97.7</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $target</span></span>
-<span><span class="co">#&gt; [1] 97.7</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $CSTV</span></span>
-<span><span class="co">#&gt; [1] 8.6</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/quadratic_plateau.html">quadratic_plateau</a></span><span class="op">(</span><span class="va">corr_df</span>, <span class="va">STV</span>, <span class="va">RY</span>, tidy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 14</span></span></span>
+<span><span class="co">#&gt;   inter…¹ slope equat…² plateau  CSTV lowerCL upperCL CI_type target  STVt   AIC</span></span>
+<span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    44.2  2.86 44.1 +…    96.4    37    29.7    43.4 Wald C…   96.4    37  <span style="text-decoration: underline;">1</span>023</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 3 more variables: AICc &lt;dbl&gt;, R2 &lt;dbl&gt;, pvalue &lt;dbl&gt;, and abbreviated</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   variable names ¹​intercept, ²​equation</span></span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="tidy-true">1.2. <code>tidy</code> = TRUE <br><a class="anchor" aria-label="anchor" href="#tidy-true"></a>
+<h4 id="tidy-false">1.2. <code>tidy</code> = FALSE<a class="anchor" aria-label="anchor" href="#tidy-false"></a>
 </h4>
-<p>It returns a data.frame (more organized results) <br></p>
+<p>It returns a LIST (may be more efficient for multiple fits at
+once)</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="co"># Using dataframe argument, tidy = FALSE -&gt; return a LIST</span></span>
-<span><span class="va">fit_1_tidy_true</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/quadratic_plateau.html">quadratic_plateau</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_1</span>, </span>
-<span>                               ry <span class="op">=</span> <span class="va">RY</span>, </span>
-<span>                               stv <span class="op">=</span> <span class="va">STV</span>,</span>
-<span>                               tidy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">fit_1_tidy_true</span></span>
-<span><span class="co">#&gt;   intercept slope                       equation plateau target CSTV LL_cstv</span></span>
-<span><span class="co">#&gt; 1     61.01  8.59 61 + 8.59x + -0.5x^2 if x&lt;CSTV    97.7   97.7  8.6     6.6</span></span>
-<span><span class="co">#&gt;   UL_cstv             CI_type STVt AIC AICc   R2 pvalue</span></span>
-<span><span class="co">#&gt; 1    10.5 Wald Conf. Interval  8.6  75   79 0.94      0</span></span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="alternative-using-the-vectors">1.3. Alternative using the vectors <br><a class="anchor" aria-label="anchor" href="#alternative-using-the-vectors"></a>
-</h4>
-<p>You can call <code>stv</code> and <code>ry</code> vectors using the
-<code>$</code>. <br></p>
-<p>The <code>tidy</code> argument still applies for controlling the
-output type</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">fit_1_vectors_list</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/quadratic_plateau.html">quadratic_plateau</a></span><span class="op">(</span>ry <span class="op">=</span> <span class="va">data_1</span><span class="op">$</span><span class="va">RY</span>,</span>
-<span>                               stv <span class="op">=</span> <span class="va">data_1</span><span class="op">$</span><span class="va">STV</span>,</span>
-<span>                               tidy <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">fit_1_vectors_tidy</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/quadratic_plateau.html">quadratic_plateau</a></span><span class="op">(</span>ry <span class="op">=</span> <span class="va">data_1</span><span class="op">$</span><span class="va">RY</span>,</span>
-<span>                               stv <span class="op">=</span> <span class="va">data_1</span><span class="op">$</span><span class="va">STV</span>,</span>
-<span>                               tidy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="data-2--test-dataset">1.4. Data 2. Test dataset <br><a class="anchor" aria-label="anchor" href="#data-2--test-dataset"></a>
-</h4>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">fit_2</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/quadratic_plateau.html">quadratic_plateau</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_2</span>, </span>
-<span>                               ry <span class="op">=</span> <span class="va">RY</span>,</span>
-<span>                               stv <span class="op">=</span> <span class="va">STV</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fit_2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/quadratic_plateau.html">quadratic_plateau</a></span><span class="op">(</span><span class="va">corr_df</span>, <span class="va">STV</span>, <span class="va">RY</span>, tidy <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $intercept</span></span>
 <span><span class="co">#&gt; [1] 44.15</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -277,171 +213,150 @@ output type</p>
 <span><span class="co">#&gt; [1] 2.86</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $equation</span></span>
-<span><span class="co">#&gt; [1] "44.1 + 2.86x + -0.04x^2 if x&lt;CSTV"</span></span>
+<span><span class="co">#&gt; [1] "44.1 + 2.86x + -0.04x^2 when x &lt; 36.5"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $plateau</span></span>
 <span><span class="co">#&gt; [1] 96.4</span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $CSTV</span></span>
+<span><span class="co">#&gt; [1] 37</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $lowerCL</span></span>
+<span><span class="co">#&gt; [1] 29.7</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $upperCL</span></span>
+<span><span class="co">#&gt; [1] 43.4</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $CI_type</span></span>
+<span><span class="co">#&gt; [1] "Wald Conf. Interval"</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $target</span></span>
 <span><span class="co">#&gt; [1] 96.4</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $CSTV</span></span>
-<span><span class="co">#&gt; [1] 36.5</span></span></code></pre></div>
+<span><span class="co">#&gt; $STVt</span></span>
+<span><span class="co">#&gt; [1] 37</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $AIC</span></span>
+<span><span class="co">#&gt; [1] 1023</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $AICc</span></span>
+<span><span class="co">#&gt; [1] 1024</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $R2</span></span>
+<span><span class="co">#&gt; [1] 0.53</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $pvalue</span></span>
+<span><span class="co">#&gt; [1] 0</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="data-3--freitas-et-al--1966">1.5. Data 3. Freitas et al. 1966 <br><a class="anchor" aria-label="anchor" href="#data-3--freitas-et-al--1966"></a>
+<h4 id="alternative-using-the-vectors">1.3. Alternative using the vectors<a class="anchor" aria-label="anchor" href="#alternative-using-the-vectors"></a>
+</h4>
+<p>You can use the <code>stv</code> and <code>ry</code> vectors from the
+data frame using the <code>$</code>.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">fit_vectors_tidy</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quadratic_plateau.html">quadratic_plateau</a></span><span class="op">(</span>stv <span class="op">=</span> <span class="va">corr_df</span><span class="op">$</span><span class="va">STV</span>, ry <span class="op">=</span> <span class="va">corr_df</span><span class="op">$</span><span class="va">RY</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">fit_vectors_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quadratic_plateau.html">quadratic_plateau</a></span><span class="op">(</span>stv <span class="op">=</span> <span class="va">corr_df</span><span class="op">$</span><span class="va">STV</span>, ry <span class="op">=</span> <span class="va">corr_df</span><span class="op">$</span><span class="va">RY</span>, tidy <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level3">
+<h3 id="multiple-fits-at-once">2. Multiple fits at once<a class="anchor" aria-label="anchor" href="#multiple-fits-at-once"></a>
+</h3>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Example 1. Fake dataset manually created</span></span>
+<span><span class="va">data_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="st">"RY"</span>  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">65</span>,<span class="fl">80</span>,<span class="fl">85</span>,<span class="fl">88</span>,<span class="fl">90</span>,<span class="fl">94</span>,<span class="fl">93</span>,<span class="fl">96</span>,<span class="fl">97</span>,<span class="fl">95</span>,<span class="fl">98</span>,<span class="fl">100</span>,<span class="fl">99</span>,<span class="fl">99</span>,<span class="fl">100</span><span class="op">)</span>,</span>
+<span>                     <span class="st">"STV"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">7</span>,<span class="fl">8</span>,<span class="fl">9</span>,<span class="fl">10</span>,<span class="fl">11</span>,<span class="fl">12</span>,<span class="fl">13</span>,<span class="fl">14</span>,<span class="fl">15</span><span class="op">)</span><span class="op">)</span></span>
+<span>  </span>
+<span><span class="co"># Example 2. Native fake dataset from soiltestcorr package</span></span>
+<span><span class="va">data_2</span> <span class="op">&lt;-</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="va"><a href="../reference/data_test.html">data_test</a></span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Example 3. Native dataset from soiltestcorr package, Freitas et al.  (1966), used by Cate &amp; Nelson (1971)</span></span>
+<span><span class="va">data_3</span> <span class="op">&lt;-</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="va"><a href="../reference/freitas1966.html">freitas1966</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>STV <span class="op">=</span> <span class="va">STK</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">data.all</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">data_1</span>, <span class="va">data_2</span>, <span class="va">data_3</span>, .id <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span></span></code></pre></div>
+<p>Note: the <code>stv</code> column needs to have the same name for all
+datasets if binding rows.</p>
+<div class="section level4">
+<h4 id="using-map">2.1. Using <code>map()</code><a class="anchor" aria-label="anchor" href="#using-map"></a>
 </h4>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="va">fit_3</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/quadratic_plateau.html">quadratic_plateau</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, </span>
-<span>                               ry <span class="op">=</span> <span class="va">RY</span>,</span>
-<span>                               stv <span class="op">=</span> <span class="va">STK</span><span class="op">)</span></span>
-<span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fit_3</span><span class="op">)</span></span>
-<span><span class="co">#&gt; $intercept</span></span>
-<span><span class="co">#&gt; [1] 12.86</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $slope</span></span>
-<span><span class="co">#&gt; [1] 1.91</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $equation</span></span>
-<span><span class="co">#&gt; [1] "12.9 + 1.91x + -0.01x^2 if x&lt;CSTV"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $plateau</span></span>
-<span><span class="co">#&gt; [1] 95.3</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $target</span></span>
-<span><span class="co">#&gt; [1] 95.3</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $CSTV</span></span>
-<span><span class="co">#&gt; [1] 86.2</span></span></code></pre></div>
+<span><span class="co"># Run multiple examples at once with purrr::map()</span></span>
+<span><span class="va">data.all</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">nest</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"STV"</span>, <span class="st">"RY"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>model <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">data</span>, <span class="op">~</span> <span class="fu"><a href="../reference/quadratic_plateau.html">quadratic_plateau</a></span><span class="op">(</span>stv <span class="op">=</span> <span class="va">.</span><span class="op">$</span><span class="va">STV</span>, ry <span class="op">=</span> <span class="va">.</span><span class="op">$</span><span class="va">RY</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 16</span></span></span>
+<span><span class="co">#&gt;   id    data     intercept slope equation  plateau  CSTV lowerCL upperCL CI_type</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1     &lt;tibble&gt;      61.0  8.59 61 + 8.5…    97.7   8.6     6.6    10.5 Wald C…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2     &lt;tibble&gt;      44.2  2.86 44.1 + 2…    96.4  37      29.7    43.4 Wald C…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 3     &lt;tibble&gt;      12.9  1.91 12.9 + 1…    95.3  86      45.5   127.  Wald C…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 6 more variables: target &lt;dbl&gt;, STVt &lt;dbl&gt;, AIC &lt;dbl&gt;, AICc &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   R2 &lt;dbl&gt;, pvalue &lt;dbl&gt;</span></span></span></code></pre></div>
 </div>
-</div>
-<div class="section level3">
-<h3 id="multiple-fits-at-once">2. Multiple fits at once <br><a class="anchor" aria-label="anchor" href="#multiple-fits-at-once"></a>
-</h3>
 <div class="section level4">
-<h4 id="using-map">2.1. Using map<a class="anchor" aria-label="anchor" href="#using-map"></a>
+<h4 id="using-group_modify">2.2. Using <code>group_modify()</code><a class="anchor" aria-label="anchor" href="#using-group_modify"></a>
 </h4>
-<div class="section level5">
-<h5 id="create-nested-data">Create nested data <br><a class="anchor" aria-label="anchor" href="#create-nested-data"></a>
-</h5>
-<p><i> Note: the <code>stv</code> column needs to have the same name for
-all datasets <i></i> <br></i></p>
+<p>Alternatively, with <code>group_modify</code>, nested data is not
+required. However, it still requires a grouping variable (in this case,
+<code>id</code>) to identify each dataset. <code><a href="https://dplyr.tidyverse.org/reference/group_map.html" class="external-link">group_map()</a></code> may
+also be used, though <code><a href="https://purrr.tidyverse.org/reference/list_c.html" class="external-link">list_rbind()</a></code> is required to return a
+tidy data frame of the model results instead of a list.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># </span></span>
-<span><span class="va">data.all</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">data_1</span>, <span class="va">data_2</span>,</span>
-<span>                      <span class="va">data_3</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>STV <span class="op">=</span> <span class="va">STK</span><span class="op">)</span>,</span>
-<span>                     .id <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">nest</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"STV"</span>, <span class="st">"RY"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level5">
-<h5 id="fit">Fit<a class="anchor" aria-label="anchor" href="#fit"></a>
-</h5>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="co"># Run multiple examples at once with map()</span></span>
-<span><span class="va">fit_multiple_map</span> <span class="op">&lt;-</span></span>
-<span>  <span class="va">data.all</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>quadratic_plateau <span class="op">=</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">data</span>, </span>
-<span>                                     <span class="op">~</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/quadratic_plateau.html">quadratic_plateau</a></span><span class="op">(</span>ry <span class="op">=</span> <span class="va">.</span><span class="op">$</span><span class="va">RY</span>,</span>
-<span>                                                                    stv <span class="op">=</span> <span class="va">.</span><span class="op">$</span><span class="va">STV</span>,</span>
-<span>                                                                    tidy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fit_multiple_map</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
-<span><span class="co">#&gt;   id    data               quadratic_plateau</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1     <span style="color: #949494;">&lt;tibble [15 × 2]&gt;</span>  <span style="color: #949494;">&lt;df [1 × 14]&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2     <span style="color: #949494;">&lt;tibble [137 × 2]&gt;</span> <span style="color: #949494;">&lt;df [1 × 14]&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 3     <span style="color: #949494;">&lt;tibble [24 × 2]&gt;</span>  <span style="color: #949494;">&lt;df [1 × 14]&gt;</span></span></span></code></pre></div>
-</div>
-</div>
-<div class="section level4">
-<h4 id="using-group_map">2.2. Using group_map <br><a class="anchor" aria-label="anchor" href="#using-group_map"></a>
-</h4>
-<p>Alternatively, with group_map, we do not require nested data.
-<br></p>
-<p>However, it requires to bind_rows and add an <code>id</code> column
-specifying the name of each dataset. <br></p>
-<p>This option return models as lists objects.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">fit_multiple_group_map</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">data_1</span>, <span class="va">data_2</span>, .id <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_map.html" class="external-link">group_map</a></span><span class="op">(</span><span class="op">~</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/quadratic_plateau.html">quadratic_plateau</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">.</span>, </span>
-<span>                                           ry <span class="op">=</span> <span class="va">RY</span>,</span>
-<span>                                           stv <span class="op">=</span> <span class="va">STV</span>,</span>
-<span>                                           tidy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fit_multiple_group_map</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [[1]]</span></span>
-<span><span class="co">#&gt;   intercept slope                       equation plateau target CSTV LL_cstv</span></span>
-<span><span class="co">#&gt; 1     61.01  8.59 61 + 8.59x + -0.5x^2 if x&lt;CSTV    97.7   97.7  8.6     6.6</span></span>
-<span><span class="co">#&gt;   UL_cstv             CI_type STVt AIC AICc   R2 pvalue</span></span>
-<span><span class="co">#&gt; 1    10.5 Wald Conf. Interval  8.6  75   79 0.94      0</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [[2]]</span></span>
-<span><span class="co">#&gt;   intercept slope                          equation plateau target CSTV LL_cstv</span></span>
-<span><span class="co">#&gt; 1     44.15  2.86 44.1 + 2.86x + -0.04x^2 if x&lt;CSTV    96.4   96.4 36.5    29.7</span></span>
-<span><span class="co">#&gt;   UL_cstv             CI_type STVt  AIC AICc   R2 pvalue</span></span>
-<span><span class="co">#&gt; 1    43.4 Wald Conf. Interval 36.5 1023 1024 0.53      0</span></span></code></pre></div>
+<span><span class="va">data.all</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_map.html" class="external-link">group_modify</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="../reference/quadratic_plateau.html">quadratic_plateau</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">.</span>, <span class="va">STV</span>, <span class="va">RY</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 15</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   id [3]</span></span></span>
+<span><span class="co">#&gt;   id    inter…¹ slope equat…² plateau  CSTV lowerCL upperCL CI_type target  STVt</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1        61.0  8.59 61 + 8…    97.7   8.6     6.6    10.5 Wald C…   97.7   8.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2        44.2  2.86 44.1 +…    96.4  37      29.7    43.4 Wald C…   96.4  37  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 3        12.9  1.91 12.9 +…    95.3  86      45.5   127.  Wald C…   95.3  86  </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 4 more variables: AIC &lt;dbl&gt;, AICc &lt;dbl&gt;, R2 &lt;dbl&gt;, pvalue &lt;dbl&gt;, and</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   abbreviated variable names ¹​intercept, ²​equation</span></span></span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
-<h3 id="bootstrapping">3. Bootstrapping <br><a class="anchor" aria-label="anchor" href="#bootstrapping"></a>
+<h3 id="bootstrapping">3. Bootstrapping<a class="anchor" aria-label="anchor" href="#bootstrapping"></a>
 </h3>
-<p>A suitable alternative for obtaining confidence intervals for
-parameters or derived quantities is bootstrapping. <br></p>
-<p>Bootstrapping is a resampling technique (with replacement) that draws
-samples from the original data with the same size. If you have groups
-within your data, you can specify grouping variables as arguments in
-order to maintain, within each resample, the same proportion of
-observations than in the original dataset. <br></p>
+<p>Bootstrapping is a suitable method for obtaining confidence intervals
+for parameters or derived quantities. Bootstrapping is a resampling
+technique (with replacement) that draws samples from the original data
+with the same size. If you have groups within your data, you can specify
+grouping variables as arguments in order to maintain, within each
+resample, the same proportion of observations than in the original
+dataset.</p>
 <p>This function returns a table with as many rows as the resampling
 size (n) containing the results for each resample.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">boot_qp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quadratic_plateau.html">boot_quadratic_plateau</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_1</span>, </span>
-<span>                    ry <span class="op">=</span> <span class="va">RY</span>, target <span class="op">=</span> <span class="fl">90</span>,</span>
-<span>                    stv <span class="op">=</span> <span class="va">STV</span>, n <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: There were 202 warnings in `dplyr::mutate()`.</span></span>
-<span><span class="co">#&gt; The first warning was:</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In argument: `model = map(...)`.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In group 1: `boot_id = 1`.</span></span>
-<span><span class="co">#&gt; Caused by warning:</span></span>
-<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> You have specified a relative yield target equal or greater than the CSTV for plateau. </span></span>
-<span><span class="co">#&gt;           The CSTV estimations have been changed for the plateau level</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 201 remaining warnings.</span></span>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">boot_qp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quadratic_plateau.html">boot_quadratic_plateau</a></span><span class="op">(</span><span class="va">corr_df</span>, <span class="va">STV</span>, <span class="va">RY</span>, n <span class="op">=</span> <span class="fl">500</span><span class="op">)</span> <span class="co"># only 500 for sake of speed</span></span>
 <span></span>
-<span><span class="va">boot_qp</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_head</a></span><span class="op">(</span><span class="va">.</span>, n<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 200 × 15</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   boot_id [200]</span></span></span>
-<span><span class="co">#&gt;    boot_id intercept slope equation plateau target  CSTV LL_cstv UL_cstv CI_type</span></span>
-<span><span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>       1      73.4  3.81 73.4 + …    99.2     90  13.6    10.6    16.6 Wald C…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>       2      53.8 12.8  53.7 + …    97.7     90   6.9     6       7.8 Wald C…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>       3      60.9  8.58 60.9 + …    97.6     90   8.5     6.7    10.4 Wald C…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>       4      74.2  3.89 74.2 + …    98.8     90  12.7    10.2    15.1 Wald C…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>       5      63.3  7.28 63.3 + …    99.3     90   9.9     8.1    11.7 Wald C…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>       6      55.6 10.4  55.7 + …    97.2     90   8       6.8     9.1 Wald C…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>       7      72.1  4.45 72.1 + …    99.7     90  12.4    11.2    13.7 Wald C…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>       8      54.9 13.0  54.9 + …    96.6     90   6.4     4.9     7.9 Wald C…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>       9      57.4 10.3  57.4 + …    97.7     90   7.8     6.3     9.3 Wald C…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>      10      60.5  8.4  60.5 + …    97.6     90   8.8     6.5    11.2 Wald C…</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 190 more rows, and 5 more variables: STVt &lt;dbl&gt;, AIC &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   AICc &lt;dbl&gt;, R2 &lt;dbl&gt;, pvalue &lt;dbl&gt;</span></span></span>
+<span><span class="va">boot_qp</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 11</span></span></span>
+<span><span class="co">#&gt;   boot_id intercept slope plateau  CSTV target  STVt   AIC  AICc    R2 pvalue</span></span>
+<span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       1      56.5  1.85    97      44   97      44  <span style="text-decoration: underline;">1</span>012  <span style="text-decoration: underline;">1</span>012  0.48      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>       2      57.5  1.78    97.5    45   97.5    45  <span style="text-decoration: underline;">1</span>018  <span style="text-decoration: underline;">1</span>018  0.45      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>       3      39.9  3.13    96.5    36   96.5    36  <span style="text-decoration: underline;">1</span>045  <span style="text-decoration: underline;">1</span>045  0.47      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>       4      33.8  3.53    97.1    36   97.1    36  <span style="text-decoration: underline;">1</span>026  <span style="text-decoration: underline;">1</span>027  0.64      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>       5      33.7  3.75    96      33   96      33  <span style="text-decoration: underline;">1</span>040  <span style="text-decoration: underline;">1</span>041  0.56      0</span></span>
 <span></span>
 <span><span class="co"># CSTV Confidence Interval</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">boot_qp</span><span class="op">$</span><span class="va">CSTV</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   2.5%    50%  97.5% </span></span>
-<span><span class="co">#&gt;  5.995  8.950 16.020</span></span>
+<span><span class="co">#&gt;  2.5%   50% 97.5% </span></span>
+<span><span class="co">#&gt;    29    37    49</span></span>
 <span></span>
 <span><span class="co"># Plot</span></span>
 <span><span class="va">boot_qp</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">CSTV</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html" class="external-link">geom_histogram</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"grey25"</span>, fill <span class="op">=</span> <span class="st">"#9de0bf"</span>, bins <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
-<p><img src="quadratic_plateau_tutorial_files/figure-html/unnamed-chunk-12-1.png" width="576"></p>
+<p><img src="quadratic_plateau_tutorial_files/figure-html/unnamed-chunk-10-1.png" width="576"></p>
 </div>
 <div class="section level3">
 <h3 id="plots">4. Plots<a class="anchor" aria-label="anchor" href="#plots"></a>
@@ -449,113 +364,60 @@ size (n) containing the results for each resample.</p>
 <div class="section level4">
 <h4 id="correlation-curve">4.1. Correlation Curve<a class="anchor" aria-label="anchor" href="#correlation-curve"></a>
 </h4>
-<p>We can generate a ggplot with the same quadratic_plateau() function.
-<br></p>
-<p>We just need to specify the argument <code>plot = TRUE</code>.
-<br></p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">quadratic_plateau_plot</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/quadratic_plateau.html">quadratic_plateau</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, </span>
-<span>                               ry <span class="op">=</span> <span class="va">RY</span>, </span>
-<span>                               stv <span class="op">=</span> <span class="va">STK</span>, </span>
-<span>                               plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<p>We can generate a ggplot with the same
+<code><a href="../reference/quadratic_plateau.html">quadratic_plateau()</a></code> function.</p>
+<p>We just need to specify the argument <code>plot = TRUE</code>.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data_3</span> <span class="op">&lt;-</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="va"><a href="../reference/freitas1966.html">freitas1966</a></span></span>
 <span></span>
-<span><span class="va">quadratic_plateau_plot</span></span></code></pre></div>
-<p><img src="quadratic_plateau_tutorial_files/figure-html/unnamed-chunk-13-1.png" width="576"></p>
+<span><span class="va">plot_qp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quadratic_plateau.html">quadratic_plateau</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, <span class="va">STK</span>, <span class="va">RY</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">plot_qp</span></span></code></pre></div>
+<p><img src="quadratic_plateau_tutorial_files/figure-html/unnamed-chunk-11-1.png" width="576"></p>
 </div>
 <div class="section level4">
-<h4 id="fine-tune-the-plots">4.2. Fine-tune the plots <br><a class="anchor" aria-label="anchor" href="#fine-tune-the-plots"></a>
+<h4 id="fine-tune-the-plots">4.2. Fine-tune the plots<a class="anchor" aria-label="anchor" href="#fine-tune-the-plots"></a>
 </h4>
-<p>As ggplot object, plots can be adjusted in several ways. <br></p>
-<p>For example, modifying titles <br></p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">quadratic_plateau_plot_2</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="va">quadratic_plateau_plot</span> <span class="op">+</span></span>
+<p>As ggplot object, plots can be adjusted in several ways, such as
+modifying titles and axis scales.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">plot_qp</span> <span class="op">+</span></span>
 <span>  <span class="co"># Main title</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"My own plot title"</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="co"># Axis titles</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Soil Test K (ppm)"</span>,</span>
-<span>       y <span class="op">=</span> <span class="st">"Cotton RY(%)"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">quadratic_plateau_plot_2</span></span></code></pre></div>
-<p><img src="quadratic_plateau_tutorial_files/figure-html/unnamed-chunk-14-1.png" width="576"></p>
-<p>Or modifying axis scales <br></p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">quadratic_plateau_plot_3</span> <span class="op">&lt;-</span></span>
-<span><span class="va">quadratic_plateau_plot_2</span> <span class="op">+</span></span>
+<span>       y <span class="op">=</span> <span class="st">"Cotton RY(%)"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="co"># Axis scales</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>,<span class="fl">220</span><span class="op">)</span>,</span>
-<span>                     breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">220</span>, by <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>                     breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">220</span>, by <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="co"># Axis limits</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">30</span>,<span class="fl">100</span><span class="op">)</span>,</span>
-<span>                     breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">30</span>,<span class="fl">100</span>, by <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">quadratic_plateau_plot_3</span></span></code></pre></div>
-<p><img src="quadratic_plateau_tutorial_files/figure-html/unnamed-chunk-15-1.png" width="576"></p>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">110</span><span class="op">)</span>,</span>
+<span>                     breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">110</span>, by <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="quadratic_plateau_tutorial_files/figure-html/unnamed-chunk-12-1.png" width="576"></p>
 </div>
 <div class="section level4">
-<h4 id="residuals">4.3. Residuals <br><a class="anchor" aria-label="anchor" href="#residuals"></a>
+<h4 id="residuals">4.3. Residuals<a class="anchor" aria-label="anchor" href="#residuals"></a>
 </h4>
-<p>We can generate a plot with the same quadratic_plateau() function.
-<br></p>
-<p>We just need to specify the argument <code>resid</code> = TRUE`.
-<br></p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<p>Set the argument <code>resid = TRUE</code>.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># Residuals plot</span></span>
-<span></span>
-<span><span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/quadratic_plateau.html">quadratic_plateau</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, </span>
-<span>                               ry <span class="op">=</span> <span class="va">RY</span>, </span>
-<span>                               stv <span class="op">=</span> <span class="va">STK</span>, </span>
-<span>                               resid <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="quadratic_plateau_tutorial_files/figure-html/unnamed-chunk-16-1.png" width="576"></p>
-<pre><code><span><span class="co">#&gt; $intercept</span></span>
-<span><span class="co">#&gt; [1] 12.86</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $slope</span></span>
-<span><span class="co">#&gt; [1] 1.91</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $equation</span></span>
-<span><span class="co">#&gt; [1] "12.9 + 1.91x + -0.01x^2 if x&lt;CSTV"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $plateau</span></span>
-<span><span class="co">#&gt; [1] 95.3</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $target</span></span>
-<span><span class="co">#&gt; [1] 95.3</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $CSTV</span></span>
-<span><span class="co">#&gt; [1] 86.2</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $LL_cstv</span></span>
-<span><span class="co">#&gt; [1] 45.5</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $UL_cstv</span></span>
-<span><span class="co">#&gt; [1] 126.9</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $CI_type</span></span>
-<span><span class="co">#&gt; [1] "Wald Conf. Interval"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $STVt</span></span>
-<span><span class="co">#&gt; [1] 86.2</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $AIC</span></span>
-<span><span class="co">#&gt; [1] 187</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $AICc</span></span>
-<span><span class="co">#&gt; [1] 189</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $R2</span></span>
-<span><span class="co">#&gt; [1] 0.68</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $pvalue</span></span>
-<span><span class="co">#&gt; [1] 0</span></span></code></pre>
-<p><b> References </b> <br></p>
+<span><span class="fu"><a href="../reference/quadratic_plateau.html">quadratic_plateau</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, <span class="va">STK</span>, <span class="va">RY</span>, resid <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="quadratic_plateau_tutorial_files/figure-html/unnamed-chunk-13-1.png" width="576"></p>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 14</span></span></span>
+<span><span class="co">#&gt;   inter…¹ slope equat…² plateau  CSTV lowerCL upperCL CI_type target  STVt   AIC</span></span>
+<span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    12.9  1.91 12.9 +…    95.3    86    45.5    127. Wald C…   95.3    86   187</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 3 more variables: AICc &lt;dbl&gt;, R2 &lt;dbl&gt;, pvalue &lt;dbl&gt;, and abbreviated</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   variable names ¹​intercept, ²​equation</span></span></span></code></pre>
+<div class="section level5">
+<h5 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h5>
 <p><em>Bullock, D.G. and Bullock, D.S. (1994), Quadratic and
 Quadratic-Plus-Plateau Models for Predicting Optimal Nitrogen Rate of
 Corn: A Comparison. Agron. J., 86: 191-195.
-10.2134/agronj1994.00021962008600010033x </em> <br></p>
+10.2134/agronj1994.00021962008600010033x</em></p>
+</div>
 </div>
 </div>
 </div>
