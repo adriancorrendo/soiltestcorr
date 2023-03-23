@@ -13,7 +13,7 @@
 #' @param plot logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a ggplot,
 #' FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE).
 #' @param n sample size for the bootstrapping Default: 500
-#' @param ... when running bootstrapped samples, open arguments serve to add grouping Variables (factor or character) Default: NULL  
+#' @param by when running bootstrapped samples, the `by` argument serves to add grouping variables (factor or character) Default: NULL  
 #' @rdname mod_alcc
 #' @return returns an object of type `ggplot` if plot = TRUE.
 #' @return returns an object of class `data.frame` if tidy = TRUE, 
@@ -268,17 +268,16 @@ boot_mod_alcc <-
       dplyr::group_by(boot_id, !!by) %>%
       tidyr::nest(boots = c(!!x, !!y)) %>% 
       dplyr::mutate(boots = boots %>% 
-                      map(function(boots) 
+                      purrr::map(function(boots) 
                         dplyr::slice_sample(boots, 
                                             replace = TRUE, n = nrow(boots))) ) %>% 
       dplyr::mutate(
-        model = map(boots,
-                    purrr::possibly(
-                      .f = ~dplyr::as_tibble(
-                        soiltestcorr::mod_alcc(data = ., 
-                                               ry = !!y, stv = !!x,
-                                               target = target, 
-                                               confidence = confidence))[c(1:6,9,13,15)] ),
+        model = map(boots, purrr::possibly(
+           .f = ~dplyr::as_tibble(
+             soiltestcorr::mod_alcc(data = ., 
+                                    ry = !!y, stv = !!x,
+                                    target = target, 
+                                    confidence = confidence))[c(1:6,9,13,15)] ),
                                 otherwise = NULL, quiet = TRUE) ) %>%
       dplyr::select(-boots) %>% 
       tidyr::unnest(cols = model) 

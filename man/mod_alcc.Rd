@@ -45,7 +45,7 @@ FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE).}
 
 \item{n}{sample size for the bootstrapping Default: 500}
 
-\item{...}{when running bootstrapped samples, open arguments serve to add grouping Variables (factor or character) Default: NULL}
+\item{by}{when running bootstrapped samples, the \code{by} argument serves to add grouping variables (factor or character) Default: NULL}
 }
 \value{
 returns an object of type \code{ggplot} if plot = TRUE.
