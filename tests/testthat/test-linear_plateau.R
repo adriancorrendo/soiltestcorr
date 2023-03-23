@@ -46,7 +46,7 @@ test_that("no error in fitting linear_plateau() for the example dataset", {
 })
 
 
-# 2
+# 4
 ## linear_plateau
 ## Options tidy = FALSE, plot = FALSE, resid = FALSE 
 context("run linear_plateau() with packaged dataset freitas1966")

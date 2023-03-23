@@ -4,8 +4,10 @@ author: Adrian Correndo & Austin Pearce
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Quadratic-plateau response}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r, include = FALSE}
@@ -17,222 +19,172 @@ knitr::opts_chunk$set(
 )
 ```
 
-<img src="../man/figures/soiltestcorr_logo.png" align="right" height="200" style="float:right; height:200px;">
+<img src="../man/figures/soiltestcorr_logo.png" align="right" height="200" style="float:right; height:200px;"/>
 
-## Description <br/>
+## Description
 
-This tutorial demonstrates the quadratic_plateau() function for fitting a continuous response model and estimating a critical soil test value (CSTV). This function fits a segmented regression model that follows two phases: i) a curvilinear phase described as `y = a + b * x + c * x^2`, followed by ii) a plateau phase (Bullock and Bullock, 1994) were the `ry` response to increasing `stv` becomes NULL (flat), described as a plateau `y = a + b*Xc + c*Xc`, where `y` represents the fitted crop relative yield, `x` the soil test value, `a` the intercept (ry when stv = 0) , `b` the linear slope (as the change in ry per unit of soil nutrient supply or nutrient added), `c` the quadratic coefficient (giving the curve shape), and `X_c` the join point when the plateau phase starts (i.e. the CSTV).
+This tutorial demonstrates the `quadratic_plateau()` function for fitting a continuous response model and estimating a critical soil test value (CSTV). This function fits a segmented regression model that follows two phases: a positive curvilinear response followed by a flat plateau phase. The join point is often interpreted as the CSTV. See Bullock and Bullock (1994) for example.$$
+\begin{cases}
+x < j,\ y = a + bx + cx^2 \\
+x > j,\ y = a + bj + cj^2
+\end{cases}
+$$
 
-This approach is a bit more complex than linear-plateau, but the curvature of the response brings more biological sense. Similar to linear-plateau, disadvantages are that: i) the user does not have control to estimate the CSTV (the `Xc` parameter) for an specific ry level; and ii) the default confidence interval estimation of the `CSTV` is generally unreliable (based on symmetric Wald's intervals). We recommend the user to apply the `boot_quadratic_plateau()` function for a  reliable confidence interval estimation of parameters and CSTV via bootstrapping (resampling with replacement). The `quadratic_plateau()` function works automatically with self-starting initial values to facilitate the model convergence. <br/>
+where\
+`y` represents the fitted crop relative yield\
+`x` the soil test value\
+`a` the intercept (`ry` when `stv` = 0)\
+`b` the linear slope (as the change in ry per unit of soil nutrient supply or nutrient added)\
+`c` the quadratic coefficient (giving the curve shape)\
+`j` the join point when the plateau phase starts (i.e., the CSTV).
 
-## General Instructions <br/>
+This model is slightly more complex than the linear-plateau, but the curvature of the response is argued to be more biologically reasonably and economical useful. The `quadratic_plateau()` function works automatically with self-starting initial values to facilitate the model convergence.
 
-  i. Load your dataframe with soil test value and relative yield data. <br/>
+Disadvantages are that:
 
-  ii. Specify the following arguments into the function -quadratic_plateau()-: <br/>
+-   the default CSTV confidence interval (based on symmetric Wald's intervals) is generally unreliable. We recommend the user try the `boot_quadratic_plateau()` function for a reliable confidence interval estimation of parameters via bootstrapping (resampling with replacement).
 
-   (a). `data` (optional), <br/>
-   
-   (b). `stv` (soil test value) and `ry` (relative yield)  columns or vectors, <br/>
-   
-   (c). `target` (optional) if want to know stv level needed for a different `ry` than the plateau.
-   
-   (d). `tidy` TRUE (produces a data.frame with results) or FALSE (store results as list), <br/>
+## General Instructions
 
-   (e). `plot` TRUE (produces a ggplot as main output) or FALSE (no plot, only results as data.frame), <br/>
+1.  Load your dataframe with soil test value and relative yield data.
 
-   (f). `resid` TRUE (produces plots with residuals analysis) or FALSE (no plot), <br/>
+2.  Specify the following arguments into the function `quadratic_plateau()`:
 
-  iii. Run and check results. <br/>
+    1.  `data` (optional)
 
-  iv. Check residuals plot, and warnings related to potential limitations of this model. <br/>
+    2.  `stv` (soil test value)
 
-  v. Adjust curve plots as desired. <br/>
-  
-# Tutorial  
+    3.  `ry` (relative yield) columns or vectors
+
+    4.  `target` (optional) for calculating the soil test value at some RY level along the slope segment.
+
+    5.  `tidy` `TRUE` (produces a data.frame with results) or `FALSE` (store results as list),
+
+    6.  `plot` `TRUE` (produces a ggplot as main output) or `FALSE` (no plot, only results as data.frame),
+
+    7.  `resid` `TRUE` (produces plots with residuals analysis) or `FALSE` (no plot)
+
+3.  Run and check results.
+
+4.  Check residuals plot, and warnings related to potential limitations of this model.
+
+5.  Adjust curve plots as desired with additional `ggplot2` functions.
+
+# Tutorial
 
 ```{r setup}
 library(soiltestcorr)
 ```
 
 Suggested packages
+
 ```{r warning=FALSE, message=FALSE}
 # Install if needed 
 library(ggplot2) # Plots
 library(dplyr) # Data wrangling
 library(tidyr) # Data wrangling
-library(utils) # Data wrangling
-library(data.table) # Mapping
+# library(utils) # Data wrangling
+# library(data.table) # Mapping
 library(purrr) # Mapping
 
 ```
 
-This is a basic example using three different datasets: <br/>
+This is a basic example using three different datasets:
 
-## Load datasets
+## Load dataset
+
 ```{r}
+# Native fake dataset from soiltestcorr package
+corr_df <- soiltestcorr::data_test
+```
 
-# Example 1 dataset
-# Fake dataset manually created
+# Fit quadratic_plateau()
+
+## 1. Individual fits
+
+### 1.1. `tidy` = TRUE (default)
+
+It returns a tidy data frame (more organized results)
+
+```{r warning=TRUE, message=TRUE}
+
+quadratic_plateau(corr_df, STV, RY, tidy = TRUE)
+```
+
+### 1.2. `tidy` = FALSE
+
+It returns a LIST (may be more efficient for multiple fits at once)
+
+```{r warning=TRUE, message=TRUE}
+
+quadratic_plateau(corr_df, STV, RY, tidy = FALSE)
+```
+
+### 1.3. Alternative using the vectors
+
+You can use the `stv` and `ry` vectors from the data frame using the `$`.
+
+```{r warning=TRUE, message=TRUE}
+
+fit_vectors_tidy <- quadratic_plateau(stv = corr_df$STV, ry = corr_df$RY)
+
+fit_vectors_list <- quadratic_plateau(stv = corr_df$STV, ry = corr_df$RY, tidy = FALSE)
+```
+
+## 2. Multiple fits at once
+
+```{r warning=T, message=F}
+# Example 1. Fake dataset manually created
 data_1 <- data.frame("RY"  = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
                      "STV" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
   
 # Example 2. Native fake dataset from soiltestcorr package
-
 data_2 <- soiltestcorr::data_test
 
 
 # Example 3. Native dataset from soiltestcorr package, Freitas et al.  (1966), used by Cate & Nelson (1971)
-data_3 <- soiltestcorr::freitas1966
+data_3 <- soiltestcorr::freitas1966 %>% 
+  rename(STV = STK)
 
-
+data.all <- bind_rows(data_1, data_2, data_3, .id = "id")
 ```
 
+Note: the `stv` column needs to have the same name for all datasets if binding rows.
 
-# Fit quadratic_plateau()
+### 2.1. Using `map()`
 
-## 1. Individual fits <br/>
-
-### 1.1. `tidy` = FALSE <br/>
-
-It returns a LIST (more efficient for multiple fits at once) <br/>
-```{r warning=TRUE, message=TRUE}
-
-# Using dataframe argument, tidy = FALSE -> return a LIST
-fit_1_tidy_false <- 
-  soiltestcorr::quadratic_plateau(data = data_1, 
-                               ry = RY, 
-                               stv = STV, 
-                               tidy = FALSE)
-
-utils::head(fit_1_tidy_false)
-
-```
-
-### 1.2. `tidy` = TRUE <br/>
-
-It returns a data.frame (more organized results) <br/>
-```{r warning=TRUE, message=TRUE}
-
-# Using dataframe argument, tidy = FALSE -> return a LIST
-fit_1_tidy_true <- 
-  soiltestcorr::quadratic_plateau(data = data_1, 
-                               ry = RY, 
-                               stv = STV,
-                               tidy = TRUE)
-
-fit_1_tidy_true
-
-```
-
-### 1.3. Alternative using the vectors <br/>
-
-You can call `stv` and `ry` vectors using the `$`. <br/>
-
-The `tidy` argument still applies for controlling the output type
-```{r warning=TRUE, message=TRUE}
-
-fit_1_vectors_list <-
-  soiltestcorr::quadratic_plateau(ry = data_1$RY,
-                               stv = data_1$STV,
-                               tidy = FALSE)
-
-fit_1_vectors_tidy <- 
-  soiltestcorr::quadratic_plateau(ry = data_1$RY,
-                               stv = data_1$STV,
-                               tidy = TRUE)
-
-```
-
-### 1.4. Data 2. Test dataset <br/>
-
-```{r warning=TRUE, message=TRUE}
-
-fit_2 <-
-  soiltestcorr::quadratic_plateau(data = data_2, 
-                               ry = RY,
-                               stv = STV)
-
-utils::head(fit_2)
-```
-
-### 1.5. Data 3. Freitas et al. 1966 <br/>
-
-```{r warning=TRUE, message=TRUE}
-
-fit_3 <-
-  soiltestcorr::quadratic_plateau(data = data_3, 
-                               ry = RY,
-                               stv = STK)
-utils::head(fit_3)
-
-```
-
-## 2. Multiple fits at once <br/>
-
-### 2.1. Using map
-
-#### Create nested data <br/>
-
-<i> Note: the `stv` column needs to have the same name for all datasets <i/> <br/>
-```{r warning=T, message=F}
-# 
-data.all <- bind_rows(data_1, data_2,
-                      data_3 %>% dplyr::rename(STV = STK),
-                     .id = "id") %>% 
-  tidyr::nest(data = c("STV", "RY"))
-```
-
-#### Fit
 ```{r warning=T, message=F}
 
-# Run multiple examples at once with map()
-fit_multiple_map <-
-  data.all %>%
-  dplyr::mutate(quadratic_plateau = purrr::map(data, 
-                                     ~ soiltestcorr::quadratic_plateau(ry = .$RY,
-                                                                    stv = .$STV,
-                                                                    tidy = TRUE)))
-
-utils::head(fit_multiple_map)
+# Run multiple examples at once with purrr::map()
+data.all %>%
+  nest(data = c("STV", "RY")) %>% 
+  mutate(model = map(data, ~ quadratic_plateau(stv = .$STV, ry = .$RY))) %>%
+  unnest(model)
 
 ```
 
-### 2.2. Using group_map <br/>
+### 2.2. Using `group_modify()`
 
-Alternatively, with group_map, we do not require nested data. <br/>
+Alternatively, with `group_modify`, nested data is not required. However, it still requires a grouping variable (in this case, `id`) to identify each dataset. `group_map()` may also be used, though `list_rbind()` is required to return a tidy data frame of the model results instead of a list.
 
-However, it requires to bind_rows and add an `id` column specifying the name of each dataset. <br/>
-
-This option return models as lists objects.
 ```{r warning=T, message=F}
 
-fit_multiple_group_map <- 
-  dplyr::bind_rows(data_1, data_2, .id = "id") %>% 
-  dplyr::group_by(id) %>% 
-  dplyr::group_map(~ soiltestcorr::quadratic_plateau(data = ., 
-                                           ry = RY,
-                                           stv = STV,
-                                           tidy = TRUE))
-
-utils::head(fit_multiple_group_map)
+data.all %>% 
+  group_by(id) %>% 
+  group_modify(~ quadratic_plateau(data = ., STV, RY))
 
 ```
 
-## 3. Bootstrapping <br/>
+## 3. Bootstrapping
 
-A suitable alternative for obtaining confidence intervals for parameters or derived quantities is bootstrapping. <br/>
-
-Bootstrapping is a resampling technique (with replacement) that draws samples from the original data with the same size. If you have groups within your data, you can specify grouping variables as arguments in order to maintain, within each resample, the same proportion of observations than in the original dataset. <br/>
+Bootstrapping is a suitable method for obtaining confidence intervals for parameters or derived quantities. Bootstrapping is a resampling technique (with replacement) that draws samples from the original data with the same size. If you have groups within your data, you can specify grouping variables as arguments in order to maintain, within each resample, the same proportion of observations than in the original dataset.
 
 This function returns a table with as many rows as the resampling size (n) containing the results for each resample.
 
 ```{r}
-boot_qp <- boot_quadratic_plateau(data = data_1, 
-                    ry = RY, target = 90,
-                    stv = STV, n = 200)
+boot_qp <- boot_quadratic_plateau(corr_df, STV, RY, n = 500) # only 500 for sake of speed
 
-boot_qp %>% dplyr::slice_head(., n=5)
+boot_qp %>% head(n = 5)
 
 # CSTV Confidence Interval
 quantile(boot_qp$CSTV, probs = c(0.025, 0.5, 0.975))
@@ -245,75 +197,50 @@ boot_qp %>%
 
 ## 4. Plots
 
-### 4.1. Correlation Curve 
+### 4.1. Correlation Curve
 
-We can generate a ggplot with the same quadratic_plateau() function. <br/>
+We can generate a ggplot with the same `quadratic_plateau()` function.
 
-We just need to specify the argument `plot = TRUE`. <br/>
+We just need to specify the argument `plot = TRUE`.
 
 ```{r warning=F, message=F}
+data_3 <- soiltestcorr::freitas1966
 
-quadratic_plateau_plot <- 
-  soiltestcorr::quadratic_plateau(data = data_3, 
-                               ry = RY, 
-                               stv = STK, 
-                               plot = TRUE)
+plot_qp <- quadratic_plateau(data = data_3, STK, RY, plot = TRUE)
 
-quadratic_plateau_plot
+plot_qp
 ```
 
-### 4.2. Fine-tune the plots <br/>
+### 4.2. Fine-tune the plots
 
-As ggplot object, plots can be adjusted in several ways. <br/>
+As ggplot object, plots can be adjusted in several ways, such as modifying titles and axis scales.
 
-For example, modifying titles <br/>
 ```{r warning=F, message=F}
-quadratic_plateau_plot_2 <- 
-  quadratic_plateau_plot +
+plot_qp +
   # Main title
   ggtitle("My own plot title")+
   # Axis titles
   labs(x = "Soil Test K (ppm)",
-       y = "Cotton RY(%)")
-
-quadratic_plateau_plot_2
-```
-
-Or modifying axis scales <br/>
-
-```{r warning=F, message=F}
-quadratic_plateau_plot_3 <-
-quadratic_plateau_plot_2 +
+       y = "Cotton RY(%)") +
   # Axis scales
   scale_x_continuous(limits = c(20,220),
-                     breaks = seq(0,220, by = 20))+
+                     breaks = seq(0,220, by = 10))+
   # Axis limits
-  scale_y_continuous(limits = c(30,100),
-                     breaks = seq(30,100, by = 10))
-
-quadratic_plateau_plot_3
-  
+  scale_y_continuous(limits = c(30, 110),
+                     breaks = seq(30, 110, by = 10))
 ```
 
+### 4.3. Residuals
 
-### 4.3. Residuals <br/>
-
-We can generate a plot with the same quadratic_plateau() function. <br/>
-
-We just need to specify the argument `resid` = TRUE`. <br/>
-
+Set the argument `resid = TRUE`.
 
 ```{r warning=F, message=F}
 
 # Residuals plot
-
-soiltestcorr::quadratic_plateau(data = data_3, 
-                               ry = RY, 
-                               stv = STK, 
-                               resid = TRUE)
+quadratic_plateau(data = data_3, STK, RY, resid = TRUE)
 
 ```
 
-<b> References </b> <br/>
+#### References
 
-*Bullock, D.G. and Bullock, D.S. (1994), Quadratic and Quadratic-Plus-Plateau Models for Predicting Optimal Nitrogen Rate of Corn: A Comparison. Agron. J., 86: 191-195. 10.2134/agronj1994.00021962008600010033x * <br/>
+*Bullock, D.G. and Bullock, D.S. (1994), Quadratic and Quadratic-Plus-Plateau Models for Predicting Optimal Nitrogen Rate of Corn: A Comparison. Agron. J., 86: 191-195. 10.2134/agronj1994.00021962008600010033x*
