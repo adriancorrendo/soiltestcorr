@@ -79,10 +79,8 @@ data_1 <- data.frame("RY"  = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
 
 data_2 <- soiltestcorr::data_test
 
-
 # Example 3. Native dataset from soiltestcorr package, Freitas et al.  (1966), used by Cate & Nelson (1971)
 data_3 <- soiltestcorr::freitas1966
-
 
 ```
 
@@ -242,10 +240,12 @@ Bootstrapping is a resampling technique (with replacement) that draws samples fr
 This function returns a table with as many rows as the resampling size (n) containing the results for each resample.
 
 ```{r}
-boot_alcc <- boot_mod_alcc(data = data_1, 
+# Fit
+boot_alcc <- soiltestcorr::boot_mod_alcc(data = data_1, 
                     ry = RY, target = 90, confidence = 0.95,
-                    stv = STV, n = 200)
+                    stv = STV, n = 99)
 
+# Print tibble
 boot_alcc %>% dplyr::slice_head(., n=5)
 
 # CSTV Confidence Interval

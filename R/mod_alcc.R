@@ -45,17 +45,18 @@
 #' @export 
 #' @importFrom rlang eval_tidy quo enquo
 #' @importFrom stats qt cor cor.test sd
-#' @importFrom dplyr bind_cols filter %>% select group_by mutate slice_sample
+#' @importFrom dplyr bind_cols filter %>% select group_by mutate slice_sample as_tibble
 #' @importFrom tidyr nest unnest expand_grid
-#' @importFrom ggplot2 ggplot aes geom_point scale_shape_manual geom_rug geom_hline geom_vline geom_path scale_y_continuous annotate labs theme_bw theme annotate 
+#' @importFrom ggplot2 ggplot aes geom_point scale_shape_manual geom_rug geom_hline geom_vline geom_path scale_y_continuous annotate labs theme_bw theme annotate
 #' @importFrom purrr map possibly
+#' @importFrom smatr sma
 
 mod_alcc <- function(data=NULL, 
                     ry, 
                     stv, 
                     target, 
                     confidence = 0.95, 
-                    tidy = FALSE,
+                    tidy = TRUE,
                     plot = FALSE
                     ){
   
@@ -115,37 +116,59 @@ mod_alcc <- function(data=NULL,
   # Count cases with STV > x2 cstv90 and STV > cstv100
   n.90x2 <- rlang::eval_tidy(data=data, rlang::quo(length(which({{stv}} > (2*cstv.90))) ) )
   n.100 <- rlang::eval_tidy(data=data, rlang::quo(length(which({{stv}} > cstv.100)) ) )
+  # Predicted RY for RMSE
+  RY_pred <- 100 * sin( (ln_STV - (intercept - (slope*asin(sqrt(target/100)))) ) / slope )^2
+  RMSE <- sum((RY_pred - RY)^2)/n
+  # SMA model GOF
+  sma_model <- smatr::sma(formula = ln_STV ~ arc_RY, method = "SMA")
+  AIC <- stats::AIC(sma_model)
+  BIC <- stats::BIC(sma_model)
+  
   
   ### STAGE 2 ====================================================================
   # Outputs
   results <- 
     dplyr::bind_cols(
       # Data frame with summary
-      dplyr::bind_cols(as.data.frame(list("n" = n, 
-                                          "r" = r, 
+      dplyr::bind_cols(dplyr::as_tibble(list("n" = n, 
+                                          "r" = r,
+                                          "RMSE" = RMSE,
+                                          "AIC" = AIC,
+                                          "BIC" = BIC,
+                                          "p_value" = p_value,
+                                          "confidence" = confidence,
                                           "target" = target,
                                           "CSTV" = CSTV,
                                           "LL" = CSTV_lower,
                                           "UL" = CSTV_upper,
-                                          "confidence" = confidence,
-                                          "p_value" = p_value,
                                           "CSTV90" = cstv.90, 
                                           "n.90x2" = n.90x2,
                                           "CSTV100" = cstv.100,
-                                          "n.100" = n.100)),
+                                          "n.100" = n.100 )),
                        # Data frame with Curve
-                       as.data.frame(list("RY.fitted" = new_RY, 
+                       dplyr::as_tibble(list("RY.fitted" = new_RY, 
                                           "STV.fitted" = fitted_STV)) %>%
-                         tidyr::nest(Curve = c("RY.fitted", "STV.fitted"))),
+                         tidyr::nest(Curve = c("RY.fitted", "STV.fitted")),
       # Data frame with SMA residuals
-      as.data.frame(list("ln_STV" = ln_STV, "arc_RY" = arc_RY,
+      dplyr::as_tibble(list("ln_STV" = ln_STV, 
+                         "arc_RY" = arc_RY,
                          "SMA_line" = SMA_line,
                          "residuals" = residuals,
                          "fitted_axis" = fitted_axis)) %>%
-        tidyr::nest(SMA =  c("ln_STV", "arc_RY", "SMA_line","residuals", "fitted_axis") ) )
+        tidyr::nest(SMA =  c("ln_STV", "arc_RY", "SMA_line","residuals", 
+                             "fitted_axis") ) ) 
+      # ,
+      # # Data frame with RY residuals
+      # dplyr::as_tibble(list("STV" = STV,
+      #                    "RY" = RY,
+      #                    "RY_pred" = RY_pred)) %>% 
+      #   mutate(RY_err = RY_pred-RY,
+      #          err2 = RY_err^2) %>% 
+      #   tidyr::nest(RY_err =  c("STV", "RY", "RY_pred", "RY_err", "err2") ) 
+      )
 
 # Decide type of output
-  if (tidy == TRUE) {results <- results}
+  if (tidy == TRUE) {results <- as_tibble(results)}
   
   if (tidy == FALSE) {results <- as.list(results)}
   
@@ -197,7 +220,7 @@ mod_alcc <- function(data=NULL,
     ggplot2::geom_hline(yintercept = target, alpha = 0.2) +
     # CSTV
     ggplot2::geom_vline(xintercept = CSTV, alpha = 1, color = "grey25", 
-                        size = 0.5, linetype = "dashed") +
+                        linewidth = 0.5, linetype = "dashed") +
     # CI
     geom_vline(xintercept = CSTV_lower, col = "grey25", size = 0.25, linetype = "dotted")+
     geom_vline(xintercept = CSTV_upper, col = "grey25", size = 0.25, linetype = "dotted")+
@@ -257,10 +280,10 @@ boot_mod_alcc <-
                                             replace = TRUE, n = nrow(boots))) ) %>% 
       dplyr::mutate(model = map(boots,
                                 purrr::possibly(
-                                .f = ~as.data.frame(
-                                  soiltestcorr::mod_alcc(data = ., ry = !!y, stv = !!x,
-                                    target = target, confidence = confidence)[c(1:7,9:12)] ),
-                                otherwise = NULL, quiet = TRUE)) ) %>%
+                                .f = ~dplyr::as_tibble(test_mod_alcc(data = ., ry = !!y, stv = !!x,
+                                    target = target, confidence = confidence))[c(1:6,9,13,15)] ),
+                                otherwise = NULL, quiet = TRUE) ) %>%
       dplyr::select(-boots) %>% 
       tidyr::unnest(cols = model) 
   }
+

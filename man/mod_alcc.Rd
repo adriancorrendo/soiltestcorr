@@ -11,7 +11,7 @@ mod_alcc(
   stv,
   target,
   confidence = 0.95,
-  tidy = FALSE,
+  tidy = TRUE,
   plot = FALSE
 )
 
