@@ -74,11 +74,19 @@ estimate critical soil test values (CSTV) following Correndo et al. (2017)</p>
 <span>  <span class="va">stv</span>,</span>
 <span>  <span class="va">target</span>,</span>
 <span>  confidence <span class="op">=</span> <span class="fl">0.95</span>,</span>
-<span>  tidy <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  tidy <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  plot <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">boot_mod_alcc</span><span class="op">(</span><span class="va">data</span>, <span class="va">ry</span>, <span class="va">stv</span>, n <span class="op">=</span> <span class="fl">500</span>, target <span class="op">=</span> <span class="fl">90</span>, confidence <span class="op">=</span> <span class="fl">0.95</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">boot_mod_alcc</span><span class="op">(</span></span>
+<span>  <span class="va">data</span>,</span>
+<span>  <span class="va">ry</span>,</span>
+<span>  <span class="va">stv</span>,</span>
+<span>  n <span class="op">=</span> <span class="fl">500</span>,</span>
+<span>  target <span class="op">=</span> <span class="fl">90</span>,</span>
+<span>  confidence <span class="op">=</span> <span class="fl">0.95</span>,</span>
+<span>  by <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -175,82 +183,12 @@ A modification of the arcsine–log calibration curve for analysing soil test va
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by </span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>   removing extreme points, re-run the mod_alcc(), and check results.</span>
 <span class="r-in"><span> <span class="va">fit_example</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $n</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $r</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9682908</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $target</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 90</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $CSTV</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4.478476</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $LL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3.947041</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $UL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5.081463</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $confidence</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.95</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $p_value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3.296044e-09</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $CSTV90</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4.478476</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $n.90x2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $CSTV100</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 19.15054</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $n.100</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $Curve</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $Curve[[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 176 × 2</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    RY.fitted STV.fitted</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>      65         1.10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>      65.2       1.11</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>      65.4       1.12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>      65.6       1.13</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>      65.8       1.14</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>      66         1.15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>      66.2       1.16</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>      66.4       1.17</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>      66.6       1.18</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>      66.8       1.20</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 166 more rows</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $SMA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $SMA[[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 15 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    ln_STV  arc_RY SMA_line residuals fitted_axis</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>  0     -<span style="color: #BB0000;">0.311</span>    0.093<span style="text-decoration: underline;">4</span>   -<span style="color: #BB0000;">0.093</span><span style="color: #BB0000; text-decoration: underline;">4</span>     -<span style="color: #BB0000;">1.41</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>  0.693 -<span style="color: #BB0000;">0.142</span>    0.858    -<span style="color: #BB0000;">0.165</span>       0.052<span style="text-decoration: underline;">3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>  1.10  -<span style="color: #BB0000;">0.075</span><span style="color: #BB0000; text-decoration: underline;">9</span>   1.16     -<span style="color: #BB0000;">0.057</span><span style="color: #BB0000; text-decoration: underline;">7</span>      0.756 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>  1.39  -<span style="color: #BB0000;">0.032</span><span style="color: #BB0000; text-decoration: underline;">0</span>   1.35      0.031<span style="text-decoration: underline;">5</span>      1.24  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>  1.61   0        1.50      0.110       1.61  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>  1.79   0.074<span style="text-decoration: underline;">3</span>   1.83     -<span style="color: #BB0000;">0.043</span><span style="color: #BB0000; text-decoration: underline;">0</span>      2.13  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>  1.95   0.054<span style="text-decoration: underline;">0</span>   1.74      0.203       2.19  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>  2.08   0.120    2.04      0.036<span style="text-decoration: underline;">5</span>      2.62  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>  2.20   0.148    2.17      0.031<span style="text-decoration: underline;">1</span>      2.86  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>  2.30   0.096<span style="text-decoration: underline;">2</span>   1.93      0.369       2.74  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span>  2.40   0.180    2.31      0.086<span style="text-decoration: underline;">4</span>      3.21  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span>  2.48   0.322    2.95     -<span style="color: #BB0000;">0.467</span>       3.94  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span>  2.56   0.222    2.50      0.065<span style="text-decoration: underline;">0</span>      3.57  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">14</span>  2.64   0.222    2.50      0.139       3.64  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">15</span>  2.71   0.322    2.95     -<span style="color: #BB0000;">0.244</span>       4.16  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 17</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       n     r  RMSE   AIC   BIC      p_value confidence target  CSTV    LL    UL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    15 0.968  2.09 -<span style="color: #BB0000;">23.5</span> -<span style="color: #BB0000;">20.0</span>      3.30<span style="color: #949494;">e</span><span style="color: #BB0000;">-9</span>       0.95     90  4.48  3.95  5.08</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 6 more variables: CSTV90 &lt;dbl&gt;, n.90x2 &lt;int&gt;, CSTV100 &lt;dbl&gt;, n.100 &lt;int&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Curve &lt;list&gt;, SMA &lt;list&gt;</span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

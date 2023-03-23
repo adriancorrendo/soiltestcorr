@@ -475,12 +475,12 @@ all datasets <i></i> <br></i></p>
 <span></span>
 <span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">fit_multiple_map</span>, <span class="va">models</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 12</span></span></span>
-<span><span class="co">#&gt;   id    data         a     b     c equat…¹ target  CSTV   AIC  AICc    R2 pvalue</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1     &lt;tibble&gt;  98.7  2.07  0.37 98.7(1…     90   4.5    64    68  0.97      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2     &lt;tibble&gt;  98.0  3.91  0.09 98(1-e…     90  24.4  <span style="text-decoration: underline;">1</span>022  <span style="text-decoration: underline;">1</span>022  0.54      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 3     &lt;tibble&gt;  96.4 -<span style="color: #BB0000;">8.69</span>  0.05 96.4(1…     90  67.9   187   189  0.67      0</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with abbreviated variable name ¹​equation</span></span></span></code></pre></div>
+<span><span class="co">#&gt;   id    data         a     b     c equation       target  CSTV   AIC  AICc    R2</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1     <span style="color: #949494;">&lt;tibble&gt;</span>  98.7  2.07  0.37 98.7(1-e^(-0.…     90   4.5    64    68  0.97</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2     <span style="color: #949494;">&lt;tibble&gt;</span>  98.0  3.91  0.09 98(1-e^(-0.08…     90  24.4  <span style="text-decoration: underline;">1</span>022  <span style="text-decoration: underline;">1</span>022  0.54</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 3     <span style="color: #949494;">&lt;tibble&gt;</span>  96.4 -<span style="color: #BB0000;">8.69</span>  0.05 96.4(1-e^(-0.…     90  67.9   187   189  0.67</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: pvalue &lt;dbl&gt;</span></span></span></code></pre></div>
 </div>
 </div>
 <div class="section level4">
@@ -527,28 +527,33 @@ size (n) containing the results for each resample.</p>
 <code class="sourceCode R"><span><span class="va">boot_mits</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mitscherlich.html">boot_mitscherlich</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_1</span>, type <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>                    ry <span class="op">=</span> <span class="va">RY</span>, target <span class="op">=</span> <span class="fl">90</span>,</span>
 <span>                    stv <span class="op">=</span> <span class="va">STV</span>, n <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: There was 1 warning in `dplyr::mutate()`.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In argument: `model = map(...)`.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In group 150: `boot_id = 150`.</span></span>
+<span><span class="co">#&gt; Caused by warning in `nls.lm()`:</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> lmdif: info = -1. Number of iterations has reached `maxiter' == 50.</span></span>
 <span></span>
 <span><span class="va">boot_mits</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_head</a></span><span class="op">(</span><span class="va">.</span>, n<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 200 × 11</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   boot_id [200]</span></span></span>
 <span><span class="co">#&gt;    boot_id     a     b     c equation      target  CSTV   AIC  AICc    R2 pvalue</span></span>
 <span><span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>       1  99.4  1.82  0.39 99.4(1-e^(-0…     90   4.3    59    63  0.99      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>       2 101.   5.83  0.21 101(1-e^(-0.…     90   4.8    42    46  0.98      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>       3  98.8  1.76  0.4  98.8(1-e^(-0…     90   4.3    63    67  0.98      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>       4  99.6  2.25  0.33 99.6(1-e^(-0…     90   4.8    59    63  0.99      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>       5  98.6  1.91  0.38 98.6(1-e^(-0…     90   4.5    59    63  0.99      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>       6  99.3  2.19  0.34 99.3(1-e^(-0…     90   4.9    45    49  0.99      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>       7  99.0  1.96  0.39 99(1-e^(-0.3…     90   4.2    65    69  0.97      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>       8  98.3  1.84  0.41 98.3(1-e^(-0…     90   4.2    63    67  0.97      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>       9 101.   4.41  0.25 100.7(1-e^(-…     90   4.6    38    42  0.99      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>      10  97.5  1.48  0.45 97.5(1-e^(-0…     90   4.2    59    63  0.98      0</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 190 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>       1 100.   4.67  0.24 100.1(1-e^(-…     90   4.8    52    56  0.97      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>       2  99.6  2.11  0.34 99.6(1-e^(-0…     90   4.7    51    55  0.99      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>       3  99.4  5.46  0.23 99.4(1-e^(-0…     90   4.9    47    51  0.96      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>       4 100.   4.61  0.25 100(1-e^(-0.…     90   4.7    40    44  0.99      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>       5  98.0  1.81  0.41 98.1(1-e^(-0…     90   4.3    63    67  0.97      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>       6  98.7  1.46  0.46 98.7(1-e^(-0…     90   3.8    61    65  0.98      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>       7  97.3  1.24  0.51 97.3(1-e^(-0…     90   3.9    70    74  0.97      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>       8  99.6  2.01  0.36 99.6(1-e^(-0…     90   4.5    51    55  0.99      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>       9 102.   6.57  0.18 102.4(1-e^(-…     90   5      48    52  0.98      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>      10 100.   4.72  0.24 100.4(1-e^(-…     90   4.8    51    55  0.96      0</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 190 more rows</span></span></span>
 <span></span>
 <span><span class="co"># CSTV Confidence Interval</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">boot_mits</span><span class="op">$</span><span class="va">CSTV</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   2.5%    50%  97.5% </span></span>
-<span><span class="co">#&gt; 3.9975 4.6000 5.1000</span></span>
+<span><span class="co">#&gt;  2.5%   50% 97.5% </span></span>
+<span><span class="co">#&gt;   3.8   4.6   5.1</span></span>
 <span></span>
 <span><span class="co"># Plot</span></span>
 <span><span class="va">boot_mits</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>

@@ -60,7 +60,18 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.2.0" id="soiltestcorr-220">soiltestcorr 2.2.0<a class="anchor" aria-label="anchor" href="#soiltestcorr-220"></a></h2>
-<ul><li>March 8th, 2023. <br></li>
+<ul><li><p>March 23th, 2023. <br></p></li>
+<li>
+<p><code><a href="../reference/mod_alcc.html">mod_alcc()</a></code> update including:</p>
+<ul><li>including Root Mean Square Error (RMSE) of the ALCC curve with respect to observed RY values as a potential indicator of model’s quality.</li>
+<li>including the estimation of Akaike Information Criteria (AIC), and Bayesian Information Criteria (BIC) for the “underlying” bivariate SMA models.</li>
+<li>‘smatr’ package is a new dependency (to get AIC and BIC of SMA models).</li>
+<li>using “tibble” instead of “dataframe”.</li>
+<li>implementing tidy=TRUE as default.</li>
+<li>using linewidth instead of “size” for geom_line().</li>
+<li>reordering variables of the output (e.g. goodness of fit indicators first)</li>
+</ul></li>
+<li><p>March 8th, 2023. <br></p></li>
 </ul><p>Details: - New bootstrapping functions for all models to better approximate distributions of CSTVs and parameters or derived quantities of interest. Functions include: (i) <code><a href="../reference/cate_nelson_1965.html">boot_cn_1965()</a></code>, (ii) <code><a href="../reference/cate_nelson_1971.html">boot_cn_1971()</a></code>, (iii) <code><a href="../reference/mod_alcc.html">boot_mod_alcc()</a></code>, (iv) <code><a href="../reference/linear_plateau.html">boot_linear_plateau()</a></code>, (v) <code><a href="../reference/quadratic_plateau.html">boot_quadratic_plateau()</a></code>, and (vi) <code><a href="../reference/mitscherlich.html">boot_mitscherlich()</a></code>. - Including <code>p-value</code> estimation for non-linear models using an F-test approach comparing the non-linear model vs. a null-model (intercept-only). - Updated documentation and vignettes including bootstrapping functions for each of the models. - Fixing minor typos on vignettes. - Including code of conduct and contribution guidelines.</p>
 </div>
     <div class="section level2">
