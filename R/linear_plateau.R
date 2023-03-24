@@ -11,10 +11,10 @@
 #' @param tidy logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a tidy data frame or tibble (default), FALSE returns a list.
 #' @param resid logical operator (TRUE/FALSE) to plot residuals analysis, Default: FALSE
 #' @param plot logical operator (TRUE/FALSE) to plot the linear-plateau model, Default: FALSE
-#' @param x selfstart vector for independent variable, Default: NULL
-#' @param intercept selfstart arg. for intercept Default: NULL
-#' @param slope selfstart arg. for slope Default: NULL
-#' @param jp selfstart arg. for join point (jp) value Default: NULL
+#' @param x selfstart arg. for explanatory variable in SSlinp Default: NULL
+#' @param a selfstart arg. for intercept Default: NULL
+#' @param b selfstart arg. for slope Default: NULL
+#' @param xs selfstart arg. for break/join point in SSlinp Default: NULL
 #' @param n sample size for the bootstrapping Default: 500
 #' @param .by when running bootstrapped samples, open arguments serve to add grouping Variables (factor or character) Default: NULL
 #' @rdname linear_plateau
@@ -40,6 +40,7 @@
 #' @seealso 
 #'  \code{\link[rlang]{eval_tidy}},\code{\link[rlang]{defusing-advanced}}
 #'  \code{\link[minpack.lm]{nlsLM}}
+#'  \code{\link[nlraa]{SSlinp}}
 #'  \code{\link[stats]{AIC}},\code{\link[stats]{lm}},\code{\link[stats]{optim}},\code{\link[stats]{coef}},\code{\link[stats]{predict}}
 #'  \code{\link[AICcmodavg]{AICc}}
 #'  \code{\link[modelr]{model-quality}}
@@ -48,12 +49,12 @@
 #'  \code{\link[ggplot2]{ggplot}},\code{\link[ggplot2]{aes}},\code{\link[ggplot2]{geom_rug}},\code{\link[ggplot2]{geom_point}},\code{\link[ggplot2]{geom_abline}},\code{\link[ggplot2]{geom_path}},\code{\link[ggplot2]{annotate}},\code{\link[ggplot2]{labs}},\code{\link[ggplot2]{theme}}
 #'  \code{\link[ggpp]{annotate}}
 #' @note For extended reference, we recommend to visit: 
-#' https://gradcylinder.org/linear-plateau/ & https://github.com/austinwpearce/SoilTestCocaCola by Austin Pearce.
+#' https://gradcylinder.org/post/linear-plateau/ by Austin Pearce.
 #' Self-start function code adapted from nlraa package by F. Miguez <https://github.com/femiguez/nlraa>
 #' @export
 #' @importFrom rlang eval_tidy quo enquo
+#' @importFrom nlraa SSlinp
 #' @importFrom minpack.lm nlsLM
-#' @importFrom stats sortedXyData AIC lm optim coef predict
 #' @importFrom AICcmodavg AICc
 #' @importFrom modelr rsquare
 #' @importFrom nlstools nlsResiduals confint2
@@ -66,101 +67,11 @@
 NULL
 
 
-LP_init <- function(mCall, LHS, data, ...){
-  
-  ### STAGE 1 ====================================================================
-  # Self start functions (adapted from nlraa package by Fernando Miguez)
-  # Original source: https://github.com/femiguez/nlraa
-  # Define the linear-plateau function (LP_f) 
-  
-  # Initialize function
-  
-  xy <- stats::sortedXyData(mCall[["x"]], LHS, data)
-  if(nrow(xy) < 4){
-    stop("Too few distinct input values to fit a linear-plateau model")
-  }
-  
-  # Start with a guess from simple lm to half the data
-  xy1 <- xy[1:floor(nrow(xy)/2),]
-  fit1 <- stats::lm(xy1[,"y"] ~ xy1[,"x"])
-  
-  ## Optimization of starting values
-  objfun <- function(cfs){
-    pred <- LP_f(xy[,"x"], intercept=cfs[1], slope=cfs[2], jp=cfs[3])
-    ans <- sum((xy[,"y"] - pred)^2)
-    ans
-  }
-  # optimization
-  cfs <- c(coef(fit1),mean(xy[,"x"]))
-  op <- try(stats::optim(cfs, objfun, method = "L-BFGS-B",
-                         upper = c(Inf, Inf, max(xy[,"x"])),
-                         lower = c(-Inf, -Inf, min(xy[,"x"]))), silent = TRUE)
-  # use inherits() instead of comparing class to string
-  if (inherits(op, "try-error") ){
-    ## If it fails we use the mean for the CSTV (jp)
-    ## and initial values guess by fiting a lm() to half the data
-    
-    intercept <- stats::coef(fit1)[1]
-    slope <- stats::coef(fit1)[2]
-    jp <- mean(xy[,"x"])
-  } else {
-    intercept <- op$par[1]
-    slope <- op$par[2]
-    jp <- op$par[3]
-  }
-  
-  # if(class(op) != "try-error"){
-  #   intercept <- op$par[1]
-  #   slope <- op$par[2]
-  #   jp <- op$par[3]
-  # } else {
-  #   ## If it fails we use the mean for the CSTV (jp)
-  #   ## and initial values guess by fiting a lm() to half the data
-  #   
-  #   intercept <- stats::coef(fit1)[1]
-  #   slope <- stats::coef(fit1)[2]
-  #   jp <- mean(xy[,"x"])
-  # }
-  
-  value <- c(intercept, slope, jp)
-  names(value) <- mCall[c("intercept","slope","jp")]
-  value
-}
 
 #' @rdname linear_plateau
-#' @return LP_f: vector of the same length as x using the linear-plateau function
-#' @export
-#' 
-LP_f <- function(x, intercept, slope, jp){
-  
-  .asym <- intercept + slope * jp
-  .value <- (x < jp) * (intercept + slope * x) + (x >= jp) * .asym
-  
-  ## Derivative with respect to a when (x < jp)
-  .exp1 <- 1 ## ifelse(x < jp, 1, 1)
-  ## Derivative with respect to slope
-  .exp2 <- ifelse(x < jp, x, jp)
-  ## Derivative with respect to jp
-  .exp3 <- ifelse(x < jp, 0, slope)
-  
-  .actualArgs <- as.list(match.call()[c("intercept","slope","jp")])
-  
-  ##  Gradient
-  if (all(unlist(lapply(.actualArgs, is.name)))) {
-    .grad <- array(0, c(length(.value), 3L), list(NULL, c("intercept","slope","jp")))
-    .grad[, "intercept"] <- .exp1
-    .grad[, "slope"] <- .exp2
-    .grad[, "jp"] <- .exp3
-    dimnames(.grad) <- list(NULL, .actualArgs)
-    attr(.value, "gradient") <- .grad
-  }
-  .value
-}
-
-#' @rdname linear_plateau
-#' @return SS_LP: selfStart object to pass into the linear_plateau fit
+#' @return SS_LP: selfStart function to pass into the linear_plateau fit
 #' @export 
-SS_LP <- stats::selfStart(LP_f, initial = LP_init, c("intercept","slope","jp"))
+SS_LP <- nlraa::SSlinp
 
 
 #' @rdname linear_plateau
@@ -202,9 +113,9 @@ linear_plateau <- function(data = NULL,
   miny <- min(test.data$y)
   maxy <- max(test.data$y)
   
-  # Run the model combining minpack.lm::nlsLM + defined selfStart (SS_LP)
+  # Run the model combining minpack.lm::nlsLM + selfStart LP)
   lp_model <-
-    try(minpack.lm::nlsLM(y ~ SS_LP(x, b0, b1, CSTV), data = test.data))
+    try(minpack.lm::nlsLM(y ~ SS_LP(x, a, b, jp), data = test.data))
   
   if (inherits(lp_model, "try-error")) {
     stop("Linear-plateau model did not converge. Please, consider other models.")
@@ -227,10 +138,10 @@ linear_plateau <- function(data = NULL,
   R2 <- round(modelr::rsquare(lp_model, test.data), 2)
   
   # get model coefficients
-  b0 <- stats::coef(lp_model)[[1]]
-  b1 <- stats::coef(lp_model)[[2]]
+  a <- stats::coef(lp_model)[[1]]
+  b <- stats::coef(lp_model)[[2]]
   jp <- stats::coef(lp_model)[[3]]
-  plateau <- b0 + b1 * jp
+  plateau <- a + b * jp
   
   
   # CSTV
@@ -255,17 +166,17 @@ linear_plateau <- function(data = NULL,
   STVt <- ifelse(is.null(target), 
                  CSTV,
                  ifelse(target >= plateau,
-                        (plateau - b0) / b1,
-                        (target - b0) / b1))
+                        (plateau - a) / b,
+                        (target - a) / b))
   
   
   # have to make a line because seq() doesn't plot clean break point
   lp_line <- dplyr::tibble(
     x = c(minx, jp, maxx),
-    y = c(b0 + b1 * minx, plateau, plateau))
+    y = c(a + b * minx, plateau, plateau))
   
-  equation <- paste0(round(b0, 1), " + ",
-                     round(b1, 2), "x when x < ", CSTV)
+  equation <- paste0(round(a, 1), " + ",
+                     round(b, 2), "x when x < ", CSTV)
   
   ## STAGE 3 ====================================================================
   ## Outputs
@@ -277,8 +188,8 @@ linear_plateau <- function(data = NULL,
     }
     
     results <- dplyr::tibble(
-      intercept = round(b0, 2),
-      slope = round(b1, 2),
+      intercept = round(a, 2),
+      slope = round(b, 2),
       equation,
       plateau = round(plateau, 1),
       CSTV,

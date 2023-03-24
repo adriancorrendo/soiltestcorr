@@ -34,6 +34,7 @@ Imports:
     nlstools,
     minpack.lm,
     modelr,
+    nlraa,
     AICcmodavg,
     smatr
 Depends: 
