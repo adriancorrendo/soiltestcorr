@@ -2,30 +2,30 @@
 % Please edit documentation in R/mitscherlich.R
 \name{mitscherlich}
 \alias{mitscherlich}
-\alias{mits_formula_1}
-\alias{mits_formula_2}
 \alias{mits_formula_3}
+\alias{mits_formula_2}
+\alias{mits_formula_1}
 \alias{boot_mitscherlich}
 \title{Mitscherlich response function}
 \usage{
-mits_formula_1(x, a, b, c)
+mits_formula_3(x, a, b, c)
 
 mits_formula_2(x, b, c)
 
-mits_formula_3(x, c)
+mits_formula_1(x, c)
 
 mitscherlich(
   data = NULL,
   stv,
   ry,
-  type,
-  target = NULL,
-  tidy = FALSE,
+  type = 3,
+  target = 95,
+  tidy = TRUE,
   plot = FALSE,
   resid = FALSE
 )
 
-boot_mitscherlich(data, ry, stv, type = 1, n = 500, target = NULL, ...)
+boot_mitscherlich(data, stv, ry, type = 3, n = 500, target = 95, .by = NULL)
 }
 \arguments{
 \item{x}{selfstart vector. for model fit Default: NULL}
@@ -43,15 +43,15 @@ containing the stv and ry data, Default: NULL}
 
 \item{ry}{name of the vector containing relative yield values (\%) of type \code{numeric}.}
 
-\item{type}{string or number that indicates the type of Mitscherlich model to fit. Default: 1
-\code{type = "no restrictions"} or \code{type = 1} for model with 'no restrictions';
-\code{type = "asymptote 100"} or \code{type = 2} for model with 'asymptote = 100';
-\code{type = "asymptote 100 from 0"} or \code{type = 3} for model with 'asymptote = 100 and xintercept = 0'"}
+\item{type}{string or number that indicates which Mitscherlich model to fit (based on parameters) Default: 3
+\code{type = 3} or \code{free} for model with three parameters (asymptote, intercept, curvature);
+\code{type = 2} or \code{100} for model with two parameters (intercept, curvature) where asymptote = 100;
+\code{type = 1} or \code{fixed} for model with one parameter (curvature) where asymptote = 100 and intercept = origin;}
 
-\item{target}{\code{numeric} value of relative yield target (e.g. 90 for 90\%) to estimate the CSTV.
-Default: NULL}
+\item{target}{\code{numeric} value of relative yield target (e.g. 90 for 90\%) to estimate the CSTV. Should not be NULL or asymptote becomes Inf
+Default: 95}
 
-\item{tidy}{logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).}
+\item{tidy}{logical operator (TRUE/FALSE) to decide the type of return. TRUE (default) returns a data.frame, and FALSE returns a list.}
 
 \item{plot}{logical operator (TRUE/FALSE) to plot the Mitscherlich model, Default: FALSE}
 
@@ -59,7 +59,7 @@ Default: NULL}
 
 \item{n}{sample size for the bootstrapping Default: 500}
 
-\item{...}{when running bootstrapped samples, open arguments serve to add grouping Variables (factor or character) Default: NULL}
+\item{.by}{when running bootstrapped samples, .by argument serves to add grouping Variables (factor or character) Default: NULL}
 }
 \value{
 returns an object of type \code{ggplot} if plot = TRUE.
@@ -70,7 +70,7 @@ returns an object of class \code{data.frame} if tidy = TRUE,
 
 returns an object of class \code{list} if tidy = FALSE.
 
-Mitscherlich type 1 formula
+Mitscherlich type 3 formula
 
 Mitscherlich type 2 formula
 
@@ -97,8 +97,8 @@ For extended reference, we recommend to visit:
  dat <- data.frame("ry" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
                    "stv" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
  # Run
- fit_example_mits <- mitscherlich(data = dat, type = 1, 
- ry = ry, stv = stv, resid = TRUE, plot = FALSE)
+ fit_example_mits <- mitscherlich(data = dat, stv = stv,
+ ry = ry, type = 3, resid = TRUE, plot = FALSE)
  
  fit_example_mits
 }

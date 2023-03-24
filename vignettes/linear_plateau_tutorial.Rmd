@@ -86,13 +86,9 @@ Suggested packages
 library(ggplot2) # Plots
 library(dplyr) # Data wrangling
 library(tidyr) # Data wrangling
-# library(utils) # Data wrangling
-#library(data.table) # Mapping
 library(purrr) # Mapping
 
 ```
-
-This is a basic example using three different datasets:
 
 ## Load dataset
 
@@ -101,7 +97,7 @@ This is a basic example using three different datasets:
 corr_df <- soiltestcorr::data_test
 ```
 
-# Fit linear_plateau()
+# Fit `linear_plateau()`
 
 ## 1. Individual fits
 

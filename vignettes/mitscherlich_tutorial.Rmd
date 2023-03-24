@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
-  chunk_output_type: inline
+  chunk_output_type: console
 ---
 
 ```{r, include = FALSE}
@@ -19,284 +19,180 @@ knitr::opts_chunk$set(
 )
 ```
 
-<img src="../man/figures/soiltestcorr_logo.png" align="right" height="200" style="float:right; height:200px;">
+<img src="../man/figures/soiltestcorr_logo.png" align="right" height="200" style="float:right; height:200px;"/>
 
-## Description <br/>
+## Description
 
-This tutorial demonstrates the mitscherlich() function for fitting a continuous response model and estimating a critical soil test value. This function fits a Mitscherlich-type exponential regression model that follows a diminishing growth curve described as `y = a * (1-exp(-c(x + b))`, where `a` = asymptote, `b` = x-intercept, `c` = rate or curvature parameter. This approach is extensively used in agriculture to describe crops response to input since the biological meaning of its curved response. With 3 alternatives to fit the model, the mitscherlich() function brings the advantage of controlling the parameters quantity: i) type = 1 (DEFAULT), corresponding to the model without any restrictions to the parameters (`y = a * (1-exp(-c(x + b))`); ii) type = 2 ("asymptote 100"), corresponding to the model with only 2 parameters by setting the asymptote = 100 (`y = 100 * (1-exp(-c(x + b))`), and iii) type = 3 ("asymptote 100 from 0"), corresponding to the model with only 1 parameter by constraining the asymptote = 100 and xintercept = 0 (`y = 100 * (1-exp(-c(x))`).
+This tutorial demonstrates the `mitscherlich()` function for fitting a continuous response model and estimating a critical soil test value. This function fits a Mitscherlich-type exponential regression model that follows a diminishing growth curve, and is sometimes also referred to as exponential "rise-to-the-max". Cerrato and Blackmer (1990) expressed it as:
 
-Disadvantages this model might include: i) lacks a parameter corresponding directly with a critical soil test value (the model cannot be evaluated at the asymptote as it would result in a CSTV equal to `Inf`); and ii) there is no apparent confidence interval for an estimated CSTV. For this latter purpose, we recommend the user to use the `boot_mitscherlich()` function for a  reliable confidence interval estimation of parameters and CSTV via bootstrapping (resampling with replacement). The `mitscherlich()` function works automatically with self-starting initial values to facilitate the model's convergence. <br/>
+$$
+y = a * (1-e^{-c(x + b)})
+$$
 
-## General Instructions <br/>
+where\
+`a` = asymptote,\
+`b` = X-intercept,\
+`c` = curvature parameter.
 
-  i. Load your dataframe with soil test value (stv) and relative yield (ry) data. <br/>
+This is used in the `mitscherlich()` function. The model can also be expressed as
 
-  ii. Specify the following arguments into the function -mitscherlich()-: <br/>
+$$
+y = a + (b - a) * e^{-cx}
+$$
 
-   (a). `type` select the type of parameterization of the model. i) type = 1 corresponds to the model without any restrictions to the parameters (`y = a * (1-exp(-c(x + b))`); ii) type = 2 ("asymptote 100"), corresponding to the model with only 2 parameters by setting the asymptote = 100 (`y = 100 * (1-exp(-c(x + b))`), and iii) type = 3 ("asymptote 100 from 0"), corresponding to the model with only 1 parameter by constraining the asymptote = 100 and xintercept = 0 (`y = 100 * (1-exp(-c(x))`). <br/>
-   
-   (b). `data` (optional), <br/>
-   
-   (c). `stv` (soil test value) and `ry` (relative yield)  columns or vectors, <br/>
-   
-   (d). `target` (optional) if want to know the stv level needed for a specific `ry`.
-   
-   (e). `tidy` TRUE (produces a data.frame with results) or FALSE (store results as list), <br/>
+`a` = asymptote,\
+`b` = Y-intercept,\
+`c` = curvature parameter.
 
-   (f). `plot` TRUE (produces a ggplot as main output) or FALSE (no plot, only results as data.frame), <br/>
+The exponential model is extensively used in agriculture to describe crops response to input since the biological meaning of its curved response. The `mitscherlich()` function works automatically with self-starting initial values to facilitate the model's convergence. The `mitscherlich()` function allows the user to control the number of parameters, effectively constraining the response curve if theoretically justified:
 
-   (g). `resid` TRUE (produces plots with residuals analysis) or FALSE (no plot), <br/>
+1.  `type = 3 or "free"` (DEFAULT): three parameter model; $y = a * (1-e^{-c(x + b)})$
+2.  `type = 2 or "100"`: two parameter model where asymptote = 100% RY; $y = 100 * (1-e^{-c(x + b)})$
+3.  `type = 1 or "fixed":` one parameter model in which only the curvature varies and asymptote = 100 and model goes through origin; $y = 100 * (1-e^{-cx})$.
 
-  iii. Run and check results. <br/>
+Disadvantages this model might include:
 
-  iv. Check residuals plot, and warnings related to potential limitations of this model. <br/>
+-   lacks a parameter that can be directly interpreted as the critical soil test value
 
-  v. Adjust curve plots as desired. <br/>
-  
-# Tutorial  
+    -   the model cannot be evaluated at the asymptote as CSTV would go to `Inf`
+
+    -   a fixed RY target for CSTV may be a somewhat arbitrary choice, but 95% is commonly used
+
+        -   model may not reach 95%, for which `NaN` results
+
+-   there is no apparent confidence interval for the derived CSTV. For this latter purpose, we recommend the user to use the `boot_mitscherlich()` function for a reliable confidence interval estimation of parameters and CSTV via bootstrapping (resampling with replacement).
+
+## General Instructions
+
+1.  Load your dataframe with soil test value (stv) and relative yield (ry) data.
+2.  Specify the following arguments into the function `mitscherlich()`:
+    1.  `type` select the type of parameterization of the model (`type = 3, 2, or 1; see above`)
+    2.  `data` (optional)
+    3.  `stv` (soil test value) and `ry` (relative yield) columns or vectors,
+    4.  `target` (default = 95) to calculate the STV at a specific `ry` target.
+    5.  `tidy` TRUE (produces a data.frame with results) or FALSE (store results as list)
+    6.  `plot` TRUE (produces a ggplot as main output) or FALSE (no plot, only results as data.frame)
+    7.  `resid` TRUE (produces plots with residuals analysis) or FALSE (no plot)
+3.  Run and check results.
+4.  Check residuals plot, and warnings related to potential limitations of this model.
+5.  Adjust curve plots as desired.
+
+# Tutorial
 
 ```{r setup}
 library(soiltestcorr)
 ```
 
 Suggested packages
+
 ```{r warning=FALSE, message=FALSE}
 # Install if needed 
 library(ggplot2) # Plots
 library(dplyr) # Data wrangling
 library(tidyr) # Data wrangling
-library(utils) # Data wrangling
-library(data.table) # Mapping
 library(purrr) # Mapping
 
 ```
 
-This is a basic example using three different datasets: <br/>
-
 ## Load datasets
-```{r}
 
-# Example 1 dataset
-# Fake dataset manually created
+```{r}
+# Native fake dataset from soiltestcorr package
+corr_df <- soiltestcorr::data_test
+```
+
+# Fit `mitscherlich()`
+
+## 1. Individual fits
+
+### 1.1. Different number of parameters `type = 3`
+
+```{r warning=TRUE, message=TRUE}
+
+mitscherlich(corr_df, STV, RY, type = 3)
+mitscherlich(corr_df, STV, RY, type = 2)
+mitscherlich(corr_df, STV, RY, type = 1)
+
+```
+
+### 1.2. `tidy` = FALSE
+
+It returns a LIST (may more efficient for multiple fits at once)
+
+```{r warning=TRUE, message=TRUE}
+
+# Using dataframe argument, tidy = FALSE -> return a LIST
+mitscherlich(data = corr_df, STV, RY, target = 90,  tidy = FALSE)
+```
+
+### 1.3. Alternative using the data frame vectors
+
+You can call `stv` and `ry` vectors using the `$`. The `tidy` argument still applies for controlling the output type.
+
+```{r warning=TRUE, message=TRUE}
+
+fit_vectors_list <-mitscherlich(stv = corr_df$STV,
+                                ry = corr_df$RY,
+                                tidy = FALSE)
+
+fit_vectors_tidy <-mitscherlich(stv = corr_df$STV,
+                                ry = corr_df$RY,
+                                tidy = TRUE)
+```
+
+## 2. Multiple fits at once
+
+```{r warning=T, message=F}
+# Example 1. Fake dataset manually created
 data_1 <- data.frame("RY"  = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
                      "STV" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
   
 # Example 2. Native fake dataset from soiltestcorr package
-
 data_2 <- soiltestcorr::data_test
 
 
 # Example 3. Native dataset from soiltestcorr package, Freitas et al.  (1966), used by Cate & Nelson (1971)
-data_3 <- soiltestcorr::freitas1966
+data_3 <- soiltestcorr::freitas1966 %>% 
+  rename(STV = STK)
 
-
+data.all <- bind_rows(data_1, data_2, data_3, .id = "id")
 ```
 
+Note: the `stv` column needs to have the same name for all datasets if binding rows.
 
-# Fit mitscherlich()
+### 2.1. Using `map()`
 
-## 1. Individual fits <br/>
-
-### 1.1.a `type = 1` <br/>
-
-Type = "no restrictions" or Type = 1 for model with 'no restrictions' <br/>
-```{r warning=TRUE, message=TRUE}
-
-fit_1_type_1 <- 
-  soiltestcorr::mitscherlich(data = data_1, 
-                             ry = RY, 
-                             stv = STV, 
-                             type = 1, 
-                             target = 90)
-
-utils::head(fit_1_type_1)
-
-```
-
-### 1.1.b `type = 2` <br/>
-
-Type = "asymptote 100" or Type = 2 for model with 'asymptote = 100' <br/>
-```{r warning=TRUE, message=TRUE}
-
-fit_1_type_2 <- 
-  soiltestcorr::mitscherlich(data = data_1, 
-                             ry = RY, 
-                             stv = STV, 
-                             type = 2, 
-                             target = 90)
-
-utils::head(fit_1_type_2)
-
-```
-
-### 1.1.c `type = 3` <br/>
-
-Type = "asymptote 100 from 0" or Type = 3 for model with 'asymptote = 100 and xintercept = 0' <br/>
-```{r warning=TRUE, message=TRUE}
-
-fit_1_type_3 <- 
-  soiltestcorr::mitscherlich(data = data_1, 
-                             ry = RY, 
-                             stv = STV, 
-                             type = 3, 
-                             target = 90)
-
-utils::head(fit_1_type_3)
-
-```
-
-RY type = 1, target = 90%, confidence level = 0.95, replace with your desired values <br/>
-
-### 1.2. `tidy` = FALSE <br/>
-
-It returns a LIST (more efficient for multiple fits at once) <br/>
-```{r warning=TRUE, message=TRUE}
-
-# Using dataframe argument, tidy = FALSE -> return a LIST
-fit_1_tidy_false <- 
-  soiltestcorr::mitscherlich(data = data_1, 
-                               ry = RY, 
-                               stv = STV, type = 1, target = 90, 
-                               tidy = FALSE)
-
-utils::head(fit_1_tidy_false)
-
-```
-
-### 1.3. `tidy` = TRUE <br/>
-
-It returns a data.frame (more organized results) <br/>
-```{r warning=TRUE, message=TRUE}
-
-# Using dataframe argument, tidy = FALSE -> return a LIST
-fit_1_tidy_true <- 
-  soiltestcorr::mitscherlich(data = data_1, 
-                               ry = RY, 
-                               stv = STV, type = 1, target = 90,
-                               tidy = TRUE)
-
-fit_1_tidy_true
-
-```
-
-### 1.4. Alternative using the vectors <br/>
-
-You can call `stv` and `ry` vectors using the `$`. <br/>
-
-The `tidy` argument still applies for controlling the output type
-```{r warning=TRUE, message=TRUE}
-
-fit_1_vectors_list <-
-  soiltestcorr::mitscherlich(ry = data_1$RY,
-                             stv = data_1$STV,
-                             type = 1,
-                             tidy = FALSE)
-
-fit_1_vectors_tidy <- 
-  soiltestcorr::mitscherlich(ry = data_1$RY,
-                             stv = data_1$STV,
-                             type = 1,
-                             tidy = TRUE)
-
-```
-
-### 1.5. Data 2. Test dataset <br/>
-
-```{r warning=TRUE, message=TRUE}
-
-fit_2 <-
-  soiltestcorr::mitscherlich(data = data_2, 
-                             ry = RY,
-                             stv = STV,
-                             type = 1,
-                             target = 90)
-
-utils::head(fit_2)
-```
-
-### 1.6. Data 3. Freitas et al. 1966 <br/>
-
-```{r warning=TRUE, message=TRUE}
-
-fit_3 <-
-  soiltestcorr::mitscherlich(data = data_3, 
-                             ry = RY,
-                             stv = STK, 
-                             type = 1, 
-                             target = 90)
-utils::head(fit_3)
-
-```
-
-## 2. Multiple fits at once <br/>
-
-### 2.1. Using map
-
-#### Create nested data <br/>
-
-<i> Note: the `stv` column needs to have the same name for all datasets <i/> <br/>
-```{r warning=T, message=F}
-# 
-data.all <- dplyr::bind_rows(data_1, data_2,
-                      data_3 %>% dplyr::rename(STV = STK),
-                     .id = "id") %>% 
-  tidyr::nest(data = c("STV", "RY"))
-```
-
-#### Fit
 ```{r warning=T, message=F}
 
 # Run multiple examples at once with map()
-fit_multiple_map <-
-  data.all %>%
-  dplyr::mutate(models = purrr::map(data, 
-                                     ~ soiltestcorr::mitscherlich(ry = .$RY,
-                                                                  stv = .$STV,
-                                                                  type = 1,
-                                                                  target = 90,
-                                                                  tidy = TRUE)))
-
-utils::head(fit_multiple_map)
-
-unnest(fit_multiple_map, models)
-
+data.all %>%
+  nest(data = c("STV", "RY")) %>% 
+  mutate(model = map(data, ~ mitscherlich(stv = .$STV, ry = .$RY))) %>%
+  unnest(model)
 ```
 
-### 2.2. Using group_map <br/>
+### 2.2. Using `group_modify()`
 
-Alternatively, with group_map, we do not require nested data. <br/>
+Alternatively, with `group_modify()`, nested data is not required. However, it still requires a grouping variable (in this case, `id`) to identify each dataset. `group_map()` may also be used, though `list_rbind()` is required to return a tidy data frame of the model results instead of a list.
 
-However, it requires to dplyr::bind_rows and add an `id` column specifying the name of each dataset. <br/>
-
-This option return models as lists objects.
 ```{r warning=T, message=F}
 
-fit_multiple_group_map <- 
-  dplyr::bind_rows(data_1, data_2, .id = "id") %>% 
-  dplyr::group_by(id) %>% 
-  dplyr::group_map(~ soiltestcorr::mitscherlich(data = ., 
-                                           ry = RY,
-                                           stv = STV, type = 1, target = 90,
-                                           tidy = TRUE))
-
-utils::head(fit_multiple_group_map)
+data.all %>% 
+  group_by(id) %>% 
+  group_modify(~ mitscherlich(data = ., STV, RY))
 
 ```
 
-## 3. Bootstrapping <br/>
+## 3. Bootstrapping
 
-A suitable alternative for obtaining confidence intervals for parameters or derived quantities is bootstrapping. <br/>
-
-Bootstrapping is a resampling technique (with replacement) that draws samples from the original data with the same size. If you have groups within your data, you can specify grouping variables as arguments in order to maintain, within each resample, the same proportion of observations than in the original dataset. <br/>
+A suitable alternative for obtaining confidence intervals for parameters or derived quantities is bootstrapping. Bootstrapping is a resampling technique (with replacement) that draws samples from the original data with the same size. If you have groups within your data, you can specify grouping variables as arguments in order to maintain, within each resample, the same proportion of observations than in the original dataset.
 
 This function returns a table with as many rows as the resampling size (n) containing the results for each resample.
 
 ```{r}
-boot_mits <- boot_mitscherlich(data = data_1, type = 1,
-                    ry = RY, target = 90,
-                    stv = STV, n = 200)
+boot_mits <- boot_mitscherlich(corr_df, STV, RY, target = 90, n = 200)
 
-boot_mits %>% dplyr::slice_head(., n=5)
+boot_mits %>% head(n = 5)
 
 # CSTV Confidence Interval
 quantile(boot_mits$CSTV, probs = c(0.025, 0.5, 0.975))
@@ -309,75 +205,49 @@ boot_mits %>%
 
 ## 4. Plots
 
-### 4.1. Calibration Curve 
+### 4.1. Calibration Curve
 
-We can generate a ggplot with the same mitscherlich() function. <br/>
+We can generate a ggplot with the same `mitscherlich()` function.
 
-We just need to specify the argument `plot = TRUE`. <br/>
+We just need to specify the argument `plot = TRUE`.
 
 ```{r warning=F, message=F}
+data_3 <- soiltestcorr::freitas1966
 
-mitscherlich_plot <- 
-  soiltestcorr::mitscherlich(data = data_3, 
-                               ry = RY, 
-                               stv = STK, type = 1, target = 90, 
-                               plot = TRUE)
+plot_mit <- mitscherlich(data_3, STK, RY, plot = TRUE)
 
-mitscherlich_plot
-```
-<br/>
-
-### 4.1.2 Fine-tune the plots <br/>
-
-As ggplot object, plots can be adjusted in several ways. <br/>
-
-For example, modifying titles <br/>
-```{r warning=F, message=F}
-mitscherlich_plot_2 <- 
-  mitscherlich_plot +
-  labs(
-    # Main title
-    title = "My own plot title",
-    # Axis titles
-    x = "Soil Test K (ppm)",
-    y = "Cotton RY(%)")
-
-mitscherlich_plot_2
+plot_mit
 ```
 
-Or modifying axis scales <br/>
+### 4.2 Fine-tune the plots
+
+As ggplot object, plots can be adjusted in several ways, such as modifying titles and axis scales.
 
 ```{r warning=F, message=F}
-mitscherlich_plot_3 <-
-mitscherlich_plot_2 +
+plot_mit +
+  # Main title
+  ggtitle("My own plot title")+
+  # Axis titles
+  labs(x = "Soil Test K (ppm)",
+       y = "Cotton RY(%)") +
   # Axis scales
-  scale_x_continuous(breaks = seq(0,220, by = 20))+
-  # Axis limits
-  scale_y_continuous(breaks = seq(0,100, by = 10))
-
-mitscherlich_plot_3
-  
+  scale_x_continuous(limits = c(20,220),
+                     breaks = seq(0,220, by = 10))
 ```
 
+### 4.3. Residuals
 
-### 4.3. Residuals <br/>
-
-We can generate a plot with the same mitscherlich() function. <br/>
-
-We just need to specify the argument `resid` = TRUE`. <br/>
-
+Set the argument `resid = TRUE`.
 
 ```{r warning=F, message=F}
 
 # Residuals plot
-
-soiltestcorr::mitscherlich(data = data_3, 
-                               ry = RY, 
-                               stv = STK, type = 1, target = 90, 
-                               resid = TRUE)
+mitscherlich(data_3, STK, RY, resid = TRUE)
 
 ```
 
-<b> References </b> <br/>
+#### References
 
-*Melsted, S.W. and Peck, T.R. (1977). The Mitscherlich-Bray Growth Function. In Soil Testing (eds T. Peck, J. Cope and D. Whitney). 10.2134/asaspecpub29.c1 * <br/>
+*Cerrato, M. E., & Blackmer, A. M. (1990). Comparison of models for describing corn yield response to nitrogen fertilizer. Agronomy Journal, 82(1), 138--143. <https://doi.org/10.2134/agronj1990.00021962008200010030x>*
+
+*Melsted, S.W. and Peck, T.R. (1977). The Mitscherlich-Bray Growth Function. In Soil Testing (eds T. Peck, J. Cope and D. Whitney). 10.2134/asaspecpub29.c1*
