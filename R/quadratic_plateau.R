@@ -11,10 +11,10 @@
 #' @param tidy logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a tidy data frame or tibble (default), FALSE returns a list.
 #' @param resid logical operator (TRUE/FALSE) to plot residuals analysis, Default: FALSE
 #' @param plot logical operator (TRUE/FALSE) to plot the quadratic-plateau model, Default: FALSE
-#' @param x selfstart vector for independent variable, Default: NULL
-#' @param intercept selfstart arg. for intercept Default: NULL
-#' @param slope selfstart arg. for slope Default: NULL
-#' @param jp selfstart arg. for critical value Default: NULL
+#' @param x selfstart arg. for explanatory variable in SSquadp3xs Default: NULL
+#' @param a selfstart arg. for intercept Default: NULL
+#' @param b selfstart arg. for slope Default: NULL
+#' @param xs selfstart arg. for break/join point in SSquadp3xs Default: NULL
 #' @param n sample size for the bootstrapping Default: 500
 #' @param .by when running bootstrapped samples, open arguments serve to add grouping Variables (factor or character) Default: NULL
 #' @rdname quadratic_plateau
@@ -30,16 +30,17 @@
 #' @examples 
 #' \donttest{
 #' # Example dataset
-#'  dat <- data.frame("ry" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
-#'                    "stv" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
+#'  df <- data.frame("ry" = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
+#'                   "stv" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
 #'  # Run
-#'  fit_example_qp <- quadratic_plateau(data = dat, 
-#'  ry = ry, stv = stv, resid = TRUE, plot = FALSE)
+#'  fit_example_qp <- quadratic_plateau(data = df, 
+#'  stv = stv, ry = ry, resid = TRUE, plot = FALSE)
 #'  fit_example_qp
 #' }
 #' @seealso 
 #'  \code{\link[rlang]{eval_tidy}},\code{\link[rlang]{defusing-advanced}}
 #'  \code{\link[minpack.lm]{nlsLM}}
+#'  \code{\link[nlraa]{SSlinp}}
 #'  \code{\link[stats]{AIC}},\code{\link[stats]{lm}},\code{\link[stats]{optim}},\code{\link[stats]{coef}},\code{\link[stats]{predict}}
 #'  \code{\link[AICcmodavg]{AICc}}
 #'  \code{\link[modelr]{model-quality}}
@@ -48,13 +49,12 @@
 #'  \code{\link[ggplot2]{ggplot}},\code{\link[ggplot2]{aes}},\code{\link[ggplot2]{geom_rug}},\code{\link[ggplot2]{geom_point}},\code{\link[ggplot2]{geom_abline}},\code{\link[ggplot2]{geom_path}},\code{\link[ggplot2]{annotate}},\code{\link[ggplot2]{labs}},\code{\link[ggplot2]{theme}}
 #'  \code{\link[ggpp]{annotate}}
 #' @note For extended reference, we recommend to visit 
-#' <https://gradcylinder.org/quad-plateau/> & <https://github.com/austinwpearce/SoilTestCocaCola>
-#' by Austin Pearce.
+#' <https://gradcylinder.org/post/quad-plateau/> by Austin Pearce.
 #' Self-start function code adapted from nlraa package by F. Miguez <https://github.com/femiguez/nlraa>
 #' @export
 #' @importFrom rlang eval_tidy quo enquo
 #' @importFrom minpack.lm nlsLM
-#' @importFrom stats sortedXyData AIC lm optim coef predict
+#' @importFrom nlraa SSquadp3xs
 #' @importFrom AICcmodavg AICc
 #' @importFrom modelr rsquare
 #' @importFrom nlstools nlsResiduals confint2
@@ -67,77 +67,10 @@
 NULL
 
 
-QP_init <- function(mCall, LHS, data, ...){
-  
-  ### STAGE 1 ====================================================================
-  # Self start functions (adapted from nlraa package by Fernando Miguez)
-  # Original source: https://github.com/femiguez/nlraa
-  
-  # Initialization function
-  
-  xy <- sortedXyData(mCall[["x"]], LHS, data)
-  if(nrow(xy) < 3){
-    stop("Too few distinct input values to fit a quadratic-platueau-3-jp.")
-  }
-  ## Guess for a, b and jp is to fit a quadratic regression to all the data
-  fit <- lm(xy[,"y"] ~ xy[,"x"] + I(xy[,"x"]^2))
-  a <- coef(fit)[1]
-  b <- coef(fit)[2]
-  c <- coef(fit)[3]
-  jp <- -0.5 * b / c
-  ## If I fix a and b maybe I can try to optimze jp only
-  value <- c(a, b, jp)
-  names(value) <- mCall[c("intercept","slope","jp")]
-  value
-}
-
 #' @rdname quadratic_plateau
-#' @return QP_f: vector of the same length as x using the quadratic-plateau function
-#' @export
-#' 
-QP_f <- function(x, intercept, slope, jp){
-  
-  .value <- (x <= jp) * (intercept + slope * x + (-0.5 * slope/jp) * x^2) + (x > jp) * (intercept + (-slope^2)/(4 * -0.5 * slope/jp))
-  
-  ## Derivative with respect to intercept
-  .exp1 <- 1 
-  
-  ## Derivative with respect to slope
-  ## .exp2 <- deriv(~ intercept + slope * x + (-0.5 * slope/jp) * x^2, "slope")
-  ## .exp2slope <- deriv(~ intercept + (-slope^2)/(4 * -0.5 * slope/jp), "slope")
-  .expr2 <- -slope^2
-  .expr4 <- 4 * -0.5
-  .expr6 <- .expr4 * slope/jp
-  .exp2 <- ifelse(x <= jp, x - 0.5/jp * x^2, -(2 * slope/.expr6 + .expr2 * (.expr4/jp)/.expr6^2))
-  
-  ## Derivative with respect to jp
-  ## .exp2 <- deriv(~ (intercept + slope * x + (-0.5 * slope/jp) * x^2), "jp")
-  ## .exp2slope <- deriv(~ a + (-slope^2)/(4 * -0.5 * slope/jp), "jp")
-  .expr4 <- -0.5 * slope
-  .expr6 <- x^2
-  .expr2 <- -slope^2
-  .expr5 <- 4 * -0.5 * slope
-  .expr7 <- .expr5/jp
-  .exp3 <- ifelse(x <= jp, -(.expr4/jp^2 * .expr6), .expr2 * (.expr5/jp^2)/.expr7^2)
-  
-  .actualArgs <- as.list(match.call()[c("intercept","slope","jp")])
-  
-  ##  Gradient
-  if (all(unlist(lapply(.actualArgs, is.name)))) {
-    .grad <- array(0, c(length(.value), 3L), list(NULL, c("intercept","slope","jp")))
-    .grad[, "intercept"] <- .exp1
-    .grad[, "slope"] <- .exp2
-    .grad[, "jp"] <- .exp3
-    dimnames(.grad) <- list(NULL, .actualArgs)
-    attr(.value, "gradient") <- .grad
-  }
-  .value
-}
-
-#' @rdname quadratic_plateau
-#' @return SS_QP: selfStart object to pass into the quadratic_plateau fit
+#' @return SS_QP: selfStart function to pass into the quadratic_plateau fit
 #' @export 
-SS_QP <- stats::selfStart(QP_f, initial = QP_init, c("intercept","slope","jp"))
+SS_QP <- nlraa::SSquadp3xs
 
 #' @rdname quadratic_plateau
 #' @return quadratic_plateau: function
@@ -179,7 +112,7 @@ quadratic_plateau <- function(data = NULL,
   
   # Run the model combining minpack.lm::nlsLM + defined selfStart (SS_QP)
   qp_model <-
-    try(minpack.lm::nlsLM(y ~ SS_QP(x, b0, b1, jp), data = test.data))
+    try(minpack.lm::nlsLM(y ~ SS_QP(x, a, b, jp), data = test.data))
   
   if (inherits(qp_model, "try-error")) {
     stop("Quadratic-plateau model did not converge. Please, consider other models.")
@@ -200,11 +133,11 @@ quadratic_plateau <- function(data = NULL,
   R2 <- round(modelr::rsquare(qp_model, test.data), 2)
   
   # get model coefficients
-  b0 <- stats::coef(qp_model)[[1]]
-  b1 <- stats::coef(qp_model)[[2]]
+  a <- stats::coef(qp_model)[[1]]
+  b <- stats::coef(qp_model)[[2]]
   jp <- stats::coef(qp_model)[[3]]
-  b2 <- -0.5 * b1 / jp
-  plateau <- b0 + b1 * jp + b2 * (jp)^2
+  c <- -0.5 * b / jp
+  plateau <- a + b * jp + c * (jp)^2
   
   # CSTV estimation
   CSTV <- ifelse(jp > 10, round(jp), round(jp, 1))
@@ -227,20 +160,20 @@ quadratic_plateau <- function(data = NULL,
   STVt <- ifelse(is.null(target), 
                  CSTV,
                  ifelse(target >= plateau,
-                        (-b1 + sqrt((b1 ^ 2) - (4 * b2 * (b0 - plateau) ))) / (2 * b2),
-                        (-b1 + sqrt((b1 ^ 2) - (4 * b2 * (b0 - target) ))) / (2 * b2) )  )
+                        (-b + sqrt((b ^ 2) - (4 * c * (a - plateau) ))) / (2 * c),
+                        (-b + sqrt((b ^ 2) - (4 * c * (a - target) ))) / (2 * c) )  )
   
   
   
   # have to make a line because the SS_QP doesn't plot right
   qp_line <- data.frame(x = seq(minx, maxx, by = maxx/200)) %>%
     dplyr::mutate(y = ifelse(x < jp, 
-                             b0 + b1 * x + b2 * x^2,
+                             a + b * x + c * x^2,
                              plateau))
   
-  equation <- paste0(round(b0, 1), " + ",
-                     round(b1, 2), "x + ",
-                     round(b2, 2), "x^2 when x < ", round(jp, 1))
+  equation <- paste0(round(a, 1), " + ",
+                     round(b, 2), "x + ",
+                     round(c, 2), "x^2 when x < ", round(jp, 1))
   ## STAGE 3 ====================================================================
   
   ## Outputs
@@ -251,8 +184,8 @@ quadratic_plateau <- function(data = NULL,
         plot(nlstools::nlsResiduals(qp_model), which = 0)
     }
     results <- dplyr::tibble(
-      intercept = round(b0, 2),
-      slope = round(b1, 2),
+      intercept = round(a, 2),
+      slope = round(b, 2),
       equation,
       plateau = round(plateau, 1),
       CSTV,

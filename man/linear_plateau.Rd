@@ -2,14 +2,11 @@
 % Please edit documentation in R/linear_plateau.R
 \name{linear_plateau}
 \alias{linear_plateau}
-\alias{LP_f}
 \alias{SS_LP}
 \alias{boot_linear_plateau}
 \title{Linear-plateau response function}
 \usage{
-LP_f(x, intercept, slope, jp)
-
-SS_LP(x, intercept, slope, jp)
+SS_LP(x, a, b, xs)
 
 linear_plateau(
   data = NULL,
@@ -24,13 +21,13 @@ linear_plateau(
 boot_linear_plateau(data, stv, ry, n = 1000, target = NULL, .by = NULL)
 }
 \arguments{
-\item{x}{selfstart vector for independent variable, Default: NULL}
+\item{x}{selfstart arg. for explanatory variable in SSlinp Default: NULL}
 
-\item{intercept}{selfstart arg. for intercept Default: NULL}
+\item{a}{selfstart arg. for intercept Default: NULL}
 
-\item{slope}{selfstart arg. for slope Default: NULL}
+\item{b}{selfstart arg. for slope Default: NULL}
 
-\item{jp}{selfstart arg. for join point (jp) value Default: NULL}
+\item{xs}{selfstart arg. for break/join point in SSlinp Default: NULL}
 
 \item{data}{Optional argument to call and object of type data.frame or data.table
 containing the soil test value (STV) and relative yield (RY) data, Default: NULL}
@@ -61,9 +58,7 @@ returns an object of class \code{data.frame} if tidy = TRUE,
 
 returns an object of class \code{list} if tidy = FALSE.
 
-LP_f: vector of the same length as x using the linear-plateau function
-
-SS_LP: selfStart object to pass into the linear_plateau fit
+SS_LP: selfStart function to pass into the linear_plateau fit
 
 linear_plateau: function
 
@@ -78,7 +73,7 @@ See \href{https://adriancorrendo.github.io/soiltestcorr/articles/linear_plateau_
 }
 \note{
 For extended reference, we recommend to visit:
-https://gradcylinder.org/linear-plateau/ & https://github.com/austinwpearce/SoilTestCocaCola by Austin Pearce.
+https://gradcylinder.org/post/linear-plateau/ by Austin Pearce.
 Self-start function code adapted from nlraa package by F. Miguez \url{https://github.com/femiguez/nlraa}
 }
 \examples{
@@ -100,6 +95,7 @@ A Family of Models Involving Intersecting Straight Lines and Concomitant Experim
 \seealso{
 \code{\link[rlang]{eval_tidy}},\code{\link[rlang]{defusing-advanced}}
 \code{\link[minpack.lm]{nlsLM}}
+\code{\link[nlraa]{SSlinp}}
 \code{\link[stats]{AIC}},\code{\link[stats]{lm}},\code{\link[stats]{optim}},\code{\link[stats]{coef}},\code{\link[stats]{predict}}
 \code{\link[AICcmodavg]{AICc}}
 \code{\link[modelr]{model-quality}}
