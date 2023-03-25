@@ -95,7 +95,7 @@ mitscherlich <- function(data = NULL,
                          tidy = FALSE,
                          plot = FALSE,
                          resid = FALSE
-                                ) {
+) {
   if (missing(type)) {
     stop("Please specify the type of Mitscherlich function using the `type` argument.
          Options: 
@@ -144,32 +144,32 @@ mitscherlich <- function(data = NULL,
   
   # Run the model combining minpack.lm::nlsLM + defined selfStart
   # Type 1, no restrictions
-    if (type == "no restriction" | type == 1) {
-      mitsmodel <-
-        try(minpack.lm::nlsLM(formula = y ~ mits_formula_1(x, a, b, c),
-                              data = test.data,
-                              start = list(a = maxy, b = 0, c = start_c),
-                              lower = c(a = miny, b = -maxx, c = 1e-7),
-                              upper = c(a = Inf, b = 1e3, c = 10)))
-    }
-    # Type 2
-    if (type == "asymptote 100" | type == 2) {
-      mitsmodel <-
-        try(minpack.lm::nlsLM(formula = y ~ mits_formula_2(x, b, c),
-                              data = test.data,
-                              start = list(b = 0, c = start_c),
-                              lower = c(b = -maxx, c = 1e-7),
-                              upper = c(b = 1e3, c = 10)))
-    }
-    # Type 3
-    if (type == "asymptote 100 from 0" | type == 3) {
-      mitsmodel <-
-        try(minpack.lm::nlsLM(formula = y ~ mits_formula_3(x, c),
-                              data = test.data,
-                              start = list(c = start_c),
-                              lower = c(c = 1e-7),
-                              upper = c(c = 10)))
-    }
+  if (type == "no restriction" | type == 1) {
+    mitsmodel <-
+      try(minpack.lm::nlsLM(formula = y ~ mits_formula_1(x, a, b, c),
+                            data = test.data,
+                            start = list(a = maxy, b = 0, c = start_c),
+                            lower = c(a = miny, b = -maxx, c = 1e-7),
+                            upper = c(a = Inf, b = 1e3, c = 10)))
+  }
+  # Type 2
+  if (type == "asymptote 100" | type == 2) {
+    mitsmodel <-
+      try(minpack.lm::nlsLM(formula = y ~ mits_formula_2(x, b, c),
+                            data = test.data,
+                            start = list(b = 0, c = start_c),
+                            lower = c(b = -maxx, c = 1e-7),
+                            upper = c(b = 1e3, c = 10)))
+  }
+  # Type 3
+  if (type == "asymptote 100 from 0" | type == 3) {
+    mitsmodel <-
+      try(minpack.lm::nlsLM(formula = y ~ mits_formula_3(x, c),
+                            data = test.data,
+                            start = list(c = start_c),
+                            lower = c(c = 1e-7),
+                            upper = c(c = 10)))
+  }
   
   if (inherits(mitsmodel, "try-error")) {
     stop("Mitscherlich model did not converge. Please, consider other models.")
@@ -233,32 +233,32 @@ mitscherlich <- function(data = NULL,
                  NA,
                  (log(1 - (target/a)) / -c) - b )
   
-#  CSTV_target <- log((target - a) / (b-a)) / -c
+  #  CSTV_target <- log((target - a) / (b-a)) / -c
   # There are no confidence interval for CSTV as it is not a parameter
   
   # have to make a line because the SS_mits doesn't plot right
-    if (type == "no restriction" | type == 1) {
-      mits_line <-
+  if (type == "no restriction" | type == 1) {
+    mits_line <-
       data.frame(x = seq(minx, maxx, by = maxx/200)) %>%
       dplyr::mutate(y = mits_formula_1(x, a, b, c) ) }
-    
-    if (type == "asymptote 100" | type == 2) {
-      mits_line <-
+  
+  if (type == "asymptote 100" | type == 2) {
+    mits_line <-
       data.frame(x = seq(minx, maxx, by = maxx/200)) %>%
       dplyr::mutate(y = mits_formula_2(x, b, c) ) }
-    
-    if (type == "asymptote 100 from zero" | type == 3) {
-      mits_line <-
+  
+  if (type == "asymptote 100 from zero" | type == 3) {
+    mits_line <-
       data.frame(x = seq(minx, maxx, by = maxx/200)) %>%
       dplyr::mutate(y = mits_formula_3(x, c) ) }
-    
-    
+  
+  
   # Equation
   if (b > 0) { 
     equation <- paste0(round(a, 1), "(1-e^(-", 
                        round(c, 3), "(x+",
                        round(b, 1), ")")
-     }
+  }
   if (b == 0) { 
     equation <- paste0(round(a, 1), "(1-e^(-", 
                        round(c, 3), "x)")
@@ -290,7 +290,7 @@ mitscherlich <- function(data = NULL,
       AICc,
       R2,
       pvalue
-      )
+    )
     
     # Decide type of output
     if (tidy == TRUE) {results <- results}
@@ -320,9 +320,9 @@ mitscherlich <- function(data = NULL,
       # CSTV (if target defined)
       {
         if(!is.na(CSTV))
-        ggplot2::geom_vline(xintercept = CSTV, alpha = 1, color = "#13274F", 
-                          size = 0.5, linetype = "dashed") 
-          } +
+          ggplot2::geom_vline(xintercept = CSTV, alpha = 1, color = "#13274F", 
+                              size = 0.5, linetype = "dashed") 
+      } +
       # Target
       ggplot2::geom_hline(yintercept = target, alpha = 0.2) +
       # Mits Curve
@@ -351,7 +351,7 @@ mitscherlich <- function(data = NULL,
                                        "\nn = ", nrow(test.data),
                                        "\npseudo-R2 = ", R2,
                                        "\nAICc = ", AICc
-                                       ),
+                        ),
                         x = maxx, y = 0, vjust = 0, hjust = 1) +
       ggplot2::scale_y_continuous(limits = c(0, maxy),breaks=seq(0,maxy*2,10)) +
       ggplot2::labs(x = "Soil test value (units)", y = "Relative yield (%)",
@@ -390,11 +390,10 @@ boot_mitscherlich <-
       dplyr::mutate(model = map(boots, 
                                 purrr::possibly(
                                   .f = ~as.data.frame(
-                                  soiltestcorr::mitscherlich(data = ., ry = !!y, stv = !!x,
-                                                             type = type,
-                                                             target = target, tidy = TRUE) ), 
+                                    soiltestcorr::mitscherlich(data = ., ry = !!y, stv = !!x,
+                                                               type = type,
+                                                               target = target, tidy = TRUE) ), 
                                   otherwise = NULL)) ) %>%
       dplyr::select(-boots) %>% 
       tidyr::unnest(cols = model) 
   }
-
