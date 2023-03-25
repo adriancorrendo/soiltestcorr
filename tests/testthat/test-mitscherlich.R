@@ -8,14 +8,10 @@ require(dplyr)
 ## nrow<4
 context("run mitscherlich() with packaged dataset freitas1966")
 
-freitas_less_4 <- soiltestcorr::freitas1966 %>% dplyr::slice_head(n=3)
+freitas_less_4 <- soiltestcorr::freitas1966 %>% dplyr::slice_head(n = 3)
 
-mitscherlich.test <- try(mitscherlich(data = freitas_less_4, stv = STK, ry = RY,
-                                          type = 1, target = 90,
-                                          tidy=FALSE,
-                                          plot = FALSE,
-                                          resid = FALSE),
-                           silent = TRUE)
+mitscherlich.test <- try(mitscherlich(
+  data = freitas_less_4, stv = STK, ry = RY), silent = TRUE)
 
 test_that("no error in fitting mitscherlich() for the example dataset", {
   
@@ -27,12 +23,7 @@ test_that("no error in fitting mitscherlich() for the example dataset", {
 ## mitscherlich
 ## missing stv
 
-mitscherlich.test <- try(mitscherlich(data = freitas1966, ry = RY,
-                                          type = 1, target = 90,
-                                          tidy=FALSE,
-                                          plot = FALSE,
-                                          resid = FALSE),
-                           silent = TRUE)
+mitscherlich.test <- try(mitscherlich(data = freitas1966, ry = RY), silent = TRUE)
 
 test_that("no error in fitting mitscherlich() for the example dataset", {
   
@@ -44,12 +35,7 @@ test_that("no error in fitting mitscherlich() for the example dataset", {
 ## mitscherlich
 ## missing ry
 
-mitscherlich.test <- try(mitscherlich(data = freitas1966, stv = STK,
-                                          type = 1, target = 90,
-                                          tidy=FALSE,
-                                          plot = FALSE,
-                                          resid = FALSE),
-                           silent = TRUE)
+mitscherlich.test <- try(mitscherlich(data = freitas1966, stv = STK), silent = TRUE)
 
 test_that("no error in fitting mitscherlich() for the example dataset", {
   
@@ -64,10 +50,7 @@ test_that("no error in fitting mitscherlich() for the example dataset", {
 context("run mitscherlich() with packaged dataset freitas1966")
 
 mitscherlich.test <- try(mitscherlich(data = freitas1966, stv = STK, ry = RY,
-                                          type = 1, target = 90,
-                                          tidy=FALSE,
-                                          plot = FALSE,
-                                          resid = FALSE),
+                                      tidy=FALSE, plot = FALSE, resid = FALSE),
                            silent = TRUE)
 
 test_that("no error in fitting mitscherlich() for the example dataset", {
@@ -81,7 +64,6 @@ test_that("no error in fitting mitscherlich() for the example dataset", {
 context("run mitscherlich() with packaged dataset freitas1966")
 
 mitscherlich.test <- try(mitscherlich(data = freitas1966, stv = STK, ry = RY,
-                                          type = 1, target = 90,
                                           tidy=FALSE,
                                           plot = FALSE,
                                           resid = TRUE),
@@ -98,7 +80,6 @@ test_that("no error in fitting mitscherlich() for the example dataset", {
 context("run mitscherlich() with packaged dataset freitas1966")
 
 mitscherlich.test <- try(mitscherlich(data = freitas1966, stv = STK, ry = RY,
-                                          type = 1, target = 90,
                                           tidy=FALSE,
                                           plot = TRUE,
                                           resid = TRUE),
@@ -185,16 +166,12 @@ test_that("no error in fitting mitscherlich() for the example dataset", {
 
 # 9
 ## mitscherlich
-## missing type
+## type = NULL
 context("run mitscherlich() with packaged dataset freitas1966")
 
 
 mitscherlich.test <- try(mitscherlich(data = freitas1966, stv = STK, ry = RY,
-                                      target = 90,
-                                      tidy=FALSE,
-                                      plot = FALSE,
-                                      resid = FALSE),
-                         silent = TRUE)
+                                      type = NULL), silent = TRUE)
 
 test_that("no error in fitting mitscherlich() for the example dataset", {
   
@@ -204,49 +181,24 @@ test_that("no error in fitting mitscherlich() for the example dataset", {
 
 # 10
 ## mitscherlich
-## missing type
+## type = number besides 1, 2, 3
 context("run mitscherlich() with packaged dataset freitas1966")
 
 
 mitscherlich.test <- try(mitscherlich(data = freitas1966, stv = STK, ry = RY,
-                                      target = 90,
-                                      type = 2,
-                                      tidy=FALSE,
-                                      plot = FALSE,
-                                      resid = FALSE),
-                         silent = TRUE)
+                                      type = 4), silent = TRUE)
 
 test_that("no error in fitting mitscherlich() for the example dataset", {
   
-  expect_false(inherits(mitscherlich.test, "try-error"))
+  expect_true(inherits(mitscherlich.test, "try-error"))
   
 })
 
 # 11
-## mitscherlich
-## missing type
-context("run mitscherlich() with packaged dataset freitas1966")
-
-
-mitscherlich.test <- try(mitscherlich(data = freitas1966, stv = STK, ry = RY,
-                                      target = 90,
-                                      type = 3,
-                                      tidy=FALSE,
-                                      plot = FALSE,
-                                      resid = FALSE),
-                         silent = TRUE)
-
-test_that("no error in fitting mitscherlich() for the example dataset", {
-  
-  expect_false(inherits(mitscherlich.test, "try-error"))
-  
-})
-
-# 12
 ## boot_mitscherlich
 ## context("run boot_mitscherlich() with packaged dataset freitas1966")
 boot_mitscherlich.test <- try(boot_mitscherlich(
-  data = freitas1966, stv = STK, ry = RY, n = 2, type = 1, target = 90),
+  data = freitas1966, stv = STK, ry = RY, n = 20, type = 1, target = 90),
   silent = TRUE)
 
 test_that("no error in fitting boot_mitscherlich() for the example dataset", {
@@ -254,3 +206,4 @@ test_that("no error in fitting boot_mitscherlich() for the example dataset", {
   expect_false(inherits(boot_mitscherlich.test, "try-error"))
   
 })
+

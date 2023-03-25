@@ -140,7 +140,9 @@ quadratic_plateau <- function(data = NULL,
   plateau <- a + b * jp + c * (jp)^2
   
   # CSTV estimation
-  CSTV <- ifelse(jp > 10, round(jp), round(jp, 1))
+  CSTV <- jp
+  # CSTV rounded only for plot display (not for bootstrapping)
+  CSTVr <- ifelse(jp > 10, round(jp), round(jp, 1))
   # Wald confidence interval for CSTV
   # not as reliable as bootstrapping but sometimes useful
   qp_model.confint <- nlstools::confint2(qp_model, level = 0.95)
@@ -184,10 +186,10 @@ quadratic_plateau <- function(data = NULL,
         plot(nlstools::nlsResiduals(qp_model), which = 0)
     }
     results <- dplyr::tibble(
-      intercept = round(a, 2),
-      slope = round(b, 2),
+      intercept = a,
+      slope = b,
       equation,
-      plateau = round(plateau, 1),
+      plateau,
       CSTV,
       lowerCL = round(lowerCL, 1),
       upperCL = round(upperCL, 1),
@@ -235,7 +237,7 @@ quadratic_plateau <- function(data = NULL,
       # annotation
       {if (is.null(target))
           ggplot2::annotate(
-            "text", label = paste("CSTV =", CSTV, "ppm"),
+            "text", label = paste("CSTV =", CSTVr, "ppm"),
             x = jp, y = 0, angle = 90, hjust = 0, vjust = 1.5, col = "grey25") } +
       # STV for TARGET
       {if (!is.null(target))

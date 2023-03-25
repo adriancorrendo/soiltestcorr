@@ -144,9 +144,10 @@ linear_plateau <- function(data = NULL,
   plateau <- a + b * jp
   
   
-  # CSTV
+  # CSTV rounded for plot display only (don't round for bootstraps)
+  CSTV <- jp
+  CSTVr <- ifelse(jp > 10, round(jp), round(jp, 1))
   
-  CSTV <- ifelse(jp > 10, round(jp), round(jp, 1))
   # Wald confidence interval for CSTV
   # not as reliable as bootstrapping but sometimes useful
   lp_model.confint <- nlstools::confint2(lp_model, level = 0.95)
@@ -176,7 +177,7 @@ linear_plateau <- function(data = NULL,
     y = c(a + b * minx, plateau, plateau))
   
   equation <- paste0(round(a, 1), " + ",
-                     round(b, 2), "x when x < ", CSTV)
+                     round(b, 2), "x when x < ", CSTVr)
   
   ## STAGE 3 ====================================================================
   ## Outputs
@@ -188,10 +189,10 @@ linear_plateau <- function(data = NULL,
     }
     
     results <- dplyr::tibble(
-      intercept = round(a, 2),
-      slope = round(b, 2),
+      intercept = a,
+      slope = b,
       equation,
-      plateau = round(plateau, 1),
+      plateau,
       CSTV,
       lowerCL = round(lowerCL, 1),
       upperCL = round(upperCL, 1),
@@ -240,7 +241,7 @@ linear_plateau <- function(data = NULL,
       # annotation
       {if (is.null(target))
         ggplot2::annotate(
-          "text", label = paste("CSTV =", CSTV, "ppm"),
+          "text", label = paste("CSTV =", CSTVr, "ppm"),
           x = jp, y = 0, angle = 90, hjust = 0, vjust = 1.5, color = "grey25") } +
       # STV for TARGET
       {if (!is.null(target))
