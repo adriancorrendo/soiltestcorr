@@ -68,9 +68,7 @@ estimate critical soil test values (CSTV) above which yield response becomes fla
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">LP_f</span><span class="op">(</span><span class="va">x</span>, <span class="va">intercept</span>, <span class="va">slope</span>, <span class="va">jp</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">SS_LP</span><span class="op">(</span><span class="va">x</span>, <span class="va">intercept</span>, <span class="va">slope</span>, <span class="va">jp</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">SS_LP</span><span class="op">(</span><span class="va">x</span>, <span class="va">a</span>, <span class="va">b</span>, <span class="va">xs</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">linear_plateau</span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -88,19 +86,19 @@ estimate critical soil test values (CSTV) above which yield response becomes fla
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>x</dt>
-<dd><p>selfstart vector for independent variable, Default: NULL</p></dd>
+<dd><p>selfstart arg. for explanatory variable in SSlinp Default: NULL</p></dd>
 
 
-<dt>intercept</dt>
+<dt>a</dt>
 <dd><p>selfstart arg. for intercept Default: NULL</p></dd>
 
 
-<dt>slope</dt>
+<dt>b</dt>
 <dd><p>selfstart arg. for slope Default: NULL</p></dd>
 
 
-<dt>jp</dt>
-<dd><p>selfstart arg. for join point (jp) value Default: NULL</p></dd>
+<dt>xs</dt>
+<dd><p>selfstart arg. for break/join point in SSlinp Default: NULL</p></dd>
 
 
 <dt>data</dt>
@@ -157,10 +155,7 @@ The target needs to be &lt; plateau, otherwise, target = plateau.</p></dd>
 <p>returns an object of class <code>list</code> if tidy = FALSE.</p>
 
 
-<p>LP_f: vector of the same length as x using the linear-plateau function</p>
-
-
-<p>SS_LP: selfStart object to pass into the linear_plateau fit</p>
+<p>SS_LP: selfStart function to pass into the linear_plateau fit</p>
 
 
 <p>linear_plateau: function</p>
@@ -175,7 +170,7 @@ The target needs to be &lt; plateau, otherwise, target = plateau.</p></dd>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
     <p>For extended reference, we recommend to visit:
-https://gradcylinder.org/linear-plateau/ &amp; https://github.com/austinwpearce/SoilTestCocaCola by Austin Pearce.
+https://gradcylinder.org/post/linear-plateau/ by Austin Pearce.
 Self-start function code adapted from nlraa package by F. Miguez <a href="https://github.com/femiguez/nlraa" class="external-link">https://github.com/femiguez/nlraa</a></p>
     </div>
     <div class="section level2">
@@ -188,6 +183,7 @@ A Family of Models Involving Intersecting Straight Lines and Concomitant Experim
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><code><a href="https://rlang.r-lib.org/reference/eval_tidy.html" class="external-link">eval_tidy</a></code>,<code><a href="https://rlang.r-lib.org/reference/defusing-advanced.html" class="external-link">defusing-advanced</a></code>
 <code><a href="https://rdrr.io/pkg/minpack.lm/man/nlsLM.html" class="external-link">nlsLM</a></code>
+<code><a href="https://rdrr.io/pkg/nlraa/man/SSlinp.html" class="external-link">SSlinp</a></code>
 <code><a href="https://rdrr.io/r/stats/AIC.html" class="external-link">AIC</a></code>,<code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></code>,<code><a href="https://rdrr.io/r/stats/optim.html" class="external-link">optim</a></code>,<code><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></code>,<code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></code>
 <code><a href="https://rdrr.io/pkg/AICcmodavg/man/AICc.html" class="external-link">AICc</a></code>
 <code><a href="https://modelr.tidyverse.org/reference/model-quality.html" class="external-link">model-quality</a></code>
