@@ -143,7 +143,7 @@ test_that("no error in fitting linear_plateau() for the example dataset", {
 context("run linear_plateau() with packaged dataset freitas1966")
 
 linear_plateau.test <- try(
-  linear_plateau(data = freitas1966, stv = STK, ry = RY, target = 99), 
+  linear_plateau(data = freitas1966, stv = STK, ry = RY, target = 100), 
   silent = TRUE)
 
 test_that("no error in fitting linear_plateau() for the example dataset", {
@@ -151,6 +151,8 @@ test_that("no error in fitting linear_plateau() for the example dataset", {
   expect_false(inherits(linear_plateau.test, "try-error"))
   
 })
+
+
 
 # 11
 ## boot_linear_plateau
@@ -162,5 +164,20 @@ boot_linear_plateau.test <- try(
 test_that("no error in fitting boot_linear_plateau() for the example dataset", {
   
   expect_false(inherits(boot_linear_plateau.test, "try-error"))
+  
+})
+
+
+# 12 Target != NULL for plot
+
+context("run linear_plateau() with packaged dataset freitas1966")
+
+linear_plateau.test <- try(
+  linear_plateau(data = freitas1966, stv = STK, ry = RY, target = 90, plot = TRUE), 
+  silent = TRUE)
+
+test_that("no error in fitting linear_plateau() for the example dataset", {
+  
+  expect_false(inherits(linear_plateau.test, "try-error"))
   
 })

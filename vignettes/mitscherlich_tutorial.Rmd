@@ -46,9 +46,9 @@ $$
 
 The exponential model is extensively used in agriculture to describe crops response to input since the biological meaning of its curved response. The `mitscherlich()` function works automatically with self-starting initial values to facilitate the model's convergence. The `mitscherlich()` function allows the user to control the number of parameters, effectively constraining the response curve if theoretically justified:
 
-1.  `type = 3 or "free"` (DEFAULT): three parameter model; $y = a * (1-e^{-c(x + b)})$
-2.  `type = 2 or "100"`: two parameter model where asymptote = 100% RY; $y = 100 * (1-e^{-c(x + b)})$
-3.  `type = 1 or "fixed":` one parameter model in which only the curvature varies and asymptote = 100 and model goes through origin; $y = 100 * (1-e^{-cx})$.
+1.  `type = 1, "no restriction", or "free"` (DEFAULT): three parameter model; $y = a * (1-e^{-c(x + b)})$
+2.  `type = 2, "asymptote 100", or "100"`: two parameter model where asymptote = 100% RY; $y = 100 * (1-e^{-c(x + b)})$
+3.  `type = 3, "asymptote 100 from 0", or "fixed":` one parameter model in which only the curvature varies and asymptote = 100 and model goes through origin; $y = 100 * (1-e^{-cx})$.
 
 Disadvantages this model might include:
 
@@ -70,7 +70,7 @@ Disadvantages this model might include:
     2.  `data` (optional)
     3.  `stv` (soil test value) and `ry` (relative yield) columns or vectors,
     4.  `target` (default = 95) to calculate the STV at a specific `ry` target.
-    5.  `tidy` TRUE (produces a data.frame with results) or FALSE (store results as list)
+    5.  `tidy` TRUE-default- (produces a data.frame with results) or FALSE (store results as list)
     6.  `plot` TRUE (produces a ggplot as main output) or FALSE (no plot, only results as data.frame)
     7.  `resid` TRUE (produces plots with residuals analysis) or FALSE (no plot)
 3.  Run and check results.
@@ -105,13 +105,16 @@ corr_df <- soiltestcorr::data_test
 
 ## 1. Individual fits
 
-### 1.1. Different number of parameters `type = 3`
+### 1.1. Different number of parameters `type = #`
 
 ```{r warning=TRUE, message=TRUE}
 
-mitscherlich(corr_df, STV, RY, type = 3)
-mitscherlich(corr_df, STV, RY, type = 2)
+# Type = 1, no restriction (3 parameters)
 mitscherlich(corr_df, STV, RY, type = 1)
+# Type = 2, fixed asymptote value at 100 (2 parameters)
+mitscherlich(corr_df, STV, RY, type = 2)
+# Type = 3, fixed origin at 0 and asymptote at 100 (1 parameters)
+mitscherlich(corr_df, STV, RY, type = 3)
 
 ```
 
@@ -179,7 +182,7 @@ Alternatively, with `group_modify()`, nested data is not required. However, it s
 
 data.all %>% 
   group_by(id) %>% 
-  group_modify(~ mitscherlich(data = ., STV, RY))
+  group_modify(~ soiltestcorr::mitscherlich(data = ., STV, RY))
 
 ```
 

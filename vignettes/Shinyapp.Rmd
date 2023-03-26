@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 
 ## Description
 
-Users without any experience in R programming are highly encouraged to use the soiltestcorr web application designed with R shiny. The purpose of this tool is to serve as a simple demonstration of the package that facilitates its implementation. Users can either select an example dataset or load their own dataset (csv, xls, or xlsx) and choose among the available correlation methods to fit. <br>/
+Users without any experience in R programming are highly encouraged to use the soiltestcorr web application designed with R shiny. The purpose of this tool is to serve as a simple demonstration of the package that facilitates its implementation. Users can either select an example dataset or load their own dataset (csv, xls, or xlsx) and choose among the available correlation methods to fit. <br/>
 
 The app is organized into five tabs: (i) Main: displaying the options to select plus the data visualization output, (ii) Data: presenting a table with the loaded data, (iii) Results: rendering a summary table with results of the selected model, (iv) Code: offering the computing code needed to run the analysis in R; and (v) About: presenting details about the app and the `soiltestcorr` package.
 

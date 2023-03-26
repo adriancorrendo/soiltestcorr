@@ -164,20 +164,20 @@ test_that("no error in fitting mitscherlich() for the example dataset", {
 })
 
 
-# 9
+# 9 NO LONGER NEEDED
 ## mitscherlich
 ## type = NULL
-context("run mitscherlich() with packaged dataset freitas1966")
-
-
-mitscherlich.test <- try(mitscherlich(data = freitas1966, stv = STK, ry = RY,
-                                      type = NULL), silent = TRUE)
-
-test_that("no error in fitting mitscherlich() for the example dataset", {
-  
-  expect_true(inherits(mitscherlich.test, "try-error"))
-  
-})
+# context("run mitscherlich() with packaged dataset freitas1966")
+# 
+# 
+# mitscherlich.test <- try(mitscherlich(data = freitas1966, stv = STK, ry = RY,
+#                                       type = NULL), silent = TRUE)
+# 
+# test_that("no error in fitting mitscherlich() for the example dataset", {
+#   
+#   expect_true(inherits(mitscherlich.test, "try-error"))
+#   
+# })
 
 # 10
 ## mitscherlich
@@ -206,4 +206,39 @@ test_that("no error in fitting boot_mitscherlich() for the example dataset", {
   expect_false(inherits(boot_mitscherlich.test, "try-error"))
   
 })
+
+# 12. Type 2
+
+context("run mitscherlich() with packaged dataset freitas1966")
+
+mitscherlich.test_2 <- try(mitscherlich(data = freitas1966, stv = STK, ry = RY,
+                                      type = 2, target = 90,
+                                      tidy = TRUE,
+                                      plot = FALSE,
+                                      resid = FALSE),
+                         silent = TRUE)
+
+test_that("no error in fitting mitscherlich() for the example dataset", {
+  
+  expect_false(inherits(mitscherlich.test_2, "try-error"))
+  
+})
+
+# 12. Type 3
+
+context("run mitscherlich() with packaged dataset freitas1966")
+
+mitscherlich.test_3 <- try(mitscherlich(data = freitas1966, stv = STK, ry = RY,
+                                        type = 3, target = 90,
+                                        tidy = TRUE,
+                                        plot = FALSE,
+                                        resid = FALSE),
+                           silent = TRUE)
+
+test_that("no error in fitting mitscherlich() for the example dataset", {
+  
+  expect_false(inherits(mitscherlich.test_3, "try-error"))
+  
+})
+
 
