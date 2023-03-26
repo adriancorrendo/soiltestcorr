@@ -80,7 +80,7 @@ estimate a critical soil test values (CSTV) above which yield response becomes f
 <span>  resid <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">boot_quadratic_plateau</span><span class="op">(</span><span class="va">data</span>, <span class="va">stv</span>, <span class="va">ry</span>, n <span class="op">=</span> <span class="fl">1000</span>, target <span class="op">=</span> <span class="cn">NULL</span>, .by <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">boot_quadratic_plateau</span><span class="op">(</span><span class="va">data</span>, <span class="va">stv</span>, <span class="va">ry</span>, n <span class="op">=</span> <span class="fl">1000</span>, target <span class="op">=</span> <span class="cn">NULL</span>, by <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -135,8 +135,8 @@ The target needs to be &lt; plateau, otherwise, target = plateau.</p></dd>
 <dd><p>sample size for the bootstrapping Default: 500</p></dd>
 
 
-<dt>.by</dt>
-<dd><p>when running bootstrapped samples, open arguments serve to add grouping Variables (factor or character) Default: NULL</p></dd>
+<dt>when</dt>
+<dd><p>running bootstrapped samples, this argument allows to add grouping variable/s (factor or character) Default: NULL</p></dd>
 
 </dl></div>
     <div class="section level2">

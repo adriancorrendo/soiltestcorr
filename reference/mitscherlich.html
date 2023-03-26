@@ -85,7 +85,7 @@ as a function of soil test values (stv).</p>
 <span>  resid <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">boot_mitscherlich</span><span class="op">(</span><span class="va">data</span>, <span class="va">ry</span>, <span class="va">stv</span>, type <span class="op">=</span> <span class="fl">1</span>, n <span class="op">=</span> <span class="fl">500</span>, target <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">boot_mitscherlich</span><span class="op">(</span><span class="va">data</span>, <span class="va">ry</span>, <span class="va">stv</span>, type <span class="op">=</span> <span class="fl">1</span>, n <span class="op">=</span> <span class="fl">500</span>, target <span class="op">=</span> <span class="cn">NULL</span>, by <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -121,9 +121,9 @@ containing the stv and ry data, Default: NULL</p></dd>
 
 <dt>type</dt>
 <dd><p>string or number that indicates the type of Mitscherlich model to fit. Default: 1.
-for model with 'no restrictions' use <code>type = 1</code>, <code>type = "no restriction"</code>, or <code>type = free</code>;
-for model with 'asymptote = 100' use <code>type = 2</code>, <code>type = "asymptote 100"</code>, or <code>type = "100"</code>;
-for model with 'asymptote = 100 and xintercept = 0'" <code>type = 3</code>, <code>type = "asymptote 100 from 0"</code>, or <code>type = "fixed"</code>.</p></dd>
+For model with 'no restrictions' use <code>type = 1</code>, <code>type = "no restriction"</code>, or <code>type = "free"</code>;
+For model with 'asymptote = 100' use <code>type = 2</code>, <code>type = "asymptote 100"</code>, or <code>type = "100"</code>;
+For model with 'asymptote = 100 and xintercept = 0'" <code>type = 3</code>, <code>type = "asymptote 100 from 0"</code>, or <code>type = "fixed"</code>.</p></dd>
 
 
 <dt>target</dt>
@@ -147,8 +147,8 @@ Default: NULL</p></dd>
 <dd><p>sample size for the bootstrapping Default: 500</p></dd>
 
 
-<dt>...</dt>
-<dd><p>when running bootstrapped samples, open arguments serve to add grouping Variables (factor or character) Default: NULL</p></dd>
+<dt>by</dt>
+<dd><p>when running bootstrapped samples, this argument allows to add grouping variable/s (factor or character) Default: NULL</p></dd>
 
 </dl></div>
     <div class="section level2">

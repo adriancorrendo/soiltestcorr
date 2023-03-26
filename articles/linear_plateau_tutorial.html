@@ -337,16 +337,16 @@ size (n) containing the results for each resample.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 11</span></span></span>
 <span><span class="co">#&gt;   boot_id intercept slope plateau  CSTV target  STVt   AIC  AICc    R2 pvalue</span></span>
 <span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       1      51.7 1.66     96.4  26.9   96.4  26.9  <span style="text-decoration: underline;">1</span>045  <span style="text-decoration: underline;">1</span>045  0.51      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>       2      61.8 1.11     95.3  30.1   95.3  30.1   981   981  0.48      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>       3      54.4 1.43     96.5  29.5   96.5  29.5   995   995  0.6       0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>       4      68.7 0.812    96.0  33.6   96    33.6  <span style="text-decoration: underline;">1</span>009  <span style="text-decoration: underline;">1</span>009  0.37      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>       5      52.1 1.55     96.0  28.4   96    28.4  <span style="text-decoration: underline;">1</span>025  <span style="text-decoration: underline;">1</span>026  0.56      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       1      52.9  1.44    96.5  30.4   96.5  30.4  <span style="text-decoration: underline;">1</span>034  <span style="text-decoration: underline;">1</span>034  0.51      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>       2      54.6  1.46    96.0  28.4   96    28.4  <span style="text-decoration: underline;">1</span>022  <span style="text-decoration: underline;">1</span>022  0.55      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>       3      47.1  1.94    94.7  24.5   94.7  24.5  <span style="text-decoration: underline;">1</span>076  <span style="text-decoration: underline;">1</span>077  0.47      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>       4      60.4  1.23    96.5  29.3   96.5  29.3  <span style="text-decoration: underline;">1</span>012  <span style="text-decoration: underline;">1</span>013  0.47      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>       5      49.1  1.80    97.0  26.7   97    26.7  <span style="text-decoration: underline;">1</span>018  <span style="text-decoration: underline;">1</span>019  0.58      0</span></span>
 <span></span>
 <span><span class="co"># CSTV Confidence Interval</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">boot_lp</span><span class="op">$</span><span class="va">CSTV</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;     2.5%      50%    97.5% </span></span>
-<span><span class="co">#&gt; 22.71014 27.67069 32.26090</span></span>
+<span><span class="co">#&gt; 22.79014 27.53182 32.37746</span></span>
 <span></span>
 <span><span class="co"># Plot</span></span>
 <span><span class="va">boot_lp</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
