@@ -431,36 +431,36 @@ size (n) containing the results for each resample.</p>
 <code class="sourceCode R"><span><span class="va">boot_alcc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mod_alcc.html">boot_mod_alcc</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, stv <span class="op">=</span> <span class="va">STK</span>,</span>
 <span>                           ry <span class="op">=</span> <span class="va">RY</span>, target <span class="op">=</span> <span class="fl">90</span>, confidence <span class="op">=</span> <span class="fl">0.95</span>,</span>
 <span>                           n <span class="op">=</span> <span class="fl">500</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: There were 1371 warnings in `dplyr::mutate()`.</span></span>
+<span><span class="co">#&gt; Warning: There were 1343 warnings in `dplyr::mutate()`.</span></span>
 <span><span class="co">#&gt; The first warning was:</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In argument: `model = map(...)`.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In group 1: `boot_id = 1`.</span></span>
 <span><span class="co">#&gt; Caused by warning:</span></span>
 <span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> One or more original RY values exceeded 100%. All RY values greater </span></span>
 <span><span class="co">#&gt;           than 100% have been capped to 100%.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 1370 remaining warnings.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 1342 remaining warnings.</span></span>
 <span></span>
 <span><span class="va">boot_alcc</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_head</a></span><span class="op">(</span><span class="va">.</span>, n<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 500 × 10</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   boot_id [500]</span></span></span>
-<span><span class="co">#&gt;    boot_id     n     r  RMSE   AIC   BIC    p_value  CSTV n.90x2 n.100</span></span>
-<span><span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>       1    24 0.672  90.3 20.9   26.8 0.000<span style="text-decoration: underline;">322</span>    70.6      2     2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>       2    24 0.703  84.2  4.11  10.0 0.000<span style="text-decoration: underline;">126</span>    68.6      1     1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>       3    24 0.713 121.   5.00  10.9 0.000<span style="text-decoration: underline;">091</span>6   77.5      1     1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>       4    24 0.750 106.   7.93  13.8 0.000<span style="text-decoration: underline;">024</span>0   86.4      2     1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>       5    24 0.717 113.  19.3   25.2 0.000<span style="text-decoration: underline;">081</span>2   80.4      1     1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>       6    24 0.507  76.9 10.2   16.1 0.011<span style="text-decoration: underline;">4</span>      85.0      1     0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>       7    24 0.734  83.2 13.6   19.5 0.000<span style="text-decoration: underline;">045</span>3   80.0      2     1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>       8    24 0.640 121.  12.8   18.7 0.000<span style="text-decoration: underline;">757</span>    72.9      1     1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>       9    24 0.805  84.2  6.57  12.5 0.000<span style="text-decoration: underline;">002</span>13  85.8      4     1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>      10    24 0.654 127.  24.1   30.0 0.000<span style="text-decoration: underline;">523</span>    80.7      1     1</span></span>
+<span><span class="co">#&gt;    boot_id     n     r  RMSE   AIC   BIC   p_value  CSTV n.90x2 n.100</span></span>
+<span><span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>       1    24 0.758 106.  18.9   24.8 0.000<span style="text-decoration: underline;">017</span>6  75.4      4     4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>       2    24 0.689  98.5 20.7   26.6 0.000<span style="text-decoration: underline;">198</span>   70.3      4     4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>       3    24 0.563 128.  17.4   23.3 0.004<span style="text-decoration: underline;">21</span>    78.6      3     3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>       4    24 0.655 132.  17.1   23.0 0.000<span style="text-decoration: underline;">508</span>   84.7      2     2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>       5    24 0.664  98.8 23.0   28.9 0.000<span style="text-decoration: underline;">403</span>   73.6      4     2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>       6    24 0.764  66.4 10.4   16.2 0.000<span style="text-decoration: underline;">014</span>0  87.1      2     2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>       7    24 0.591 110.   9.15  15.0 0.002<span style="text-decoration: underline;">38</span>    76.7      1     1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>       8    24 0.624 133.  16.6   22.4 0.001<span style="text-decoration: underline;">12</span>    78.5      3     4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>       9    24 0.736  67.1 14.4   20.3 0.000<span style="text-decoration: underline;">042</span>2  72.9      2     2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>      10    24 0.713  82.7 18.6   24.4 0.000<span style="text-decoration: underline;">093</span>2  81.1      4     4</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 490 more rows</span></span></span>
 <span></span>
 <span><span class="co"># CSTV Confidence Interval</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">boot_alcc</span><span class="op">$</span><span class="va">CSTV</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;     2.5%      50%    97.5% </span></span>
-<span><span class="co">#&gt; 63.02784 76.90145 95.43550</span></span>
+<span><span class="co">#&gt; 63.02949 76.96481 95.05453</span></span>
 <span></span>
 <span><span class="co"># Plot</span></span>
 <span><span class="va">boot_alcc</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>

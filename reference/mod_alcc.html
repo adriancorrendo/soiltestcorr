@@ -78,15 +78,7 @@ estimate critical soil test values (CSTV) following Correndo et al. (2017)</p>
 <span>  plot <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">boot_mod_alcc</span><span class="op">(</span></span>
-<span>  <span class="va">data</span>,</span>
-<span>  <span class="va">ry</span>,</span>
-<span>  <span class="va">stv</span>,</span>
-<span>  n <span class="op">=</span> <span class="fl">500</span>,</span>
-<span>  target <span class="op">=</span> <span class="fl">90</span>,</span>
-<span>  confidence <span class="op">=</span> <span class="fl">0.95</span>,</span>
-<span>  by <span class="op">=</span> <span class="cn">NULL</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">boot_mod_alcc</span><span class="op">(</span><span class="va">data</span>, <span class="va">ry</span>, <span class="va">stv</span>, n <span class="op">=</span> <span class="fl">500</span>, target <span class="op">=</span> <span class="fl">90</span>, confidence <span class="op">=</span> <span class="fl">0.95</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -126,8 +118,8 @@ FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE).</p><
 <dd><p>sample size for the bootstrapping Default: 500</p></dd>
 
 
-<dt>by</dt>
-<dd><p>when running bootstrapped samples, the <code>by</code> argument serves to add grouping variables (factor or character) Default: NULL</p></dd>
+<dt>...</dt>
+<dd><p>when running bootstrapped samples, the <code>...</code> (open arguments) allows to add grouping variable/s (factor or character) Default: NULL</p></dd>
 
 </dl></div>
     <div class="section level2">

@@ -424,16 +424,16 @@ size (n) containing the results for each resample.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   boot_id [99]</span></span></span>
 <span><span class="co">#&gt;    boot_id     n  CRYV  CSTV quadrants.q.I quadrants.q.II quadrants.q.III</span></span>
 <span><span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>       1    15    90   6               0             10               0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>       2    15    90   5               0              9               0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>       3    15    90   4.5             0              9               0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>       4    15    90   5.5             0             12               0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>       5    15    90   4.5             0             12               0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>       6    15    90   4               0              9               0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>       7    15    90   5.5             0             11               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>       1    15    90   4.5             0             10               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>       2    15    90   5.5             0             11               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>       3    15    90   4.5             0             13               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>       4    15    90   5.5             0             10               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>       5    15    90   4.5             0             13               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>       6    15    90   4.5             0             12               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>       7    15    90   4.5             0             11               0</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>       8    15    90   4.5             0             12               0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>       9    15    90   5.5             0             13               0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>      10    15    90   5.5             0             12               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>       9    15    90   4.5             0             12               0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>      10    15    90   4.5             0             11               0</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 89 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 4 more variables: quadrants.q.IV &lt;int&gt;, quadrants.positive &lt;int&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   quadrants.negative &lt;int&gt;, R2 &lt;dbl&gt;</span></span></span>
@@ -441,7 +441,7 @@ size (n) containing the results for each resample.</p>
 <span><span class="co"># CSTV Confidence Interval</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">boot_cn65</span><span class="op">$</span><span class="va">CSTV</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;  2.5%   50% 97.5% </span></span>
-<span><span class="co">#&gt; 3.500 4.500 5.775</span></span>
+<span><span class="co">#&gt;   3.5   4.5   5.5</span></span>
 <span></span>
 <span><span class="co"># Plot</span></span>
 <span><span class="va">boot_cn65</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>

@@ -334,26 +334,21 @@ dataset.</p>
 size (n) containing the results for each resample.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">boot_qp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quadratic_plateau.html">boot_quadratic_plateau</a></span><span class="op">(</span><span class="va">corr_df</span>, <span class="va">STV</span>, <span class="va">RY</span>, n <span class="op">=</span> <span class="fl">500</span><span class="op">)</span> <span class="co"># only 500 for sake of speed</span></span>
-<span><span class="co">#&gt; Warning: There was 1 warning in `dplyr::mutate()`.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In argument: `model = map(...)`.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In group 316: `boot_id = 316`.</span></span>
-<span><span class="co">#&gt; Caused by warning in `nls.lm()`:</span></span>
-<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> lmdif: info = -1. Number of iterations has reached `maxiter' == 50.</span></span>
 <span></span>
 <span><span class="va">boot_qp</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 11</span></span></span>
 <span><span class="co">#&gt;   boot_id intercept slope plateau  CSTV target  STVt   AIC  AICc    R2 pvalue</span></span>
 <span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       1      52.0  2.13    96.4  41.7   96.4  41.7  <span style="text-decoration: underline;">1</span>007  <span style="text-decoration: underline;">1</span>008  0.45      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>       2      60.1  1.51    96.8  48.5   96.8  48.5  <span style="text-decoration: underline;">1</span>020  <span style="text-decoration: underline;">1</span>020  0.4       0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>       3      39.5  3.29    95.3  33.9   95.3  33.9   997   997  0.62      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>       4      50.8  2.23    96.2  40.8   96.2  40.8  <span style="text-decoration: underline;">1</span>010  <span style="text-decoration: underline;">1</span>011  0.54      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>       5      41.5  3.39    96.5  32.5   96.5  32.5  <span style="text-decoration: underline;">1</span>001  <span style="text-decoration: underline;">1</span>001  0.54      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       1     49.0   2.57    96.2  36.7   96.2  36.7  <span style="text-decoration: underline;">1</span>030  <span style="text-decoration: underline;">1</span>031  0.49      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>       2      6.17  6.42    94.9  27.6   94.9  27.6  <span style="text-decoration: underline;">1</span>040  <span style="text-decoration: underline;">1</span>041  0.65      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>       3     25.4   4.90    95.7  28.7   95.7  28.7  <span style="text-decoration: underline;">1</span>039  <span style="text-decoration: underline;">1</span>039  0.63      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>       4     24.8   4.98    95.3  28.3   95.3  28.3  <span style="text-decoration: underline;">1</span>018  <span style="text-decoration: underline;">1</span>018  0.58      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>       5     47.4   2.61    96.3  37.4   96.3  37.4  <span style="text-decoration: underline;">1</span>000  <span style="text-decoration: underline;">1</span>001  0.53      0</span></span>
 <span></span>
 <span><span class="co"># CSTV Confidence Interval</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">boot_qp</span><span class="op">$</span><span class="va">CSTV</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;     2.5%      50%    97.5% </span></span>
-<span><span class="co">#&gt; 29.20665 36.95565 50.31780</span></span>
+<span><span class="co">#&gt; 28.24150 36.78108 48.81577</span></span>
 <span></span>
 <span><span class="co"># Plot</span></span>
 <span><span class="va">boot_qp</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
