@@ -25,7 +25,7 @@ mitscherlich(
   resid = FALSE
 )
 
-boot_mitscherlich(data, ry, stv, type = 1, n = 500, target = NULL, ...)
+boot_mitscherlich(data, ry, stv, type = 1, n = 500, target = NULL, by = NULL)
 }
 \arguments{
 \item{x}{selfstart vector. for model fit Default: NULL}
@@ -44,9 +44,9 @@ containing the stv and ry data, Default: NULL}
 \item{ry}{name of the vector containing relative yield values (\%) of type \code{numeric}.}
 
 \item{type}{string or number that indicates the type of Mitscherlich model to fit. Default: 1.
-for model with 'no restrictions' use \code{type = 1}, \code{type = "no restriction"}, or \code{type = free};
-for model with 'asymptote = 100' use \code{type = 2}, \code{type = "asymptote 100"}, or \code{type = "100"};
-for model with 'asymptote = 100 and xintercept = 0'" \code{type = 3}, \code{type = "asymptote 100 from 0"}, or \code{type = "fixed"}.}
+For model with 'no restrictions' use \code{type = 1}, \code{type = "no restriction"}, or \code{type = "free"};
+For model with 'asymptote = 100' use \code{type = 2}, \code{type = "asymptote 100"}, or \code{type = "100"};
+For model with 'asymptote = 100 and xintercept = 0'" \code{type = 3}, \code{type = "asymptote 100 from 0"}, or \code{type = "fixed"}.}
 
 \item{target}{\code{numeric} value of relative yield target (e.g. 90 for 90\%) to estimate the CSTV.
 Default: NULL}
@@ -59,7 +59,7 @@ Default: NULL}
 
 \item{n}{sample size for the bootstrapping Default: 500}
 
-\item{...}{when running bootstrapped samples, open arguments serve to add grouping Variables (factor or character) Default: NULL}
+\item{by}{when running bootstrapped samples, this argument allows to add grouping variable/s (factor or character) Default: NULL}
 }
 \value{
 returns an object of type \code{ggplot} if plot = TRUE.

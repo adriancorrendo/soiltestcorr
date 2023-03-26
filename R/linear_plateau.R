@@ -16,7 +16,7 @@
 #' @param b selfstart arg. for slope Default: NULL
 #' @param xs selfstart arg. for break/join point in SSlinp Default: NULL
 #' @param n sample size for the bootstrapping Default: 500
-#' @param .by when running bootstrapped samples, open arguments serve to add grouping Variables (factor or character) Default: NULL
+#' @param by when running bootstrapped samples, this argument allows to add grouping variable/s (factor or character) Default: NULL
 #' @rdname linear_plateau
 #' @return returns an object of type `ggplot` if plot = TRUE.
 #' @return returns a residuals plot if resid = TRUE.
@@ -316,11 +316,11 @@ linear_plateau <- function(data = NULL,
 #' @export 
 
 boot_linear_plateau <-
-  function(data, stv, ry, n = 1000, target = NULL, .by = NULL) {
+  function(data, stv, ry, n = 1000, target = NULL, by = NULL) {
     # Allow customized column names
     x <- rlang::enquo(stv)
     y <- rlang::enquo(ry)
-    by <- rlang::enquo(.by)
+    by <- rlang::enquo(by)
     # Empty global variables
     boot_id <- NULL
     boots <- NULL

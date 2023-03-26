@@ -8,10 +8,10 @@
 #' @param ry name of the vector containing relative yield values (%) of type `numeric`.
 #' @param target `numeric` value of relative yield target (e.g. 90 for 90%) to estimate the CSTV.
 #' Default: NULL
-#' @param type string or number that indicates the type of Mitscherlich model to fit. Default: 1.
-#' for model with 'no restrictions' use `type = 1`, `type = "no restriction"`, or `type = free`; 
-#' for model with 'asymptote = 100' use `type = 2`, `type = "asymptote 100"`, or `type = "100"`;
-#' for model with 'asymptote = 100 and xintercept = 0'" `type = 3`, `type = "asymptote 100 from 0"`, or `type = "fixed"`. 
+#' @param type string or number that indicates the type of Mitscherlich model to fit. Default: 1. 
+#' For model with 'no restrictions' use `type = 1`, `type = "no restriction"`, or `type = "free"`; 
+#' For model with 'asymptote = 100' use `type = 2`, `type = "asymptote 100"`, or `type = "100"`; 
+#' For model with 'asymptote = 100 and xintercept = 0'" `type = 3`, `type = "asymptote 100 from 0"`, or `type = "fixed"`. 
 #' @param tidy logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).
 #' @param resid logical operator (TRUE/FALSE) to plot residuals analysis, Default: FALSE
 #' @param plot logical operator (TRUE/FALSE) to plot the Mitscherlich model, Default: FALSE
@@ -20,7 +20,7 @@
 #' @param c selfstart arg. for curvature Default: NULL
 #' @param x selfstart vector. for model fit Default: NULL
 #' @param n sample size for the bootstrapping Default: 500
-#' @param ... when running bootstrapped samples, open arguments serve to add grouping Variables (factor or character) Default: NULL
+#' @param by when running bootstrapped samples, this argument allows to add grouping variable/s (factor or character) Default: NULL
 #' @rdname mitscherlich
 #' @return returns an object of type `ggplot` if plot = TRUE.
 #' @return returns a residuals plot if resid = TRUE.
@@ -374,10 +374,11 @@ mitscherlich <- function(data = NULL,
 #' @return boot_mitscherlich: bootstrapping function
 #' @export 
 boot_mitscherlich <- 
-  function(data, ry, stv, type = 1, n=500, target = NULL, ...) {
+  function(data, ry, stv, type = 1, n=500, target = NULL, by = NULL) {
     # Allow customized column names
     x <- rlang::enquo(stv)
     y <- rlang::enquo(ry)
+    by <- rlang::enquo(by)
     # Empty global variables
     boot_id <- NULL
     boots <- NULL
@@ -385,22 +386,23 @@ boot_mitscherlich <-
     equation <- NULL
     
     data %>%  
-      dplyr::select(!!y, !!x, ...) %>%
+      dplyr::select(!!y, !!x, !!by) %>%
       tidyr::expand_grid(boot_id = seq(1, n, by = 1)) %>%
-      dplyr::group_by(boot_id, ...) %>%
+      dplyr::group_by(boot_id, !!by) %>%
       tidyr::nest(boots = c(!!x, !!y)) %>% 
       dplyr::mutate(boots = boots %>% 
                       purrr::map(function(boots) 
                         dplyr::slice_sample(boots, 
                                             replace = TRUE, n = nrow(boots))) ) %>% 
-      dplyr::mutate(model = map(boots, 
-                                purrr::possibly(
-                                  .f = ~as.data.frame(
-                                    soiltestcorr::mitscherlich(data = ., ry = !!y, stv = !!x,
-                                                               type = type,
-                                                               target = target, tidy = TRUE) ), 
-                                  otherwise = NULL)) ) %>%
+      dplyr::mutate(
+        model = map(boots, purrr::possibly(
+          .f = ~ soiltestcorr::mitscherlich(
+            data = ., ry = !!y, stv = !!x,
+            type = type, target = target, tidy = TRUE) ), 
+          otherwise = NULL, quiet = TRUE) ) %>%
       dplyr::select(-boots) %>% 
-      tidyr::unnest(cols = model) %>% 
-      dplyr::select(-equation)
+      tidyr::unnest(cols = model) %>%
+      # Irrelevant columns
+      dplyr::select(-equation) %>% 
+      dplyr::ungroup()
   }
