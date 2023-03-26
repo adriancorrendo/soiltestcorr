@@ -44,8 +44,8 @@
 #' <https://github.com/adriancorrendo/modified-ALCC> by Adrian Correndo.
 #' @export 
 #' @importFrom rlang eval_tidy quo enquo
-#' @importFrom stats qt cor cor.test sd
-#' @importFrom dplyr bind_cols filter %>% select group_by mutate slice_sample as_tibble
+#' @importFrom stats qt cor cor.test sd AIC BIC
+#' @importFrom dplyr bind_cols filter %>% select group_by mutate slice_sample as_tibble ungroup
 #' @importFrom tidyr nest unnest expand_grid
 #' @importFrom ggplot2 ggplot aes geom_point scale_shape_manual geom_rug geom_hline geom_vline geom_path scale_y_continuous annotate labs theme_bw theme annotate
 #' @importFrom purrr map possibly
@@ -118,7 +118,7 @@ mod_alcc <- function(data=NULL,
   n.100 <- rlang::eval_tidy(data=data, rlang::quo(length(which({{stv}} > cstv.100)) ) )
   # Predicted RY for RMSE
   RY_pred <- 100 * sin( (ln_STV - (intercept - (slope*asin(sqrt(target/100)))) ) / slope )^2
-  RMSE <- sum((RY_pred - RY)^2)/n
+  RMSE <- sqrt(sum((RY_pred - RY)^2)/n)
   # SMA model GOF
   sma_model <- smatr::sma(formula = ln_STV ~ arc_RY, method = "SMA")
   AIC <- stats::AIC(sma_model)
@@ -160,7 +160,7 @@ mod_alcc <- function(data=NULL,
     )
   
   # Decide type of output
-  if (tidy == TRUE) {results <- as_tibble(results)}
+  if (tidy == TRUE) {results <- dplyr::as_tibble(results)}
   
   if (tidy == FALSE) {results <- as.list(results)}
   

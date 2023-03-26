@@ -5,7 +5,7 @@
 \alias{boot_cn_1971}
 \title{Cate & Nelson quadrants analysis (statistical)}
 \usage{
-cate_nelson_1971(data = NULL, stv, ry, tidy = FALSE, plot = FALSE)
+cate_nelson_1971(data = NULL, stv, ry, tidy = TRUE, plot = FALSE)
 
 boot_cn_1971(data, ry, stv, n = 5, ...)
 }
@@ -16,7 +16,7 @@ boot_cn_1971(data, ry, stv, n = 5, ...)
 
 \item{ry}{argument to call the vector or column containing the relative yield (ry) data}
 
-\item{tidy}{logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).}
+\item{tidy}{logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list. Default: TRUE.}
 
 \item{plot}{logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a ggplot,
 FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE).}

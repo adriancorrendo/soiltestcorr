@@ -4,7 +4,7 @@
 #' @param data argument to call a data.frame or data.table containing the data
 #' @param stv argument to call the vector or column containing the soil test value (stv) data
 #' @param ry argument to call the vector or column containing the relative yield (ry) data
-#' @param tidy logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).
+#' @param tidy logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list. Default: TRUE.
 #' @param plot logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a ggplot,
 #' FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE). 
 #' @param n sample size for the bootstrapping Default: 500
@@ -40,13 +40,13 @@
 #' _The Journal of Extension, 51(5), Article 33._ <https://tigerprints.clemson.edu/joe/vol51/iss5/33/>
 #' @export 
 #' @importFrom rlang eval_tidy quo enquo
-#' @importFrom dplyr %>% mutate select group_by slice_sample
+#' @importFrom dplyr %>% mutate select group_by slice_sample ungroup as_tibble
 #' @importFrom stats lm anova
 #' @importFrom ggplot2 ggplot aes geom_point scale_shape_manual scale_color_manual labs geom_vline geom_hline annotate theme_bw theme
 #' @importFrom tidyr nest unnest expand_grid
 #' @importFrom purrr map possibly
 
-cate_nelson_1971 <- function(data=NULL, stv, ry, tidy = FALSE, plot = FALSE){
+cate_nelson_1971 <- function(data=NULL, stv, ry, tidy = TRUE, plot = FALSE){
   
   if (missing(stv)) {
     stop("Please specify the variable name for soil test values using the `stv` argument")
@@ -216,7 +216,7 @@ cate_nelson_1971 <- function(data=NULL, stv, ry, tidy = FALSE, plot = FALSE){
               "R2" = R2.model)
   
   if (tidy == TRUE) {
-    results <- as.data.frame(results[c(1:4,7)])
+    results <- dplyr::as_tibble(results[c(1:4,7)])
   } else {
     results <- results
   }
@@ -253,10 +253,11 @@ boot_cn_1971 <-
       dplyr::mutate(model = map(boots,
                       purrr::possibly(
                         .f = ~soiltestcorr::cate_nelson_1971(
-                          data = ., ry = !!y, stv = !!x, tidy = FALSE),
+                          data = ., ry = !!y, stv = !!x),
                         otherwise = NULL, quiet = TRUE)) ) %>%
       dplyr::select(-boots) %>% 
-      dplyr::mutate(model = map(model, ~as.data.frame(.[c(1:4,7)]))) %>% 
-      tidyr::unnest(cols = model) 
+      dplyr::mutate(model = map(model, ~dplyr::as_tibble(.)) ) %>% 
+      tidyr::unnest(cols = model) %>% 
+      dplyr::ungroup()
   }
 

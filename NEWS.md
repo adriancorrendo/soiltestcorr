@@ -2,10 +2,16 @@
 
 Updates of the new version in chronological order:
 
+* March 26th, 2023/ <br/>
+- `cate_nelson_1965()` and `cate_nelson_1971()`:
+  - tidy = TRUE as default
+  - `boot...()` output including quadrants count
+
 * March 25th, 2023. <br/>
 
 - `nlraa` included as a dependency to facilitate self-start of non-linear models.
 - `mitscherlich()` updates: 
+  - Adding RMSE, and BIC outputs
   - default type = 1
   - target default now 95 and should not be NULL (prevent CSTV = Inf)
   - tidy = TRUE default (output is tibble)
@@ -14,21 +20,22 @@ Updates of the new version in chronological order:
   - updated vignette
   
 - `linear_plateau()` and `quadratic_plateau()` updates:
+  - Adding RMSE, and BIC outputs
   - default to tidy = TRUE
-  -   join point is now referred to as jp throughout the internal code - equation now shows JP value instead of text "CSTV"
-  -   simplified code repetition for readibility concerning the coef(lp_model)[[3]] by saving join point to `jp` variable instead
-  -   return tibble instead of dataframe (dplyr has tibble and as_tibble so no new dependencies)
-  -   if target = NULL, defaults to join point (promote the use of join point)
-  -   section CSTV for plateau or for target mistakenly checked if target is greater than CSTV, but it should be greater than plateau. Now it reports that targets greater than plateau will result in CSTV at join point.
-  -   STVt should be reported right after target in the table
-  -   Use lowerCL and upperCL instead of LL_cstv and UL_cstv
-  -   replace "Wald Conf. Interval" with "Wald, 95%"
-  -   Always calculate and report Wald CI for CSTV (join point parameter) now that we have a STVt to find a soil value at the target. The STVt doesn't represent CSTV
+  - join point is now referred to as jp throughout the internal code - equation now shows JP value instead of text "CSTV"
+  - simplified code repetition for readibility concerning the coef(lp_model)[[3]] by saving join point to `jp` variable instead
+  - return tibble instead of dataframe (dplyr has tibble and as_tibble so no new dependencies)
+  - if target = NULL, defaults to join point (promote the use of join point)
+  - section CSTV for plateau or for target mistakenly checked if target is greater than CSTV, but it should be greater than plateau. Now it reports that targets greater than plateau will result in CSTV at join point.
+  - STVt should be reported right after target in the table
+  - Use lowerCL and upperCL instead of LL_cstv and UL_cstv
+  - replace "Wald Conf. Interval" with "Wald, 95%"
+  - Always calculate and report Wald CI for CSTV (join point parameter) now that we have a STVt to find a soil value at the target. The STVt doesn't represent CSTV
   - removed code for creating "predicted" data.frame as the qp_line is being used instead
-  -   cleaned up plotting code (line wraps, vlines with c(lower, upper) instead of two vlines)
-  -   move LP line up so it is underneath vlines
-  -   change size to linewidth arg in the line geoms
-  -   removed extra irrelevant columns in bootstrap output like Wald CI and equation for neater tibble
+  - cleaned up plotting code (line wraps, vlines with c(lower, upper) instead of two vlines)
+  - move LP line up so it is underneath vlines
+  - change size to linewidth arg in the line geoms
+  - removed extra irrelevant columns in bootstrap output like Wald CI and equation for neater tibble
   - simplified vignette: changing group_map to group_modify to preserve tibble over lists
 
 - `mod_alcc()` update including:

@@ -56,11 +56,11 @@
 #' @importFrom minpack.lm nlsLM
 #' @importFrom nlraa SSquadp3xs
 #' @importFrom AICcmodavg AICc
-#' @importFrom modelr rsquare
+#' @importFrom modelr rsquare rmse
 #' @importFrom nlstools nlsResiduals confint2
-#' @importFrom dplyr bind_cols %>% mutate select slice_sample group_by
+#' @importFrom dplyr bind_cols %>% mutate select slice_sample group_by ungroup tibble as_tibble
 #' @importFrom ggplot2 ggplot aes geom_rug geom_point geom_vline geom_hline geom_path annotate scale_y_continuous labs theme_bw theme unit rel element_blank element_text
-#' @importFrom stats lm AIC optim coef predict anova
+#' @importFrom stats lm AIC optim coef predict anova BIC
 #' @importFrom tidyr nest unnest expand_grid
 #' @importFrom purrr map possibly
 #' 
@@ -127,10 +127,13 @@ quadratic_plateau <- function(data = NULL,
   # AIC 
   # It makes sense because it's a sort of "simulation" (using training data) to 
   # test what would happen with out of sample data
-  AIC <- round(stats::AIC(qp_model), 0)
-  AICc <- round(AICcmodavg::AICc(qp_model), 0)
+  AIC <- round(stats::AIC(qp_model), 2)
+  AICc <- round(AICcmodavg::AICc(qp_model), 2)
+  BIC <- round(stats::BIC(qp_model), 2)
   # R2
   R2 <- round(modelr::rsquare(qp_model, test.data), 2)
+  # RMSE
+  RMSE <- round(modelr::rmse(qp_model, test.data), 2)
   
   # get model coefficients
   a <- stats::coef(qp_model)[[1]]
@@ -200,14 +203,16 @@ quadratic_plateau <- function(data = NULL,
       STVt = round(STVt, 1),
       AIC,
       AICc,
+      BIC,
       R2,
-      pvalue
+      pvalue,
+      RMSE
       )
     
     # Decide type of output
     if (tidy == TRUE) {
       
-      return(results)
+      return(dplyr::as_tibble(results))
     
     } else if (tidy == FALSE) {
       

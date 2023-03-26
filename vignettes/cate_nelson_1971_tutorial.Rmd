@@ -110,13 +110,13 @@ It returns a data.frame (more organized results) <br/>
 ```{r warning=TRUE, message=TRUE}
 
 # Using dataframe argument, tidy = FALSE -> return a LIST
-fit_1_tidy_false <- 
+fit_1_tidy_true <- 
   soiltestcorr::cate_nelson_1971(data = data_1,
                                  ry = RY,
                                  stv = STV,
                                  tidy = TRUE)
 
-utils::head(fit_1_tidy_false)
+utils::head(fit_1_tidy_true)
 
 ```
 
@@ -149,6 +149,7 @@ fit_2 <-
                                  tidy = TRUE)
 
 utils::head(fit_2)
+
 ```
 
 ### 1.5. Data 3. Freitas et al. 1966 <br/>
@@ -207,7 +208,7 @@ fit_multiple_group_map <-
   data.all %>% tidyr::unnest(data) %>% 
   #dplyr::bind_rows(data_1, data_2, .id = "id") %>% 
   dplyr::group_by(id) %>% 
-  dplyr::group_map(~ soiltestcorr::cate_nelson_1971(data = ., 
+  dplyr::group_modify(~ soiltestcorr::cate_nelson_1971(data = ., 
                                              ry = RY,
                                              stv = STV, 
                                              tidy = TRUE))
@@ -225,7 +226,7 @@ Bootstrapping is a resampling technique (with replacement) that draws samples fr
 This function returns a table with as many rows as the resampling size (n) containing the results for each resample.
 
 ```{r}
-boot_cn71 <- boot_cn_1971(data = data_1,
+boot_cn71 <- soiltestcorr::boot_cn_1971(data = data_1,
                           ry = RY, stv = STV, n = 99)
 
 boot_cn71 %>% dplyr::slice_head(., n=5)
@@ -237,6 +238,7 @@ quantile(boot_cn71$CSTV, probs = c(0.025, 0.5, 0.975))
 boot_cn71 %>% 
   ggplot2::ggplot(aes(x = CSTV))+
   geom_histogram(color = "grey25", fill = "#9de0bf", bins = 10)
+
 ```
 
 ## 4. Plots

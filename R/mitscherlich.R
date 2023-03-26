@@ -186,9 +186,9 @@ mitscherlich <- function(data = NULL,
   # AIC 
   # It makes sense because it's a sort of "simulation" (using training data) to 
   # test what would happen with out of sample data
-  AIC <- round(stats::AIC(mitsmodel), 0)
-  AICc <- round(AICcmodavg::AICc(mitsmodel), 0)
-  BIC <- round(stats::BIC(mitsmodel), 0)
+  AIC <- round(stats::AIC(mitsmodel), 2)
+  AICc <- round(AICcmodavg::AICc(mitsmodel), 2)
+  BIC <- round(stats::BIC(mitsmodel), 2)
   # R2
   R2 <- round(modelr::rsquare(mitsmodel, test.data), 2)
   RMSE <- round(modelr::rmse(mitsmodel, test.data), 2)
@@ -374,7 +374,7 @@ mitscherlich <- function(data = NULL,
 #' @return boot_mitscherlich: bootstrapping function
 #' @export 
 boot_mitscherlich <- 
-  function(data, ry, stv, type = 1, n=500, target = NULL, ...) {
+  function(data, ry, stv, type = 1, n=999, target = 95, ...) {
     # Allow customized column names
     x <- rlang::enquo(stv)
     y <- rlang::enquo(ry)
@@ -398,7 +398,7 @@ boot_mitscherlich <-
         model = map(boots, purrr::possibly(
           .f = ~ soiltestcorr::mitscherlich(
             data = ., ry = !!y, stv = !!x,
-            type = type, target = target, tidy = TRUE) ), 
+            type = type, target = target) ), 
           otherwise = NULL, quiet = TRUE) ) %>%
       dplyr::select(-boots) %>% 
       tidyr::unnest(cols = model) %>%

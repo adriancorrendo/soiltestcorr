@@ -25,7 +25,7 @@ mitscherlich(
   resid = FALSE
 )
 
-boot_mitscherlich(data, ry, stv, type = 1, n = 500, target = NULL, ...)
+boot_mitscherlich(data, ry, stv, type = 1, n = 999, target = 95, ...)
 }
 \arguments{
 \item{x}{selfstart vector. for model fit Default: NULL}

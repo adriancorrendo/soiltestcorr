@@ -5,7 +5,7 @@
 \alias{boot_cn_1965}
 \title{Cate & Nelson quadrants analysis (graphical)}
 \usage{
-cate_nelson_1965(data = NULL, stv, ry, target, tidy = FALSE, plot = FALSE)
+cate_nelson_1965(data = NULL, stv, ry, target, tidy = TRUE, plot = FALSE)
 
 boot_cn_1965(data, ry, stv, target = 90, n = 5, ...)
 }
@@ -18,7 +18,7 @@ boot_cn_1965(data, ry, stv, target = 90, n = 5, ...)
 
 \item{target}{argument to specify the ry target (numeric) to estimate the critical stv for}
 
-\item{tidy}{logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).}
+\item{tidy}{logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list. Default: TRUE.}
 
 \item{plot}{logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a ggplot,
 FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE).}
