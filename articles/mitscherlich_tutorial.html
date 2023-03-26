@@ -92,70 +92,107 @@
     
 <p><img src="../reference/figures/soiltestcorr_logo.png" align="right" height="200" style="float:right; height:200px;"></p>
 <div class="section level3">
-<h3 id="description">Description <br><a class="anchor" aria-label="anchor" href="#description"></a>
+<h3 id="description">Description<a class="anchor" aria-label="anchor" href="#description"></a>
 </h3>
-<p>This tutorial demonstrates the mitscherlich() function for fitting a
-continuous response model and estimating a critical soil test value.
-This function fits a Mitscherlich-type exponential regression model that
-follows a diminishing growth curve described as
-<code>y = a * (1-exp(-c(x + b))</code>, where <code>a</code> =
-asymptote, <code>b</code> = x-intercept, <code>c</code> = rate or
-curvature parameter. This approach is extensively used in agriculture to
-describe crops response to input since the biological meaning of its
-curved response. With 3 alternatives to fit the model, the
-mitscherlich() function brings the advantage of controlling the
-parameters quantity: i) type = 1 (DEFAULT), corresponding to the model
-without any restrictions to the parameters
-(<code>y = a * (1-exp(-c(x + b))</code>); ii) type = 2 (“asymptote
-100”), corresponding to the model with only 2 parameters by setting the
-asymptote = 100 (<code>y = 100 * (1-exp(-c(x + b))</code>), and iii)
-type = 3 (“asymptote 100 from 0”), corresponding to the model with only
-1 parameter by constraining the asymptote = 100 and xintercept = 0
-(<code>y = 100 * (1-exp(-c(x))</code>).</p>
-<p>Disadvantages this model might include: i) lacks a parameter
-corresponding directly with a critical soil test value (the model cannot
-be evaluated at the asymptote as it would result in a CSTV equal to
-<code>Inf</code>); and ii) there is no apparent confidence interval for
-an estimated CSTV. For this latter purpose, we recommend the user to use
-the <code><a href="../reference/mitscherlich.html">boot_mitscherlich()</a></code> function for a reliable confidence
+<p>This tutorial demonstrates the <code><a href="../reference/mitscherlich.html">mitscherlich()</a></code> function
+for fitting a continuous response model and estimating a critical soil
+test value. This function fits a Mitscherlich-type exponential
+regression model that follows a diminishing growth curve, and is
+sometimes also referred to as exponential “rise-to-the-max”. Cerrato and
+Blackmer (1990) expressed it as:</p>
+<p><span class="math display">\[
+y = a * (1-e^{-c(x + b)})
+\]</span></p>
+<p>where<br><code>a</code> = asymptote,<br><code>b</code> = X-intercept,<br><code>c</code> = curvature parameter.</p>
+<p>This is used in the <code><a href="../reference/mitscherlich.html">mitscherlich()</a></code> function. The model
+can also be expressed as</p>
+<p><span class="math display">\[
+y = a + (b - a) * e^{-cx}
+\]</span></p>
+<p><code>a</code> = asymptote,<br><code>b</code> = Y-intercept,<br><code>c</code> = curvature parameter.</p>
+<p>The exponential model is extensively used in agriculture to describe
+crops response to input since the biological meaning of its curved
+response. The <code><a href="../reference/mitscherlich.html">mitscherlich()</a></code> function works automatically
+with self-starting initial values to facilitate the model’s convergence.
+The <code><a href="../reference/mitscherlich.html">mitscherlich()</a></code> function allows the user to control the
+number of parameters, effectively constraining the response curve if
+theoretically justified:</p>
+<ol style="list-style-type: decimal">
+<li>
+<code>type = 1, "no restriction", or "free"</code> (DEFAULT): three
+parameter model; <span class="math inline">\(y = a * (1-e^{-c(x +
+b)})\)</span>
+</li>
+<li>
+<code>type = 2, "asymptote 100", or "100"</code>: two parameter
+model where asymptote = 100% RY; <span class="math inline">\(y = 100 *
+(1-e^{-c(x + b)})\)</span>
+</li>
+<li>
+<code>type = 3, "asymptote 100 from 0", or "fixed":</code> one
+parameter model in which only the curvature varies and asymptote = 100
+and model goes through origin; <span class="math inline">\(y = 100 *
+(1-e^{-cx})\)</span>.</li>
+</ol>
+<p>Disadvantages this model might include:</p>
+<ul>
+<li>
+<p>lacks a parameter that can be directly interpreted as the
+critical soil test value</p>
+<ul>
+<li><p>the model cannot be evaluated at the asymptote as CSTV would go
+to <code>Inf</code></p></li>
+<li>
+<p>a fixed RY target for CSTV may be a somewhat arbitrary choice,
+but 95% is commonly used</p>
+<ul>
+<li>model may not reach 95%, for which <code>NaN</code> results</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>there is no apparent confidence interval for the derived CSTV.
+For this latter purpose, we recommend the user to use the
+<code><a href="../reference/mitscherlich.html">boot_mitscherlich()</a></code> function for a reliable confidence
 interval estimation of parameters and CSTV via bootstrapping (resampling
-with replacement). The <code><a href="../reference/mitscherlich.html">mitscherlich()</a></code> function works
-automatically with self-starting initial values to facilitate the
-model’s convergence. <br></p>
+with replacement).</p></li>
+</ul>
 </div>
 <div class="section level3">
-<h3 id="general-instructions">General Instructions <br><a class="anchor" aria-label="anchor" href="#general-instructions"></a>
+<h3 id="general-instructions">General Instructions<a class="anchor" aria-label="anchor" href="#general-instructions"></a>
 </h3>
-<ol style="list-style-type: lower-roman">
-<li><p>Load your dataframe with soil test value (stv) and relative yield
-(ry) data. <br></p></li>
-<li><p>Specify the following arguments into the function
--mitscherlich()-: <br></p></li>
+<ol style="list-style-type: decimal">
+<li>Load your dataframe with soil test value (stv) and relative yield
+(ry) data.</li>
+<li>Specify the following arguments into the function
+<code><a href="../reference/mitscherlich.html">mitscherlich()</a></code>:
+<ol style="list-style-type: decimal">
+<li>
+<code>type</code> select the type of parameterization of the model
+(<code>type = 3, 2, or 1; see above</code>)</li>
+<li>
+<code>data</code> (optional)</li>
+<li>
+<code>stv</code> (soil test value) and <code>ry</code> (relative
+yield) columns or vectors,</li>
+<li>
+<code>target</code> (default = 95) to calculate the STV at a
+specific <code>ry</code> target.</li>
+<li>
+<code>tidy</code> TRUE-default- (produces a data.frame with results)
+or FALSE (store results as list)</li>
+<li>
+<code>plot</code> TRUE (produces a ggplot as main output) or FALSE
+(no plot, only results as data.frame)</li>
+<li>
+<code>resid</code> TRUE (produces plots with residuals analysis) or
+FALSE (no plot)</li>
 </ol>
-<p>(a). <code>type</code> select the type of parameterization of the
-model. i) type = 1 corresponds to the model without any restrictions to
-the parameters (<code>y = a * (1-exp(-c(x + b))</code>); ii) type = 2
-(“asymptote 100”), corresponding to the model with only 2 parameters by
-setting the asymptote = 100 (<code>y = 100 * (1-exp(-c(x + b))</code>),
-and iii) type = 3 (“asymptote 100 from 0”), corresponding to the model
-with only 1 parameter by constraining the asymptote = 100 and xintercept
-= 0 (<code>y = 100 * (1-exp(-c(x))</code>). <br></p>
-<p>(b). <code>data</code> (optional), <br></p>
-<p>(c). <code>stv</code> (soil test value) and <code>ry</code> (relative
-yield) columns or vectors, <br></p>
-<p>(d). <code>target</code> (optional) if want to know the stv level
-needed for a specific <code>ry</code>.</p>
-<p>(e). <code>tidy</code> TRUE (produces a data.frame with results) or
-FALSE (store results as list), <br></p>
-<p>(f). <code>plot</code> TRUE (produces a ggplot as main output) or
-FALSE (no plot, only results as data.frame), <br></p>
-<p>(g). <code>resid</code> TRUE (produces plots with residuals analysis)
-or FALSE (no plot), <br></p>
-<ol start="3" style="list-style-type: lower-roman">
-<li><p>Run and check results. <br></p></li>
-<li><p>Check residuals plot, and warnings related to potential
-limitations of this model. <br></p></li>
-<li><p>Adjust curve plots as desired. <br></p></li>
+</li>
+<li>Run and check results.</li>
+<li>Check residuals plot, and warnings related to potential limitations
+of this model.</li>
+<li>Adjust curve plots as desired.</li>
 </ol>
 </div>
 <div class="section level2">
@@ -169,220 +206,53 @@ limitations of this model. <br></p></li>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span> <span class="co"># Plots</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span> <span class="co"># Data wrangling</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span> <span class="co"># Data wrangling</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">utils</span><span class="op">)</span> <span class="co"># Data wrangling</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span> <span class="co"># Mapping</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/" class="external-link">purrr</a></span><span class="op">)</span> <span class="co"># Mapping</span></span></code></pre></div>
-<p>This is a basic example using three different datasets: <br></p>
 <div class="section level3">
 <h3 id="load-datasets">Load datasets<a class="anchor" aria-label="anchor" href="#load-datasets"></a>
 </h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co"># Example 1 dataset</span></span>
-<span><span class="co"># Fake dataset manually created</span></span>
-<span><span class="va">data_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="st">"RY"</span>  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">65</span>,<span class="fl">80</span>,<span class="fl">85</span>,<span class="fl">88</span>,<span class="fl">90</span>,<span class="fl">94</span>,<span class="fl">93</span>,<span class="fl">96</span>,<span class="fl">97</span>,<span class="fl">95</span>,<span class="fl">98</span>,<span class="fl">100</span>,<span class="fl">99</span>,<span class="fl">99</span>,<span class="fl">100</span><span class="op">)</span>,</span>
-<span>                     <span class="st">"STV"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">7</span>,<span class="fl">8</span>,<span class="fl">9</span>,<span class="fl">10</span>,<span class="fl">11</span>,<span class="fl">12</span>,<span class="fl">13</span>,<span class="fl">14</span>,<span class="fl">15</span><span class="op">)</span><span class="op">)</span></span>
-<span>  </span>
-<span><span class="co"># Example 2. Native fake dataset from soiltestcorr package</span></span>
-<span></span>
-<span><span class="va">data_2</span> <span class="op">&lt;-</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="va"><a href="../reference/data_test.html">data_test</a></span></span>
-<span></span>
-<span></span>
-<span><span class="co"># Example 3. Native dataset from soiltestcorr package, Freitas et al.  (1966), used by Cate &amp; Nelson (1971)</span></span>
-<span><span class="va">data_3</span> <span class="op">&lt;-</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="va"><a href="../reference/freitas1966.html">freitas1966</a></span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Native fake dataset from soiltestcorr package</span></span>
+<span><span class="va">corr_df</span> <span class="op">&lt;-</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="va"><a href="../reference/data_test.html">data_test</a></span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
-<h2 id="fit-mitscherlich">Fit mitscherlich()<a class="anchor" aria-label="anchor" href="#fit-mitscherlich"></a>
+<h2 id="fit-mitscherlich">Fit <code>mitscherlich()</code><a class="anchor" aria-label="anchor" href="#fit-mitscherlich"></a>
 </h2>
 <div class="section level3">
-<h3 id="individual-fits">1. Individual fits <br><a class="anchor" aria-label="anchor" href="#individual-fits"></a>
+<h3 id="individual-fits">1. Individual fits<a class="anchor" aria-label="anchor" href="#individual-fits"></a>
 </h3>
 <div class="section level4">
-<h4 id="a-type-1">1.1.a <code>type = 1</code> <br><a class="anchor" aria-label="anchor" href="#a-type-1"></a>
+<h4 id="different-number-of-parameters-type">1.1. Different number of parameters <code>type = #</code><a class="anchor" aria-label="anchor" href="#different-number-of-parameters-type"></a>
 </h4>
-<p>Type = “no restrictions” or Type = 1 for model with ‘no restrictions’
-<br></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="va">fit_1_type_1</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mitscherlich.html">mitscherlich</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_1</span>, </span>
-<span>                             ry <span class="op">=</span> <span class="va">RY</span>, </span>
-<span>                             stv <span class="op">=</span> <span class="va">STV</span>, </span>
-<span>                             type <span class="op">=</span> <span class="fl">1</span>, </span>
-<span>                             target <span class="op">=</span> <span class="fl">90</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fit_1_type_1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; $a</span></span>
-<span><span class="co">#&gt; [1] 98.71</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $b</span></span>
-<span><span class="co">#&gt; [1] 2.07</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $c</span></span>
-<span><span class="co">#&gt; [1] 0.37</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $equation</span></span>
-<span><span class="co">#&gt; [1] "98.7(1-e^(-0.371(x+2.1)"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $target</span></span>
-<span><span class="co">#&gt; [1] 90</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $CSTV</span></span>
-<span><span class="co">#&gt; [1] 4.5</span></span></code></pre></div>
+<span><span class="co"># Type = 1, no restriction (3 parameters)</span></span>
+<span><span class="fu"><a href="../reference/mitscherlich.html">mitscherlich</a></span><span class="op">(</span><span class="va">corr_df</span>, <span class="va">STV</span>, <span class="va">RY</span>, type <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 12</span></span></span>
+<span><span class="co">#&gt;       a     b     c equation   target  CSTV   AIC  AICc   BIC    R2 pvalue  RMSE</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  98.0  3.91  0.09 98(1-e^(-…     95  35.5  <span style="text-decoration: underline;">1</span>022  <span style="text-decoration: underline;">1</span>022  <span style="text-decoration: underline;">1</span>033  0.54      0  9.78</span></span>
+<span><span class="co"># Type = 2, fixed asymptote value at 100 (2 parameters)</span></span>
+<span><span class="fu"><a href="../reference/mitscherlich.html">mitscherlich</a></span><span class="op">(</span><span class="va">corr_df</span>, <span class="va">STV</span>, <span class="va">RY</span>, type <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 12</span></span></span>
+<span><span class="co">#&gt;       a     b     c equation   target  CSTV   AIC  AICc   BIC    R2 pvalue  RMSE</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>   100  5.49  0.08 100(1-e^(…     95  33.8  <span style="text-decoration: underline;">1</span>021  <span style="text-decoration: underline;">1</span>021  <span style="text-decoration: underline;">1</span>029  0.53      0  9.81</span></span>
+<span><span class="co"># Type = 3, fixed origin at 0 and asymptote at 100 (1 parameters)</span></span>
+<span><span class="fu"><a href="../reference/mitscherlich.html">mitscherlich</a></span><span class="op">(</span><span class="va">corr_df</span>, <span class="va">STV</span>, <span class="va">RY</span>, type <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 12</span></span></span>
+<span><span class="co">#&gt;       a     b     c equation   target  CSTV   AIC  AICc   BIC    R2 pvalue  RMSE</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>   100     0  0.11 100(1-e^(…     95  27.8  <span style="text-decoration: underline;">1</span>031  <span style="text-decoration: underline;">1</span>032  <span style="text-decoration: underline;">1</span>037  0.49     <span style="color: #BB0000;">NA</span>  10.3</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="b-type-2">1.1.b <code>type = 2</code> <br><a class="anchor" aria-label="anchor" href="#b-type-2"></a>
+<h4 id="tidy-false">1.2. <code>tidy</code> = FALSE<a class="anchor" aria-label="anchor" href="#tidy-false"></a>
 </h4>
-<p>Type = “asymptote 100” or Type = 2 for model with ‘asymptote = 100’
-<br></p>
+<p>It returns a LIST (may more efficient for multiple fits at once)</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="va">fit_1_type_2</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mitscherlich.html">mitscherlich</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_1</span>, </span>
-<span>                             ry <span class="op">=</span> <span class="va">RY</span>, </span>
-<span>                             stv <span class="op">=</span> <span class="va">STV</span>, </span>
-<span>                             type <span class="op">=</span> <span class="fl">2</span>, </span>
-<span>                             target <span class="op">=</span> <span class="fl">90</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fit_1_type_2</span><span class="op">)</span></span>
-<span><span class="co">#&gt; $a</span></span>
-<span><span class="co">#&gt; [1] 100</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $b</span></span>
-<span><span class="co">#&gt; [1] 2.56</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $c</span></span>
-<span><span class="co">#&gt; [1] 0.32</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $equation</span></span>
-<span><span class="co">#&gt; [1] "100(1-e^(-0.318(x+2.6)"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $target</span></span>
-<span><span class="co">#&gt; [1] 90</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $CSTV</span></span>
-<span><span class="co">#&gt; [1] 4.7</span></span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="c-type-3">1.1.c <code>type = 3</code> <br><a class="anchor" aria-label="anchor" href="#c-type-3"></a>
-</h4>
-<p>Type = “asymptote 100 from 0” or Type = 3 for model with ‘asymptote =
-100 and xintercept = 0’ <br></p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">fit_1_type_3</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mitscherlich.html">mitscherlich</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_1</span>, </span>
-<span>                             ry <span class="op">=</span> <span class="va">RY</span>, </span>
-<span>                             stv <span class="op">=</span> <span class="va">STV</span>, </span>
-<span>                             type <span class="op">=</span> <span class="fl">3</span>, </span>
-<span>                             target <span class="op">=</span> <span class="fl">90</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fit_1_type_3</span><span class="op">)</span></span>
-<span><span class="co">#&gt; $a</span></span>
-<span><span class="co">#&gt; [1] 100</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $b</span></span>
-<span><span class="co">#&gt; [1] 0</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $c</span></span>
-<span><span class="co">#&gt; [1] 0.81</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $equation</span></span>
-<span><span class="co">#&gt; [1] "100(1-e^(-0.811x)"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $target</span></span>
-<span><span class="co">#&gt; [1] 90</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $CSTV</span></span>
-<span><span class="co">#&gt; [1] 2.8</span></span></code></pre></div>
-<p>RY type = 1, target = 90%, confidence level = 0.95, replace with your
-desired values <br></p>
-</div>
-<div class="section level4">
-<h4 id="tidy-false">1.2. <code>tidy</code> = FALSE <br><a class="anchor" aria-label="anchor" href="#tidy-false"></a>
-</h4>
-<p>It returns a LIST (more efficient for multiple fits at once)
-<br></p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
 <span><span class="co"># Using dataframe argument, tidy = FALSE -&gt; return a LIST</span></span>
-<span><span class="va">fit_1_tidy_false</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mitscherlich.html">mitscherlich</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_1</span>, </span>
-<span>                               ry <span class="op">=</span> <span class="va">RY</span>, </span>
-<span>                               stv <span class="op">=</span> <span class="va">STV</span>, type <span class="op">=</span> <span class="fl">1</span>, target <span class="op">=</span> <span class="fl">90</span>, </span>
-<span>                               tidy <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fit_1_tidy_false</span><span class="op">)</span></span>
-<span><span class="co">#&gt; $a</span></span>
-<span><span class="co">#&gt; [1] 98.71</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $b</span></span>
-<span><span class="co">#&gt; [1] 2.07</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $c</span></span>
-<span><span class="co">#&gt; [1] 0.37</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $equation</span></span>
-<span><span class="co">#&gt; [1] "98.7(1-e^(-0.371(x+2.1)"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $target</span></span>
-<span><span class="co">#&gt; [1] 90</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $CSTV</span></span>
-<span><span class="co">#&gt; [1] 4.5</span></span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="tidy-true">1.3. <code>tidy</code> = TRUE <br><a class="anchor" aria-label="anchor" href="#tidy-true"></a>
-</h4>
-<p>It returns a data.frame (more organized results) <br></p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co"># Using dataframe argument, tidy = FALSE -&gt; return a LIST</span></span>
-<span><span class="va">fit_1_tidy_true</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mitscherlich.html">mitscherlich</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_1</span>, </span>
-<span>                               ry <span class="op">=</span> <span class="va">RY</span>, </span>
-<span>                               stv <span class="op">=</span> <span class="va">STV</span>, type <span class="op">=</span> <span class="fl">1</span>, target <span class="op">=</span> <span class="fl">90</span>,</span>
-<span>                               tidy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">fit_1_tidy_true</span></span>
-<span><span class="co">#&gt;       a    b    c                equation target CSTV AIC AICc   R2 pvalue</span></span>
-<span><span class="co">#&gt; 1 98.71 2.07 0.37 98.7(1-e^(-0.371(x+2.1)     90  4.5  64   68 0.97      0</span></span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="alternative-using-the-vectors">1.4. Alternative using the vectors <br><a class="anchor" aria-label="anchor" href="#alternative-using-the-vectors"></a>
-</h4>
-<p>You can call <code>stv</code> and <code>ry</code> vectors using the
-<code>$</code>. <br></p>
-<p>The <code>tidy</code> argument still applies for controlling the
-output type</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">fit_1_vectors_list</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mitscherlich.html">mitscherlich</a></span><span class="op">(</span>ry <span class="op">=</span> <span class="va">data_1</span><span class="op">$</span><span class="va">RY</span>,</span>
-<span>                             stv <span class="op">=</span> <span class="va">data_1</span><span class="op">$</span><span class="va">STV</span>,</span>
-<span>                             type <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>                             tidy <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">fit_1_vectors_tidy</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mitscherlich.html">mitscherlich</a></span><span class="op">(</span>ry <span class="op">=</span> <span class="va">data_1</span><span class="op">$</span><span class="va">RY</span>,</span>
-<span>                             stv <span class="op">=</span> <span class="va">data_1</span><span class="op">$</span><span class="va">STV</span>,</span>
-<span>                             type <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>                             tidy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="data-2--test-dataset">1.5. Data 2. Test dataset <br><a class="anchor" aria-label="anchor" href="#data-2--test-dataset"></a>
-</h4>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">fit_2</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mitscherlich.html">mitscherlich</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_2</span>, </span>
-<span>                             ry <span class="op">=</span> <span class="va">RY</span>,</span>
-<span>                             stv <span class="op">=</span> <span class="va">STV</span>,</span>
-<span>                             type <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>                             target <span class="op">=</span> <span class="fl">90</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fit_2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/mitscherlich.html">mitscherlich</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">corr_df</span>, <span class="va">STV</span>, <span class="va">RY</span>, target <span class="op">=</span> <span class="fl">90</span>,  tidy <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $a</span></span>
 <span><span class="co">#&gt; [1] 97.98</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -399,162 +269,146 @@ output type</p>
 <span><span class="co">#&gt; [1] 90</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $CSTV</span></span>
-<span><span class="co">#&gt; [1] 24.4</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 24.4</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $AIC</span></span>
+<span><span class="co">#&gt; [1] 1022</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $AICc</span></span>
+<span><span class="co">#&gt; [1] 1022</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $BIC</span></span>
+<span><span class="co">#&gt; [1] 1033</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $R2</span></span>
+<span><span class="co">#&gt; [1] 0.54</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $pvalue</span></span>
+<span><span class="co">#&gt; [1] 0</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $RMSE</span></span>
+<span><span class="co">#&gt; [1] 9.78</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="data-3--freitas-et-al--1966">1.6. Data 3. Freitas et al. 1966 <br><a class="anchor" aria-label="anchor" href="#data-3--freitas-et-al--1966"></a>
+<h4 id="alternative-using-the-data-frame-vectors">1.3. Alternative using the data frame vectors<a class="anchor" aria-label="anchor" href="#alternative-using-the-data-frame-vectors"></a>
 </h4>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<p>You can call <code>stv</code> and <code>ry</code> vectors using the
+<code>$</code>. The <code>tidy</code> argument still applies for
+controlling the output type.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="va">fit_3</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mitscherlich.html">mitscherlich</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, </span>
-<span>                             ry <span class="op">=</span> <span class="va">RY</span>,</span>
-<span>                             stv <span class="op">=</span> <span class="va">STK</span>, </span>
-<span>                             type <span class="op">=</span> <span class="fl">1</span>, </span>
-<span>                             target <span class="op">=</span> <span class="fl">90</span><span class="op">)</span></span>
-<span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fit_3</span><span class="op">)</span></span>
-<span><span class="co">#&gt; $a</span></span>
-<span><span class="co">#&gt; [1] 96.38</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $b</span></span>
-<span><span class="co">#&gt; [1] -8.69</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $c</span></span>
-<span><span class="co">#&gt; [1] 0.05</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $equation</span></span>
-<span><span class="co">#&gt; [1] "96.4(1-e^(-0.046(x-8.7)"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $target</span></span>
-<span><span class="co">#&gt; [1] 90</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $CSTV</span></span>
-<span><span class="co">#&gt; [1] 67.9</span></span></code></pre></div>
+<span><span class="va">fit_vectors_list</span> <span class="op">&lt;-</span><span class="fu"><a href="../reference/mitscherlich.html">mitscherlich</a></span><span class="op">(</span>stv <span class="op">=</span> <span class="va">corr_df</span><span class="op">$</span><span class="va">STV</span>,</span>
+<span>                                ry <span class="op">=</span> <span class="va">corr_df</span><span class="op">$</span><span class="va">RY</span>,</span>
+<span>                                tidy <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">fit_vectors_tidy</span> <span class="op">&lt;-</span><span class="fu"><a href="../reference/mitscherlich.html">mitscherlich</a></span><span class="op">(</span>stv <span class="op">=</span> <span class="va">corr_df</span><span class="op">$</span><span class="va">STV</span>,</span>
+<span>                                ry <span class="op">=</span> <span class="va">corr_df</span><span class="op">$</span><span class="va">RY</span>,</span>
+<span>                                tidy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
-<h3 id="multiple-fits-at-once">2. Multiple fits at once <br><a class="anchor" aria-label="anchor" href="#multiple-fits-at-once"></a>
+<h3 id="multiple-fits-at-once">2. Multiple fits at once<a class="anchor" aria-label="anchor" href="#multiple-fits-at-once"></a>
 </h3>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Example 1. Fake dataset manually created</span></span>
+<span><span class="va">data_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="st">"RY"</span>  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">65</span>,<span class="fl">80</span>,<span class="fl">85</span>,<span class="fl">88</span>,<span class="fl">90</span>,<span class="fl">94</span>,<span class="fl">93</span>,<span class="fl">96</span>,<span class="fl">97</span>,<span class="fl">95</span>,<span class="fl">98</span>,<span class="fl">100</span>,<span class="fl">99</span>,<span class="fl">99</span>,<span class="fl">100</span><span class="op">)</span>,</span>
+<span>                     <span class="st">"STV"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">7</span>,<span class="fl">8</span>,<span class="fl">9</span>,<span class="fl">10</span>,<span class="fl">11</span>,<span class="fl">12</span>,<span class="fl">13</span>,<span class="fl">14</span>,<span class="fl">15</span><span class="op">)</span><span class="op">)</span></span>
+<span>  </span>
+<span><span class="co"># Example 2. Native fake dataset from soiltestcorr package</span></span>
+<span><span class="va">data_2</span> <span class="op">&lt;-</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="va"><a href="../reference/data_test.html">data_test</a></span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Example 3. Native dataset from soiltestcorr package, Freitas et al.  (1966), used by Cate &amp; Nelson (1971)</span></span>
+<span><span class="va">data_3</span> <span class="op">&lt;-</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="va"><a href="../reference/freitas1966.html">freitas1966</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>STV <span class="op">=</span> <span class="va">STK</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">data.all</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">data_1</span>, <span class="va">data_2</span>, <span class="va">data_3</span>, .id <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span></span></code></pre></div>
+<p>Note: the <code>stv</code> column needs to have the same name for all
+datasets if binding rows.</p>
 <div class="section level4">
-<h4 id="using-map">2.1. Using map<a class="anchor" aria-label="anchor" href="#using-map"></a>
+<h4 id="using-map">2.1. Using <code>map()</code><a class="anchor" aria-label="anchor" href="#using-map"></a>
 </h4>
-<div class="section level5">
-<h5 id="create-nested-data">Create nested data <br><a class="anchor" aria-label="anchor" href="#create-nested-data"></a>
-</h5>
-<p><i> Note: the <code>stv</code> column needs to have the same name for
-all datasets <i></i> <br></i></p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># </span></span>
-<span><span class="va">data.all</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">data_1</span>, <span class="va">data_2</span>,</span>
-<span>                      <span class="va">data_3</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>STV <span class="op">=</span> <span class="va">STK</span><span class="op">)</span>,</span>
-<span>                     .id <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">nest</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"STV"</span>, <span class="st">"RY"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level5">
-<h5 id="fit">Fit<a class="anchor" aria-label="anchor" href="#fit"></a>
-</h5>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># Run multiple examples at once with map()</span></span>
-<span><span class="va">fit_multiple_map</span> <span class="op">&lt;-</span></span>
-<span>  <span class="va">data.all</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>models <span class="op">=</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">data</span>, </span>
-<span>                                     <span class="op">~</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mitscherlich.html">mitscherlich</a></span><span class="op">(</span>ry <span class="op">=</span> <span class="va">.</span><span class="op">$</span><span class="va">RY</span>,</span>
-<span>                                                                  stv <span class="op">=</span> <span class="va">.</span><span class="op">$</span><span class="va">STV</span>,</span>
-<span>                                                                  type <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>                                                                  target <span class="op">=</span> <span class="fl">90</span>,</span>
-<span>                                                                  tidy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fit_multiple_map</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
-<span><span class="co">#&gt;   id    data               models       </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1     <span style="color: #949494;">&lt;tibble [15 × 2]&gt;</span>  <span style="color: #949494;">&lt;df [1 × 10]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2     <span style="color: #949494;">&lt;tibble [137 × 2]&gt;</span> <span style="color: #949494;">&lt;df [1 × 10]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 3     <span style="color: #949494;">&lt;tibble [24 × 2]&gt;</span>  <span style="color: #949494;">&lt;df [1 × 10]&gt;</span></span></span>
-<span></span>
-<span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">fit_multiple_map</span>, <span class="va">models</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 12</span></span></span>
-<span><span class="co">#&gt;   id    data         a     b     c equation       target  CSTV   AIC  AICc    R2</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1     <span style="color: #949494;">&lt;tibble&gt;</span>  98.7  2.07  0.37 98.7(1-e^(-0.…     90   4.5    64    68  0.97</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2     <span style="color: #949494;">&lt;tibble&gt;</span>  98.0  3.91  0.09 98(1-e^(-0.08…     90  24.4  <span style="text-decoration: underline;">1</span>022  <span style="text-decoration: underline;">1</span>022  0.54</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 3     <span style="color: #949494;">&lt;tibble&gt;</span>  96.4 -<span style="color: #BB0000;">8.69</span>  0.05 96.4(1-e^(-0.…     90  67.9   187   189  0.67</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: pvalue &lt;dbl&gt;</span></span></span></code></pre></div>
-</div>
+<span><span class="va">data.all</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">nest</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"STV"</span>, <span class="st">"RY"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>model <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">data</span>, <span class="op">~</span> <span class="fu"><a href="../reference/mitscherlich.html">mitscherlich</a></span><span class="op">(</span>stv <span class="op">=</span> <span class="va">.</span><span class="op">$</span><span class="va">STV</span>, ry <span class="op">=</span> <span class="va">.</span><span class="op">$</span><span class="va">RY</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 14</span></span></span>
+<span><span class="co">#&gt;   id    data         a     b     c equation target  CSTV   AIC  AICc   BIC    R2</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1     <span style="color: #949494;">&lt;tibble&gt;</span>  98.7  2.07  0.37 98.7(1-…     95   6.8    64    68    67  0.97</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2     <span style="color: #949494;">&lt;tibble&gt;</span>  98.0  3.91  0.09 98(1-e^…     95  35.5  <span style="text-decoration: underline;">1</span>022  <span style="text-decoration: underline;">1</span>022  <span style="text-decoration: underline;">1</span>033  0.54</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 3     <span style="color: #949494;">&lt;tibble&gt;</span>  96.4 -<span style="color: #BB0000;">8.69</span>  0.05 96.4(1-…     95 101.    187   189   192  0.67</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2 more variables: pvalue &lt;dbl&gt;, RMSE &lt;dbl&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="using-group_map">2.2. Using group_map <br><a class="anchor" aria-label="anchor" href="#using-group_map"></a>
+<h4 id="using-group_modify">2.2. Using <code>group_modify()</code><a class="anchor" aria-label="anchor" href="#using-group_modify"></a>
 </h4>
-<p>Alternatively, with group_map, we do not require nested data.
-<br></p>
-<p>However, it requires to dplyr::bind_rows and add an <code>id</code>
-column specifying the name of each dataset. <br></p>
-<p>This option return models as lists objects.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<p>Alternatively, with <code><a href="https://dplyr.tidyverse.org/reference/group_map.html" class="external-link">group_modify()</a></code>, nested data is not
+required. However, it still requires a grouping variable (in this case,
+<code>id</code>) to identify each dataset. <code><a href="https://dplyr.tidyverse.org/reference/group_map.html" class="external-link">group_map()</a></code> may
+also be used, though <code><a href="https://purrr.tidyverse.org/reference/list_c.html" class="external-link">list_rbind()</a></code> is required to return a
+tidy data frame of the model results instead of a list.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="va">fit_multiple_group_map</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">data_1</span>, <span class="va">data_2</span>, .id <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_map.html" class="external-link">group_map</a></span><span class="op">(</span><span class="op">~</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mitscherlich.html">mitscherlich</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">.</span>, </span>
-<span>                                           ry <span class="op">=</span> <span class="va">RY</span>,</span>
-<span>                                           stv <span class="op">=</span> <span class="va">STV</span>, type <span class="op">=</span> <span class="fl">1</span>, target <span class="op">=</span> <span class="fl">90</span>,</span>
-<span>                                           tidy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fit_multiple_group_map</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [[1]]</span></span>
-<span><span class="co">#&gt;       a    b    c                equation target CSTV AIC AICc   R2 pvalue</span></span>
-<span><span class="co">#&gt; 1 98.71 2.07 0.37 98.7(1-e^(-0.371(x+2.1)     90  4.5  64   68 0.97      0</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [[2]]</span></span>
-<span><span class="co">#&gt;       a    b    c              equation target CSTV  AIC AICc   R2 pvalue</span></span>
-<span><span class="co">#&gt; 1 97.98 3.91 0.09 98(1-e^(-0.089(x+3.9)     90 24.4 1022 1022 0.54      0</span></span></code></pre></div>
+<span><span class="va">data.all</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_map.html" class="external-link">group_modify</a></span><span class="op">(</span><span class="op">~</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mitscherlich.html">mitscherlich</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">.</span>, <span class="va">STV</span>, <span class="va">RY</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 13</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   id [3]</span></span></span>
+<span><span class="co">#&gt;   id        a     b     c equation   target  CSTV   AIC  AICc   BIC    R2 pvalue</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1      98.7  2.07  0.37 98.7(1-e^…     95   6.8    64    68    67  0.97      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2      98.0  3.91  0.09 98(1-e^(-…     95  35.5  <span style="text-decoration: underline;">1</span>022  <span style="text-decoration: underline;">1</span>022  <span style="text-decoration: underline;">1</span>033  0.54      0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 3      96.4 -<span style="color: #BB0000;">8.69</span>  0.05 96.4(1-e^…     95 101.    187   189   192  0.67      0</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: RMSE &lt;dbl&gt;</span></span></span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
-<h3 id="bootstrapping">3. Bootstrapping <br><a class="anchor" aria-label="anchor" href="#bootstrapping"></a>
+<h3 id="bootstrapping">3. Bootstrapping<a class="anchor" aria-label="anchor" href="#bootstrapping"></a>
 </h3>
 <p>A suitable alternative for obtaining confidence intervals for
-parameters or derived quantities is bootstrapping. <br></p>
-<p>Bootstrapping is a resampling technique (with replacement) that draws
-samples from the original data with the same size. If you have groups
-within your data, you can specify grouping variables as arguments in
-order to maintain, within each resample, the same proportion of
-observations than in the original dataset. <br></p>
+parameters or derived quantities is bootstrapping. Bootstrapping is a
+resampling technique (with replacement) that draws samples from the
+original data with the same size. If you have groups within your data,
+you can specify grouping variables as arguments in order to maintain,
+within each resample, the same proportion of observations than in the
+original dataset.</p>
 <p>This function returns a table with as many rows as the resampling
 size (n) containing the results for each resample.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">boot_mits</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mitscherlich.html">boot_mitscherlich</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_1</span>, type <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>                    ry <span class="op">=</span> <span class="va">RY</span>, target <span class="op">=</span> <span class="fl">90</span>,</span>
-<span>                    stv <span class="op">=</span> <span class="va">STV</span>, n <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">boot_mits</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mitscherlich.html">boot_mitscherlich</a></span><span class="op">(</span><span class="va">corr_df</span>, <span class="va">STV</span>, <span class="va">RY</span>, target <span class="op">=</span> <span class="fl">90</span>, n <span class="op">=</span> <span class="fl">200</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: There were 200 warnings in `dplyr::mutate()`.</span></span>
+<span><span class="co">#&gt; The first warning was:</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In argument: `model = map(...)`.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In group 1: `boot_id = 1`.</span></span>
+<span><span class="co">#&gt; Caused by warning in `nls.lm()`:</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> lmdif: info = -1. Number of iterations has reached `maxiter' == 50.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 199 remaining warnings.</span></span>
 <span></span>
-<span><span class="va">boot_mits</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_head</a></span><span class="op">(</span><span class="va">.</span>, n<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 200 × 11</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   boot_id [200]</span></span></span>
-<span><span class="co">#&gt;    boot_id     a     b     c equation      target  CSTV   AIC  AICc    R2 pvalue</span></span>
-<span><span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>       1  98.5  1.96  0.38 98.5(1-e^(-0…     90   4.4    61    65  0.97      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>       2  99.9  2.02  0.35 99.9(1-e^(-0…     90   4.6    38    42  0.99      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>       3  98.0  1.72  0.42 98(1-e^(-0.4…     90   4.3    67    71  0.98      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>       4 100.   4.39  0.25 100(1-e^(-0.…     90   4.7    54    58  0.96      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>       5 101.   5.56  0.21 101.4(1-e^(-…     90   5      52    56  0.96      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>       6  99.1  1.97  0.37 99.1(1-e^(-0…     90   4.5    58    62  0.98      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>       7  99.1  2.15  0.37 99.1(1-e^(-0…     90   4.3    67    71  0.97      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>       8  99.4  4.11  0.27 99.4(1-e^(-0…     90   4.7    50    54  0.96      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>       9 101.   6.03  0.2  101.4(1-e^(-…     90   5      53    57  0.96      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>      10  99.0  2     0.38 99(1-e^(-0.3…     90   4.3    65    69  0.97      0</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 190 more rows</span></span></span>
+<span><span class="va">boot_mits</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 12</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   boot_id [5]</span></span></span>
+<span><span class="co">#&gt;   boot_id     a      b     c target  CSTV   AIC  AICc   BIC    R2 pvalue  RMSE</span></span>
+<span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       1 <span style="text-decoration: underline;">1</span>942.  -<span style="color: #BB0000;">39.7</span>     0     90  197.  <span style="text-decoration: underline;">1</span>052  <span style="text-decoration: underline;">1</span>053  <span style="text-decoration: underline;">1</span>064  0.4   0      10.9</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>       2 <span style="text-decoration: underline;">1</span>663.  -<span style="color: #BB0000;">39.7</span>     0     90  189.  <span style="text-decoration: underline;">1</span>059  <span style="text-decoration: underline;">1</span>060  <span style="text-decoration: underline;">1</span>071  0.41  0      11.2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>       3 <span style="text-decoration: underline;">1</span>243.  -<span style="color: #BB0000;">36.6</span>     0     90  203.  <span style="text-decoration: underline;">1</span>060  <span style="text-decoration: underline;">1</span>060  <span style="text-decoration: underline;">1</span>071  0.33  0      11.2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>       4  701. <span style="text-decoration: underline;">1</span>000       0     90 <span style="text-decoration: underline;">2</span>750.  <span style="text-decoration: underline;">1</span>122  <span style="text-decoration: underline;">1</span>122  <span style="text-decoration: underline;">1</span>133  0.03  0.132  14.1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>       5 <span style="text-decoration: underline;">1</span>696.  -<span style="color: #BB0000;">35.0</span>     0     90  205   <span style="text-decoration: underline;">1</span>059  <span style="text-decoration: underline;">1</span>059  <span style="text-decoration: underline;">1</span>071  0.4   0      11.2</span></span>
 <span></span>
 <span><span class="co"># CSTV Confidence Interval</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">boot_mits</span><span class="op">$</span><span class="va">CSTV</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   2.5%    50%  97.5% </span></span>
-<span><span class="co">#&gt; 4.0975 4.6000 5.1000</span></span>
+<span><span class="co">#&gt;     2.5%      50%    97.5% </span></span>
+<span><span class="co">#&gt;  163.785  188.600 2903.738</span></span>
 <span></span>
 <span><span class="co"># Plot</span></span>
 <span><span class="va">boot_mits</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">CSTV</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html" class="external-link">geom_histogram</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"grey25"</span>, fill <span class="op">=</span> <span class="st">"#9de0bf"</span>, bins <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
-<p><img src="mitscherlich_tutorial_files/figure-html/unnamed-chunk-15-1.png" width="576"></p>
+<p><img src="mitscherlich_tutorial_files/figure-html/unnamed-chunk-10-1.png" width="576"></p>
 </div>
 <div class="section level3">
 <h3 id="plots">4. Plots<a class="anchor" aria-label="anchor" href="#plots"></a>
@@ -562,99 +416,57 @@ size (n) containing the results for each resample.</p>
 <div class="section level4">
 <h4 id="calibration-curve">4.1. Calibration Curve<a class="anchor" aria-label="anchor" href="#calibration-curve"></a>
 </h4>
-<p>We can generate a ggplot with the same mitscherlich() function.
-<br></p>
-<p>We just need to specify the argument <code>plot = TRUE</code>.
-<br></p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">mitscherlich_plot</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mitscherlich.html">mitscherlich</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, </span>
-<span>                               ry <span class="op">=</span> <span class="va">RY</span>, </span>
-<span>                               stv <span class="op">=</span> <span class="va">STK</span>, type <span class="op">=</span> <span class="fl">1</span>, target <span class="op">=</span> <span class="fl">90</span>, </span>
-<span>                               plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<p>We can generate a ggplot with the same <code><a href="../reference/mitscherlich.html">mitscherlich()</a></code>
+function.</p>
+<p>We just need to specify the argument <code>plot = TRUE</code>.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data_3</span> <span class="op">&lt;-</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="va"><a href="../reference/freitas1966.html">freitas1966</a></span></span>
 <span></span>
-<span><span class="va">mitscherlich_plot</span></span></code></pre></div>
-<p><img src="mitscherlich_tutorial_files/figure-html/unnamed-chunk-16-1.png" width="576"><br></p>
+<span><span class="va">plot_mit</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mitscherlich.html">mitscherlich</a></span><span class="op">(</span><span class="va">data_3</span>, <span class="va">STK</span>, <span class="va">RY</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">plot_mit</span></span></code></pre></div>
+<p><img src="mitscherlich_tutorial_files/figure-html/unnamed-chunk-11-1.png" width="576"></p>
 </div>
 <div class="section level4">
-<h4 id="fine-tune-the-plots">4.1.2 Fine-tune the plots <br><a class="anchor" aria-label="anchor" href="#fine-tune-the-plots"></a>
+<h4 id="fine-tune-the-plots">4.2 Fine-tune the plots<a class="anchor" aria-label="anchor" href="#fine-tune-the-plots"></a>
 </h4>
-<p>As ggplot object, plots can be adjusted in several ways. <br></p>
-<p>For example, modifying titles <br></p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mitscherlich_plot_2</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="va">mitscherlich_plot</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
-<span>    <span class="co"># Main title</span></span>
-<span>    title <span class="op">=</span> <span class="st">"My own plot title"</span>,</span>
-<span>    <span class="co"># Axis titles</span></span>
-<span>    x <span class="op">=</span> <span class="st">"Soil Test K (ppm)"</span>,</span>
-<span>    y <span class="op">=</span> <span class="st">"Cotton RY(%)"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">mitscherlich_plot_2</span></span></code></pre></div>
-<p><img src="mitscherlich_tutorial_files/figure-html/unnamed-chunk-17-1.png" width="576"></p>
-<p>Or modifying axis scales <br></p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mitscherlich_plot_3</span> <span class="op">&lt;-</span></span>
-<span><span class="va">mitscherlich_plot_2</span> <span class="op">+</span></span>
+<p>As ggplot object, plots can be adjusted in several ways, such as
+modifying titles and axis scales.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">plot_mit</span> <span class="op">+</span></span>
+<span>  <span class="co"># Main title</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"My own plot title"</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="co"># Axis titles</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Soil Test K (ppm)"</span>,</span>
+<span>       y <span class="op">=</span> <span class="st">"Cotton RY(%)"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="co"># Axis scales</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">220</span>, by <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="co"># Axis limits</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">100</span>, by <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">mitscherlich_plot_3</span></span></code></pre></div>
-<p><img src="mitscherlich_tutorial_files/figure-html/unnamed-chunk-18-1.png" width="576"></p>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>,<span class="fl">220</span><span class="op">)</span>,</span>
+<span>                     breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">220</span>, by <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="mitscherlich_tutorial_files/figure-html/unnamed-chunk-12-1.png" width="576"></p>
 </div>
 <div class="section level4">
-<h4 id="residuals">4.3. Residuals <br><a class="anchor" aria-label="anchor" href="#residuals"></a>
+<h4 id="residuals">4.3. Residuals<a class="anchor" aria-label="anchor" href="#residuals"></a>
 </h4>
-<p>We can generate a plot with the same mitscherlich() function.
-<br></p>
-<p>We just need to specify the argument <code>resid</code> = TRUE`.
-<br></p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<p>Set the argument <code>resid = TRUE</code>.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># Residuals plot</span></span>
-<span></span>
-<span><span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mitscherlich.html">mitscherlich</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, </span>
-<span>                               ry <span class="op">=</span> <span class="va">RY</span>, </span>
-<span>                               stv <span class="op">=</span> <span class="va">STK</span>, type <span class="op">=</span> <span class="fl">1</span>, target <span class="op">=</span> <span class="fl">90</span>, </span>
-<span>                               resid <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="mitscherlich_tutorial_files/figure-html/unnamed-chunk-19-1.png" width="576"></p>
-<pre><code><span><span class="co">#&gt; $a</span></span>
-<span><span class="co">#&gt; [1] 96.38</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $b</span></span>
-<span><span class="co">#&gt; [1] -8.69</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $c</span></span>
-<span><span class="co">#&gt; [1] 0.05</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $equation</span></span>
-<span><span class="co">#&gt; [1] "96.4(1-e^(-0.046(x-8.7)"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $target</span></span>
-<span><span class="co">#&gt; [1] 90</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $CSTV</span></span>
-<span><span class="co">#&gt; [1] 67.9</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $AIC</span></span>
-<span><span class="co">#&gt; [1] 187</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $AICc</span></span>
-<span><span class="co">#&gt; [1] 189</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $R2</span></span>
-<span><span class="co">#&gt; [1] 0.67</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $pvalue</span></span>
-<span><span class="co">#&gt; [1] 0</span></span></code></pre>
-<p><b> References </b> <br></p>
+<span><span class="fu"><a href="../reference/mitscherlich.html">mitscherlich</a></span><span class="op">(</span><span class="va">data_3</span>, <span class="va">STK</span>, <span class="va">RY</span>, resid <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="mitscherlich_tutorial_files/figure-html/unnamed-chunk-13-1.png" width="576"></p>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 12</span></span></span>
+<span><span class="co">#&gt;       a     b     c equation   target  CSTV   AIC  AICc   BIC    R2 pvalue  RMSE</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  96.4 -<span style="color: #BB0000;">8.69</span>  0.05 96.4(1-e^…     95  101.   187   189   192  0.67      0  10.2</span></span></code></pre>
+<div class="section level5">
+<h5 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h5>
+<p><em>Cerrato, M. E., &amp; Blackmer, A. M. (1990). Comparison of
+models for describing corn yield response to nitrogen fertilizer.
+Agronomy Journal, 82(1), 138–143. <a href="https://doi.org/10.2134/agronj1990.00021962008200010030x" class="external-link uri">https://doi.org/10.2134/agronj1990.00021962008200010030x</a></em></p>
 <p><em>Melsted, S.W. and Peck, T.R. (1977). The Mitscherlich-Bray Growth
 Function. In Soil Testing (eds T. Peck, J. Cope and D. Whitney).
-10.2134/asaspecpub29.c1 </em> <br></p>
+10.2134/asaspecpub29.c1</em></p>
+</div>
 </div>
 </div>
 </div>

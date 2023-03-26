@@ -78,9 +78,9 @@ as a function of soil test values (stv).</p>
 <span>  data <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">stv</span>,</span>
 <span>  <span class="va">ry</span>,</span>
-<span>  <span class="va">type</span>,</span>
-<span>  target <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  tidy <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  type <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  target <span class="op">=</span> <span class="fl">95</span>,</span>
+<span>  tidy <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  plot <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  resid <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
@@ -120,10 +120,10 @@ containing the stv and ry data, Default: NULL</p></dd>
 
 
 <dt>type</dt>
-<dd><p>string or number that indicates the type of Mitscherlich model to fit. Default: 1
-<code>type = "no restrictions"</code> or <code>type = 1</code> for model with 'no restrictions';
-<code>type = "asymptote 100"</code> or <code>type = 2</code> for model with 'asymptote = 100';
-<code>type = "asymptote 100 from 0"</code> or <code>type = 3</code> for model with 'asymptote = 100 and xintercept = 0'"</p></dd>
+<dd><p>string or number that indicates the type of Mitscherlich model to fit. Default: 1.
+for model with 'no restrictions' use <code>type = 1</code>, <code>type = "no restriction"</code>, or <code>type = free</code>;
+for model with 'asymptote = 100' use <code>type = 2</code>, <code>type = "asymptote 100"</code>, or <code>type = "100"</code>;
+for model with 'asymptote = 100 and xintercept = 0'" <code>type = 3</code>, <code>type = "asymptote 100 from 0"</code>, or <code>type = "fixed"</code>.</p></dd>
 
 
 <dt>target</dt>
@@ -220,36 +220,10 @@ The Mitscherlich-Bray Growth Function.
 <span class="r-plt img"><img src="mitscherlich-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span> </span></span>
 <span class="r-in"><span> <span class="va">fit_example_mits</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $a</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 98.71</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $b</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.07</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $c</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.37</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $equation</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "98.7(1-e^(-0.371(x+2.1)"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $target</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 99</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $CSTV</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] Inf</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $AIC</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 64</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $AICc</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 68</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $R2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.97</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $pvalue</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 12</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       a     b     c equation   target  CSTV   AIC  AICc   BIC    R2 pvalue  RMSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>  98.7  2.07  0.37 98.7(1-e^…     95   6.8    64    68    67  0.97      0  1.56</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

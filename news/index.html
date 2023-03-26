@@ -60,7 +60,37 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.2.0" id="soiltestcorr-220">soiltestcorr 2.2.0<a class="anchor" aria-label="anchor" href="#soiltestcorr-220"></a></h2>
-<ul><li><p>March 23th, 2023. <br></p></li>
+<p>Updates of the new version in chronological order:</p>
+<ul><li><p>March 25th, 2023. <br></p></li>
+<li><p><code>nlraa</code> included as a dependency to facilitate self-start of non-linear models.</p></li>
+<li>
+<p><code><a href="../reference/mitscherlich.html">mitscherlich()</a></code> updates:</p>
+<ul><li>default type = 1</li>
+<li>target default now 95 and should not be NULL (prevent CSTV = Inf)</li>
+<li>tidy = TRUE default (output is tibble)</li>
+<li>alternative names for type: “free” to “no restriction”, “100” to “asymptote 100”, and “fixed” to “asymptote 100 from 0”.</li>
+<li>Do not round in results table (rounding throws off bootstrap distributions), round only in display equations and plot</li>
+<li>updated vignette</li>
+</ul></li>
+<li>
+<p><code><a href="../reference/linear_plateau.html">linear_plateau()</a></code> and <code><a href="../reference/quadratic_plateau.html">quadratic_plateau()</a></code> updates:</p>
+<ul><li>default to tidy = TRUE</li>
+<li>join point is now referred to as jp throughout the internal code - equation now shows JP value instead of text “CSTV”</li>
+<li>simplified code repetition for readibility concerning the coef(lp_model)[[3]] by saving join point to <code>jp</code> variable instead</li>
+<li>return tibble instead of dataframe (dplyr has tibble and as_tibble so no new dependencies)</li>
+<li>if target = NULL, defaults to join point (promote the use of join point)</li>
+<li>section CSTV for plateau or for target mistakenly checked if target is greater than CSTV, but it should be greater than plateau. Now it reports that targets greater than plateau will result in CSTV at join point.</li>
+<li>STVt should be reported right after target in the table</li>
+<li>Use lowerCL and upperCL instead of LL_cstv and UL_cstv</li>
+<li>replace “Wald Conf. Interval” with “Wald, 95%”</li>
+<li>Always calculate and report Wald CI for CSTV (join point parameter) now that we have a STVt to find a soil value at the target. The STVt doesn’t represent CSTV</li>
+<li>removed code for creating “predicted” data.frame as the qp_line is being used instead</li>
+<li>cleaned up plotting code (line wraps, vlines with c(lower, upper) instead of two vlines)</li>
+<li>move LP line up so it is underneath vlines</li>
+<li>change size to linewidth arg in the line geoms</li>
+<li>removed extra irrelevant columns in bootstrap output like Wald CI and equation for neater tibble</li>
+<li>simplified vignette: changing group_map to group_modify to preserve tibble over lists</li>
+</ul></li>
 <li>
 <p><code><a href="../reference/mod_alcc.html">mod_alcc()</a></code> update including:</p>
 <ul><li>including Root Mean Square Error (RMSE) of the ALCC curve with respect to observed RY values as a potential indicator of model’s quality.</li>
@@ -72,8 +102,23 @@
 <li>reordering variables of the output (e.g. goodness of fit indicators first)</li>
 </ul></li>
 <li><p>March 8th, 2023. <br></p></li>
-</ul><p>Details: - New bootstrapping functions for all models to better approximate distributions of CSTVs and parameters or derived quantities of interest. Functions include: (i) <code><a href="../reference/cate_nelson_1965.html">boot_cn_1965()</a></code>, (ii) <code><a href="../reference/cate_nelson_1971.html">boot_cn_1971()</a></code>, (iii) <code><a href="../reference/mod_alcc.html">boot_mod_alcc()</a></code>, (iv) <code><a href="../reference/linear_plateau.html">boot_linear_plateau()</a></code>, (v) <code><a href="../reference/quadratic_plateau.html">boot_quadratic_plateau()</a></code>, and (vi) <code><a href="../reference/mitscherlich.html">boot_mitscherlich()</a></code>. - Including <code>p-value</code> estimation for non-linear models using an F-test approach comparing the non-linear model vs. a null-model (intercept-only). - Updated documentation and vignettes including bootstrapping functions for each of the models. - Fixing minor typos on vignettes. - Including code of conduct and contribution guidelines.</p>
-</div>
+<li>
+<p>Bootstrapping:</p>
+<ul><li>New bootstrapping functions for all models to better approximate distributions of CSTVs and parameters or derived quantities of interest. Functions include: (i) <code><a href="../reference/cate_nelson_1965.html">boot_cn_1965()</a></code>, (ii) <code><a href="../reference/cate_nelson_1971.html">boot_cn_1971()</a></code>, (iii) <code><a href="../reference/mod_alcc.html">boot_mod_alcc()</a></code>, (iv) <code><a href="../reference/linear_plateau.html">boot_linear_plateau()</a></code>, (v) <code><a href="../reference/quadratic_plateau.html">boot_quadratic_plateau()</a></code>, and (vi) <code><a href="../reference/mitscherlich.html">boot_mitscherlich()</a></code>.</li>
+</ul></li>
+<li>
+<p>P-value for non-linear models:</p>
+<ul><li>Including <code>p-value</code> estimation for non-linear models using an F-test approach comparing the non-linear model vs. a null-model (intercept-only).</li>
+</ul></li>
+<li>
+<p>Documentation:</p>
+<ul><li>Updated documentation and vignettes including bootstrapping functions for each of the models.</li>
+</ul></li>
+<li>
+<p>Code of Conduct and Contribution:</p>
+<ul><li>Including code of conduct and contribution guidelines.</li>
+</ul></li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.1.2" id="soiltestcorr-212">soiltestcorr 2.1.2<a class="anchor" aria-label="anchor" href="#soiltestcorr-212"></a></h2><p class="text-muted">CRAN release: 2022-06-12</p>
 <ul><li>June 11th, 2022. <br></li>
