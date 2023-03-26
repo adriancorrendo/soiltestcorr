@@ -189,11 +189,12 @@ limitations of this model.</p></li>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="../reference/linear_plateau.html">linear_plateau</a></span><span class="op">(</span><span class="va">corr_df</span>, <span class="va">STV</span>, <span class="va">RY</span>, tidy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 14</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 16</span></span></span>
 <span><span class="co">#&gt;   intercept slope equation    plateau  CSTV lowerCL upperCL CI_type target  STVt</span></span>
 <span><span class="co">#&gt;       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>      53.7  1.55 53.7 + 1.5…    96.2  27.4      24    30.7 Wald, …   96.2  27.4</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 4 more variables: AIC &lt;dbl&gt;, AICc &lt;dbl&gt;, R2 &lt;dbl&gt;, pvalue &lt;dbl&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 6 more variables: AIC &lt;dbl&gt;, AICc &lt;dbl&gt;, BIC &lt;dbl&gt;, R2 &lt;dbl&gt;, pvalue &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   RMSE &lt;dbl&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="tidy-false">1.2. <code>tidy</code> = FALSE<a class="anchor" aria-label="anchor" href="#tidy-false"></a>
@@ -234,16 +235,22 @@ once)</p>
 <span><span class="co">#&gt; [1] 27.4</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $AIC</span></span>
-<span><span class="co">#&gt; [1] 1026</span></span>
+<span><span class="co">#&gt; [1] 1025.96</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $AICc</span></span>
-<span><span class="co">#&gt; [1] 1026</span></span>
+<span><span class="co">#&gt; [1] 1026.26</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $BIC</span></span>
+<span><span class="co">#&gt; [1] 1037.64</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $R2</span></span>
 <span><span class="co">#&gt; [1] 0.52</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $pvalue</span></span>
-<span><span class="co">#&gt; [1] 0</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 0</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $RMSE</span></span>
+<span><span class="co">#&gt; [1] 9.94</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="alternative-using-the-vectors">1.3. Alternative using the vectors<a class="anchor" aria-label="anchor" href="#alternative-using-the-vectors"></a>
@@ -286,14 +293,14 @@ datasets if binding rows.</p>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">nest</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"STV"</span>, <span class="st">"RY"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>model <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">data</span>, <span class="op">~</span> <span class="fu"><a href="../reference/linear_plateau.html">linear_plateau</a></span><span class="op">(</span>stv <span class="op">=</span> <span class="va">.</span><span class="op">$</span><span class="va">STV</span>, ry <span class="op">=</span> <span class="va">.</span><span class="op">$</span><span class="va">RY</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 16</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 18</span></span></span>
 <span><span class="co">#&gt;   id    data     intercept slope equation  plateau  CSTV lowerCL upperCL CI_type</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1     <span style="color: #949494;">&lt;tibble&gt;</span>      65.9 5.09  65.9 + 5…    97.4  6.21     5.1     7.4 Wald, …</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2     <span style="color: #949494;">&lt;tibble&gt;</span>      53.7 1.55  53.7 + 1…    96.2 27.4     24      30.7 Wald, …</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 3     <span style="color: #949494;">&lt;tibble&gt;</span>      39.2 0.752 39.2 + 0…    95.6 75.0     46.4   104.  Wald, …</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 6 more variables: target &lt;dbl&gt;, STVt &lt;dbl&gt;, AIC &lt;dbl&gt;, AICc &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   R2 &lt;dbl&gt;, pvalue &lt;dbl&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 8 more variables: target &lt;dbl&gt;, STVt &lt;dbl&gt;, AIC &lt;dbl&gt;, AICc &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   BIC &lt;dbl&gt;, R2 &lt;dbl&gt;, pvalue &lt;dbl&gt;, RMSE &lt;dbl&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="using-group_modify">2.2. Using <code>group_modify()</code><a class="anchor" aria-label="anchor" href="#using-group_modify"></a>
@@ -308,14 +315,15 @@ tidy data frame of the model results instead of a list.</p>
 <span><span class="va">data.all</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_map.html" class="external-link">group_modify</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="../reference/linear_plateau.html">linear_plateau</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">.</span>, <span class="va">STV</span>, <span class="va">RY</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 15</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 17</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   id [3]</span></span></span>
 <span><span class="co">#&gt;   id    intercept slope equation    plateau  CSTV lowerCL upperCL CI_type target</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1          65.9 5.09  65.9 + 5.0…    97.4  6.21     5.1     7.4 Wald, …   97.4</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2          53.7 1.55  53.7 + 1.5…    96.2 27.4     24      30.7 Wald, …   96.2</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 3          39.2 0.752 39.2 + 0.7…    95.6 75.0     46.4   104.  Wald, …   95.6</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 5 more variables: STVt &lt;dbl&gt;, AIC &lt;dbl&gt;, AICc &lt;dbl&gt;, R2 &lt;dbl&gt;, pvalue &lt;dbl&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 7 more variables: STVt &lt;dbl&gt;, AIC &lt;dbl&gt;, AICc &lt;dbl&gt;, BIC &lt;dbl&gt;, R2 &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   pvalue &lt;dbl&gt;, RMSE &lt;dbl&gt;</span></span></span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
@@ -334,19 +342,20 @@ size (n) containing the results for each resample.</p>
 <code class="sourceCode R"><span><span class="va">boot_lp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/linear_plateau.html">boot_linear_plateau</a></span><span class="op">(</span><span class="va">corr_df</span>, <span class="va">STV</span>, <span class="va">RY</span>, n <span class="op">=</span> <span class="fl">500</span><span class="op">)</span> <span class="co"># only 500 for sake of speed</span></span>
 <span></span>
 <span><span class="va">boot_lp</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 11</span></span></span>
-<span><span class="co">#&gt;   boot_id intercept slope plateau  CSTV target  STVt   AIC  AICc    R2 pvalue</span></span>
-<span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       1      54.6  1.36    96.1  30.5   96.1  30.5  <span style="text-decoration: underline;">1</span>017  <span style="text-decoration: underline;">1</span>017  0.54      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>       2      47.8  1.96    94.9  24.0   94.9  24    <span style="text-decoration: underline;">1</span>056  <span style="text-decoration: underline;">1</span>057  0.52      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>       3      60.4  1.25    96.1  28.5   96.1  28.5   964   964  0.53      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>       4      45.5  2.12    96.4  24.0   96.4  24    <span style="text-decoration: underline;">1</span>012  <span style="text-decoration: underline;">1</span>013  0.58      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>       5      52.0  1.47    96.3  30.3   96.3  30.3  <span style="text-decoration: underline;">1</span>027  <span style="text-decoration: underline;">1</span>027  0.53      0</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 13</span></span></span>
+<span><span class="co">#&gt;   boot_id intercept slope plateau  CSTV target  STVt   AIC  AICc   BIC    R2</span></span>
+<span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       1      50.9  1.64    95.1  26.9   95.1  26.9 <span style="text-decoration: underline;">1</span>047. <span style="text-decoration: underline;">1</span>047. <span style="text-decoration: underline;">1</span>058.  0.47</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>       2      49.4  1.67    96.9  28.4   96.9  28.4 <span style="text-decoration: underline;">1</span>050. <span style="text-decoration: underline;">1</span>051. <span style="text-decoration: underline;">1</span>062.  0.58</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>       3      65.2  1.02    97.5  31.6   97.5  31.6  980.  980.  991.  0.49</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>       4      35.1  2.74    96.1  22.3   96.1  22.3 <span style="text-decoration: underline;">1</span>020. <span style="text-decoration: underline;">1</span>021. <span style="text-decoration: underline;">1</span>032.  0.58</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>       5      51.3  1.65    96.7  27.5   96.7  27.5 <span style="text-decoration: underline;">1</span>031. <span style="text-decoration: underline;">1</span>032. <span style="text-decoration: underline;">1</span>043.  0.52</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2 more variables: pvalue &lt;dbl&gt;, RMSE &lt;dbl&gt;</span></span></span>
 <span></span>
 <span><span class="co"># CSTV Confidence Interval</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">boot_lp</span><span class="op">$</span><span class="va">CSTV</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;     2.5%      50%    97.5% </span></span>
-<span><span class="co">#&gt; 21.71925 27.84644 32.34180</span></span>
+<span><span class="co">#&gt; 22.27346 27.39165 32.77088</span></span>
 <span></span>
 <span><span class="co"># Plot</span></span>
 <span><span class="va">boot_lp</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
@@ -401,11 +410,12 @@ modifying titles and axis scales.</p>
 <span></span>
 <span><span class="fu"><a href="../reference/linear_plateau.html">linear_plateau</a></span><span class="op">(</span><span class="va">data_3</span>, <span class="va">STK</span>, <span class="va">RY</span>, resid <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="linear_plateau_tutorial_files/figure-html/unnamed-chunk-13-1.png" width="576"></p>
-<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 14</span></span></span>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 16</span></span></span>
 <span><span class="co">#&gt;   intercept slope equation    plateau  CSTV lowerCL upperCL CI_type target  STVt</span></span>
 <span><span class="co">#&gt;       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>      39.2 0.752 39.2 + 0.7…    95.6  75.0    46.4    104. Wald, …   95.6    75</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 4 more variables: AIC &lt;dbl&gt;, AICc &lt;dbl&gt;, R2 &lt;dbl&gt;, pvalue &lt;dbl&gt;</span></span></span></code></pre>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 6 more variables: AIC &lt;dbl&gt;, AICc &lt;dbl&gt;, BIC &lt;dbl&gt;, R2 &lt;dbl&gt;, pvalue &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   RMSE &lt;dbl&gt;</span></span></span></code></pre>
 <div class="section level5">
 <h5 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h5>

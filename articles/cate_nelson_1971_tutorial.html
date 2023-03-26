@@ -225,7 +225,7 @@ FALSE (store results as list), <br></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># Using dataframe argument, tidy = FALSE -&gt; return a LIST</span></span>
-<span><span class="va">fit_1_tidy_false</span> <span class="op">&lt;-</span> </span>
+<span><span class="va">fit_1_tidy_true</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/cate_nelson_1971.html">cate_nelson_1971</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_1</span>,</span>
 <span>                                 ry <span class="op">=</span> <span class="va">RY</span>,</span>
 <span>                                 stv <span class="op">=</span> <span class="va">STV</span>,</span>
@@ -233,11 +233,11 @@ FALSE (store results as list), <br></p>
 <span><span class="co">#&gt; Warning in stats::chisq.test(data.frame(row.1, row.2)): Chi-squared</span></span>
 <span><span class="co">#&gt; approximation may be incorrect</span></span>
 <span></span>
-<span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fit_1_tidy_false</span><span class="op">)</span></span>
-<span><span class="co">#&gt;    n CRYV CSTV quadrants.q.I quadrants.q.II quadrants.q.III quadrants.q.IV</span></span>
-<span><span class="co">#&gt; 1 15 86.5  3.5             0             12               0              3</span></span>
-<span><span class="co">#&gt;   quadrants.positive quadrants.negative        R2</span></span>
-<span><span class="co">#&gt; 1                 15                  0 0.6942517</span></span></code></pre></div>
+<span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fit_1_tidy_true</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 5</span></span></span>
+<span><span class="co">#&gt;       n  CRYV  CSTV quadrants$q.I $q.II $q.III $q.IV $positive $negative    R2</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    15  86.5   3.5             0    12      0     3        15         0 0.694</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="alternative-using-the-vectors">1.3. Alternative using the vectors <br><a class="anchor" aria-label="anchor" href="#alternative-using-the-vectors"></a>
@@ -273,10 +273,10 @@ output type</p>
 <span>                                 tidy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fit_2</span><span class="op">)</span></span>
-<span><span class="co">#&gt;     n CRYV CSTV quadrants.q.I quadrants.q.II quadrants.q.III quadrants.q.IV</span></span>
-<span><span class="co">#&gt; 1 137 87.5 22.5            13             70               6             48</span></span>
-<span><span class="co">#&gt;   quadrants.positive quadrants.negative        R2</span></span>
-<span><span class="co">#&gt; 1                118                 19 0.3936824</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 5</span></span></span>
+<span><span class="co">#&gt;       n  CRYV  CSTV quadrants$q.I $q.II $q.III $q.IV $positive $negative    R2</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>   137  87.5  22.5            13    70      6    48       118        19 0.394</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="data-3--freitas-et-al--1966">1.5. Data 3. Freitas et al. 1966 <br><a class="anchor" aria-label="anchor" href="#data-3--freitas-et-al--1966"></a>
@@ -292,10 +292,10 @@ output type</p>
 <span><span class="co">#&gt; approximation may be incorrect</span></span>
 <span></span>
 <span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fit_3</span><span class="op">)</span></span>
-<span><span class="co">#&gt;    n CRYV CSTV quadrants.q.I quadrants.q.II quadrants.q.III quadrants.q.IV</span></span>
-<span><span class="co">#&gt; 1 24 82.4 46.5             0             15               1              8</span></span>
-<span><span class="co">#&gt;   quadrants.positive quadrants.negative        R2</span></span>
-<span><span class="co">#&gt; 1                 23                  1 0.7066536</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 5</span></span></span>
+<span><span class="co">#&gt;       n  CRYV  CSTV quadrants$q.I $q.II $q.III $q.IV $positive $negative    R2</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    24  82.4  46.5             0    15      1     8        23         1 0.707</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
@@ -336,11 +336,11 @@ all datasets <i></i> <br></i></p>
 <span></span>
 <span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fit_multiple_map</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
-<span><span class="co">#&gt;   id    data               mod_alcc     </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1     <span style="color: #949494;">&lt;tibble [15 × 2]&gt;</span>  <span style="color: #949494;">&lt;df [1 × 10]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2     <span style="color: #949494;">&lt;tibble [137 × 2]&gt;</span> <span style="color: #949494;">&lt;df [1 × 10]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 3     <span style="color: #949494;">&lt;tibble [24 × 2]&gt;</span>  <span style="color: #949494;">&lt;df [1 × 10]&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt;   id    data               mod_alcc        </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>          </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1     <span style="color: #949494;">&lt;tibble [15 × 2]&gt;</span>  <span style="color: #949494;">&lt;tibble [1 × 5]&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2     <span style="color: #949494;">&lt;tibble [137 × 2]&gt;</span> <span style="color: #949494;">&lt;tibble [1 × 5]&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 3     <span style="color: #949494;">&lt;tibble [24 × 2]&gt;</span>  <span style="color: #949494;">&lt;tibble [1 × 5]&gt;</span></span></span></code></pre></div>
 </div>
 </div>
 <div class="section level4">
@@ -357,7 +357,7 @@ column specifying the name of each dataset. <br></p>
 <span>  <span class="va">data.all</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="co">#dplyr::bind_rows(data_1, data_2, .id = "id") %&gt;% </span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_map.html" class="external-link">group_map</a></span><span class="op">(</span><span class="op">~</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/cate_nelson_1971.html">cate_nelson_1971</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">.</span>, </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_map.html" class="external-link">group_modify</a></span><span class="op">(</span><span class="op">~</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/cate_nelson_1971.html">cate_nelson_1971</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">.</span>, </span>
 <span>                                             ry <span class="op">=</span> <span class="va">RY</span>,</span>
 <span>                                             stv <span class="op">=</span> <span class="va">STV</span>, </span>
 <span>                                             tidy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
@@ -368,23 +368,14 @@ column specifying the name of each dataset. <br></p>
 <span><span class="co">#&gt; approximation may be incorrect</span></span>
 <span></span>
 <span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fit_multiple_group_map</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [[1]]</span></span>
-<span><span class="co">#&gt;    n CRYV CSTV quadrants.q.I quadrants.q.II quadrants.q.III quadrants.q.IV</span></span>
-<span><span class="co">#&gt; 1 15 86.5  3.5             0             12               0              3</span></span>
-<span><span class="co">#&gt;   quadrants.positive quadrants.negative        R2</span></span>
-<span><span class="co">#&gt; 1                 15                  0 0.6942517</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [[2]]</span></span>
-<span><span class="co">#&gt;     n CRYV CSTV quadrants.q.I quadrants.q.II quadrants.q.III quadrants.q.IV</span></span>
-<span><span class="co">#&gt; 1 137 87.5 22.5            13             70               6             48</span></span>
-<span><span class="co">#&gt;   quadrants.positive quadrants.negative        R2</span></span>
-<span><span class="co">#&gt; 1                118                 19 0.3936824</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [[3]]</span></span>
-<span><span class="co">#&gt;    n CRYV CSTV quadrants.q.I quadrants.q.II quadrants.q.III quadrants.q.IV</span></span>
-<span><span class="co">#&gt; 1 24 82.4 46.5             0             15               1              8</span></span>
-<span><span class="co">#&gt;   quadrants.positive quadrants.negative        R2</span></span>
-<span><span class="co">#&gt; 1                 23                  1 0.7066536</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 6</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   id [3]</span></span></span>
+<span><span class="co">#&gt;   id        n  CRYV  CSTV quadrants$q.I $q.II $q.III $q.IV $positive    R2</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1        15  86.5   3.5             0    12      0     3        15 0.694</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2       137  87.5  22.5            13    70      6    48       118 0.394</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 3        24  82.4  46.5             0    15      1     8        23 0.707</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: quadrants$negative &lt;int&gt;</span></span></span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
@@ -400,39 +391,31 @@ observations than in the original dataset. <br></p>
 <p>This function returns a table with as many rows as the resampling
 size (n) containing the results for each resample.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">boot_cn71</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cate_nelson_1971.html">boot_cn_1971</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_1</span>,</span>
+<code class="sourceCode R"><span><span class="va">boot_cn71</span> <span class="op">&lt;-</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/cate_nelson_1971.html">boot_cn_1971</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_1</span>,</span>
 <span>                          ry <span class="op">=</span> <span class="va">RY</span>, stv <span class="op">=</span> <span class="va">STV</span>, n <span class="op">=</span> <span class="fl">99</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: There were 81 warnings in `dplyr::mutate()`.</span></span>
+<span><span class="co">#&gt; Warning: There were 89 warnings in `dplyr::mutate()`.</span></span>
 <span><span class="co">#&gt; The first warning was:</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In argument: `model = map(...)`.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In group 1: `boot_id = 1`.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In group 2: `boot_id = 2`.</span></span>
 <span><span class="co">#&gt; Caused by warning in `stats::chisq.test()`:</span></span>
 <span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> Chi-squared approximation may be incorrect</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 80 remaining warnings.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 88 remaining warnings.</span></span>
 <span></span>
 <span><span class="va">boot_cn71</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_head</a></span><span class="op">(</span><span class="va">.</span>, n<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 81 × 11</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   boot_id [81]</span></span></span>
-<span><span class="co">#&gt;    boot_id     n  CRYV  CSTV quadrants.q.I quadrants.q.II quadrants.q.III</span></span>
-<span><span class="co">#&gt;      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>       1    15  86.5   4               0             11               0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>       2    15  91.5   6               0             10               0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>       3    15  86.5   4               0             12               0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>       4    15  75     3               0             14               0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>       5    15  87.5   4               0             10               0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>       6    15  89     4.5             0             13               0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>       8    15  90     6.5             0             12               0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>      11    15  94.5   8.5             0              6               0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>      12    15  76.5   2.5             0             13               0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>      13    15  76.5   2.5             0             13               0</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 71 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 4 more variables: quadrants.q.IV &lt;int&gt;, quadrants.positive &lt;int&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   quadrants.negative &lt;int&gt;, R2 &lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 6</span></span></span>
+<span><span class="co">#&gt;   boot_id     n  CRYV  CSTV quadrants$q.I $q.II $q.III $q.IV $positive    R2</span></span>
+<span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       2    15  75     3               0    14      0     1        15 0.705</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>       3    15  94.5   7.5             0     8      0     7        15 0.721</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>       4    15  82.5   2.5             0    13      0     2        15 0.635</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>       5    15  76.5   2.5             0    13      0     2        15 0.901</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>       7    15  75     2               0    13      0     2        15 0.829</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: quadrants$negative &lt;int&gt;</span></span></span>
 <span></span>
 <span><span class="co"># CSTV Confidence Interval</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">boot_cn71</span><span class="op">$</span><span class="va">CSTV</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;  2.5%   50% 97.5% </span></span>
-<span><span class="co">#&gt;   2.0   4.0   7.5</span></span>
+<span><span class="co">#&gt;   2.0   4.0   7.9</span></span>
 <span></span>
 <span><span class="co"># Plot</span></span>
 <span><span class="va">boot_cn71</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>

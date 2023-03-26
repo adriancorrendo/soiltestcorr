@@ -61,11 +61,19 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.2.0" id="soiltestcorr-220">soiltestcorr 2.2.0<a class="anchor" aria-label="anchor" href="#soiltestcorr-220"></a></h2>
 <p>Updates of the new version in chronological order:</p>
-<ul><li><p>March 25th, 2023. <br></p></li>
+<ul><li><p>March 26th, 2023/ <br></p></li>
+<li>
+<p><code><a href="../reference/cate_nelson_1965.html">cate_nelson_1965()</a></code> and <code><a href="../reference/cate_nelson_1971.html">cate_nelson_1971()</a></code>:</p>
+<ul><li>tidy = TRUE as default</li>
+<li>
+<code>boot...()</code> output including quadrants count</li>
+</ul></li>
+<li><p>March 25th, 2023. <br></p></li>
 <li><p><code>nlraa</code> included as a dependency to facilitate self-start of non-linear models.</p></li>
 <li>
 <p><code><a href="../reference/mitscherlich.html">mitscherlich()</a></code> updates:</p>
-<ul><li>default type = 1</li>
+<ul><li>Adding RMSE, and BIC outputs</li>
+<li>default type = 1</li>
 <li>target default now 95 and should not be NULL (prevent CSTV = Inf)</li>
 <li>tidy = TRUE default (output is tibble)</li>
 <li>alternative names for type: “free” to “no restriction”, “100” to “asymptote 100”, and “fixed” to “asymptote 100 from 0”.</li>
@@ -74,7 +82,8 @@
 </ul></li>
 <li>
 <p><code><a href="../reference/linear_plateau.html">linear_plateau()</a></code> and <code><a href="../reference/quadratic_plateau.html">quadratic_plateau()</a></code> updates:</p>
-<ul><li>default to tidy = TRUE</li>
+<ul><li>Adding RMSE, and BIC outputs</li>
+<li>default to tidy = TRUE</li>
 <li>join point is now referred to as jp throughout the internal code - equation now shows JP value instead of text “CSTV”</li>
 <li>simplified code repetition for readibility concerning the coef(lp_model)[[3]] by saving join point to <code>jp</code> variable instead</li>
 <li>return tibble instead of dataframe (dplyr has tibble and as_tibble so no new dependencies)</li>
