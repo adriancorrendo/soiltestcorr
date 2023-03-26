@@ -18,7 +18,7 @@ quadratic_plateau(
   resid = FALSE
 )
 
-boot_quadratic_plateau(data, stv, ry, n = 1000, target = NULL, by = NULL)
+boot_quadratic_plateau(data, stv, ry, n = 1000, target = NULL, ...)
 }
 \arguments{
 \item{x}{selfstart arg. for explanatory variable in SSquadp3xs Default: NULL}
@@ -47,7 +47,7 @@ The target needs to be < plateau, otherwise, target = plateau.}
 
 \item{n}{sample size for the bootstrapping Default: 500}
 
-\item{when}{running bootstrapped samples, this argument allows to add grouping variable/s (factor or character) Default: NULL}
+\item{...}{when running bootstrapped samples, the \code{...} (open arguments) allows to add grouping variable/s (factor or character) Default: NULL}
 }
 \value{
 returns an object of type \code{ggplot} if plot = TRUE.

@@ -13,7 +13,7 @@
 #' @param plot logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a ggplot,
 #' FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE).
 #' @param n sample size for the bootstrapping Default: 500
-#' @param by when running bootstrapped samples, the `by` argument serves to add grouping variables (factor or character) Default: NULL  
+#' @param ... when running bootstrapped samples, the `...` (open arguments) allows to add grouping variable/s (factor or character) Default: NULL  
 #' @rdname mod_alcc
 #' @return returns an object of type `ggplot` if plot = TRUE.
 #' @return returns an object of class `data.frame` if tidy = TRUE, 
@@ -252,20 +252,20 @@ mod_alcc <- function(data=NULL,
 #' @return boot_mod_alcc: bootstrapping function
 #' @export 
 boot_mod_alcc <- 
-  function(data, ry, stv, n=500, target = 90, confidence = 0.95, by = NULL) {
+  function(data, ry, stv, n=500, target = 90, confidence = 0.95, ... ) {
     # Allow customized column names
     x <- rlang::enquo(stv)
     y <- rlang::enquo(ry)
-    by <- rlang::enquo(by)
+    
     # Empty global variables
     boot_id <- NULL
     boots <- NULL
     model <- NULL
     
     data %>%  
-      dplyr::select(!!y, !!x, !!by) %>%
+      dplyr::select(!!y, !!x, ...) %>%
       tidyr::expand_grid(boot_id = seq(1, n, by = 1)) %>%
-      dplyr::group_by(boot_id, !!by) %>%
+      dplyr::group_by(boot_id, ...) %>%
       tidyr::nest(boots = c(!!x, !!y)) %>% 
       dplyr::mutate(boots = boots %>% 
                       purrr::map(function(boots) 

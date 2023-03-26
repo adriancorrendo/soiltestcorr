@@ -8,7 +8,7 @@
 #' @param plot logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a ggplot,
 #' FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE). 
 #' @param n sample size for the bootstrapping Default: 500
-#' @param ... when running bootstrapped samples, open arguments serve to add grouping Variables (factor or character) Default: NULL
+#' @param ... when running bootstrapped samples, the `...` (open arguments) allows to add grouping variable/s (factor or character) Default: NULL
 #' @rdname cate_nelson_1971
 #' @return returns an object of type `ggplot` if plot = TRUE.
 #' @return returns an object of class `data.frame` if tidy = TRUE, 

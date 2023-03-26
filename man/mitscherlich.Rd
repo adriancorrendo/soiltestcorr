@@ -25,7 +25,7 @@ mitscherlich(
   resid = FALSE
 )
 
-boot_mitscherlich(data, ry, stv, type = 1, n = 500, target = NULL, by = NULL)
+boot_mitscherlich(data, ry, stv, type = 1, n = 500, target = NULL, ...)
 }
 \arguments{
 \item{x}{selfstart vector. for model fit Default: NULL}
@@ -59,7 +59,7 @@ Default: NULL}
 
 \item{n}{sample size for the bootstrapping Default: 500}
 
-\item{by}{when running bootstrapped samples, this argument allows to add grouping variable/s (factor or character) Default: NULL}
+\item{...}{when running bootstrapped samples, the \code{...} (open arguments) allows to add grouping variable/s (factor or character) Default: NULL}
 }
 \value{
 returns an object of type \code{ggplot} if plot = TRUE.

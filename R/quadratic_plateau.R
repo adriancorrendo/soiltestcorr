@@ -16,7 +16,7 @@
 #' @param b selfstart arg. for slope Default: NULL
 #' @param xs selfstart arg. for break/join point in SSquadp3xs Default: NULL
 #' @param n sample size for the bootstrapping Default: 500
-#' @param when running bootstrapped samples, this argument allows to add grouping variable/s (factor or character) Default: NULL
+#' @param ... when running bootstrapped samples, the `...` (open arguments) allows to add grouping variable/s (factor or character) Default: NULL
 #' @rdname quadratic_plateau
 #' @return returns an object of type `ggplot` if plot = TRUE.
 #' @return returns a residuals plot if resid = TRUE.
@@ -310,11 +310,11 @@ quadratic_plateau <- function(data = NULL,
 #' @return boot_quadratic_plateau: bootstrapping function
 #' @export 
 boot_quadratic_plateau <- 
-  function(data, stv, ry, n = 1000, target = NULL, by = NULL) {
+  function(data, stv, ry, n = 1000, target = NULL, ...) {
     # Allow customized column names
     x <- rlang::enquo(stv)
     y <- rlang::enquo(ry)
-    by <- rlang::enquo(by)
+    
     # Empty global variables
     boot_id <- NULL
     boots <- NULL
@@ -324,9 +324,9 @@ boot_quadratic_plateau <-
     lowerCL <- NULL
     
     output_df <- data %>%  
-      dplyr::select(!!y, !!x, !!by) %>%
+      dplyr::select(!!y, !!x, ...) %>%
       tidyr::expand_grid(boot_id = seq(1, n, by = 1)) %>%
-      dplyr::group_by(boot_id, !!by) %>%
+      dplyr::group_by(boot_id, ...) %>%
       tidyr::nest(boots = c(!!x, !!y)) %>% 
       dplyr::mutate(boots = boots %>% 
                       purrr::map(function(boots) 

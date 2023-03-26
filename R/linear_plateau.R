@@ -16,7 +16,7 @@
 #' @param b selfstart arg. for slope Default: NULL
 #' @param xs selfstart arg. for break/join point in SSlinp Default: NULL
 #' @param n sample size for the bootstrapping Default: 500
-#' @param by when running bootstrapped samples, this argument allows to add grouping variable/s (factor or character) Default: NULL
+#' @param ... when running bootstrapped samples, the `...` (open arguments) allows to add grouping variable/s (factor or character) Default: NULL
 #' @rdname linear_plateau
 #' @return returns an object of type `ggplot` if plot = TRUE.
 #' @return returns a residuals plot if resid = TRUE.
@@ -316,11 +316,11 @@ linear_plateau <- function(data = NULL,
 #' @export 
 
 boot_linear_plateau <-
-  function(data, stv, ry, n = 1000, target = NULL, by = NULL) {
+  function(data, stv, ry, n = 1000, target = NULL, ...) {
     # Allow customized column names
     x <- rlang::enquo(stv)
     y <- rlang::enquo(ry)
-    by <- rlang::enquo(by)
+    
     # Empty global variables
     boot_id <- NULL
     boots <- NULL
@@ -330,9 +330,9 @@ boot_linear_plateau <-
     lowerCL <- NULL
 
     output_df <- data %>%
-      dplyr::select(!!y, !!x, !!by) %>%
+      dplyr::select(!!y, !!x, ...) %>%
       tidyr::expand_grid(boot_id = seq(1, n, by = 1)) %>%
-      dplyr::group_by(boot_id, !!by) %>%
+      dplyr::group_by(boot_id, ...) %>%
       tidyr::nest(boots = c(!!x, !!y)) %>%
       dplyr::mutate(boots = boots %>%
                       purrr::map(function(boots)
@@ -354,15 +354,15 @@ boot_linear_plateau <-
 
 #Testing for potential future release
 # boot_linear_plateau2 <-
-#   function(data, stv, ry, n = 500, target = NULL, .by = NULL) {
+#   function(data, stv, ry, n = 500, target = NULL, ....) {
 #     # Allow customized column names
 #     x <- rlang::enquo(stv)
 #     y <- rlang::enquo(ry)
 #     by <- rlang::enquo(.by)
 # 
 #     output_df <- data %>%
-#       #dplyr::select(!!x, !!y, !!by) %>%
-#       dplyr::group_by(!!by) %>% 
+#       #dplyr::select(!!x, !!y, ...) %>%
+#       dplyr::group_by(...) %>% 
 #       tidyr::nest() %>% 
 #       mutate(nested_boots = map(data, modelr::bootstrap, n = 5)) %>%
 #       unnest(nested_boots)

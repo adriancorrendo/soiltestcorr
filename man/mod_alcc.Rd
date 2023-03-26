@@ -15,15 +15,7 @@ mod_alcc(
   plot = FALSE
 )
 
-boot_mod_alcc(
-  data,
-  ry,
-  stv,
-  n = 500,
-  target = 90,
-  confidence = 0.95,
-  by = NULL
-)
+boot_mod_alcc(data, ry, stv, n = 500, target = 90, confidence = 0.95, ...)
 }
 \arguments{
 \item{data}{Optional argument to call and object of type data.frame or data.table
@@ -45,7 +37,7 @@ FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE).}
 
 \item{n}{sample size for the bootstrapping Default: 500}
 
-\item{by}{when running bootstrapped samples, the \code{by} argument serves to add grouping variables (factor or character) Default: NULL}
+\item{...}{when running bootstrapped samples, the \code{...} (open arguments) allows to add grouping variable/s (factor or character) Default: NULL}
 }
 \value{
 returns an object of type \code{ggplot} if plot = TRUE.
