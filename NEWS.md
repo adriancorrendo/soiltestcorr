@@ -1,13 +1,22 @@
 # soiltestcorr 2.2.0
 
-Updates of the new version in chronological order:
+Updates of the new version:
 
-* March 26th, 2023/ <br/>
+- Bootstrapping:
+  - New bootstrapping functions for all models to better approximate distributions of CSTVs and parameters or derived quantities of interest. Functions include: (i) `boot_cn_1965()`, (ii) `boot_cn_1971()`, (iii) `boot_mod_alcc()`, (iv) `boot_linear_plateau()`, (v) `boot_quadratic_plateau()`, and (vi) `boot_mitscherlich()`.
+
+- P-value for non-linear models: 
+  - Including `p-value` estimation for non-linear models using an F-test approach comparing the non-linear model vs. a null-model (intercept-only).
+  
+- Documentation:
+  - Updated documentation and vignettes including bootstrapping functions for each of the models.
+
+- Code of Conduct and Contribution:
+  - Including code of conduct and contribution guidelines.
+
 - `cate_nelson_1965()` and `cate_nelson_1971()`:
   - tidy = TRUE as default
   - `boot...()` output including quadrants count
-
-* March 25th, 2023. <br/>
 
 - `nlraa` included as a dependency to facilitate self-start of non-linear models.
 - `mitscherlich()` updates: 
@@ -47,20 +56,6 @@ Updates of the new version in chronological order:
   - using linewidth instead of "size" for geom_line().
   - reordering variables of the output (e.g. goodness of fit indicators first)
   
-* March 8th, 2023. <br/>
-
-- Bootstrapping:
-  - New bootstrapping functions for all models to better approximate distributions of CSTVs and parameters or derived quantities of interest. Functions include: (i) `boot_cn_1965()`, (ii) `boot_cn_1971()`, (iii) `boot_mod_alcc()`, (iv) `boot_linear_plateau()`, (v) `boot_quadratic_plateau()`, and (vi) `boot_mitscherlich()`.
-
-- P-value for non-linear models: 
-  - Including `p-value` estimation for non-linear models using an F-test approach comparing the non-linear model vs. a null-model (intercept-only).
-  
-- Documentation:
-  - Updated documentation and vignettes including bootstrapping functions for each of the models.
-
-- Code of Conduct and Contribution:
-  - Including code of conduct and contribution guidelines.
-
 # soiltestcorr 2.1.2
 
 * June 11th, 2022. <br/>
