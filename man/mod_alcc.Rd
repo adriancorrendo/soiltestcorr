@@ -30,7 +30,7 @@ containing the stv and ry data, Default: NULL}
 \item{confidence}{\code{numeric} value of confidence level (e.g. 0.95 for
 significance = 0.05)}
 
-\item{tidy}{logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).}
+\item{tidy}{logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a tidy data frame or tibble (default), FALSE returns a list.}
 
 \item{plot}{logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a ggplot,
 FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE).}

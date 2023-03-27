@@ -51,7 +51,7 @@ For model with 'asymptote = 100 and xintercept = 0'" \code{type = 3}, \code{type
 \item{target}{\code{numeric} value of relative yield target (e.g. 90 for 90\%) to estimate the CSTV.
 Default: NULL}
 
-\item{tidy}{logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).}
+\item{tidy}{logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a tidy data frame or tibble (default), FALSE returns a list.}
 
 \item{plot}{logical operator (TRUE/FALSE) to plot the Mitscherlich model, Default: FALSE}
 

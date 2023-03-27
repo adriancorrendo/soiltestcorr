@@ -5,9 +5,9 @@
 #' @param stv argument to call the vector or column containing the soil test value (stv) data
 #' @param ry argument to call the vector or column containing the relative yield (ry) data
 #' @param target argument to specify the ry target (numeric) to estimate the critical stv for
-#' @param tidy logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list. Default: TRUE.
+#' @param tidy logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a tibble, FALSE returns a list. Default: TRUE.
 #' @param plot logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a ggplot,
-#' FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE).
+#' FALSE returns either a list (tidy == FALSE) or a tibble (tidy == TRUE).
 #' @param n sample size for the bootstrapping Default: 500
 #' @param ... when running bootstrapped samples, the `...` (open arguments) allows to add grouping variable/s (factor or character) Default: NULL
 #' @rdname cate_nelson_1965

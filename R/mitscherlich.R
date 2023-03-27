@@ -12,7 +12,7 @@
 #' For model with 'no restrictions' use `type = 1`, `type = "no restriction"`, or `type = "free"`; 
 #' For model with 'asymptote = 100' use `type = 2`, `type = "asymptote 100"`, or `type = "100"`; 
 #' For model with 'asymptote = 100 and xintercept = 0'" `type = 3`, `type = "asymptote 100 from 0"`, or `type = "fixed"`. 
-#' @param tidy logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).
+#' @param tidy logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a tidy data frame or tibble (default), FALSE returns a list.
 #' @param resid logical operator (TRUE/FALSE) to plot residuals analysis, Default: FALSE
 #' @param plot logical operator (TRUE/FALSE) to plot the Mitscherlich model, Default: FALSE
 #' @param a selfstart arg. for asymptote, Default: NULL

@@ -9,7 +9,7 @@
 #' @param target `numeric` value of relative yield target (e.g. 90 for 90%) to estimate the CSTV.
 #' @param confidence `numeric` value of confidence level (e.g. 0.95 for 
 #' significance = 0.05)
-#' @param tidy logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a data.frame, FALSE returns a list (default).
+#' @param tidy logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a tidy data frame or tibble (default), FALSE returns a list.
 #' @param plot logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a ggplot,
 #' FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE).
 #' @param n sample size for the bootstrapping Default: 500
@@ -280,6 +280,7 @@ boot_mod_alcc <-
                                     confidence = confidence))[c(1:6,9,13,15)] ),
                                 otherwise = NULL, quiet = TRUE) ) %>%
       dplyr::select(-boots) %>% 
-      tidyr::unnest(cols = model) 
+      tidyr::unnest(cols = model) %>% 
+      dplyr::ungroup()
   }
 
