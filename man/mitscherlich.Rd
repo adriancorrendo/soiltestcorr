@@ -81,8 +81,8 @@ mitscherlich: function
 boot_mitscherlich: bootstrapping function
 }
 \description{
-This function helps to fit a Mitscherlich response model for relative yield (ry)
-as a function of soil test values (stv).
+This function helps to fit a Mitscherlich-style exponential
+response model for relative yield (ry) as a function of soil test values (stv).
 }
 \details{
 See \href{https://adriancorrendo.github.io/soiltestcorr/articles/mitscherlich_tutorial.html}{online-documentation} for additional details.
