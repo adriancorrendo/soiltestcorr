@@ -1,7 +1,7 @@
 #' @name mitscherlich
 #' @title Mitscherlich response function
-#' @description This function helps to fit a Mitscherlich response model for relative yield (ry)
-#' as a function of soil test values (stv).
+#' @description This function helps to fit a Mitscherlich-style exponential
+#' response model for relative yield (ry) as a function of soil test values (stv).
 #' @param data Optional argument to call and object of type data.frame or data.table 
 #' containing the stv and ry data, Default: NULL
 #' @param stv name of the vector containing soil test values (-) of type `numeric`.
@@ -97,8 +97,8 @@ mitscherlich <- function(data = NULL,
                          resid = FALSE
 ) {
   if (!(type %in% c(1,2,3,"no restriction", "free", "asymptote 100", "100", 
-                   "asymptote 100 from 0", "fixed"))) {
-     stop("Please specify the type of Mitscherlich function using the `type` argument.
+                    "asymptote 100 from 0", "fixed"))) {
+    stop("Please specify the type of Mitscherlich function using the `type` argument.
           Options: 
           Type = 1 for 'no restriction' or 'free' model; 
           Type = 2 for 'asymptote 100' or '100' model;
@@ -112,6 +112,10 @@ mitscherlich <- function(data = NULL,
   
   if (missing(ry)) {
     stop("Please specify the variable name for relative yields using the `ry` argument")
+  }
+  
+  if (is.null(target)) {
+    stop("Please specify the target RY at which the soil test value with be determined. Must be target <= asymptote.")
   }
   
   # Re-define x from stv argument
@@ -128,7 +132,7 @@ mitscherlich <- function(data = NULL,
   # Error message for soil test correlation data on ratio scale
   # Modeling steps depend on percentage scale
   if (max(y) < 2) {
-    stop("The reponse variable does not appear to be on a percentage scale. Please, double check the units of ry.")
+    stop("The reponse variable does not appear to be on a percentage scale. Please, double check the units of RY.")
   }
   
   # Create data.frame if it doesn't exist yet (data from vectors)
@@ -173,7 +177,7 @@ mitscherlich <- function(data = NULL,
   }
   
   if (inherits(mitsmodel, "try-error")) {
-    stop("Mitscherlich model did not converge. Please, consider other models.")
+    stop("Mitscherlich model did not converge. Please try another `type = ` argument, or consider other models.")
   } else {
     mitsmodel <- mitsmodel
   }
@@ -228,13 +232,14 @@ mitscherlich <- function(data = NULL,
   }
   
   ## Derived vars
-  target <- ifelse(is.null(target),
-                   a,
-                   target)
+  if (target > a) {
+    warning("Target RY > asymptote. Please choose a target <= asymptote.")
+  }
   
-  CSTV <- ifelse(is.null(target), 
-                 NA,
-                 (log(1 - (target/a)) / -c) - b )
+  CSTV <- (log(1 - (target/a)) / -c) - b
+  
+  # for displaying rounded CSTV on plots
+  CSTVr <- ifelse(CSTV > 10, round(CSTV), round(CSTV, 1))
   
   #  CSTV_target <- log((target - a) / (b-a)) / -c
   # There are no confidence interval for CSTV as it is not a parameter
@@ -260,16 +265,16 @@ mitscherlich <- function(data = NULL,
   if (b > 0) { 
     equation <- paste0(round(a, 1), "(1-e^(-", 
                        round(c, 3), "(x+",
-                       round(b, 1), ")")
+                       round(b, 1), "))")
   }
   if (b == 0) { 
     equation <- paste0(round(a, 1), "(1-e^(-", 
-                       round(c, 3), "x)")
+                       round(c, 3), "x))")
   }
   if (b < 0) { 
     equation <- paste0(round(a, 1), "(1-e^(-", 
                        round(c, 3), "(x",
-                       round(b, 1), ")")
+                       round(b, 1), "))")
   }
   
   ## STAGE 2 ====================================================================
@@ -280,15 +285,13 @@ mitscherlich <- function(data = NULL,
       if (resid == TRUE)
         plot(nlstools::nlsResiduals(mitsmodel), which = 0)
     }
-    results <- data.frame(
-      a = round(a, 2),
-      b = round(b, 2),
-      c = round(c, 2),
+    results <- dplyr::tibble(
+      asymptote = a,
+      x_intercept = b,
+      curvature = c,
       equation,
-      target = ifelse(is.null(target), 
-                      round(a, 2),
-                      round(target, 0)),
-      CSTV = round(CSTV, 1),
+      target,
+      CSTV,
       AIC,
       AICc,
       BIC,
@@ -298,11 +301,13 @@ mitscherlich <- function(data = NULL,
     )
     
     # Decide type of output
-    if (tidy == TRUE) {results <- dplyr::as_tibble(results)}
-    
-    if (tidy == FALSE) {results <- as.list(results)}
-    
-    return(results)
+    if (tidy == TRUE) {
+      
+      return(results)
+    } else if (tidy == FALSE) {
+      
+      return(as.list(results))
+    }
     
   } else {
     # Residual plots and normality
@@ -322,34 +327,41 @@ mitscherlich <- function(data = NULL,
       ggplot2::geom_rug(alpha = 0.2, length = ggplot2::unit(2, "pt")) +
       # Data points
       ggplot2::geom_point(shape = 21, size = 3, alpha = 0.75, fill = "#e09f3e") +
+      # Mits Curve
+      ggplot2::geom_path(data = mits_line, ggplot2::aes(x, y),
+                         color = "grey15", linewidth = 1) +
       # CSTV (if target defined)
       {
         if(!is.na(CSTV))
           ggplot2::geom_vline(xintercept = CSTV, alpha = 1, color = "#13274F", 
-                              size = 0.5, linetype = "dashed") 
+                              linewidth = 0.5, linetype = "dashed") 
       } +
       # Target
       ggplot2::geom_hline(yintercept = target, alpha = 0.2) +
-      # Mits Curve
-      ggplot2::geom_path(data = mits_line, ggplot2::aes(x=x, y=y), color="grey15", size = 1.5) +
       # Text annotations
       # CSTV
       {
         if(!is.na(CSTV))
-          ggplot2::annotate("text",label = paste("STVt =", round(CSTV,1), "ppm"),
-                            x = CSTV, y = 0, angle = 90, hjust = 0, vjust = 1.5, col = "grey25") 
+          ggplot2::annotate("text",
+                            label = paste("CSTV =", CSTVr, "ppm"),
+                            x = CSTV, y = 0,
+                            angle = 90, hjust = 0, vjust = 1.5, col = "grey25") 
       } +
       # Target if null
       {
         if(target == a)
-          ggplot2::annotate("text",label = paste0("Asym = ", round(target, 0), "%"),
-                            x = maxx, y = target, hjust = 1,vjust = 1.5, col = "grey25") 
+          ggplot2::annotate("text",
+                            label = paste0("Asym = ", round(target, 1), "%"),
+                            x = maxx, y = target,
+                            hjust = 1,vjust = 1.5, col = "grey25") 
       } +
       # Target if target == a
       {
         if(target != a)
-          ggplot2::annotate("text",label = paste0("Target = ", round(target, 0), "%"),
-                            x = maxx, y = target, hjust = 1,vjust = 1.5, col = "grey25") 
+          ggplot2::annotate("text",
+                            label = paste0("Target = ", round(target, 1), "%"),
+                            x = maxx, y = target,
+                            hjust = 1,vjust = 1.5, col = "grey25") 
       } +
       ggplot2::annotate("text", col = "grey25",
                         label = paste0("y = ", equation,
@@ -358,9 +370,17 @@ mitscherlich <- function(data = NULL,
                                        "\nAICc = ", AICc
                         ),
                         x = maxx, y = 0, vjust = 0, hjust = 1) +
-      ggplot2::scale_y_continuous(limits = c(0, maxy),breaks=seq(0,maxy*2,10)) +
-      ggplot2::labs(x = "Soil test value (units)", y = "Relative yield (%)",
-                    title = "Mitscherlich")+
+      ggplot2::scale_x_continuous(
+        breaks = seq(0, maxx,
+                     by = ifelse(maxx > 300, 30,
+                                 ifelse(maxx > 200, 20,
+                                        ifelse(maxx > 100, 10, 
+                                               ifelse(maxx > 10, 2, 0.5)))))) +
+      ggplot2::scale_y_continuous(limits = c(0, maxy),
+                                  breaks = seq(0, maxy * 2, 10)) +
+      ggplot2::labs(x = "Soil test value (units)",
+                    y = "Relative yield (%)",
+                    title = "Mitscherlich-type Exponential Response")+
       ggplot2::theme_bw()+
       ggplot2::theme(panel.grid = ggplot2::element_blank(),
                      axis.title = ggplot2::element_text(size = ggplot2::rel(1.5)))
@@ -374,7 +394,7 @@ mitscherlich <- function(data = NULL,
 #' @return boot_mitscherlich: bootstrapping function
 #' @export 
 boot_mitscherlich <- 
-  function(data, ry, stv, type = 1, n=999, target = 95, ...) {
+  function(data, ry, stv, type = 1, n = 999, target = 95, ...) {
     # Allow customized column names
     x <- rlang::enquo(stv)
     y <- rlang::enquo(ry)
@@ -385,7 +405,7 @@ boot_mitscherlich <-
     model <- NULL
     equation <- NULL
     
-    data %>%  
+    output_df <- data %>%  
       dplyr::select(!!y, !!x, ...) %>%
       tidyr::expand_grid(boot_id = seq(1, n, by = 1)) %>%
       dplyr::group_by(boot_id, ...) %>%
@@ -405,4 +425,6 @@ boot_mitscherlich <-
       # Irrelevant columns
       dplyr::select(-equation) %>% 
       dplyr::ungroup()
+    
+    return(output_df)
   }
