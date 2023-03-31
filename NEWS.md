@@ -55,6 +55,8 @@ Updates of the new version:
   - implementing tidy=TRUE as default.
   - using linewidth instead of "size" for geom_line().
   - reordering variables of the output (e.g. goodness of fit indicators first)
+  - Add AIC for ALCC model to predict RY in terms of the original units following and approximation of the logLik of the ALCC curve (Dr. Fernando Miguez contribution).
+  
   
 # soiltestcorr 2.1.2
 

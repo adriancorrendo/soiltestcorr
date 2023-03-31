@@ -84,7 +84,7 @@ It returns a LIST (may be more efficient for multiple fits at once)
 ```{r warning=TRUE, message=TRUE}
 # Using dataframe argument, tidy = FALSE -> return a LIST
 mod_alcc(data = corr_df, ry = RY, stv = STK, target=90, confidence = 0.95,
-         tidy = FALSE)
+         tidy = TRUE)
 
 ```
 
@@ -95,6 +95,7 @@ It returns a data.frame (more organized results)
 ```{r warning=TRUE, message=TRUE}
 # Using dataframe argument, tidy = FALSE -> return a LIST
 mod_alcc(data = corr_df, ry = RY, stv = STK, target=90, confidence = 0.95, tidy = TRUE)
+
 ```
 
 ### 1.3. Alternative using the vectors

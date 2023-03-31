@@ -80,11 +80,14 @@ mod_alcc <- function(data=NULL,
   }
   
   ### STAGE 1 ====================================================================
-  # Add a function to cap if there are RY values > 100
+  # 1.1. Add a function to cap if there are RY values > 100
   RY <- rlang::eval_tidy(data = data, rlang::quo(ifelse({{ry}} > 100, 100, as.double({{ry}})) ))
-  # Re-define STV as stv
+  
+  # 1.2. Re-define STV as stv
   STV <- rlang::eval_tidy(data = data, rlang::quo({{stv}}))
   maxx <- max(STV)
+  
+  # 1.3. Extract values for estimation of SMA parameters
   n <- length(RY) # Sample size
   df <- n - 2 # Degrees of freedom
   prob <- 1-((1-confidence)/2) # Probability for t-dist
@@ -96,58 +99,72 @@ mod_alcc <- function(data=NULL,
   slope <- stats::sd(ln_STV)/stats::sd(arc_RY) # SMA slope for ln_STV ~ arc_RY
   intercept <- mean(ln_STV) - (mean(arc_RY)*slope) # Intercept
   SMA_line <- intercept + slope * arc_RY # Fitted ln_STV for observed RY
+  
+  # 1.4. Critical Soil Test Value (CSTV) and confidence interval
+  target <- target # Target RY to show on summary
+  confidence <- confidence # Confidence level to show on summary
   CSTV <- exp(intercept) # Critical STV for specified RY-target and confidence (1-alpha)
   MSE <- sum((SMA_line-ln_STV)^2)/df # Mean Square Error of ln_STV
   SSx <- sum((mean(arc_RY)-arc_RY)^2)  # Sum of Squares of arc_RY
   SE_int <- sqrt(MSE*((1/n)+ ((mean(arc_RY)^2)/SSx)))  # Standard Error intercept
   CSTV_lower <- exp(intercept - (tvalue * SE_int))  # Lower limit of CSTV
   CSTV_upper <- exp(intercept + (tvalue * SE_int)) # Upper limit of CSTV
+  
+  # 1.5. Create vectors for plots of ALCC curve and SMA regression
   new_RY <- seq(min(RY),100, by=0.2) # New RY vector up to %100 to fit curve
   new_arc_RY <- asin(sqrt(new_RY/100)) - asin(sqrt(target/100)) # Transforming new_RY vector
   fitted_Line <- intercept + slope * new_arc_RY # Fitted ln_STV for curve plot
   fitted_STV <- exp(fitted_Line) # Fitted ln_STV for new_RY
   residuals <- ln_STV - SMA_line # Residuals of SMA Regression
   fitted_axis <- ln_STV + slope * arc_RY # Fitted axis to check SMA residuals
-  target <- target # Target RY to show on summaRY
-  confidence <- confidence # Confidence level to show on summaRY
   
-  # Critical STV for RY = 90 & 100
+  # 1.6. Goodness of fit of underlying model (SMA)
+  sma_model <- smatr::sma(formula = ln_STV ~ arc_RY, method = "SMA")
+  AIC_sma <- stats::AIC(sma_model)
+  BIC_sma <- stats::BIC(sma_model)
+  
+  # 1.7. Goodness of fit of ALCC curve (on original scale)
+  ## Predicted RY values of ALCC on original scale
+  RY_curve <- 
+    100 * sin((ln_STV -(intercept -(slope*asin(sqrt(target/100))))) / slope )^2
+  
+  ## Residuals of ALCC curve on original scale
+  resid_alcc <- RY - RY_curve 
+  
+  ## RMSE for ALCC model to predict RY on original scale
+  RMSE_alcc <- sqrt(sum((resid_alcc)^2)/n)
+  
+  ## AIC on original scale of the data
+  ### Create a dataframe 
+  resid_alcc_df <- data.frame(stv = STV, ry = RY,
+                              fitted_ry = RY_curve,
+                              resid = resid_alcc)
+  ## class(approx_tbl) <- c("alcc", "data.frame")
+  
+  ### Degrees of freedom
+  dfs_alcc <- attributes(logLik_alcc(resid_alcc_df))$df
+  ### AIC estimation
+  AIC_alcc <- -2 * as.numeric(logLik_alcc(resid_alcc_df)) + 2 * dfs_alcc
+  
+  
+  # 1.8. Critical STV for RY = 90 & 100
   arc_RY_100 <- asin(sqrt(RY/100)) - asin(sqrt(1)) 
   cstv.100 <- exp(mean(ln_STV) - (mean(arc_RY_100)*(sd(ln_STV)/sd(arc_RY_100))))
   arc_RY_90 <- asin(sqrt(RY/100)) - asin(sqrt(90/100)) 
   cstv.90 <- exp(mean(ln_STV) - (mean(arc_RY_90)*(sd(ln_STV)/sd(arc_RY_90))))
   
-  # Count cases with STV > x2 cstv90 and STV > cstv100
+  ## Count cases with STV > x2 cstv90 and STV > cstv100
   n.90x2 <- rlang::eval_tidy(data=data, rlang::quo(length(which({{stv}} > (2*cstv.90))) ) )
   n.100 <- rlang::eval_tidy(data=data, rlang::quo(length(which({{stv}} > cstv.100)) ) )
   
-  # Predicted RY for RMSE
-  RY_pred <- 100 * sin( (ln_STV - (intercept - (slope*asin(sqrt(target/100)))) ) / slope )^2
-  RMSE <- sqrt(sum((RY_pred - RY)^2)/n)
-  
-  # SMA model GOF
-  sma_model <- smatr::sma(formula = ln_STV ~ arc_RY, method = "SMA")
-  AIC <- stats::AIC(sma_model)
-  BIC <- stats::BIC(sma_model)
-  
   # AIC on original scale of the data
-  approx_fit <- stats::approx(x = fitted_STV,
-                       y = new_RY,
-                       xout = STV, rule = 2)
-
-  resid <- RY - approx_fit$y
-  fttd <- approx_fit$y
-
-  approx_tbl <- data.frame(stv = STV,
-                           ry = RY,
-                           fitted_ry = fttd,
-                           resid = resid)
-
-  class(approx_tbl) <- c("alcc", "data.frame")
   
-  dfs <- attributes(logLik_alcc(approx_tbl))$df
-
-  AIC_original <- -2 * as.numeric(logLik_alcc(approx_tbl)) + 2 * dfs
+  ### NOTE: with the RY_curve (L119), we actually don't need the approx function of the ALCC curve
+  # approx_fit <- stats::approx(x = fitted_STV,
+  #                      y = new_RY,
+  #                      xout = STV, rule = 2)
+  # resid <- RY - approx_fit$y
+  # fttd <- approx_fit$y
   
   ### STAGE 2 ====================================================================
   # Outputs
@@ -156,10 +173,10 @@ mod_alcc <- function(data=NULL,
       # Data frame with summary
       dplyr::bind_cols(dplyr::as_tibble(list("n" = n, 
                                              "r" = r,
-                                             "RMSE" = RMSE,
-                                             "AIC" = AIC,
-                                             "AIC (orig. scale)" = AIC_original,
-                                             "BIC" = BIC,
+                                             "RMSE_alcc" = RMSE_alcc,
+                                             "AIC_alcc" = AIC_alcc,
+                                             "AIC_sma" = AIC_sma,
+                                             "BIC_sma" = BIC_sma,
                                              "p_value" = p_value,
                                              "confidence" = confidence,
                                              "target" = target,
@@ -265,7 +282,7 @@ mod_alcc <- function(data=NULL,
     ggplot2::annotate("text", col = "grey25",
                       label = paste0("n = ", length(STV),
                                      # AIC on original scale
-                                     "\nAIC = ", round(AIC_original),
+                                     "\nAIC = ", round(AIC_alcc),
                                      "\nCI = [", round(CSTV_lower,1)," - ", round(CSTV_upper,1),"]"),
                       x = max(max(STV),max(fitted_STV)), y = 0, vjust = 0, hjust = 1) +
     # Shade

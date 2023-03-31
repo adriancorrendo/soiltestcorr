@@ -11,7 +11,9 @@ A compilation of functions designed to assist users on the correlation analysis 
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://adriancorrendo.github.io/soiltestcorr/}
+  \item \url{https://adriancorrendo.github.io/soiltestcorr/ }
+  \item \url{https://soiltestfrst.org/ }
+  \item \url{https://www.siildigitalagconsortium.com/}
   \item Report bugs at \url{https://github.com/adriancorrendo/soiltestcorr/issues}
 }
 
