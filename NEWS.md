@@ -2,33 +2,31 @@
 
 Updates of the new version:
 
-- Bootstrapping:
+1) Bootstrapping:
   - New bootstrapping functions for all models to better approximate distributions of CSTVs and parameters or derived quantities of interest. Functions include: (i) `boot_cn_1965()`, (ii) `boot_cn_1971()`, (iii) `boot_mod_alcc()`, (iv) `boot_linear_plateau()`, (v) `boot_quadratic_plateau()`, and (vi) `boot_mitscherlich()`.
 
-- P-value for non-linear models: 
+2) P-value for non-linear models: 
   - Including `p-value` estimation for non-linear models using an F-test approach comparing the non-linear model vs. a null-model (intercept-only).
   
-- Documentation:
-  - Updated documentation and vignettes including bootstrapping functions for each of the models.
-
-- Code of Conduct and Contribution:
-  - Including code of conduct and contribution guidelines.
-
-- `cate_nelson_1965()` and `cate_nelson_1971()`:
+3) `cate_nelson_1965()` and `cate_nelson_1971()`:
   - tidy = TRUE as default
   - `boot...()` output including quadrants count
 
-- `nlraa` included as a dependency to facilitate self-start of non-linear models.
-- `mitscherlich()` updates: 
+4) `mitscherlich()` updates: 
   - Adding RMSE, and BIC outputs
   - default type = 1
   - target default now 95 and should not be NULL (prevent CSTV = Inf)
   - tidy = TRUE default (output is tibble)
   - alternative names for type: "free" to "no restriction", "100" to "asymptote 100", and "fixed" to "asymptote 100 from 0".
   - Do not round in results table (rounding throws off bootstrap distributions), round only in display equations and plot
-  - updated vignette
+  - add stop if target = NULL
+  - add warning if target > asymptote
+  - make results into tidy tibble
+  - use return() explicitly to return bootstrap data frame
+  - in keeping with ggplot2 updates, line `sizes` are now line `linewidth`
+  - add scale_x_continuous to attempt auto rescaling
   
-- `linear_plateau()` and `quadratic_plateau()` updates:
+5) `linear_plateau()` and `quadratic_plateau()` updates:
   - Adding RMSE, and BIC outputs
   - default to tidy = TRUE
   - join point is now referred to as jp throughout the internal code - equation now shows JP value instead of text "CSTV"
@@ -47,15 +45,26 @@ Updates of the new version:
   - removed extra irrelevant columns in bootstrap output like Wald CI and equation for neater tibble
   - simplified vignette: changing group_map to group_modify to preserve tibble over lists
 
-- `mod_alcc()` update including:
-  - including Root Mean Square Error (RMSE) of the ALCC curve with respect to observed RY values as a potential indicator of model's quality.
-  - including the estimation of Akaike Information Criteria (AIC), and Bayesian Information Criteria (BIC) for the "underlying" bivariate SMA models.
-  - 'smatr' package is a new dependency (to get AIC and BIC of SMA models).
+6) `mod_alcc()` update including:
+  - including Root Mean Square Error (RMSE_alcc) of the ALCC curve with respect to observed RY values as a potential indicator of model's quality.
+  - including the estimation of Akaike Information Criteria (AIC_sma), and Bayesian Information Criteria (BIC_sma) for the "underlying" bivariate SMA models.
   - using "tibble" instead of "dataframe".
   - implementing tidy=TRUE as default.
   - using linewidth instead of "size" for geom_line().
   - reordering variables of the output (e.g. goodness of fit indicators first)
   - Add AIC for ALCC model to predict RY in terms of the original units following and approximation of the logLik of the ALCC curve (Dr. Fernando Miguez contribution).
+  - add scale_x_continuous to attempt auto rescaling on ggplot objects
+
+7) New dependencies:
+  - `nlraa` is now included as a dependency to facilitate self-start of non-linear models.
+  - `smatr` is a new dependency (to get AIC and BIC of SMA models).
+
+8) Documentation:
+  - Updated documentation and vignettes including bootstrapping functions for each of the models.
+  - Add a `CITATION` file into "inst/" folder following `bibentry` format.
+  
+9) Code of Conduct and Contribution:
+  - Including code of conduct and contribution guidelines.
   
   
 # soiltestcorr 2.1.2
