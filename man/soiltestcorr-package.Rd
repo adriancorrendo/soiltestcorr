@@ -29,5 +29,10 @@ Authors:
   \item Ignacio A. Ciampitti \email{ciampitti@ksu.edu} (\href{https://orcid.org/0000-0001-9619-5129}{ORCID})
 }
 
+Other contributors:
+\itemize{
+  \item Fernando Miguez \email{femiguez@iastate.edu} (\href{https://orcid.org/0000-0002-4627-8329}{ORCID}) [contributor]
+}
+
 }
 \keyword{internal}
