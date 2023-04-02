@@ -1,0 +1,15 @@
+citHeader("To cite soiltestcorr in publications use:")
+
+citEntry(
+  entry    = "Article",
+  title    = "The soiltestcorr R package: An accessible framework for reproducible correlation analysis of crop yield and soil test data",
+  author   = "Adrian A. Correndo and Austin Pearce and Carl H. Bolster and John T. Spargo and Deanna Osmond and Ignacio A. Ciampitti",
+  journal  = "SoftwareX",
+  year     = "2023",
+  volume   = "21",
+  pages    = "101275",
+  doi      = "10.1016/j.softx.2022.101275",
+  url      = "https://www.sciencedirect.com/science/article/pii/S2352711022001935",
+  textVersion = paste("Correndo, A.A., et. al., 2023. The soiltestcorr R package: An accessible framework for reproducible correlation analysis of crop yield and soil test data. SoftwareX 21, 101275, https://doi.org/10.1016/j.softx.2022.101275"
+  )
+)
