@@ -78,6 +78,8 @@ estimate critical soil test values (CSTV) following Correndo et al. (2017)</p>
 <span>  plot <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
+<span><span class="fu">logLik_alcc</span><span class="op">(</span><span class="va">object</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">boot_mod_alcc</span><span class="op">(</span><span class="va">data</span>, <span class="va">ry</span>, <span class="va">stv</span>, n <span class="op">=</span> <span class="fl">500</span>, target <span class="op">=</span> <span class="fl">90</span>, confidence <span class="op">=</span> <span class="fl">0.95</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -114,12 +116,16 @@ significance = 0.05)</p></dd>
 FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE).</p></dd>
 
 
-<dt>n</dt>
-<dd><p>sample size for the bootstrapping Default: 500</p></dd>
+<dt>object</dt>
+<dd><p>the "object" is the output data frame from approx with resid column</p></dd>
 
 
 <dt>...</dt>
 <dd><p>when running bootstrapped samples, the <code>...</code> (open arguments) allows to add grouping variable/s (factor or character) Default: NULL</p></dd>
+
+
+<dt>n</dt>
+<dd><p>sample size for the bootstrapping Default: 500</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -133,6 +139,9 @@ FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE).</p><
 
 
 <p>returns an object of class <code>list</code> if tidy = FALSE.</p>
+
+
+<p>logLik_alcc: AIC on original scale function</p>
 
 
 <p>boot_mod_alcc: bootstrapping function</p>
@@ -156,7 +165,7 @@ A modification of the arcsine–log calibration curve for analysing soil test va
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><code><a href="https://rlang.r-lib.org/reference/eval_tidy.html" class="external-link">eval_tidy</a></code>,<code><a href="https://rlang.r-lib.org/reference/defusing-advanced.html" class="external-link">defusing-advanced</a></code>
-<code><a href="https://rdrr.io/r/stats/TDist.html" class="external-link">TDist</a></code>,<code><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></code>,<code><a href="https://rdrr.io/r/stats/cor.test.html" class="external-link">cor.test</a></code>,<code><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></code>
+<code><a href="https://rdrr.io/r/stats/TDist.html" class="external-link">TDist</a></code>,<code><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></code>,<code><a href="https://rdrr.io/r/stats/cor.test.html" class="external-link">cor.test</a></code>,<code><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></code>, <code><a href="https://rdrr.io/r/stats/approxfun.html" class="external-link">approx</a></code>
 <code><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind</a></code>,<code><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></code>
 <code><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">nest</a></code>
 <code><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></code>,<code><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></code>,<code><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></code>,<code>scale_manual</code>,<code><a href="https://ggplot2.tidyverse.org/reference/geom_rug.html" class="external-link">geom_rug</a></code>,<code><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_abline</a></code>,<code><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_path</a></code>,<code><a href="https://ggplot2.tidyverse.org/reference/annotate.html" class="external-link">annotate</a></code>,<code><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></code>,<code><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></code>
@@ -175,12 +184,12 @@ A modification of the arcsine–log calibration curve for analysing soil test va
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by </span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span>   removing extreme points, re-run the mod_alcc(), and check results.</span>
 <span class="r-in"><span> <span class="va">fit_example</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 17</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       n     r  RMSE   AIC   BIC      p_value confidence target  CSTV    LL    UL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    15 0.968  1.45 -<span style="color: #BB0000;">23.5</span> -<span style="color: #BB0000;">20.0</span>      3.30<span style="color: #949494;">e</span><span style="color: #BB0000;">-9</span>       0.95     90  4.48  3.95  5.08</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 6 more variables: CSTV90 &lt;dbl&gt;, n.90x2 &lt;int&gt;, CSTV100 &lt;dbl&gt;, n.100 &lt;int&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   Curve &lt;list&gt;, SMA &lt;list&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 18</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       n     r RMSE_alcc AIC_alcc AIC_sma BIC_sma p_value confidence target  CSTV</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>    15 0.968      1.45     59.6   -<span style="color: #BB0000;">23.5</span>   -<span style="color: #BB0000;">20.0</span> 3.30<span style="color: #949494;">e</span><span style="color: #BB0000;">-9</span>       0.95     90  4.48</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 8 more variables: LL &lt;dbl&gt;, UL &lt;dbl&gt;, CSTV90 &lt;dbl&gt;, n.90x2 &lt;int&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   CSTV100 &lt;dbl&gt;, n.100 &lt;int&gt;, Curve &lt;list&gt;, SMA &lt;list&gt;</span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

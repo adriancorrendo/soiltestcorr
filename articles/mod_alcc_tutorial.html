@@ -92,43 +92,51 @@ Correndo</h4>
     
 <p><img src="../reference/figures/soiltestcorr_logo.png" align="right" height="200" style="float:right; height:200px;"></p>
 <div class="section level3">
-<h3 id="description">Description <br><a class="anchor" aria-label="anchor" href="#description"></a>
+<h3 id="description">Description<a class="anchor" aria-label="anchor" href="#description"></a>
 </h3>
-<p>This tutorial is intended to show how to deploy the mod_alcc()
-function for estimating critical soil test values using the Modified
-Arcsine-Log Calibration Curve, originally introduced by Dyson &amp;
-Conyers (2013) and modified by Correndo et al. (2017). This function
-produces the estimation of critical soil test values (CSTV) for a target
-relative yield (ry) with confidence intervals at adjustable confidence
-levels. Behind the scenes, the mod_alcc() is based on the standardized
-major axis (SMA), a bivariate regression model that assumes that both
-axis are random variables (Warton et al., 2006). <br></p>
+<p>This tutorial is intended to show how to deploy the
+<code><a href="../reference/mod_alcc.html">mod_alcc()</a></code> function for estimating critical soil test
+values using the Modified Arcsine-Log Calibration Curve, originally
+introduced by Dyson &amp; Conyers (2013) and modified by Correndo et
+al. (2017). This function produces the estimation of critical soil test
+values (CSTV) for a target relative yield (<code>ry</code>) with
+confidence intervals at adjustable confidence levels. Behind the scenes,
+the <code><a href="../reference/mod_alcc.html">mod_alcc()</a></code> is based on the standardized major axis
+(SMA), a bivariate regression model that assumes that both axis are
+random variables (Warton et al., 2006).</p>
 </div>
 <div class="section level3">
-<h3 id="general-instructions">General Instructions <br><a class="anchor" aria-label="anchor" href="#general-instructions"></a>
+<h3 id="general-instructions">General Instructions<a class="anchor" aria-label="anchor" href="#general-instructions"></a>
 </h3>
-<ol style="list-style-type: lower-roman">
-<li><p>Load your dataframe with soil test value (stv) and relative yield
-(ry) data. <br></p></li>
-<li><p>Specify the following arguments into the function -mod_alcc()-:
-<br></p></li>
+<ol style="list-style-type: decimal">
+<li>Load your dataframe with soil test value (<code>stv</code>) and
+relative yield (<code>ry</code>) data.</li>
+<li>Specify the following arguments into the function
+<code><a href="../reference/mod_alcc.html">mod_alcc()</a></code>
+<ol style="list-style-type: decimal">
+<li><p><code>data</code> (optional)</p></li>
+<li><p><code>stv</code> (soil test value) and <code>ry</code> (relative
+yield) columns or vectors,</p></li>
+<li><p><code>target</code> of relative yield (e.g. 90%),</p></li>
+<li>
+<p>desired <code>confidence</code> level (e.g. 0.95 for 1 -
+alpha(0.05)).</p>
+<ul>
+<li>Used for the estimation of critical soil test value (CSTV) lower and
+upper limits.</li>
+</ul>
+</li>
+<li><p><code>tidy</code> TRUE (produces a data.frame with results) or
+FALSE-default- (store results as list),</p></li>
+<li><p><code>plot</code> TRUE (produces a ggplot as main output) or
+FALSE (default; no plot, only results as data.frame or list)</p></li>
 </ol>
-<p>(a). <code>data</code> (optional), <br></p>
-<p>(b). <code>stv</code> (soil test value) and <code>ry</code> (relative
-yield) columns or vectors, <br></p>
-<p>(c). <code>target</code> of relative yield (e.g. 90%), <br></p>
-<p>(d). desired <code>confidence</code> level (e.g. 0.95 for 1 -
-alpha(0.05)). Used for the estimation of critical soil test value (CSTV)
-lower and upper limits. <br></p>
-<p>(e). <code>tidy</code> TRUE (produces a data.frame with results) or
-FALSE-default- (store results as list), <br></p>
-<p>(f). <code>plot</code> TRUE (produces a ggplot as main output) or
-FALSE -default- (no plot, only results as list or data.frame), <br></p>
-<ol start="3" style="list-style-type: lower-roman">
-<li><p>Run and check results. <br></p></li>
-<li><p>Check residuals plot, and warnings related to potential leverage
-points. <br></p></li>
-<li><p>Adjust curve plots as desired. <br></p></li>
+</li>
+<li>Run and check results.</li>
+<li>Check residuals plot, and warnings related to potential leverage
+points.</li>
+<li>Adjust curve plots as desired with additional <code>ggplot2</code>
+functions.</li>
 </ol>
 </div>
 <div class="section level2">
@@ -142,167 +150,33 @@ points. <br></p></li>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span> <span class="co"># Plots</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span> <span class="co"># Data wrangling</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span> <span class="co"># Data wrangling</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">utils</span><span class="op">)</span> <span class="co"># Data wrangling</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span> <span class="co"># Mapping</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/" class="external-link">purrr</a></span><span class="op">)</span> <span class="co"># Mapping</span></span></code></pre></div>
-<p>This is a basic example using three different datasets: <br></p>
+<p>This is a basic example using three different datasets:</p>
 <div class="section level3">
 <h3 id="load-datasets">Load datasets<a class="anchor" aria-label="anchor" href="#load-datasets"></a>
 </h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co"># Example 1 dataset</span></span>
-<span><span class="co"># Fake dataset manually created</span></span>
-<span><span class="va">data_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="st">"RY"</span>  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">65</span>,<span class="fl">80</span>,<span class="fl">85</span>,<span class="fl">88</span>,<span class="fl">90</span>,<span class="fl">94</span>,<span class="fl">93</span>,<span class="fl">96</span>,<span class="fl">97</span>,<span class="fl">95</span>,<span class="fl">98</span>,<span class="fl">100</span>,<span class="fl">99</span>,<span class="fl">99</span>,<span class="fl">100</span><span class="op">)</span>,</span>
-<span>                     <span class="st">"STV"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">7</span>,<span class="fl">8</span>,<span class="fl">9</span>,<span class="fl">10</span>,<span class="fl">11</span>,<span class="fl">12</span>,<span class="fl">13</span>,<span class="fl">14</span>,<span class="fl">15</span><span class="op">)</span><span class="op">)</span></span>
-<span>  </span>
-<span><span class="co"># Example 2. Native fake dataset from soiltestcorr package</span></span>
-<span></span>
-<span><span class="va">data_2</span> <span class="op">&lt;-</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="va"><a href="../reference/data_test.html">data_test</a></span></span>
-<span></span>
-<span></span>
-<span><span class="co"># Example 3. Native dataset from soiltestcorr package, Freitas et al.  (1966), used by Cate &amp; Nelson (1971)</span></span>
-<span><span class="va">data_3</span> <span class="op">&lt;-</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="va"><a href="../reference/freitas1966.html">freitas1966</a></span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Native fake dataset from soiltestcorr package</span></span>
+<span><span class="va">corr_df</span> <span class="op">&lt;-</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="va"><a href="../reference/freitas1966.html">freitas1966</a></span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
-<h2 id="fit-mod_alcc">Fit mod_alcc()<a class="anchor" aria-label="anchor" href="#fit-mod_alcc"></a>
+<h2 id="fit-mod_alcc">Fit <code>mod_alcc()</code><a class="anchor" aria-label="anchor" href="#fit-mod_alcc"></a>
 </h2>
 <div class="section level3">
-<h3 id="individual-fits">1. Individual fits <br><a class="anchor" aria-label="anchor" href="#individual-fits"></a>
+<h3 id="individual-fits">1. Individual fits<a class="anchor" aria-label="anchor" href="#individual-fits"></a>
 </h3>
 <p>RY target = 90%, confidence level = 0.95, replace with your desired
-values <br></p>
+values</p>
 <div class="section level4">
-<h4 id="tidy-false">1.1. <code>tidy</code> = FALSE <br><a class="anchor" aria-label="anchor" href="#tidy-false"></a>
+<h4 id="tidy-false">1.1. <code>tidy</code> = FALSE<a class="anchor" aria-label="anchor" href="#tidy-false"></a>
 </h4>
-<p>It returns a LIST (more efficient for multiple fits at once)
-<br></p>
+<p>It returns a LIST (may be more efficient for multiple fits at
+once)</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co"># Using dataframe argument, tidy = FALSE -&gt; return a LIST</span></span>
-<span><span class="va">fit_1_tidy_false</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mod_alcc.html">mod_alcc</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_1</span>, </span>
-<span>                         ry <span class="op">=</span> <span class="va">RY</span>, </span>
-<span>                         stv <span class="op">=</span> <span class="va">STV</span>, </span>
-<span>                         target<span class="op">=</span><span class="fl">90</span>, </span>
-<span>                         confidence <span class="op">=</span> <span class="fl">0.95</span>, </span>
-<span>                         tidy <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: 7 STV points exceeded two-times (2x) </span></span>
-<span><span class="co">#&gt;   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by </span></span>
-<span><span class="co">#&gt;   removing extreme points, re-run the mod_alcc(), and check results.</span></span>
-<span></span>
-<span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fit_1_tidy_false</span><span class="op">)</span></span>
-<span><span class="co">#&gt; $n</span></span>
-<span><span class="co">#&gt; [1] 15</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $r</span></span>
-<span><span class="co">#&gt; [1] 0.9682908</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $RMSE</span></span>
-<span><span class="co">#&gt; [1] 1.445887</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $AIC</span></span>
-<span><span class="co">#&gt; [1] -23.52861</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $BIC</span></span>
-<span><span class="co">#&gt; [1] -19.98836</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $p_value</span></span>
-<span><span class="co">#&gt; [1] 3.296044e-09</span></span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="tidy-true">1.2. <code>tidy</code> = TRUE <br><a class="anchor" aria-label="anchor" href="#tidy-true"></a>
-</h4>
-<p>It returns a data.frame (more organized results) <br></p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co"># Using dataframe argument, tidy = FALSE -&gt; return a LIST</span></span>
-<span><span class="va">fit_1_tidy_true</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mod_alcc.html">mod_alcc</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_1</span>, </span>
-<span>                         ry <span class="op">=</span> <span class="va">RY</span>, </span>
-<span>                         stv <span class="op">=</span> <span class="va">STV</span>, </span>
-<span>                         target<span class="op">=</span><span class="fl">90</span>, </span>
-<span>                         confidence <span class="op">=</span> <span class="fl">0.95</span>, </span>
-<span>                         tidy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: 7 STV points exceeded two-times (2x) </span></span>
-<span><span class="co">#&gt;   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by </span></span>
-<span><span class="co">#&gt;   removing extreme points, re-run the mod_alcc(), and check results.</span></span>
-<span></span>
-<span><span class="va">fit_1_tidy_true</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 17</span></span></span>
-<span><span class="co">#&gt;       n     r  RMSE   AIC   BIC      p_value confidence target  CSTV    LL    UL</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    15 0.968  1.45 -<span style="color: #BB0000;">23.5</span> -<span style="color: #BB0000;">20.0</span>      3.30<span style="color: #949494;">e</span><span style="color: #BB0000;">-9</span>       0.95     90  4.48  3.95  5.08</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 6 more variables: CSTV90 &lt;dbl&gt;, n.90x2 &lt;int&gt;, CSTV100 &lt;dbl&gt;, n.100 &lt;int&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   Curve &lt;list&gt;, SMA &lt;list&gt;</span></span></span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="alternative-using-the-vectors">1.3. Alternative using the vectors <br><a class="anchor" aria-label="anchor" href="#alternative-using-the-vectors"></a>
-</h4>
-<p>You can call <code>stv</code> and <code>ry</code> vectors using the
-<code>$</code>. <br></p>
-<p>The <code>tidy</code> argument still applies for controlling the
-output type</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">fit_1_vectors_list</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mod_alcc.html">mod_alcc</a></span><span class="op">(</span>ry <span class="op">=</span> <span class="va">data_1</span><span class="op">$</span><span class="va">RY</span>,</span>
-<span>                         stv <span class="op">=</span> <span class="va">data_1</span><span class="op">$</span><span class="va">STV</span>, </span>
-<span>                         target<span class="op">=</span><span class="fl">90</span>,</span>
-<span>                         confidence <span class="op">=</span> <span class="fl">0.95</span>,</span>
-<span>                         tidy <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: 7 STV points exceeded two-times (2x) </span></span>
-<span><span class="co">#&gt;   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by </span></span>
-<span><span class="co">#&gt;   removing extreme points, re-run the mod_alcc(), and check results.</span></span>
-<span></span>
-<span><span class="va">fit_1_vectors_tidy</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mod_alcc.html">mod_alcc</a></span><span class="op">(</span>ry <span class="op">=</span> <span class="va">data_1</span><span class="op">$</span><span class="va">RY</span>,</span>
-<span>                         stv <span class="op">=</span> <span class="va">data_1</span><span class="op">$</span><span class="va">STV</span>, </span>
-<span>                         target<span class="op">=</span><span class="fl">90</span>,</span>
-<span>                         confidence <span class="op">=</span> <span class="fl">0.95</span>,</span>
-<span>                         tidy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: 7 STV points exceeded two-times (2x) </span></span>
-<span><span class="co">#&gt;   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by </span></span>
-<span><span class="co">#&gt;   removing extreme points, re-run the mod_alcc(), and check results.</span></span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="data-2--test-dataset">1.4. Data 2. Test dataset <br><a class="anchor" aria-label="anchor" href="#data-2--test-dataset"></a>
-</h4>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">fit_2</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mod_alcc.html">mod_alcc</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_2</span>, </span>
-<span>                         ry <span class="op">=</span> <span class="va">RY</span>,</span>
-<span>                         stv <span class="op">=</span> <span class="va">STV</span>,</span>
-<span>                         target<span class="op">=</span><span class="fl">90</span>, </span>
-<span>                         confidence <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: 9 STV points exceeded the CSTV for 100% of RY.</span></span>
-<span><span class="co">#&gt;   Risk of leverage. You may consider a sensitivity analysis by removing extreme points, </span></span>
-<span><span class="co">#&gt;   re-run the mod_alcc(), and check results.</span></span>
-<span><span class="co">#&gt; Warning: 22 STV points exceeded two-times (2x) </span></span>
-<span><span class="co">#&gt;   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by </span></span>
-<span><span class="co">#&gt;   removing extreme points, re-run the mod_alcc(), and check results.</span></span>
-<span></span>
-<span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fit_2</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 17</span></span></span>
-<span><span class="co">#&gt;       n     r  RMSE   AIC   BIC  p_value confidence target  CSTV    LL    UL</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>   137 0.716  10.5 -<span style="color: #BB0000;">1.04</span>  13.6 7.31<span style="color: #949494;">e</span><span style="color: #BB0000;">-23</span>       0.95     90  23.3  21.6  25.1</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 6 more variables: CSTV90 &lt;dbl&gt;, n.90x2 &lt;int&gt;, CSTV100 &lt;dbl&gt;, n.100 &lt;int&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   Curve &lt;list&gt;, SMA &lt;list&gt;</span></span></span></code></pre></div>
-</div>
-<div class="section level4">
-<h4 id="data-3--freitas-et-al--1966">1.5. Data 3. Freitas et al. 1966 <br><a class="anchor" aria-label="anchor" href="#data-3--freitas-et-al--1966"></a>
-</h4>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">fit_3</span> <span class="op">&lt;-</span></span>
-<span>  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mod_alcc.html">mod_alcc</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, </span>
-<span>                         ry <span class="op">=</span> <span class="va">RY</span>,</span>
-<span>                         stv <span class="op">=</span> <span class="va">STK</span>,</span>
-<span>                         target<span class="op">=</span><span class="fl">90</span>,</span>
-<span>                         confidence <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># Using dataframe argument, tidy = FALSE -&gt; return a LIST</span></span>
+<span><span class="fu"><a href="../reference/mod_alcc.html">mod_alcc</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">corr_df</span>, ry <span class="op">=</span> <span class="va">RY</span>, stv <span class="op">=</span> <span class="va">STK</span>, target<span class="op">=</span><span class="fl">90</span>, confidence <span class="op">=</span> <span class="fl">0.95</span>,</span>
+<span>         tidy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: One or more original RY values exceeded 100%. All RY values greater </span></span>
 <span><span class="co">#&gt;           than 100% have been capped to 100%.</span></span>
 <span><span class="co">#&gt; Warning: 2 STV points exceeded the CSTV for 100% of RY.</span></span>
@@ -311,155 +185,194 @@ output type</p>
 <span><span class="co">#&gt; Warning: 2 STV points exceeded two-times (2x) </span></span>
 <span><span class="co">#&gt;   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by </span></span>
 <span><span class="co">#&gt;   removing extreme points, re-run the mod_alcc(), and check results.</span></span>
-<span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fit_3</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 17</span></span></span>
-<span><span class="co">#&gt;       n     r  RMSE   AIC   BIC   p_value confidence target  CSTV    LL    UL</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    24 0.728  10.3  17.0  22.9 0.000<span style="text-decoration: underline;">055</span>7       0.95     90  76.9  62.3  94.8</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 6 more variables: CSTV90 &lt;dbl&gt;, n.90x2 &lt;int&gt;, CSTV100 &lt;dbl&gt;, n.100 &lt;int&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   Curve &lt;list&gt;, SMA &lt;list&gt;</span></span></span></code></pre></div>
-</div>
-</div>
-<div class="section level3">
-<h3 id="multiple-fits-at-once">2. Multiple fits at once <br><a class="anchor" aria-label="anchor" href="#multiple-fits-at-once"></a>
-</h3>
-<div class="section level4">
-<h4 id="using-map">2.1. Using map<a class="anchor" aria-label="anchor" href="#using-map"></a>
-</h4>
-<div class="section level5">
-<h5 id="create-nested-data">Create nested data <br><a class="anchor" aria-label="anchor" href="#create-nested-data"></a>
-</h5>
-<p><i> Note: the <code>stv</code> column needs to have the same name for
-all datasets <i></i> <br></i></p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># </span></span>
-<span><span class="va">data.all</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">data_1</span>, <span class="va">data_2</span>,</span>
-<span>                      <span class="va">data_3</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>STV <span class="op">=</span> <span class="va">STK</span><span class="op">)</span>,</span>
-<span>                     .id <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">nest</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"STV"</span>, <span class="st">"RY"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level5">
-<h5 id="fit">Fit<a class="anchor" aria-label="anchor" href="#fit"></a>
-</h5>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co"># Run multiple examples at once with map()</span></span>
-<span><span class="va">fit_multiple_map</span> <span class="op">=</span> <span class="va">data.all</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>mod_alcc <span class="op">=</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">data</span>, </span>
-<span>                               <span class="op">~</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mod_alcc.html">mod_alcc</a></span><span class="op">(</span>ry <span class="op">=</span> <span class="va">.</span><span class="op">$</span><span class="va">RY</span>,</span>
-<span>                                                        stv <span class="op">=</span> <span class="va">.</span><span class="op">$</span><span class="va">STV</span>,</span>
-<span>                                                        target<span class="op">=</span><span class="fl">90</span>,</span>
-<span>                                                        confidence <span class="op">=</span> <span class="fl">0.95</span>,</span>
-<span>                                                        tidy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: There were 6 warnings in `dplyr::mutate()`.</span></span>
-<span><span class="co">#&gt; The first warning was:</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In argument: `mod_alcc = purrr::map(...)`.</span></span>
-<span><span class="co">#&gt; Caused by warning:</span></span>
-<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> 7 STV points exceeded two-times (2x) </span></span>
-<span><span class="co">#&gt;   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by </span></span>
-<span><span class="co">#&gt;   removing extreme points, re-run the mod_alcc(), and check results.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 5 remaining warnings.</span></span>
-<span></span>
-<span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fit_multiple_map</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
-<span><span class="co">#&gt;   id    data               mod_alcc         </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1     <span style="color: #949494;">&lt;tibble [15 × 2]&gt;</span>  <span style="color: #949494;">&lt;tibble [1 × 17]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2     <span style="color: #949494;">&lt;tibble [137 × 2]&gt;</span> <span style="color: #949494;">&lt;tibble [1 × 17]&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 3     <span style="color: #949494;">&lt;tibble [24 × 2]&gt;</span>  <span style="color: #949494;">&lt;tibble [1 × 17]&gt;</span></span></span></code></pre></div>
-</div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 18</span></span></span>
+<span><span class="co">#&gt;       n     r RMSE_alcc AIC_alcc AIC_sma BIC_sma p_value confidence target  CSTV</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    24 0.728      10.3     186.    17.0    22.9 5.57<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span>       0.95     90  76.9</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 8 more variables: LL &lt;dbl&gt;, UL &lt;dbl&gt;, CSTV90 &lt;dbl&gt;, n.90x2 &lt;int&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   CSTV100 &lt;dbl&gt;, n.100 &lt;int&gt;, Curve &lt;list&gt;, SMA &lt;list&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="using-group_map">2.2. Using group_map <br><a class="anchor" aria-label="anchor" href="#using-group_map"></a>
+<h4 id="tidy-true">1.2. <code>tidy</code> = TRUE<a class="anchor" aria-label="anchor" href="#tidy-true"></a>
 </h4>
-<p>Alternatively, with group_map, we do not require nested data.
-<br></p>
-<p>However, it requires to dplyr::bind_rows and add an <code>id</code>
-column specifying the name of each dataset. <br></p>
-<p>This option return models as lists objects.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">fit_multiple_group_map</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">data_1</span>, <span class="va">data_2</span>, .id <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_map.html" class="external-link">group_map</a></span><span class="op">(</span><span class="op">~</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mod_alcc.html">mod_alcc</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">.</span>, </span>
-<span>                                     ry <span class="op">=</span> <span class="va">RY</span>,</span>
-<span>                                     stv <span class="op">=</span> <span class="va">STV</span>, </span>
-<span>                                     target <span class="op">=</span> <span class="fl">90</span>, </span>
-<span>                                     confidence <span class="op">=</span> <span class="fl">0.95</span>, tidy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: 7 STV points exceeded two-times (2x) </span></span>
-<span><span class="co">#&gt;   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by </span></span>
-<span><span class="co">#&gt;   removing extreme points, re-run the mod_alcc(), and check results.</span></span>
-<span><span class="co">#&gt; Warning: 9 STV points exceeded the CSTV for 100% of RY.</span></span>
+<p>It returns a data.frame (more organized results)</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Using dataframe argument, tidy = FALSE -&gt; return a LIST</span></span>
+<span><span class="fu"><a href="../reference/mod_alcc.html">mod_alcc</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">corr_df</span>, ry <span class="op">=</span> <span class="va">RY</span>, stv <span class="op">=</span> <span class="va">STK</span>, target<span class="op">=</span><span class="fl">90</span>, confidence <span class="op">=</span> <span class="fl">0.95</span>, tidy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: One or more original RY values exceeded 100%. All RY values greater </span></span>
+<span><span class="co">#&gt;           than 100% have been capped to 100%.</span></span>
+<span><span class="co">#&gt; Warning: 2 STV points exceeded the CSTV for 100% of RY.</span></span>
 <span><span class="co">#&gt;   Risk of leverage. You may consider a sensitivity analysis by removing extreme points, </span></span>
 <span><span class="co">#&gt;   re-run the mod_alcc(), and check results.</span></span>
-<span><span class="co">#&gt; Warning: 22 STV points exceeded two-times (2x) </span></span>
+<span><span class="co">#&gt; Warning: 2 STV points exceeded two-times (2x) </span></span>
+<span><span class="co">#&gt;   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by </span></span>
+<span><span class="co">#&gt;   removing extreme points, re-run the mod_alcc(), and check results.</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 18</span></span></span>
+<span><span class="co">#&gt;       n     r RMSE_alcc AIC_alcc AIC_sma BIC_sma p_value confidence target  CSTV</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    24 0.728      10.3     186.    17.0    22.9 5.57<span style="color: #949494;">e</span><span style="color: #BB0000;">-5</span>       0.95     90  76.9</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 8 more variables: LL &lt;dbl&gt;, UL &lt;dbl&gt;, CSTV90 &lt;dbl&gt;, n.90x2 &lt;int&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   CSTV100 &lt;dbl&gt;, n.100 &lt;int&gt;, Curve &lt;list&gt;, SMA &lt;list&gt;</span></span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="alternative-using-the-vectors">1.3. Alternative using the vectors<a class="anchor" aria-label="anchor" href="#alternative-using-the-vectors"></a>
+</h4>
+<p>You can call <code>stv</code> and <code>ry</code> vectors using the
+<code>$</code>.</p>
+<p>The <code>tidy</code> argument still applies for controlling the
+output type</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fit_vectors_tidy</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mod_alcc.html">mod_alcc</a></span><span class="op">(</span>ry <span class="op">=</span> <span class="va">corr_df</span><span class="op">$</span><span class="va">RY</span>,</span>
+<span>                             stv <span class="op">=</span> <span class="va">corr_df</span><span class="op">$</span><span class="va">STK</span>,</span>
+<span>                             target <span class="op">=</span> <span class="fl">90</span>,</span>
+<span>                             confidence <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: One or more original RY values exceeded 100%. All RY values greater </span></span>
+<span><span class="co">#&gt;           than 100% have been capped to 100%.</span></span>
+<span><span class="co">#&gt; Warning: 2 STV points exceeded the CSTV for 100% of RY.</span></span>
+<span><span class="co">#&gt;   Risk of leverage. You may consider a sensitivity analysis by removing extreme points, </span></span>
+<span><span class="co">#&gt;   re-run the mod_alcc(), and check results.</span></span>
+<span><span class="co">#&gt; Warning: 2 STV points exceeded two-times (2x) </span></span>
 <span><span class="co">#&gt;   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by </span></span>
 <span><span class="co">#&gt;   removing extreme points, re-run the mod_alcc(), and check results.</span></span>
 <span></span>
-<span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fit_multiple_group_map</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [[1]]</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 17</span></span></span>
-<span><span class="co">#&gt;       n     r  RMSE   AIC   BIC      p_value confidence target  CSTV    LL    UL</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    15 0.968  1.45 -<span style="color: #BB0000;">23.5</span> -<span style="color: #BB0000;">20.0</span>      3.30<span style="color: #949494;">e</span><span style="color: #BB0000;">-9</span>       0.95     90  4.48  3.95  5.08</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 6 more variables: CSTV90 &lt;dbl&gt;, n.90x2 &lt;int&gt;, CSTV100 &lt;dbl&gt;, n.100 &lt;int&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   Curve &lt;list&gt;, SMA &lt;list&gt;</span></span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [[2]]</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 17</span></span></span>
-<span><span class="co">#&gt;       n     r  RMSE   AIC   BIC  p_value confidence target  CSTV    LL    UL</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>   137 0.716  10.5 -<span style="color: #BB0000;">1.04</span>  13.6 7.31<span style="color: #949494;">e</span><span style="color: #BB0000;">-23</span>       0.95     90  23.3  21.6  25.1</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 6 more variables: CSTV90 &lt;dbl&gt;, n.90x2 &lt;int&gt;, CSTV100 &lt;dbl&gt;, n.100 &lt;int&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   Curve &lt;list&gt;, SMA &lt;list&gt;</span></span></span></code></pre></div>
+<span><span class="va">fit_vectors_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mod_alcc.html">mod_alcc</a></span><span class="op">(</span>ry <span class="op">=</span> <span class="va">corr_df</span><span class="op">$</span><span class="va">RY</span>,</span>
+<span>                             stv <span class="op">=</span> <span class="va">corr_df</span><span class="op">$</span><span class="va">STK</span>,</span>
+<span>                             target <span class="op">=</span> <span class="fl">90</span>,</span>
+<span>                             confidence <span class="op">=</span> <span class="fl">0.95</span>,</span>
+<span>                             tidy <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: One or more original RY values exceeded 100%. All RY values greater </span></span>
+<span><span class="co">#&gt;           than 100% have been capped to 100%.</span></span>
+<span><span class="co">#&gt; Warning: 2 STV points exceeded the CSTV for 100% of RY.</span></span>
+<span><span class="co">#&gt;   Risk of leverage. You may consider a sensitivity analysis by removing extreme points, </span></span>
+<span><span class="co">#&gt;   re-run the mod_alcc(), and check results.</span></span>
+<span><span class="co">#&gt; Warning: 2 STV points exceeded two-times (2x) </span></span>
+<span><span class="co">#&gt;   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by </span></span>
+<span><span class="co">#&gt;   removing extreme points, re-run the mod_alcc(), and check results.</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
-<h3 id="bootstrapping">3. Bootstrapping <br><a class="anchor" aria-label="anchor" href="#bootstrapping"></a>
+<h3 id="multiple-fits-at-once">2. Multiple fits at once<a class="anchor" aria-label="anchor" href="#multiple-fits-at-once"></a>
 </h3>
-<p>A suitable alternative for obtaining confidence intervals for
-parameters or derived quantities is bootstrapping. <br></p>
-<p>Bootstrapping is a resampling technique (with replacement) that draws
-samples from the original data with the same size. If you have groups
-within your data, you can specify grouping variables as arguments in
-order to maintain, within each resample, the same proportion of
-observations than in the original dataset. <br></p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Example 1. Fake dataset manually created</span></span>
+<span><span class="va">data_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="st">"RY"</span>  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">65</span>,<span class="fl">80</span>,<span class="fl">85</span>,<span class="fl">88</span>,<span class="fl">90</span>,<span class="fl">94</span>,<span class="fl">93</span>,<span class="fl">96</span>,<span class="fl">97</span>,<span class="fl">95</span>,<span class="fl">98</span>,<span class="fl">100</span>,<span class="fl">99</span>,<span class="fl">99</span>,<span class="fl">100</span><span class="op">)</span>,</span>
+<span>                     <span class="st">"STV"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">5</span>,<span class="fl">6</span>,<span class="fl">7</span>,<span class="fl">8</span>,<span class="fl">9</span>,<span class="fl">10</span>,<span class="fl">11</span>,<span class="fl">12</span>,<span class="fl">13</span>,<span class="fl">14</span>,<span class="fl">15</span><span class="op">)</span><span class="op">)</span></span>
+<span>  </span>
+<span><span class="co"># Example 2. Native fake dataset from soiltestcorr package</span></span>
+<span><span class="va">data_2</span> <span class="op">&lt;-</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="va"><a href="../reference/data_test.html">data_test</a></span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Example 3. Native dataset from soiltestcorr package, Freitas et al.  (1966), used by Cate &amp; Nelson (1971)</span></span>
+<span><span class="va">data_3</span> <span class="op">&lt;-</span> <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="va"><a href="../reference/freitas1966.html">freitas1966</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span>STV <span class="op">=</span> <span class="va">STK</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">data.all</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">data_1</span>, <span class="va">data_2</span>, <span class="va">data_3</span>, .id <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span></span></code></pre></div>
+<p>Note: the <code>stv</code> column needs to have the same name for all
+datasets if binding rows.</p>
+<div class="section level4">
+<h4 id="using-map">2.1. Using <code>map()</code><a class="anchor" aria-label="anchor" href="#using-map"></a>
+</h4>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="co"># Run multiple examples at once with purrr::map()</span></span>
+<span><span class="va">data.all</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">nest</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"STV"</span>, <span class="st">"RY"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>model <span class="op">=</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">data</span>, <span class="op">~</span> <span class="fu"><a href="../reference/mod_alcc.html">mod_alcc</a></span><span class="op">(</span>stv <span class="op">=</span> <span class="va">.</span><span class="op">$</span><span class="va">STV</span>, ry <span class="op">=</span> <span class="va">.</span><span class="op">$</span><span class="va">RY</span>, target <span class="op">=</span> <span class="fl">90</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: There were 9 warnings in `mutate()`.</span></span>
+<span><span class="co">#&gt; The first warning was:</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In argument: `model = map(data, ~mod_alcc(stv = .$STV, ry = .$RY, target =</span></span>
+<span><span class="co">#&gt;   90))`.</span></span>
+<span><span class="co">#&gt; Caused by warning:</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> You have not specified the confidence level. </span></span>
+<span><span class="co">#&gt;                                 Please, modify if your desired confidence is different than the default (0.95)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 8 remaining warnings.</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 20</span></span></span>
+<span><span class="co">#&gt;   id    data         n     r RMSE_alcc AIC_alcc AIC_sma BIC_sma  p_value</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1     <span style="color: #949494;">&lt;tibble&gt;</span>    15 0.968      1.45     59.6  -<span style="color: #BB0000;">23.5</span>    -<span style="color: #BB0000;">20.0</span> 3.30<span style="color: #949494;">e</span><span style="color: #BB0000;">- 9</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2     <span style="color: #949494;">&lt;tibble&gt;</span>   137 0.716     10.5    <span style="text-decoration: underline;">1</span>038.    -<span style="color: #BB0000;">1.04</span>    13.6 7.31<span style="color: #949494;">e</span><span style="color: #BB0000;">-23</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 3     <span style="color: #949494;">&lt;tibble&gt;</span>    24 0.728     10.3     186.    17.0     22.9 5.57<span style="color: #949494;">e</span><span style="color: #BB0000;">- 5</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 11 more variables: confidence &lt;dbl&gt;, target &lt;dbl&gt;, CSTV &lt;dbl&gt;, LL &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   UL &lt;dbl&gt;, CSTV90 &lt;dbl&gt;, n.90x2 &lt;int&gt;, CSTV100 &lt;dbl&gt;, n.100 &lt;int&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   Curve &lt;list&gt;, SMA &lt;list&gt;</span></span></span></code></pre></div>
+<p>Note: the output table is still generated despite warnings regarding
+confidence level and leverage points.</p>
+</div>
+<div class="section level4">
+<h4 id="using-group_modify">2.2. Using <code>group_modify()</code><a class="anchor" aria-label="anchor" href="#using-group_modify"></a>
+</h4>
+<p>Alternatively, with <code>group_modify</code>, nested data is not
+required. However, it still requires a grouping variable (in this case,
+<code>id</code>) to identify each dataset. <code><a href="https://dplyr.tidyverse.org/reference/group_map.html" class="external-link">group_map()</a></code> may
+also be used, though <code><a href="https://purrr.tidyverse.org/reference/list_c.html" class="external-link">list_rbind()</a></code> is required to return a
+tidy data frame of the model results instead of a list.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="va">data.all</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_map.html" class="external-link">group_modify</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="../reference/mod_alcc.html">mod_alcc</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">.</span>, <span class="va">STV</span>, <span class="va">RY</span>, target <span class="op">=</span> <span class="fl">90</span>, confidence <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: One or more original RY values exceeded 100%. All RY values greater </span></span>
+<span><span class="co">#&gt;           than 100% have been capped to 100%.</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 19</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Groups:   id [3]</span></span></span>
+<span><span class="co">#&gt;   id        n     r RMSE_alcc AIC_alcc AIC_sma  BIC_sma  p_value confidence</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1        15 0.892      1.79     66.1  -<span style="color: #BB0000;">82.7</span>   -<span style="color: #BB0000;">79.1</span>   7.84<span style="color: #949494;">e</span><span style="color: #BB0000;">- 6</span>       0.95</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2       137 0.569     11.6    <span style="text-decoration: underline;">1</span>067.  -<span style="color: #BB0000;">290.</span>   -<span style="color: #BB0000;">275.</span>    4.14<span style="color: #949494;">e</span><span style="color: #BB0000;">-13</span>       0.95</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 3        24 0.708     20.0     218.    -<span style="color: #BB0000;">5.01</span>    0.885 1.10<span style="color: #949494;">e</span><span style="color: #BB0000;">- 4</span>       0.95</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 10 more variables: target &lt;dbl&gt;, CSTV &lt;dbl&gt;, LL &lt;dbl&gt;, UL &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   CSTV90 &lt;dbl&gt;, n.90x2 &lt;int&gt;, CSTV100 &lt;dbl&gt;, n.100 &lt;int&gt;, Curve &lt;list&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   SMA &lt;list&gt;</span></span></span></code></pre></div>
+</div>
+</div>
+<div class="section level3">
+<h3 id="bootstrapping">3. Bootstrapping<a class="anchor" aria-label="anchor" href="#bootstrapping"></a>
+</h3>
+<p>Bootstrapping is a suitable method for obtaining confidence intervals
+for parameters or derived quantities. Bootstrapping is a resampling
+technique (with replacement) that draws samples from the original data
+with the same size. If you have groups within your data, you can specify
+grouping variables as arguments in order to maintain, within each
+resample, the same proportion of observations than in the original
+dataset.</p>
 <p>This function returns a table with as many rows as the resampling
 size (n) containing the results for each resample.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">boot_alcc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mod_alcc.html">boot_mod_alcc</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>, stv <span class="op">=</span> <span class="va">STK</span>,</span>
-<span>                           ry <span class="op">=</span> <span class="va">RY</span>, target <span class="op">=</span> <span class="fl">90</span>, confidence <span class="op">=</span> <span class="fl">0.95</span>,</span>
-<span>                           n <span class="op">=</span> <span class="fl">500</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: There were 1364 warnings in `dplyr::mutate()`.</span></span>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span><span class="va">boot_alcc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mod_alcc.html">boot_mod_alcc</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">corr_df</span>,</span>
+<span>                           stv <span class="op">=</span> <span class="va">STK</span>, ry <span class="op">=</span> <span class="va">RY</span>,</span>
+<span>                           target <span class="op">=</span> <span class="fl">90</span>, n <span class="op">=</span> <span class="fl">500</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: There were 1332 warnings in `dplyr::mutate()`.</span></span>
 <span><span class="co">#&gt; The first warning was:</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In argument: `model = map(...)`.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In group 1: `boot_id = 1`.</span></span>
 <span><span class="co">#&gt; Caused by warning:</span></span>
 <span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> One or more original RY values exceeded 100%. All RY values greater </span></span>
 <span><span class="co">#&gt;           than 100% have been capped to 100%.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 1363 remaining warnings.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 1331 remaining warnings.</span></span>
 <span></span>
-<span><span class="va">boot_alcc</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_head</a></span><span class="op">(</span><span class="va">.</span>, n<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 10</span></span></span>
-<span><span class="co">#&gt;   boot_id     n     r  RMSE   AIC   BIC     p_value  CSTV n.90x2 n.100</span></span>
-<span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       1    24 0.817  8.41 16.0  21.9  0.000<span style="text-decoration: underline;">001</span>14   71.2      4     4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>       2    24 0.823  9.52 26.3  32.1  0.000<span style="text-decoration: underline;">000</span>771  74.5      4     3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>       3    24 0.671 10.1  16.7  22.6  0.000<span style="text-decoration: underline;">333</span>     63.5      2     4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>       4    24 0.633 10.2   2.34  8.23 0.000<span style="text-decoration: underline;">902</span>     83.4      1     0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>       5    24 0.750  9.26  6.06 11.9  0.000<span style="text-decoration: underline;">024</span>8    75.7      1     0</span></span>
+<span><span class="va">boot_alcc</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 14</span></span></span>
+<span><span class="co">#&gt;   boot_id     n     r RMSE_alcc AIC_alcc AIC_sma BIC_sma   p_value target  CSTV</span></span>
+<span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       1    24 0.508     12.4      195.   11.9     17.7 0.011<span style="text-decoration: underline;">2</span>        90  81.9</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>       2    24 0.750      9.50     182.    7.68    13.6 0.000<span style="text-decoration: underline;">024</span>0     90  61.8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>       3    24 0.625     10.6      188.   10.6     16.5 0.001<span style="text-decoration: underline;">09</span>       90  86.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>       4    24 0.688      8.96     179.   16.1     22.0 0.000<span style="text-decoration: underline;">204</span>      90  72.4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>       5    24 0.593      9.74     183.   13.3     19.2 0.002<span style="text-decoration: underline;">25</span>       90  80.9</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 4 more variables: CSTV90 &lt;dbl&gt;, n.90x2 &lt;int&gt;, CSTV100 &lt;dbl&gt;, n.100 &lt;int&gt;</span></span></span>
 <span></span>
 <span><span class="co"># CSTV Confidence Interval</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">boot_alcc</span><span class="op">$</span><span class="va">CSTV</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;     2.5%      50%    97.5% </span></span>
-<span><span class="co">#&gt; 63.07570 76.53303 93.21086</span></span>
+<span><span class="co">#&gt; 63.70241 77.17436 93.90476</span></span>
 <span></span>
 <span><span class="co"># Plot</span></span>
 <span><span class="va">boot_alcc</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">CSTV</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html" class="external-link">geom_histogram</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"grey25"</span>, fill <span class="op">=</span> <span class="st">"steelblue"</span>, bins <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
-<p><img src="mod_alcc_tutorial_files/figure-html/unnamed-chunk-12-1.png" width="576"></p>
+<p><img src="mod_alcc_tutorial_files/figure-html/unnamed-chunk-10-1.png" width="576"></p>
 </div>
 <div class="section level3">
 <h3 id="plots">4. Plots<a class="anchor" aria-label="anchor" href="#plots"></a>
@@ -467,105 +380,94 @@ size (n) containing the results for each resample.</p>
 <div class="section level4">
 <h4 id="calibration-curve">4.1. Calibration Curve<a class="anchor" aria-label="anchor" href="#calibration-curve"></a>
 </h4>
-<p>We can generate a ggplot with the same mod_alcc() function. <br></p>
-<p>We just need to specify the argument <code>plot = TRUE</code>.
-<br></p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">modalcc_plot</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="fu">soiltestcorr</span><span class="fu">::</span><span class="fu"><a href="../reference/mod_alcc.html">mod_alcc</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>,</span>
-<span>                         ry <span class="op">=</span> <span class="va">RY</span>, </span>
-<span>                         stv <span class="op">=</span> <span class="va">STK</span>, </span>
-<span>                         target<span class="op">=</span><span class="fl">95</span>, </span>
-<span>                         confidence <span class="op">=</span> <span class="fl">0.95</span>, </span>
-<span>                         plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<p>We can generate a ggplot with the same <code><a href="../reference/mod_alcc.html">mod_alcc()</a></code>
+function. We just need to specify the argument
+<code>plot = TRUE</code>.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">plt_alcc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mod_alcc.html">mod_alcc</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">corr_df</span>,</span>
+<span>                     ry <span class="op">=</span> <span class="va">RY</span>, </span>
+<span>                     stv <span class="op">=</span> <span class="va">STK</span>, </span>
+<span>                     target <span class="op">=</span> <span class="fl">95</span>,</span>
+<span>                     plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">modalcc_plot</span></span></code></pre></div>
-<p><img src="mod_alcc_tutorial_files/figure-html/unnamed-chunk-13-1.png" width="576"><br></p>
+<span><span class="va">plt_alcc</span></span></code></pre></div>
+<p><img src="mod_alcc_tutorial_files/figure-html/unnamed-chunk-11-1.png" width="576"></p>
 </div>
 <div class="section level4">
-<h4 id="fine-tune-the-plots">4.2. Fine-tune the plots <br><a class="anchor" aria-label="anchor" href="#fine-tune-the-plots"></a>
+<h4 id="fine-tune-the-plots">4.2. Fine-tune the plots<a class="anchor" aria-label="anchor" href="#fine-tune-the-plots"></a>
 </h4>
-<p>As ggplot object, plots can be adjusted in several ways. <br></p>
-<p>For example, modifying titles <br></p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">modalcc_plot_2</span> <span class="op">&lt;-</span> </span>
-<span>  <span class="va">modalcc_plot</span> <span class="op">+</span></span>
+<p>As ggplot object, plots can be adjusted in several ways, such as
+modifying titles and axis scales.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">plt_alcc</span> <span class="op">+</span></span>
 <span>  <span class="co"># Main title</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"My own plot title"</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="co"># Axis titles</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Soil Test K (ppm)"</span>,</span>
-<span>       y <span class="op">=</span> <span class="st">"Cotton RY(%)"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">modalcc_plot_2</span></span></code></pre></div>
-<p><img src="mod_alcc_tutorial_files/figure-html/unnamed-chunk-14-1.png" width="576"><br></p>
-<p>Or modifying axis scales <br></p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">modalcc_plot_3</span> <span class="op">&lt;-</span></span>
-<span><span class="va">modalcc_plot_2</span> <span class="op">+</span></span>
+<span>       y <span class="op">=</span> <span class="st">"Cotton RY(%)"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="co"># Axis scales</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>,<span class="fl">220</span><span class="op">)</span>,</span>
-<span>                     breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">220</span>, by <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>                     breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">220</span>, by <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="co"># Axis limits</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">30</span>,<span class="fl">100</span><span class="op">)</span>,</span>
-<span>                     breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">30</span>,<span class="fl">100</span>, by <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">modalcc_plot_3</span></span></code></pre></div>
-<p><img src="mod_alcc_tutorial_files/figure-html/unnamed-chunk-15-1.png" width="576"><br></p>
+<span>                     breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">30</span>,<span class="fl">100</span>, by <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="mod_alcc_tutorial_files/figure-html/unnamed-chunk-12-1.png" width="576"></p>
 </div>
 <div class="section level4">
-<h4 id="sma-regression">3.2. SMA regression <br><a class="anchor" aria-label="anchor" href="#sma-regression"></a>
+<h4 id="sma-regression">3.2. SMA regression<a class="anchor" aria-label="anchor" href="#sma-regression"></a>
 </h4>
-<p>Behind the scenes, the mod_alcc() runs a Standardized Major Axis
-regression (SMA). <br></p>
+<p>Behind the scenes, the <code><a href="../reference/mod_alcc.html">mod_alcc()</a></code> runs a Standardized
+Major Axis regression (SMA).</p>
 <p>We can extract the SMA fit and also check the residuals of this model
-out as follows: <br></p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
+out as follows:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">fit_3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mod_alcc.html">mod_alcc</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">corr_df</span>, ry <span class="op">=</span> <span class="va">RY</span>, stv <span class="op">=</span> <span class="va">STK</span>, target <span class="op">=</span> <span class="fl">90</span><span class="op">)</span></span>
 <span><span class="co"># Extract SMA regression fit and residuals from fit_3 (data_3, (Freitas et al., 1966))</span></span>
 <span><span class="va">SMA_freitas_1966</span> <span class="op">&lt;-</span> <span class="va">fit_3</span><span class="op">$</span><span class="va">SMA</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="op">)</span></span>
 <span> </span>
 <span><span class="va">SMA_freitas_1966</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">arc_RY</span>, y <span class="op">=</span> <span class="va">ln_STV</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"SMA Regression. Dataset 3"</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>shape<span class="op">=</span><span class="fl">21</span>, fill <span class="op">=</span> <span class="st">"orange"</span>, size <span class="op">=</span> <span class="fl">4</span>, alpha <span class="op">=</span> <span class="fl">0.75</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>shape<span class="op">=</span><span class="fl">21</span>, fill <span class="op">=</span> <span class="st">"orange"</span>, size <span class="op">=</span> <span class="fl">3</span>, alpha <span class="op">=</span> <span class="fl">0.75</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="co">#SMA Line</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_path</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">arc_RY</span>, y <span class="op">=</span> <span class="va">SMA_line</span>, linetype <span class="op">=</span> <span class="st">"SMA_fit"</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">2</span>, col <span class="op">=</span> <span class="st">"grey25"</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_path</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">arc_RY</span>, y <span class="op">=</span> <span class="va">SMA_line</span>, linetype <span class="op">=</span> <span class="st">"SMA_fit"</span><span class="op">)</span>, linewidth <span class="op">=</span> <span class="fl">1.5</span>, col <span class="op">=</span> <span class="st">"grey25"</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_linetype_manual</a></span><span class="op">(</span>name<span class="op">=</span><span class="st">""</span>, values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"solid"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="co">#Critical value</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_vline</a></span><span class="op">(</span>xintercept <span class="op">=</span> <span class="fl">0</span>, col <span class="op">=</span> <span class="st">"grey10"</span>, size <span class="op">=</span> <span class="fl">1.25</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="co"># Axis titles</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"ln_STV"</span>, y <span class="op">=</span> <span class="st">"asin(sqrt(RY))-centered"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="mod_alcc_tutorial_files/figure-html/unnamed-chunk-16-1.png" width="576"></p>
+<p><img src="mod_alcc_tutorial_files/figure-html/unnamed-chunk-13-1.png" width="576"></p>
 </div>
 <div class="section level4">
-<h4 id="sma-residuals">3.3. SMA residuals <br><a class="anchor" aria-label="anchor" href="#sma-residuals"></a>
+<h4 id="sma-residuals">3.3. SMA residuals<a class="anchor" aria-label="anchor" href="#sma-residuals"></a>
 </h4>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="co"># Residuals plot</span></span>
 <span><span class="va">SMA_freitas_1966</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">fitted_axis</span>, y <span class="op">=</span> <span class="va">residuals</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Residuals SMA. Dataset 3"</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>shape<span class="op">=</span><span class="fl">21</span>, fill <span class="op">=</span> <span class="st">"orange"</span>, size <span class="op">=</span> <span class="fl">4</span>, alpha <span class="op">=</span> <span class="fl">0.75</span><span class="op">)</span><span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">0</span>, col <span class="op">=</span> <span class="st">"grey10"</span>, size <span class="op">=</span> <span class="fl">1.25</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>shape<span class="op">=</span><span class="fl">21</span>, fill <span class="op">=</span> <span class="st">"orange"</span>, size <span class="op">=</span> <span class="fl">3</span>, alpha <span class="op">=</span> <span class="fl">0.75</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">0</span>, col <span class="op">=</span> <span class="st">"grey10"</span>, linewidth <span class="op">=</span> <span class="fl">1.25</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="co"># Axis titles</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Fitted Axis -SMA- (see Warton et al. 2006)"</span>, y <span class="op">=</span> <span class="st">"Residuals (STV units)"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="mod_alcc_tutorial_files/figure-html/unnamed-chunk-17-1.png" width="576"></p>
-<p><b> References </b> <br></p>
+<p><img src="mod_alcc_tutorial_files/figure-html/unnamed-chunk-14-1.png" width="576"></p>
+</div>
+<div class="section level4">
+<h4 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h4>
 <p><em>Correndo, A.A., Salvagiotti, F., García, F.O. and Gutiérrez-Boem,
 F.H., 2017. A modification of the arcsine–log calibration curve for
 analysing soil test value–relative yield relationships. Crop and Pasture
-Science, 68(3), pp.297-304. 10.1071/CP16444 </em> <br></p>
+Science, 68(3), pp.297-304. 10.1071/CP16444</em></p>
 <p><em>Dyson, C.B., Conyers, M.K., 2013. Methodology for online
 biometric analysis of soil test-crop response datasets. Crop &amp;
-Pasture Science 64: 435–441. 10.1071/CP13009 </em> <br></p>
+Pasture Science 64: 435–441. 10.1071/CP13009</em></p>
 <p><em>Warton, D.I., Wright, I.J., Falster, D.S., Westoby, M., 2006.
 Bivariate line-fitting methods for allometry. Biol. Rev. Camb. Philos.
-Soc. 81, 259–291. 10.1017/S1464793106007007 </em> <br></p>
+Soc. 81, 259–291. 10.1017/S1464793106007007</em></p>
 </div>
 </div>
 </div>
