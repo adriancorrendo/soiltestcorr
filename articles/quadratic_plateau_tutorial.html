@@ -342,22 +342,29 @@ dataset.</p>
 size (n) containing the results for each resample.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">boot_qp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quadratic_plateau.html">boot_quadratic_plateau</a></span><span class="op">(</span><span class="va">corr_df</span>, <span class="va">STV</span>, <span class="va">RY</span>, n <span class="op">=</span> <span class="fl">500</span><span class="op">)</span> <span class="co"># only 500 for sake of speed</span></span>
+<span><span class="co">#&gt; Warning: There were 2 warnings in `dplyr::mutate()`.</span></span>
+<span><span class="co">#&gt; The first warning was:</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In argument: `model = map(...)`.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In group 112: `boot_id = 112`.</span></span>
+<span><span class="co">#&gt; Caused by warning in `nls.lm()`:</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> lmdif: info = -1. Number of iterations has reached `maxiter' == 50.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.</span></span>
 <span></span>
 <span><span class="va">boot_qp</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 13</span></span></span>
 <span><span class="co">#&gt;   boot_id intercept slope plateau  CSTV target  STVt   AIC  AICc   BIC    R2</span></span>
 <span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       1      39.6  3.40    97.2  33.8   97.2  33.8 <span style="text-decoration: underline;">1</span>019. <span style="text-decoration: underline;">1</span>019. <span style="text-decoration: underline;">1</span>030.  0.55</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>       2      26.4  4.75    96.4  29.5   96.4  29.5  972.  973.  984.  0.67</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>       3      48.1  2.52    96.5  38.5   96.5  38.5 <span style="text-decoration: underline;">1</span>002. <span style="text-decoration: underline;">1</span>002. <span style="text-decoration: underline;">1</span>013.  0.54</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>       4      43.6  2.87    96.4  36.8   96.4  36.8 <span style="text-decoration: underline;">1</span>010. <span style="text-decoration: underline;">1</span>010. <span style="text-decoration: underline;">1</span>021.  0.59</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>       5      49.9  2.52    96.8  37.3   96.8  37.3  951.  951.  962.  0.61</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       1      47.2  2.59    95.5  37.3   95.5  37.3 <span style="text-decoration: underline;">1</span>021. <span style="text-decoration: underline;">1</span>022. <span style="text-decoration: underline;">1</span>033.  0.47</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>       2      53.9  2.22    97.1  38.9   97.1  38.9 <span style="text-decoration: underline;">1</span>017. <span style="text-decoration: underline;">1</span>017. <span style="text-decoration: underline;">1</span>029.  0.49</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>       3      34.4  3.66    96.8  34.1   96.8  34.1 <span style="text-decoration: underline;">1</span>021. <span style="text-decoration: underline;">1</span>021. <span style="text-decoration: underline;">1</span>032.  0.58</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>       4      31.5  4.01    96.8  32.6   96.8  32.6  986.  986.  998.  0.62</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>       5      47.0  2.51    96.6  39.6   96.6  39.6 <span style="text-decoration: underline;">1</span>058. <span style="text-decoration: underline;">1</span>058. <span style="text-decoration: underline;">1</span>069.  0.47</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2 more variables: pvalue &lt;dbl&gt;, RMSE &lt;dbl&gt;</span></span></span>
 <span></span>
 <span><span class="co"># CSTV Confidence Interval</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">boot_qp</span><span class="op">$</span><span class="va">CSTV</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;     2.5%      50%    97.5% </span></span>
-<span><span class="co">#&gt; 28.11629 37.09031 50.63573</span></span>
+<span><span class="co">#&gt; 28.12382 37.15169 50.80329</span></span>
 <span></span>
 <span><span class="co"># Plot</span></span>
 <span><span class="va">boot_qp</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
