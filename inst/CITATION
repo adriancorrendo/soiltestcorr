@@ -1,5 +1,5 @@
 bibentry(
-  bibtrype    = "Article",
+  bibtype    = "Article",
   header      = "To cite soiltestcorr in publications use:",
   title    = "The soiltestcorr R package: An accessible framework for reproducible correlation analysis of crop yield and soil test data",
   author   = "Adrian A. Correndo and Austin Pearce and Carl H. Bolster and John T. Spargo and Deanna Osmond and Ignacio A. Ciampitti",
