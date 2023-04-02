@@ -181,6 +181,8 @@ Bootstrapping is a suitable method for obtaining confidence intervals for parame
 This function returns a table with as many rows as the resampling size (n) containing the results for each resample.
 
 ```{r}
+set.seed(123)
+
 boot_lp <- boot_linear_plateau(corr_df, STV, RY, n = 500) # only 500 for sake of speed
 
 boot_lp %>% head(n = 5)
@@ -198,9 +200,7 @@ boot_lp %>%
 
 ### 4.1. Correlation Curve
 
-We can generate a ggplot with the same `linear_plateau()` function.
-
-We just need to specify the argument `plot = TRUE`.
+We can generate a ggplot with the same `linear_plateau()` function. We just need to specify the argument `plot = TRUE`.
 
 ```{r warning=F, message=F}
 data_3 <- soiltestcorr::freitas1966

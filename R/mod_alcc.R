@@ -12,6 +12,7 @@
 #' @param tidy logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a tidy data frame or tibble (default), FALSE returns a list.
 #' @param plot logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a ggplot,
 #' FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE).
+#' @param object the "object" is the output data frame from approx with resid column
 #' @param n sample size for the bootstrapping Default: 500
 #' @param ... when running bootstrapped samples, the `...` (open arguments) allows to add grouping variable/s (factor or character) Default: NULL  
 #' @rdname mod_alcc
@@ -34,7 +35,7 @@
 #' }
 #' @seealso 
 #'  \code{\link[rlang]{eval_tidy}},\code{\link[rlang]{defusing-advanced}}
-#'  \code{\link[stats]{TDist}},\code{\link[stats]{cor}},\code{\link[stats]{cor.test}},\code{\link[stats]{sd}}
+#'  \code{\link[stats]{TDist}},\code{\link[stats]{cor}},\code{\link[stats]{cor.test}},\code{\link[stats]{sd}}, \code{\link[stats]{approx}}
 #'  \code{\link[dplyr]{bind}},\code{\link[dplyr]{filter}}
 #'  \code{\link[tidyr]{nest}}
 #'  \code{\link[ggplot2]{ggplot}},\code{\link[ggplot2]{aes}},\code{\link[ggplot2]{geom_point}},\code{\link[ggplot2]{scale_manual}},\code{\link[ggplot2]{geom_rug}},\code{\link[ggplot2]{geom_abline}},\code{\link[ggplot2]{geom_path}},\code{\link[ggplot2]{annotate}},\code{\link[ggplot2]{labs}},\code{\link[ggplot2]{theme}}
@@ -44,7 +45,7 @@
 #' <https://github.com/adriancorrendo/modified-ALCC> by Adrian Correndo.
 #' @export 
 #' @importFrom rlang eval_tidy quo enquo
-#' @importFrom stats qt cor cor.test sd AIC BIC
+#' @importFrom stats qt cor cor.test sd AIC BIC approx
 #' @importFrom dplyr bind_cols filter %>% select group_by mutate slice_sample as_tibble ungroup
 #' @importFrom tidyr nest unnest expand_grid
 #' @importFrom ggplot2 ggplot aes geom_point scale_shape_manual geom_rug geom_hline geom_vline geom_path scale_y_continuous annotate labs theme_bw theme annotate
@@ -79,10 +80,14 @@ mod_alcc <- function(data=NULL,
   }
   
   ### STAGE 1 ====================================================================
-  # Add a function to cap if there are RY values > 100
+  # 1.1. Add a function to cap if there are RY values > 100
   RY <- rlang::eval_tidy(data = data, rlang::quo(ifelse({{ry}} > 100, 100, as.double({{ry}})) ))
-  # Re-define STV as stv
+  
+  # 1.2. Re-define STV as stv
   STV <- rlang::eval_tidy(data = data, rlang::quo({{stv}}))
+  maxx <- max(STV)
+  
+  # 1.3. Extract values for estimation of SMA parameters
   n <- length(RY) # Sample size
   df <- n - 2 # Degrees of freedom
   prob <- 1-((1-confidence)/2) # Probability for t-dist
@@ -94,36 +99,72 @@ mod_alcc <- function(data=NULL,
   slope <- stats::sd(ln_STV)/stats::sd(arc_RY) # SMA slope for ln_STV ~ arc_RY
   intercept <- mean(ln_STV) - (mean(arc_RY)*slope) # Intercept
   SMA_line <- intercept + slope * arc_RY # Fitted ln_STV for observed RY
+  
+  # 1.4. Critical Soil Test Value (CSTV) and confidence interval
+  target <- target # Target RY to show on summary
+  confidence <- confidence # Confidence level to show on summary
   CSTV <- exp(intercept) # Critical STV for specified RY-target and confidence (1-alpha)
   MSE <- sum((SMA_line-ln_STV)^2)/df # Mean Square Error of ln_STV
   SSx <- sum((mean(arc_RY)-arc_RY)^2)  # Sum of Squares of arc_RY
   SE_int <- sqrt(MSE*((1/n)+ ((mean(arc_RY)^2)/SSx)))  # Standard Error intercept
   CSTV_lower <- exp(intercept - (tvalue * SE_int))  # Lower limit of CSTV
   CSTV_upper <- exp(intercept + (tvalue * SE_int)) # Upper limit of CSTV
+  
+  # 1.5. Create vectors for plots of ALCC curve and SMA regression
   new_RY <- seq(min(RY),100, by=0.2) # New RY vector up to %100 to fit curve
   new_arc_RY <- asin(sqrt(new_RY/100)) - asin(sqrt(target/100)) # Transforming new_RY vector
   fitted_Line <- intercept + slope * new_arc_RY # Fitted ln_STV for curve plot
   fitted_STV <- exp(fitted_Line) # Fitted ln_STV for new_RY
   residuals <- ln_STV - SMA_line # Residuals of SMA Regression
   fitted_axis <- ln_STV + slope * arc_RY # Fitted axis to check SMA residuals
-  target <- target # Target RY to show on summaRY
-  confidence <- confidence # Confidence level to show on summaRY
-  # Critical STV for RY = 90 & 100
+  
+  # 1.6. Goodness of fit of underlying model (SMA)
+  sma_model <- smatr::sma(formula = ln_STV ~ arc_RY, method = "SMA")
+  AIC_sma <- stats::AIC(sma_model)
+  BIC_sma <- stats::BIC(sma_model)
+  
+  # 1.7. Goodness of fit of ALCC curve (on original scale)
+  ## Predicted RY values of ALCC on original scale
+  RY_curve <- 
+    100 * sin((ln_STV -(intercept -(slope*asin(sqrt(target/100))))) / slope )^2
+  
+  ## Residuals of ALCC curve on original scale
+  resid_alcc <- RY - RY_curve 
+  
+  ## RMSE for ALCC model to predict RY on original scale
+  RMSE_alcc <- sqrt(sum((resid_alcc)^2)/n)
+  
+  ## AIC on original scale of the data
+  ### Create a dataframe 
+  resid_alcc_df <- data.frame(stv = STV, ry = RY,
+                              fitted_ry = RY_curve,
+                              resid = resid_alcc)
+  ## class(approx_tbl) <- c("alcc", "data.frame")
+  
+  ### Degrees of freedom
+  dfs_alcc <- attributes(logLik_alcc(resid_alcc_df))$df
+  ### AIC estimation
+  AIC_alcc <- -2 * as.numeric(logLik_alcc(resid_alcc_df)) + 2 * dfs_alcc
+  
+  
+  # 1.8. Critical STV for RY = 90 & 100
   arc_RY_100 <- asin(sqrt(RY/100)) - asin(sqrt(1)) 
   cstv.100 <- exp(mean(ln_STV) - (mean(arc_RY_100)*(sd(ln_STV)/sd(arc_RY_100))))
   arc_RY_90 <- asin(sqrt(RY/100)) - asin(sqrt(90/100)) 
   cstv.90 <- exp(mean(ln_STV) - (mean(arc_RY_90)*(sd(ln_STV)/sd(arc_RY_90))))
-  # Count cases with STV > x2 cstv90 and STV > cstv100
+  
+  ## Count cases with STV > x2 cstv90 and STV > cstv100
   n.90x2 <- rlang::eval_tidy(data=data, rlang::quo(length(which({{stv}} > (2*cstv.90))) ) )
   n.100 <- rlang::eval_tidy(data=data, rlang::quo(length(which({{stv}} > cstv.100)) ) )
-  # Predicted RY for RMSE
-  RY_pred <- 100 * sin( (ln_STV - (intercept - (slope*asin(sqrt(target/100)))) ) / slope )^2
-  RMSE <- sqrt(sum((RY_pred - RY)^2)/n)
-  # SMA model GOF
-  sma_model <- smatr::sma(formula = ln_STV ~ arc_RY, method = "SMA")
-  AIC <- stats::AIC(sma_model)
-  BIC <- stats::BIC(sma_model)
   
+  # AIC on original scale of the data
+  
+  ### NOTE: with the RY_curve (L119), we actually don't need the approx function of the ALCC curve
+  # approx_fit <- stats::approx(x = fitted_STV,
+  #                      y = new_RY,
+  #                      xout = STV, rule = 2)
+  # resid <- RY - approx_fit$y
+  # fttd <- approx_fit$y
   
   ### STAGE 2 ====================================================================
   # Outputs
@@ -132,9 +173,10 @@ mod_alcc <- function(data=NULL,
       # Data frame with summary
       dplyr::bind_cols(dplyr::as_tibble(list("n" = n, 
                                              "r" = r,
-                                             "RMSE" = RMSE,
-                                             "AIC" = AIC,
-                                             "BIC" = BIC,
+                                             "RMSE_alcc" = RMSE_alcc,
+                                             "AIC_alcc" = AIC_alcc,
+                                             "AIC_sma" = AIC_sma,
+                                             "BIC_sma" = BIC_sma,
                                              "p_value" = p_value,
                                              "confidence" = confidence,
                                              "target" = target,
@@ -184,7 +226,12 @@ mod_alcc <- function(data=NULL,
   the CSTV for 90% of RY. Risk of leverage. You may consider a sensitivity analysis by 
   removing extreme points, re-run the mod_alcc(), and check results."), call. = FALSE) }
   
+  
+  
   ### STAGE 3 ====================================================================
+  # add this conditional check to prevent the function from
+  # creating plot if just discarding it for table results
+  if (plot == TRUE){
   
   # Plot
   datapoints <- data.frame(STV=STV, RY=RY)
@@ -218,8 +265,14 @@ mod_alcc <- function(data=NULL,
     geom_vline(xintercept = CSTV_upper, col = "grey25", size = 0.25, linetype = "dotted")+
     # ALCC curve
     ggplot2::geom_path(data = curve, ggplot2::aes(x=fitted_STV,y=new_RY),
-                       color="grey15", size = 1.5) +
+                       color="grey15", linewidth = 1) +
     ggplot2::scale_y_continuous(limits = c(0, max(RY)),breaks=seq(0,max(RY)*2,10)) +
+    ggplot2::scale_x_continuous(
+      breaks = seq(0, maxx,
+                   by = ifelse(maxx > 300, 30,
+                               ifelse(maxx > 200, 20,
+                                      ifelse(maxx > 100, 10, 
+                                             ifelse(maxx > 10, 2, 0.5)))))) +
     # Text annotations
     ggplot2::annotate("text",label = paste("CSTV =", round(CSTV,1), "ppm"),
                       x = CSTV, y = 0, angle = 90, hjust = 0, vjust = 1.5, col = "grey25") +
@@ -228,7 +281,8 @@ mod_alcc <- function(data=NULL,
                       y = target, hjust = 1,vjust = 1.5, col = "grey25") +
     ggplot2::annotate("text", col = "grey25",
                       label = paste0("n = ", length(STV),
-                                     "\nr = ", round(r, 2),
+                                     # AIC on original scale
+                                     "\nAIC = ", round(AIC_alcc),
                                      "\nCI = [", round(CSTV_lower,1)," - ", round(CSTV_upper,1),"]"),
                       x = max(max(STV),max(fitted_STV)), y = 0, vjust = 0, hjust = 1) +
     # Shade
@@ -240,19 +294,43 @@ mod_alcc <- function(data=NULL,
     ggplot2::theme(panel.grid = ggplot2::element_blank(),
                    axis.title = ggplot2::element_text(size = ggplot2::rel(1.5)))
   
+  return(modalcc.ggplot)
   
-  if (plot == TRUE){
-    return(modalcc.ggplot)
   } else {
     return(results)
   }
 }
 
 #' @rdname mod_alcc
+#' @return logLik_alcc: AIC on original scale function
+#' @export
+
+logLik_alcc <- function (object,
+                         #REML = FALSE,
+                         ...){
+  
+  # if (REML)
+  #   stop("cannot calculate REML log-likelihood for \"nls\" objects")
+  res <- object$resid ## Extract residuals from ALCC object
+  N <- length(res)
+  if (is.null(w <- object$weights))
+    w <- rep_len(1, N)
+  zw <- w == 0
+  N <- sum(!zw)
+  val <- -N * (log(2 * pi) + 1 - log(N) - sum(log(w + zw))/N + log(sum(res^2)))/2
+  
+  attr(val, "df") <- 1L + 2L ## For the alcc the number of parameters might be fixed?
+  attr(val, "nobs") <- attr(val, "nall") <- N
+  class(val) <- "logLik"
+  val
+  
+}
+
+#' @rdname mod_alcc
 #' @return boot_mod_alcc: bootstrapping function
 #' @export 
 boot_mod_alcc <- 
-  function(data, ry, stv, n=500, target = 90, confidence = 0.95, ... ) {
+  function(data, ry, stv, n = 500, target = 90, confidence = 0.95, ... ) {
     # Allow customized column names
     x <- rlang::enquo(stv)
     y <- rlang::enquo(ry)
@@ -261,6 +339,12 @@ boot_mod_alcc <-
     boot_id <- NULL
     boots <- NULL
     model <- NULL
+    Curve <- NULL
+    SMA <- NULL
+    LL <- NULL
+    UL <- NULL
+    approx <- NULL
+    quiet <- NULL
     
     data %>%  
       dplyr::select(!!y, !!x, ...) %>%
@@ -273,14 +357,13 @@ boot_mod_alcc <-
                                             replace = TRUE, n = nrow(boots))) ) %>% 
       dplyr::mutate(
         model = map(boots, purrr::possibly(
-           .f = ~dplyr::as_tibble(
-             soiltestcorr::mod_alcc(data = ., 
-                                    ry = !!y, stv = !!x,
+           .f = ~ soiltestcorr::mod_alcc(data = ., ry = !!y, stv = !!x,
                                     target = target, 
-                                    confidence = confidence))[c(1:6,9,13,15)] ),
-                                otherwise = NULL, quiet = TRUE) ) %>%
+                                    confidence = confidence))),
+                                otherwise = NULL, quiet = TRUE) %>%
       dplyr::select(-boots) %>% 
       tidyr::unnest(cols = model) %>% 
+      dplyr::select(-confidence, -LL, -UL, -Curve, -SMA, -quiet) %>%
       dplyr::ungroup()
   }
 

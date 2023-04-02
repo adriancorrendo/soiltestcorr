@@ -2,6 +2,7 @@
 % Please edit documentation in R/mod_alcc.R
 \name{mod_alcc}
 \alias{mod_alcc}
+\alias{logLik_alcc}
 \alias{boot_mod_alcc}
 \title{Modified Arcsine-Log Calibration Curve}
 \usage{
@@ -14,6 +15,8 @@ mod_alcc(
   tidy = TRUE,
   plot = FALSE
 )
+
+logLik_alcc(object, ...)
 
 boot_mod_alcc(data, ry, stv, n = 500, target = 90, confidence = 0.95, ...)
 }
@@ -35,9 +38,11 @@ significance = 0.05)}
 \item{plot}{logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a ggplot,
 FALSE returns either a list (tidy == FALSE) or a data.frame (tidy == TRUE).}
 
-\item{n}{sample size for the bootstrapping Default: 500}
+\item{object}{the "object" is the output data frame from approx with resid column}
 
 \item{...}{when running bootstrapped samples, the \code{...} (open arguments) allows to add grouping variable/s (factor or character) Default: NULL}
+
+\item{n}{sample size for the bootstrapping Default: 500}
 }
 \value{
 returns an object of type \code{ggplot} if plot = TRUE.
@@ -45,6 +50,8 @@ returns an object of type \code{ggplot} if plot = TRUE.
 returns an object of class \code{data.frame} if tidy = TRUE,
 
 returns an object of class \code{list} if tidy = FALSE.
+
+logLik_alcc: AIC on original scale function
 
 boot_mod_alcc: bootstrapping function
 }
@@ -76,7 +83,7 @@ A modification of the arcsine–log calibration curve for analysing soil test va
 }
 \seealso{
 \code{\link[rlang]{eval_tidy}},\code{\link[rlang]{defusing-advanced}}
-\code{\link[stats]{TDist}},\code{\link[stats]{cor}},\code{\link[stats]{cor.test}},\code{\link[stats]{sd}}
+\code{\link[stats]{TDist}},\code{\link[stats]{cor}},\code{\link[stats]{cor.test}},\code{\link[stats]{sd}}, \code{\link[stats]{approx}}
 \code{\link[dplyr]{bind}},\code{\link[dplyr]{filter}}
 \code{\link[tidyr]{nest}}
 \code{\link[ggplot2]{ggplot}},\code{\link[ggplot2]{aes}},\code{\link[ggplot2]{geom_point}},\code{\link[ggplot2]{scale_manual}},\code{\link[ggplot2]{geom_rug}},\code{\link[ggplot2]{geom_abline}},\code{\link[ggplot2]{geom_path}},\code{\link[ggplot2]{annotate}},\code{\link[ggplot2]{labs}},\code{\link[ggplot2]{theme}}
