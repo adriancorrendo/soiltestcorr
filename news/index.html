@@ -61,39 +61,33 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.2.0" id="soiltestcorr-220">soiltestcorr 2.2.0<a class="anchor" aria-label="anchor" href="#soiltestcorr-220"></a></h2>
 <p>Updates of the new version:</p>
-<ul><li>Bootstrapping:
-<ul><li>New bootstrapping functions for all models to better approximate distributions of CSTVs and parameters or derived quantities of interest. Functions include: (i) <code><a href="../reference/cate_nelson_1965.html">boot_cn_1965()</a></code>, (ii) <code><a href="../reference/cate_nelson_1971.html">boot_cn_1971()</a></code>, (iii) <code><a href="../reference/mod_alcc.html">boot_mod_alcc()</a></code>, (iv) <code><a href="../reference/linear_plateau.html">boot_linear_plateau()</a></code>, (v) <code><a href="../reference/quadratic_plateau.html">boot_quadratic_plateau()</a></code>, and (vi) <code><a href="../reference/mitscherlich.html">boot_mitscherlich()</a></code>.</li>
-</ul></li>
-<li>P-value for non-linear models:
-<ul><li>Including <code>p-value</code> estimation for non-linear models using an F-test approach comparing the non-linear model vs. a null-model (intercept-only).</li>
-</ul></li>
-<li>Documentation:
-<ul><li>Updated documentation and vignettes including bootstrapping functions for each of the models.</li>
-</ul></li>
-<li>Code of Conduct and Contribution:
-<ul><li>Including code of conduct and contribution guidelines.</li>
-</ul></li>
-<li>
-<code><a href="../reference/cate_nelson_1965.html">cate_nelson_1965()</a></code> and <code><a href="../reference/cate_nelson_1971.html">cate_nelson_1971()</a></code>:
-<ul><li>tidy = TRUE as default</li>
+<ol style="list-style-type: decimal"><li>Bootstrapping:</li>
+</ol><ul><li>New bootstrapping functions for all models to better approximate distributions of CSTVs and parameters or derived quantities of interest. Functions include: (i) <code><a href="../reference/cate_nelson_1965.html">boot_cn_1965()</a></code>, (ii) <code><a href="../reference/cate_nelson_1971.html">boot_cn_1971()</a></code>, (iii) <code><a href="../reference/mod_alcc.html">boot_mod_alcc()</a></code>, (iv) <code><a href="../reference/linear_plateau.html">boot_linear_plateau()</a></code>, (v) <code><a href="../reference/quadratic_plateau.html">boot_quadratic_plateau()</a></code>, and (vi) <code><a href="../reference/mitscherlich.html">boot_mitscherlich()</a></code>.</li>
+</ul><ol start="2" style="list-style-type: decimal"><li>P-value for non-linear models:</li>
+</ol><ul><li>Including <code>p-value</code> estimation for non-linear models using an F-test approach comparing the non-linear model vs. a null-model (intercept-only).</li>
+</ul><ol start="3" style="list-style-type: decimal"><li>
+<code><a href="../reference/cate_nelson_1965.html">cate_nelson_1965()</a></code> and <code><a href="../reference/cate_nelson_1971.html">cate_nelson_1971()</a></code>:</li>
+</ol><ul><li>tidy = TRUE as default</li>
 <li>
 <code>boot...()</code> output including quadrants count</li>
-</ul></li>
-<li>
-<code>nlraa</code> included as a dependency to facilitate self-start of non-linear models.</li>
-<li>
-<code><a href="../reference/mitscherlich.html">mitscherlich()</a></code> updates:
-<ul><li>Adding RMSE, and BIC outputs</li>
+</ul><ol start="4" style="list-style-type: decimal"><li>
+<code><a href="../reference/mitscherlich.html">mitscherlich()</a></code> updates:</li>
+</ol><ul><li>Adding RMSE, and BIC outputs</li>
 <li>default type = 1</li>
 <li>target default now 95 and should not be NULL (prevent CSTV = Inf)</li>
 <li>tidy = TRUE default (output is tibble)</li>
 <li>alternative names for type: “free” to “no restriction”, “100” to “asymptote 100”, and “fixed” to “asymptote 100 from 0”.</li>
 <li>Do not round in results table (rounding throws off bootstrap distributions), round only in display equations and plot</li>
-<li>updated vignette</li>
-</ul></li>
-<li>
-<code><a href="../reference/linear_plateau.html">linear_plateau()</a></code> and <code><a href="../reference/quadratic_plateau.html">quadratic_plateau()</a></code> updates:
-<ul><li>Adding RMSE, and BIC outputs</li>
+<li>add stop if target = NULL</li>
+<li>add warning if target &gt; asymptote</li>
+<li>make results into tidy tibble</li>
+<li>use return() explicitly to return bootstrap data frame</li>
+<li>in keeping with ggplot2 updates, line <code>sizes</code> are now line <code>linewidth</code>
+</li>
+<li>add scale_x_continuous to attempt auto rescaling</li>
+</ul><ol start="5" style="list-style-type: decimal"><li>
+<code><a href="../reference/linear_plateau.html">linear_plateau()</a></code> and <code><a href="../reference/quadratic_plateau.html">quadratic_plateau()</a></code> updates:</li>
+</ol><ul><li>Adding RMSE, and BIC outputs</li>
 <li>default to tidy = TRUE</li>
 <li>join point is now referred to as jp throughout the internal code - equation now shows JP value instead of text “CSTV”</li>
 <li>simplified code repetition for readibility concerning the coef(lp_model)[[3]] by saving join point to <code>jp</code> variable instead</li>
@@ -110,18 +104,26 @@
 <li>change size to linewidth arg in the line geoms</li>
 <li>removed extra irrelevant columns in bootstrap output like Wald CI and equation for neater tibble</li>
 <li>simplified vignette: changing group_map to group_modify to preserve tibble over lists</li>
-</ul></li>
-<li>
-<code><a href="../reference/mod_alcc.html">mod_alcc()</a></code> update including:
-<ul><li>including Root Mean Square Error (RMSE) of the ALCC curve with respect to observed RY values as a potential indicator of model’s quality.</li>
-<li>including the estimation of Akaike Information Criteria (AIC), and Bayesian Information Criteria (BIC) for the “underlying” bivariate SMA models.</li>
-<li>‘smatr’ package is a new dependency (to get AIC and BIC of SMA models).</li>
+</ul><ol start="6" style="list-style-type: decimal"><li>
+<code><a href="../reference/mod_alcc.html">mod_alcc()</a></code> update including:</li>
+</ol><ul><li>including Root Mean Square Error (RMSE_alcc) of the ALCC curve with respect to observed RY values as a potential indicator of model’s quality.</li>
+<li>including the estimation of Akaike Information Criteria (AIC_sma), and Bayesian Information Criteria (BIC_sma) for the “underlying” bivariate SMA models.</li>
 <li>using “tibble” instead of “dataframe”.</li>
 <li>implementing tidy=TRUE as default.</li>
 <li>using linewidth instead of “size” for geom_line().</li>
 <li>reordering variables of the output (e.g. goodness of fit indicators first)</li>
 <li>Add AIC for ALCC model to predict RY in terms of the original units following and approximation of the logLik of the ALCC curve (Dr. Fernando Miguez contribution).</li>
-</ul></li>
+<li>add scale_x_continuous to attempt auto rescaling on ggplot objects</li>
+</ul><ol start="7" style="list-style-type: decimal"><li>New dependencies:</li>
+</ol><ul><li>
+<code>nlraa</code> is now included as a dependency to facilitate self-start of non-linear models.</li>
+<li>
+<code>smatr</code> is a new dependency (to get AIC and BIC of SMA models).</li>
+</ul><ol start="8" style="list-style-type: decimal"><li>Documentation:</li>
+</ol><ul><li>Updated documentation and vignettes including bootstrapping functions for each of the models.</li>
+<li>Add a <code>CITATION</code> file into “inst/” folder following <code>bibentry</code> format.</li>
+</ul><ol start="9" style="list-style-type: decimal"><li>Code of Conduct and Contribution:</li>
+</ol><ul><li>Including code of conduct and contribution guidelines.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.1.2" id="soiltestcorr-212">soiltestcorr 2.1.2<a class="anchor" aria-label="anchor" href="#soiltestcorr-212"></a></h2><p class="text-muted">CRAN release: 2022-06-12</p>
