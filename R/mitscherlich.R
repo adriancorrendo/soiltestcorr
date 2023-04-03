@@ -16,7 +16,7 @@
 #' @param resid logical operator (TRUE/FALSE) to plot residuals analysis, Default: FALSE
 #' @param plot logical operator (TRUE/FALSE) to plot the Mitscherlich model, Default: FALSE
 #' @param a selfstart arg. for asymptote, Default: NULL
-#' @param b selfstart arg. for xintercept Default: NULL
+#' @param b selfstart arg. for Y-intercept Default: NULL
 #' @param c selfstart arg. for curvature Default: NULL
 #' @param x selfstart vector. for model fit Default: NULL
 #' @param n sample size for the bootstrapping Default: 500
@@ -71,17 +71,23 @@ NULL
 #' @rdname mitscherlich
 #' @return Mitscherlich type 1 formula
 #' @export
-mits_formula_1 <- function(x, a, b, c){ a * (1 - exp(-c * (x + b))) }
+mits_formula_1 <- function(x, a, b, c){ 
+  a + (b - a) * exp(-c * x)
+  }
 
 #' @rdname mitscherlich
 #' @return Mitscherlich type 2 formula
 #' @export
-mits_formula_2 <- function(x, b, c){ 100 * (1 - exp(-c * (x + b))) }
+mits_formula_2 <- function(x, b, c){
+  100 + (b - 100) * exp(-c * x)
+  }
 
 #' @rdname mitscherlich
 #' @return Mitscherlich type 3 formula
 #' @export
-mits_formula_3 <- function(x, c){ 100 * (1-exp(-c * x)) }
+mits_formula_3 <- function(x, c){
+  100 + (0 - 100) * exp(-c * x)
+  }
 
 #' @rdname mitscherlich
 #' @return mitscherlich: function
@@ -153,9 +159,11 @@ mitscherlich <- function(data = NULL,
     mitsmodel <-
       try(minpack.lm::nlsLM(formula = y ~ mits_formula_1(x, a, b, c),
                             data = test.data,
-                            start = list(a = maxy, b = 0, c = start_c),
-                            lower = c(a = miny, b = -maxx, c = 1e-7),
-                            upper = c(a = Inf, b = 1e3, c = 10)))
+                            start = list(a = 100, b = 0, c = start_c),
+                            upper = c(a = Inf, b = 99,   c = 5),
+                            lower = c(a = miny,  b = -Inf, c = 1e-5)
+                            )
+          )
   }
   # Type 2
   if (type == "asymptote 100" | type == "100" | type == 2) {
@@ -163,8 +171,10 @@ mitscherlich <- function(data = NULL,
       try(minpack.lm::nlsLM(formula = y ~ mits_formula_2(x, b, c),
                             data = test.data,
                             start = list(b = 0, c = start_c),
-                            lower = c(b = -maxx, c = 1e-7),
-                            upper = c(b = 1e3, c = 10)))
+                            upper = c(b = 99,   c = 5),
+                            lower = c(b = -Inf, c = 1e-5)
+                            )
+          )
   }
   # Type 3
   if (type == "asymptote 100 from 0" | type == "fixed" | type == 3) {
@@ -172,8 +182,10 @@ mitscherlich <- function(data = NULL,
       try(minpack.lm::nlsLM(formula = y ~ mits_formula_3(x, c),
                             data = test.data,
                             start = list(c = start_c),
-                            lower = c(c = 1e-7),
-                            upper = c(c = 10)))
+                            upper = c(c = 5),
+                            lower = c(c = 1e-5)
+                            )
+          )
   }
   
   if (inherits(mitsmodel, "try-error")) {
@@ -236,7 +248,7 @@ mitscherlich <- function(data = NULL,
     warning("Target RY > asymptote. Please choose a target <= asymptote.")
   }
   
-  CSTV <- (log(1 - (target/a)) / -c) - b
+  CSTV <- log((target - a) / (b - a)) / (-c)
   
   # for displaying rounded CSTV on plots
   CSTVr <- ifelse(CSTV > 10, round(CSTV), round(CSTV, 1))
@@ -262,21 +274,9 @@ mitscherlich <- function(data = NULL,
   
   
   # Equation
-  if (b > 0) { 
-    equation <- paste0(round(a, 1), "(1-e^(-", 
-                       round(c, 3), "(x+",
-                       round(b, 1), "))")
-  }
-  if (b == 0) { 
-    equation <- paste0(round(a, 1), "(1-e^(-", 
-                       round(c, 3), "x))")
-  }
-  if (b < 0) { 
-    equation <- paste0(round(a, 1), "(1-e^(-", 
-                       round(c, 3), "(x",
-                       round(b, 1), "))")
-  }
+  equation <- paste0(round(a, 1), " + (", round((b - a), 2), " * e^(", round(c, 3), "x))")
   
+  x_intercept <- -log(-(a/(b-a))) / c
   ## STAGE 2 ====================================================================
   ## Outputs
   # Table output =================================================
@@ -287,9 +287,10 @@ mitscherlich <- function(data = NULL,
     }
     results <- dplyr::tibble(
       asymptote = a,
-      x_intercept = b,
+      y_intercept = b,
       curvature = c,
       equation,
+      x_intercept,  
       target,
       CSTV,
       AIC,
@@ -401,7 +402,7 @@ mitscherlich <- function(data = NULL,
 #' @return boot_mitscherlich: bootstrapping function
 #' @export 
 boot_mitscherlich <- 
-  function(data, ry, stv, type = 1, n = 999, target = 95, ...) {
+  function(data, stv, ry, type = 1, n = 999, target = 95, ...) {
     # Allow customized column names
     x <- rlang::enquo(stv)
     y <- rlang::enquo(ry)
@@ -413,7 +414,7 @@ boot_mitscherlich <-
     equation <- NULL
     
     output_df <- data %>%  
-      dplyr::select(!!y, !!x, ...) %>%
+      dplyr::select(!!x, !!y, ...) %>%
       tidyr::expand_grid(boot_id = seq(1, n, by = 1)) %>%
       dplyr::group_by(boot_id, ...) %>%
       tidyr::nest(boots = c(!!x, !!y)) %>% 

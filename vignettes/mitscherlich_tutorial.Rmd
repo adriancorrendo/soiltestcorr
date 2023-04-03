@@ -23,7 +23,19 @@ knitr::opts_chunk$set(
 
 ## Description
 
-This tutorial demonstrates the `mitscherlich()` function for fitting a continuous response model and estimating a critical soil test value. This function fits a Mitscherlich-type exponential regression model that follows a diminishing growth curve, and is sometimes also referred to as exponential "rise-to-the-max". Cerrato and Blackmer (1990) expressed it as:
+This tutorial demonstrates the `mitscherlich()` function for fitting a continuous response model and estimating a critical soil test value. This function fits a Mitscherlich-type exponential regression model that follows a diminishing growth curve, and is sometimes also referred to as exponential "rise-to-the-max". The model is expressed in `mitscherlich()` as
+
+$$
+y = a + (b - a) * e^{-cx}
+$$
+
+`a` = asymptote,\
+`b` = Y-intercept when $x = 0$\
+`c` = curvature parameter.
+
+In this formulation, the X-intercept = $-\frac{ln(-\frac{a}{b-a})}{c}$
+
+Note that sometimes the model is expressed using alternative formulations, as in Cerrato and Blackmer (1990):
 
 $$
 y = a * (1-e^{-c(x + b)})
@@ -31,24 +43,14 @@ $$
 
 where\
 `a` = asymptote,\
-`b` = X-intercept,\
-`c` = curvature parameter.
-
-This is used in the `mitscherlich()` function. The model can also be expressed as
-
-$$
-y = a + (b - a) * e^{-cx}
-$$
-
-`a` = asymptote,\
-`b` = Y-intercept,\
+`b` = related to X-intercept, where X-intercept = -b,\
 `c` = curvature parameter.
 
 The exponential model is extensively used in agriculture to describe crops response to input since the biological meaning of its curved response. The `mitscherlich()` function works automatically with self-starting initial values to facilitate the model's convergence. The `mitscherlich()` function allows the user to control the number of parameters, effectively constraining the response curve if theoretically justified:
 
-1.  `type = 1, "no restriction", or "free"` (DEFAULT): three parameter model; $y = a * (1-e^{-c(x + b)})$
-2.  `type = 2, "asymptote 100", or "100"`: two parameter model where asymptote = 100% RY; $y = 100 * (1-e^{-c(x + b)})$
-3.  `type = 3, "asymptote 100 from 0", or "fixed":` one parameter model in which only the curvature varies and asymptote = 100 and model goes through origin; $y = 100 * (1-e^{-cx})$.
+1.  `type = 1, "no restriction", or "free"` (DEFAULT): three parameter model; $y = a + (b - a) * e^{-cx}$
+2.  `type = 2, "asymptote 100", or "100"`: two parameter model where asymptote = 100% RY; $y = 100 + (b - 100) * e^{-cx}$
+3.  `type = 3, "asymptote 100 from 0", or "fixed":` one parameter model in which only the curvature varies and asymptote = 100 and model goes through origin; $y = 100 + (0 - 100) * e^{-cx}$.
 
 Disadvantages this model might include:
 
@@ -193,12 +195,13 @@ A suitable alternative for obtaining confidence intervals for parameters or deri
 This function returns a table with as many rows as the resampling size (n) containing the results for each resample.
 
 ```{r}
+set.seed(123)
 boot_mits <- boot_mitscherlich(corr_df, STV, RY, target = 90, n = 200)
 
 boot_mits %>% head(n = 5)
 
 # CSTV Confidence Interval
-quantile(boot_mits$CSTV, probs = c(0.025, 0.5, 0.975))
+quantile(boot_mits$CSTV, probs = c(0.025, 0.5, 0.975), na.rm = TRUE)
 
 # Plot
 boot_mits %>% 
