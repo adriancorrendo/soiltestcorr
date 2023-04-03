@@ -261,8 +261,8 @@ mod_alcc <- function(data=NULL,
     ggplot2::geom_vline(xintercept = CSTV, alpha = 1, color = "grey25", 
                         linewidth = 0.5, linetype = "dashed") +
     # CI
-    geom_vline(xintercept = CSTV_lower, col = "grey25", size = 0.25, linetype = "dotted")+
-    geom_vline(xintercept = CSTV_upper, col = "grey25", size = 0.25, linetype = "dotted")+
+    geom_vline(xintercept = CSTV_lower, col = "grey25", linewidth = 0.25, linetype = "dotted")+
+    geom_vline(xintercept = CSTV_upper, col = "grey25", linewidth = 0.25, linetype = "dotted")+
     # ALCC curve
     ggplot2::geom_path(data = curve, ggplot2::aes(x=fitted_STV,y=new_RY),
                        color="grey15", linewidth = 1) +

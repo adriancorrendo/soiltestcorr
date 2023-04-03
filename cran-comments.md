@@ -6,7 +6,7 @@
 ###########################################################
 
 ## 1. Local R CMD check results ────────────────── soiltestcorr 2.2.0 ────
-Duration: 2m 30.2s
+Duration: 2m 44s
 
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 

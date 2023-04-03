@@ -214,10 +214,10 @@ plt_alcc +
        y = "Cotton RY(%)") +
   # Axis scales
   scale_x_continuous(limits = c(20,220),
-                     breaks = seq(0,220, by = 10)) +
+                     breaks = seq(0,220, by = 25)) +
   # Axis limits
   scale_y_continuous(limits = c(30,100),
-                     breaks = seq(30,100, by = 10))
+                     breaks = seq(20,100, by = 20))
 ```
 
 ### 3.2. SMA regression
