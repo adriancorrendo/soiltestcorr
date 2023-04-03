@@ -10,6 +10,8 @@ Updates of the new version:
   
 3) `cate_nelson_1965()` and `cate_nelson_1971()`:
   - tidy = TRUE as default
+  - Including AIC, BIC, and RMSE of anova.model results
+  - Add flexibility to STV scales
   - `boot...()` output including quadrants count
 
 4) `mitscherlich()` updates: 
@@ -65,6 +67,10 @@ Updates of the new version:
   
 9) Code of Conduct and Contribution:
   - Including code of conduct and contribution guidelines.
+  
+  
+10) Plots:
+  - Add more flexibility to STV scales for default plots.
   
   
 # soiltestcorr 2.1.2

@@ -5,8 +5,8 @@
 
 ###########################################################
 
-## 1. Local R CMD check results ──────────────────────────── soiltestcorr 2.2.0
-Duration: 2m 51.2s
+## 1. Local R CMD check results ────────────────── soiltestcorr 2.2.0 ────
+Duration: 2m 30.2s
 
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 
@@ -24,46 +24,37 @@ Build log: https://win-builder.r-project.org/V7ja1c6IeJP2
 # 3. R-hub check, results from devtools::check_rhub()
 
 ## Test environments
-- R-hub Windows Server 2022, R-devel, 64 bit, build log: https://builder.r-hub.io/status/soiltestcorr_2.2.0.tar.gz-cd82f3cead6f43158be7676bcd350c5c
-
-- R-hub Ubuntu Linux 20.04.1 LTS, R-release, GCC, build log: https://builder.r-hub.io/status/soiltestcorr_2.2.0.tar.gz-73fe38f5881e4e8983715c3476bff9c0
+- R-hub Windows Server 2022, R-devel, 64 bit, build log: https://builder.r-hub.io/status/soiltestcorr_2.2.0.tar.gz-1415ac826b5341faa7faed716b07e4fc
+   
+- R-hub Ubuntu Linux 20.04.1 LTS, R-release, GCC, build log: https://builder.r-hub.io/status/soiltestcorr_2.2.0.tar.gz-a8d1c98091ba456da2e826da392c9104
 
 - R-hub Fedora Linux, R-devel, clang, gfortran, build log:
-https://builder.r-hub.io/status/soiltestcorr_2.2.0.tar.gz-8ff422e653424308872a2b06c5e0a6f4
+https://builder.r-hub.io/status/soiltestcorr_2.2.0.tar.gz-a33a15dbab5b49df8eb31f2fecacfdc4
 
 ## SUMMARY
 
-Build ID:   soiltestcorr_2.2.0.tar.gz-cd82f3cead6f43158be7676bcd350c5c
-  Platform:   Windows Server 2022, R-devel, 64 bit
-  Submitted:  8m 14.6s ago
-  Build time: 8m 10.8s
+── soiltestcorr 2.2.0: NOTE
 
-❯ checking CRAN incoming feasibility ... [28s] NOTE
-  Maintainer: 'Adrian A. Correndo <correndo@ksu.edu>'
-  
-  Found the following (possibly) invalid URLs:
-    URL: https://adriancorrendo.github.io/soiltestcorr/
-      From: DESCRIPTION
-            man/soiltestcorr-package.Rd
-      Status: Error
-      Message: libcurl error code 6:
-        	Could not resolve host: adriancorrendo.github.io
+  Build ID:   soiltestcorr_2.2.0.tar.gz-1415ac826b5341faa7faed716b07e4fc
+  Platform:   Windows Server 2022, R-devel, 64 bit
+  Submitted:  1h 45m 46.3s ago
+  Build time: 11m 52.6s
 
 ❯ checking for detritus in the temp directory ... NOTE
   Found the following files/directories:
     'lastMiKTeXException'
 
-0 errors ✔ | 0 warnings ✔ | 2 notes ✖
+0 errors ✔ | 0 warnings ✔ | 1 note ✖
 
 ── soiltestcorr 2.2.0: IN-PROGRESS
 
-  Build ID:   soiltestcorr_2.2.0.tar.gz-73fe38f5881e4e8983715c3476bff9c0
+  Build ID:   soiltestcorr_2.2.0.tar.gz-a8d1c98091ba456da2e826da392c9104
   Platform:   Ubuntu Linux 20.04.1 LTS, R-release, GCC
-  Submitted:  8m 14.6s ago
+  Submitted:  1h 45m 46.3s ago
 
 
 ── soiltestcorr 2.2.0: IN-PROGRESS
 
-  Build ID:   soiltestcorr_2.2.0.tar.gz-8ff422e653424308872a2b06c5e0a6f4
+  Build ID:   soiltestcorr_2.2.0.tar.gz-a33a15dbab5b49df8eb31f2fecacfdc4
   Platform:   Fedora Linux, R-devel, clang, gfortran
-  Submitted:  8m 14.6s ago
+  Submitted:  1h 45m 46.3s ago

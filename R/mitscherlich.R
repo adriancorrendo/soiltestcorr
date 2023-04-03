@@ -296,8 +296,8 @@ mitscherlich <- function(data = NULL,
       AICc,
       BIC,
       R2,
-      pvalue,
-      RMSE
+      RMSE,
+      pvalue
     )
     
     # Decide type of output
@@ -370,12 +370,19 @@ mitscherlich <- function(data = NULL,
                                        "\nAICc = ", AICc
                         ),
                         x = maxx, y = 0, vjust = 0, hjust = 1) +
+      # Giving more flexibility to x scale
       ggplot2::scale_x_continuous(
         breaks = seq(0, maxx,
-                     by = ifelse(maxx > 300, 30,
-                                 ifelse(maxx > 200, 20,
-                                        ifelse(maxx > 100, 10, 
-                                               ifelse(maxx > 10, 2, 0.5)))))) +
+                     by = ifelse(maxx >= 300, 50,
+                                 ifelse(maxx >= 200, 20,
+                                  ifelse(maxx >= 100, 10, 
+                                   ifelse(maxx >= 50, 5,
+                                    ifelse(maxx >= 20, 2,
+                                     ifelse(maxx >= 10, 1,
+                                      ifelse(maxx >= 5, 0.5,
+                                       ifelse(maxx >= 1, 0.2, 
+                                              0.1))))))))) ) +
+      # Y-axis scale
       ggplot2::scale_y_continuous(limits = c(0, maxy),
                                   breaks = seq(0, maxy * 2, 10)) +
       ggplot2::labs(x = "Soil test value (units)",

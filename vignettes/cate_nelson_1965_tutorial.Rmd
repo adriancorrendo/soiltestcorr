@@ -55,7 +55,6 @@ library(ggplot2) # Plots
 library(dplyr) # Data wrangling
 library(tidyr) # Data wrangling
 library(utils) # Data wrangling
-library(data.table) # Mapping
 library(purrr) # Mapping
 
 ```

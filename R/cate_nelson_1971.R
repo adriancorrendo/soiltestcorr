@@ -41,7 +41,8 @@
 #' @export 
 #' @importFrom rlang eval_tidy quo enquo
 #' @importFrom dplyr %>% mutate select group_by slice_sample ungroup as_tibble
-#' @importFrom stats lm anova
+#' @importFrom stats lm anova AIC BIC
+#' @importFrom modelr rmse
 #' @importFrom ggplot2 ggplot aes geom_point scale_shape_manual scale_color_manual labs geom_vline geom_hline annotate theme_bw theme
 #' @importFrom tidyr nest unnest expand_grid
 #' @importFrom purrr map possibly
@@ -166,6 +167,9 @@ cate_nelson_1971 <- function(data=NULL, stv, ry, tidy = TRUE, plot = FALSE){
   aov.model <- stats::lm(y ~ xgroup, data=dataset)
   anova.model <- stats::anova(aov.model)
   R2.model <- anova.model[1,2]/sum(anova.model[,2])
+  AIC <- stats::AIC(aov.model)
+  BIC <- stats::BIC(aov.model)
+  RMSE <- modelr::rmse(model = aov.model, data = dataset)
   
   ## --------- final plot --------------
   
@@ -200,6 +204,21 @@ cate_nelson_1971 <- function(data=NULL, stv, ry, tidy = TRUE, plot = FALSE){
                       label = "III", size = 3, color = "#b7094c")+
     ggplot2::annotate(geom = "label", x = min.x+(max.x-min.x)*0.01, y =  min.y+(max.y-min.y)*0.01, 
                       label = "IV", size = 3, color = "#2d6a4f")+
+    # Giving more flexibility to x scale
+    ggplot2::scale_x_continuous(
+      breaks = seq(0, max.x,
+                   by = ifelse(max.x >= 300, 50,
+                         ifelse(max.x >= 200, 20,
+                          ifelse(max.x >= 100, 10, 
+                           ifelse(max.x >= 50, 5,
+                            ifelse(max.x >= 20, 2,
+                             ifelse(max.x >= 10, 1,
+                              ifelse(max.x >= 5, 0.5,
+                               ifelse(max.x >= 1, 0.2, 
+                                      0.1))))))))) ) +
+    # Y-axis scale
+    ggplot2::scale_y_continuous(limits = c(0, max.y),
+                                breaks = seq(0, max.y * 2, 10)) +
     ggplot2::labs(x="Soil test value", y="Relative yield (%)",
                   title = "Cate & Nelson (1971)")+
     ggplot2::theme_bw()+
@@ -210,13 +229,16 @@ cate_nelson_1971 <- function(data=NULL, stv, ry, tidy = TRUE, plot = FALSE){
   results <- list("n" = n, 
               "CRYV" = CRYV,
               "CSTV" = CSTV,
-              "quadrants" = quadrants.summary, 
+              "R2" = R2.model,
+              "AIC" = AIC,
+              "BIC" = BIC,
+              "RMSE" = RMSE,
+              "quadrants" = quadrants.summary,
               "X2" = X2.test,
-              "anova" = anova.model,
-              "R2" = R2.model)
+              "anova" = anova.model)
   
   if (tidy == TRUE) {
-    results <- dplyr::as_tibble(results[c(1:4,7)])
+    results <- dplyr::as_tibble(results[c(1:8)])
   } else {
     results <- results
   }
