@@ -31,7 +31,7 @@ $$
 
 where\
 `a` = asymptote,\
-`b` = X-intercept,\
+`b` = model-fitting parameter ( $-b$ = X-intercept),\
 `c` = curvature parameter.
 
 This is used in the `mitscherlich()` function. The model can also be expressed as
@@ -193,12 +193,13 @@ A suitable alternative for obtaining confidence intervals for parameters or deri
 This function returns a table with as many rows as the resampling size (n) containing the results for each resample.
 
 ```{r}
+set.seed(123)
 boot_mits <- boot_mitscherlich(corr_df, STV, RY, target = 90, n = 200)
 
 boot_mits %>% head(n = 5)
 
 # CSTV Confidence Interval
-quantile(boot_mits$CSTV, probs = c(0.025, 0.5, 0.975))
+quantile(boot_mits$CSTV, probs = c(0.025, 0.5, 0.975), na.rm = TRUE)
 
 # Plot
 boot_mits %>% 
