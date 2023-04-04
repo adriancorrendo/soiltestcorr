@@ -15,9 +15,9 @@
 #' @param tidy logical operator (TRUE/FALSE) to decide the type of return. TRUE returns a tidy data frame or tibble (default), FALSE returns a list.
 #' @param resid logical operator (TRUE/FALSE) to plot residuals analysis, Default: FALSE
 #' @param plot logical operator (TRUE/FALSE) to plot the Mitscherlich model, Default: FALSE
-#' @param a selfstart arg. for asymptote, Default: NULL
-#' @param b selfstart arg. for xintercept Default: NULL
-#' @param c selfstart arg. for curvature Default: NULL
+#' @param a selfstart arg. for asymptote parameter, Default: NULL
+#' @param b selfstart arg. for b parameter (b = -X_intercept) Default: NULL
+#' @param c selfstart arg. for curvature parameter Default: NULL
 #' @param x selfstart vector. for model fit Default: NULL
 #' @param n sample size for the bootstrapping Default: 500
 #' @param ... when running bootstrapped samples, the `...` (open arguments) allows to add grouping variable/s (factor or character) Default: NULL
@@ -205,7 +205,7 @@ mitscherlich <- function(data = NULL,
       type == "asymptote 100 from zero" | type == "fixed" |  type == 3) {
     a <- 100 # Asymptote = 100
   }
-  # Intercept
+  # X_Intercept (b = - X_intercept)
   if (type == "no restriction" | type == "free" |  type == 1) {
     b <- stats::coef(mitsmodel)[[2]] # Intercept
   }
@@ -277,6 +277,9 @@ mitscherlich <- function(data = NULL,
                        round(b, 1), "))")
   }
   
+  # Y-intercept
+  y_intercept = a * (1 - exp(-c * b))
+  
   ## STAGE 2 ====================================================================
   ## Outputs
   # Table output =================================================
@@ -287,9 +290,10 @@ mitscherlich <- function(data = NULL,
     }
     results <- dplyr::tibble(
       asymptote = a,
-      x_intercept = b,
+      b, 
       curvature = c,
       equation,
+      y_intercept,
       target,
       CSTV,
       AIC,
@@ -401,7 +405,7 @@ mitscherlich <- function(data = NULL,
 #' @return boot_mitscherlich: bootstrapping function
 #' @export 
 boot_mitscherlich <- 
-  function(data, ry, stv, type = 1, n = 999, target = 95, ...) {
+  function(data, stv, ry, type = 1, n = 999, target = 95, ...) {
     # Allow customized column names
     x <- rlang::enquo(stv)
     y <- rlang::enquo(ry)
@@ -413,20 +417,20 @@ boot_mitscherlich <-
     equation <- NULL
     
     output_df <- data %>%  
-      dplyr::select(!!y, !!x, ...) %>%
+      dplyr::select(!!x, !!y, ...) %>%
       tidyr::expand_grid(boot_id = seq(1, n, by = 1)) %>%
       dplyr::group_by(boot_id, ...) %>%
       tidyr::nest(boots = c(!!x, !!y)) %>% 
       dplyr::mutate(boots = boots %>% 
                       purrr::map(function(boots) 
                         dplyr::slice_sample(boots, 
-                                            replace = TRUE, n = nrow(boots))) ) %>% 
+                                            replace = TRUE, n = nrow(boots)))) %>% 
       dplyr::mutate(
         model = map(boots, purrr::possibly(
           .f = ~ soiltestcorr::mitscherlich(
             data = ., ry = !!y, stv = !!x,
-            type = type, target = target) ), 
-          otherwise = NULL, quiet = TRUE) ) %>%
+            type = type, target = target)), 
+          otherwise = NULL, quiet = TRUE)) %>%
       dplyr::select(-boots) %>% 
       tidyr::unnest(cols = model) %>%
       # Irrelevant columns
