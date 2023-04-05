@@ -24,32 +24,44 @@ knitr::opts_chunk$set(
 
 ## Description
 
-This tutorial is intended to show how to implement a bootstrapping procedure to the `soiltestcorr` functions.
+This tutorial is intended to show how to implement bootstrapping to the `soiltestcorr` functions.
 
 ## What is bootstrapping?
 
-Bootstrapping is a technique introduced in late 1970's by Bradley Efron [@efron1979] that resamples a dataset to create simulated random samples. This enables users for the calculation of a distribution of a quantity of interest (e.g. a parameter, a goodness of fit metric, etc.), and it represents a form of hypothesis testing.
+Bootstrapping is a technique introduced in late 1970's by Bradley Efron [@efron1979]. It is a general purpose inferential approach that is useful for robust estimations, especially when the distribution of a statistic of quantity of interest is complicated or unknown [@faraway2014]. It provides an alternative to perform confidence statements while relaxing the famous assumption of normality[@efron1993]. The underlying concept of bootstrapping is that the inference about a population parameter or quantity can be modeled by "resampling" the available data.
 
-## How it works?
+## How does it work?
 
-Bootstrapping is a resampling technique with replacement. That means that draws samples from the original data maintaining the same original size. Let's suppose that we have a dataset with 100 observations, one per row. Then, each resample will conserve the same number of rows (100) by randomly repeating specific rows of the dataset.
+Bootstrapping is a resampling technique with replacement. That means that it draws random samples from the original data while maintaining the same original size. Let's suppose that we have a dataset with 100 observations, one per row. Then, we generate 500 resamples, each of them conserving the same number of rows (100) by randomly repeating specific rows of the dataset. Finally, we fit the model of interest as many times as resamples we have. Therefore, we will obtain, for example, 500 estimations of the CSTV.
 
-In general, the larger the number of resamples, the more likely to obtain a good distribution of the quantity of interest. From that distribution we may obtain a "summary" describing "moments" of the distribution such as the "mean", "median", "standard deviation", "quantiles", etc.. Very frequently, the general procedure is to extract the "median" (which is more robust to outliers than the mean), the 0.025- and 0.975-quantiles from the distribution (equivalent to 2.5th and 97.5th percentiles) in order to obtain the famous 95% confidence interval. This interval in normally use to test hypotheses of interest (e.g. comparing groups, methods, etc.)
+In general, the larger the number of observation and resamples, the more likely to obtain a representative distribution of the population's quantity of interest. Generally speaking, a minimum recommended number of iterations is `n = 1000`. Nonetheless, this is something that you would like to test on your own until you feel comfortable with the compromise between the quality of the outcomes and the necessary computational power for the iterations.  
 
-## General Instructions
+Once the distribution is obtained we may obtain a "summary" describing "moments" of the distribution such as the "mean", "median", "standard deviation", "quantiles", etc.. Very frequently, the general procedure is to extract the "median" (which is more robust to outliers than the mean), the 0.025- and 0.975-quantiles from the distribution (equivalent to 2.5th and 97.5th percentiles) in order to obtain the famous 95% confidence interval. This interval in normally use to test hypotheses of interest (e.g. comparing groups, methods, etc.)
 
-1.  Load your dataframe with soil test value (`stv`) and relative yield (`ry`) data.
-2.  Specify the following arguments into the function `mod_alcc()`
-    1.  `data` (optional)
+## The `soiltestcorr::boot_()` functions
 
-    2.  `stv` (soil test value) and `ry` (relative yield) columns or vectors,
+You can implement bootstrapping to each of the six soiltestcorr available models, which count with their own boot\_...() function:
 
-    3.  `n` as a number indicating the number of resamples to run.
-    
-    4.  `...` indicates an "open argument" where users can pass as many as desired grouping variables.
-    
+-   `boot_mod_alcc()`
 
-# Tutorial
+-   `boot_cn_1965()`
+
+-   `boot_cn_1971()`
+
+-   `boot_linear_plateau()`
+
+-   `boot_quadratic_plateau()`
+
+-   `boot_mitscherlich()`
+
+Each boot_…() function presents the same basic arguments than their respective original functions (i.e. 'data', 'stv', and 'ry'), with the addition of two arguments related to the resampling: 
+
+- (i) `n`, indicating the number of resamples to perform iterations.
+
+- (ii) `...`, indicating open arguments that allow you to add grouping variable/s (factor or character) for running the bootstrapping by group.
+
+
+## Example
 
 ```{r setup}
 library(soiltestcorr)
@@ -67,9 +79,9 @@ library(purrr) # Mapping
 
 This is a basic example using three different datasets:
 
-## Load datasets
+### Load data
 
-## 2. Multiple fits at once
+#### Multiple datasets
 
 ```{r warning=T, message=F}
 # Example 1. Fake dataset manually created
@@ -81,10 +93,11 @@ data_2 <- soiltestcorr::data_test
 
 data.all <- bind_rows("data_1" = data_1, 
                       "data_2" = data_2,
+                      # Create the grouping variable
                       .id = "group_factor")
 ```
 
-## 3. Bootstrapping
+#### Using `boot_mod_alcc()`
 
 If you have groups within your data, you can specify grouping variables as arguments in order to maintain, within each resample, the same proportion of observations than in the original dataset.
 
