@@ -34,17 +34,7 @@ where\
 `b` = model-fitting parameter ( $-b$ = X-intercept),\
 `c` = curvature parameter.
 
-This is used in the `mitscherlich()` function. The model can also be expressed as
-
-$$
-y = a + (b - a) * e^{-cx}
-$$
-
-`a` = asymptote,\
-`b` = Y-intercept,\
-`c` = curvature parameter.
-
-The exponential model is extensively used in agriculture to describe crops response to input since the biological meaning of its curved response. The `mitscherlich()` function works automatically with self-starting initial values to facilitate the model's convergence. The `mitscherlich()` function allows the user to control the number of parameters, effectively constraining the response curve if theoretically justified:
+This exponential model is extensively used in agriculture to describe crops response to input since the biological meaning of its curved response. The `mitscherlich()` function works automatically with self-starting initial values to facilitate the model's convergence. The `mitscherlich()` function allows the user to control the number of parameters, effectively constraining the response curve if theoretically justified:
 
 1.  `type = 1, "no restriction", or "free"` (DEFAULT): three parameter model; $y = a * (1-e^{-c(x + b)})$
 2.  `type = 2, "asymptote 100", or "100"`: two parameter model where asymptote = 100% RY; $y = 100 * (1-e^{-c(x + b)})$
@@ -58,7 +48,7 @@ Disadvantages this model might include:
 
     -   a fixed RY target for CSTV may be a somewhat arbitrary choice, but 95% is commonly used
 
-        -   model may not reach 95%, for which `NaN` results
+    -   model may not reach 95%, for which `NaN` results
 
 -   there is no apparent confidence interval for the derived CSTV. For this latter purpose, we recommend the user to use the `boot_mitscherlich()` function for a reliable confidence interval estimation of parameters and CSTV via bootstrapping (resampling with replacement).
 
@@ -66,7 +56,7 @@ Disadvantages this model might include:
 
 1.  Load your dataframe with soil test value (stv) and relative yield (ry) data.
 2.  Specify the following arguments into the function `mitscherlich()`:
-    1.  `type` select the type of parameterization of the model (`type = 3, 2, or 1; see above`)
+    1.  `type` select the type of parameterization of the model (`type = 1, 2, or 3; see above`)
     2.  `data` (optional)
     3.  `stv` (soil test value) and `ry` (relative yield) columns or vectors,
     4.  `target` (default = 95) to calculate the STV at a specific `ry` target.

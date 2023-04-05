@@ -27,7 +27,12 @@ Updates of the new version:
   - use return() explicitly to return bootstrap data frame
   - in keeping with ggplot2 updates, line `sizes` are now line `linewidth`
   - add scale_x_continuous to attempt auto rescaling
-  
+  - corrected description of b parameter (as -x_intercept)
+  - add y_intercept to output table (for comparing to y_intercept of LP and QP)
+  - corrected XY order of STV and RY in boot_mitscherlich
+  - added set.seed to bootstrapping section of vignette
+  - added na.rm = TRUE on quantile calc
+
 5) `linear_plateau()` and `quadratic_plateau()` updates:
   - Adding RMSE, and BIC outputs
   - default to tidy = TRUE
@@ -63,6 +68,7 @@ Updates of the new version:
 
 8) Documentation:
   - Updated documentation and vignettes including bootstrapping functions for each of the models.
+  - New Bootstrapping vignette.
   - Add a `CITATION` file into "inst/" folder following `bibentry` format.
   
 9) Code of Conduct and Contribution:

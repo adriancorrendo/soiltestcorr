@@ -24,21 +24,21 @@ Build log: https://win-builder.r-project.org/V7ja1c6IeJP2
 # 3. R-hub check, results from devtools::check_rhub()
 
 ## Test environments
-- R-hub Windows Server 2022, R-devel, 64 bit, build log: https://builder.r-hub.io/status/soiltestcorr_2.2.0.tar.gz-1415ac826b5341faa7faed716b07e4fc
+- R-hub Windows Server 2022, R-devel, 64 bit, build log: https://builder.r-hub.io/status/soiltestcorr_2.2.0.tar.gz-8381a59f1b3d4bb9bb5071a2aac8a85c
    
-- R-hub Ubuntu Linux 20.04.1 LTS, R-release, GCC, build log: https://builder.r-hub.io/status/soiltestcorr_2.2.0.tar.gz-a8d1c98091ba456da2e826da392c9104
+- R-hub Ubuntu Linux 20.04.1 LTS, R-release, GCC, build log: https://builder.r-hub.io/status/soiltestcorr_2.2.0.tar.gz-35cf479638e64e1fac967a798a62cc43
 
 - R-hub Fedora Linux, R-devel, clang, gfortran, build log:
-https://builder.r-hub.io/status/soiltestcorr_2.2.0.tar.gz-a33a15dbab5b49df8eb31f2fecacfdc4
+https://builder.r-hub.io/status/soiltestcorr_2.2.0.tar.gz-6937a559bd734ccfa418efededaf1664
 
 ## SUMMARY
 
 ── soiltestcorr 2.2.0: NOTE
 
-  Build ID:   soiltestcorr_2.2.0.tar.gz-1415ac826b5341faa7faed716b07e4fc
+  Build ID:   soiltestcorr_2.2.0.tar.gz-8381a59f1b3d4bb9bb5071a2aac8a85c
   Platform:   Windows Server 2022, R-devel, 64 bit
-  Submitted:  1h 45m 46.3s ago
-  Build time: 11m 52.6s
+  Submitted:  8m 2.3s ago
+  Build time: 7m 26.2s
 
 ❯ checking for detritus in the temp directory ... NOTE
   Found the following files/directories:
@@ -48,13 +48,13 @@ https://builder.r-hub.io/status/soiltestcorr_2.2.0.tar.gz-a33a15dbab5b49df8eb31f
 
 ── soiltestcorr 2.2.0: IN-PROGRESS
 
-  Build ID:   soiltestcorr_2.2.0.tar.gz-a8d1c98091ba456da2e826da392c9104
+  Build ID:   soiltestcorr_2.2.0.tar.gz-35cf479638e64e1fac967a798a62cc43
   Platform:   Ubuntu Linux 20.04.1 LTS, R-release, GCC
-  Submitted:  1h 45m 46.3s ago
+  Submitted:  8m 2.4s ago
 
 
 ── soiltestcorr 2.2.0: IN-PROGRESS
 
-  Build ID:   soiltestcorr_2.2.0.tar.gz-a33a15dbab5b49df8eb31f2fecacfdc4
+  Build ID:   soiltestcorr_2.2.0.tar.gz-6937a559bd734ccfa418efededaf1664
   Platform:   Fedora Linux, R-devel, clang, gfortran
-  Submitted:  1h 45m 46.3s ago
+  Submitted:  8m 2.4s ago

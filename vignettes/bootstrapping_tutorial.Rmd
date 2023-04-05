@@ -1,0 +1,128 @@
+---
+title: "Implementing boostrapping"
+author: Adrian Correndo, Austin Pearce
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Bootstrapping}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: inline
+bibliography: references.bib
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width=6, 
+  fig.height=4
+)
+```
+
+<img src="../man/figures/soiltestcorr_logo.png" align="right" height="200" style="float:right; height:200px;"/>
+
+## Description
+
+This tutorial is intended to show how to implement a bootstrapping procedure to the `soiltestcorr` functions.
+
+## What is bootstrapping?
+
+Bootstrapping is a technique introduced in late 1970's by Bradley Efron [@efron1979] that resamples a dataset to create simulated random samples. This enables users for the calculation of a distribution of a quantity of interest (e.g. a parameter, a goodness of fit metric, etc.), and it represents a form of hypothesis testing.
+
+## How it works?
+
+Bootstrapping is a resampling technique with replacement. That means that draws samples from the original data maintaining the same original size. Let's suppose that we have a dataset with 100 observations, one per row. Then, each resample will conserve the same number of rows (100) by randomly repeating specific rows of the dataset.
+
+In general, the larger the number of resamples, the more likely to obtain a good distribution of the quantity of interest. From that distribution we may obtain a "summary" describing "moments" of the distribution such as the "mean", "median", "standard deviation", "quantiles", etc.. Very frequently, the general procedure is to extract the "median" (which is more robust to outliers than the mean), the 0.025- and 0.975-quantiles from the distribution (equivalent to 2.5th and 97.5th percentiles) in order to obtain the famous 95% confidence interval. This interval in normally use to test hypotheses of interest (e.g. comparing groups, methods, etc.)
+
+## General Instructions
+
+1.  Load your dataframe with soil test value (`stv`) and relative yield (`ry`) data.
+2.  Specify the following arguments into the function `mod_alcc()`
+    1.  `data` (optional)
+
+    2.  `stv` (soil test value) and `ry` (relative yield) columns or vectors,
+
+    3.  `n` as a number indicating the number of resamples to run.
+    
+    4.  `...` indicates an "open argument" where users can pass as many as desired grouping variables.
+    
+
+# Tutorial
+
+```{r setup}
+library(soiltestcorr)
+```
+
+Suggested packages
+
+```{r warning=FALSE, message=FALSE}
+# Install if needed 
+library(ggplot2) # Plots
+library(dplyr) # Data wrangling
+library(tidyr) # Data wrangling
+library(purrr) # Mapping
+```
+
+This is a basic example using three different datasets:
+
+## Load datasets
+
+## 2. Multiple fits at once
+
+```{r warning=T, message=F}
+# Example 1. Fake dataset manually created
+data_1 <- data.frame("RY"  = c(65,80,85,88,90,94,93,96,97,95,98,100,99,99,100),
+                     "STV" = c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15))
+  
+# Example 2. Native fake dataset from soiltestcorr package
+data_2 <- soiltestcorr::data_test
+
+data.all <- bind_rows("data_1" = data_1, 
+                      "data_2" = data_2,
+                      .id = "group_factor")
+```
+
+## 3. Bootstrapping
+
+If you have groups within your data, you can specify grouping variables as arguments in order to maintain, within each resample, the same proportion of observations than in the original dataset.
+
+This function returns a table with as many rows as the resampling size (n) containing the results for each resample.
+
+```{r warning=T, message=F}
+set.seed(123)
+boot_alcc <- boot_mod_alcc(data = data.all,
+                           stv = STV, ry = RY,
+                           target = 90, n = 99, 
+                           # Group by id
+                           group_factor = group_factor)
+
+# See sample
+boot_alcc %>% group_by(group_factor) %>% head(n = 2)
+
+# CSTV Confidence Interval
+boot_sum <- boot_alcc %>% 
+              group_by(group_factor) %>% 
+            # Obtain quantiles of interest
+              summarise(q025 = quantile(CSTV, prob = 0.025),
+                        median = quantile(CSTV, prob = 0.500),
+                        q975 = quantile(CSTV, prob = 0.975))
+
+# Plot
+boot_alcc %>% 
+  ungroup() %>% 
+  ggplot2::ggplot(aes(x = CSTV))+
+  geom_histogram(aes(fill = group_factor), color = "grey40", bins = 10)+
+  # Draw lines
+  geom_vline(data = boot_sum, aes(xintercept = median),
+             linetype = "dashed", linewidth = 1)+
+  geom_vline(data = boot_sum, aes(xintercept = q025),
+              linetype = "dotted", linewidth = 0.5)+
+  geom_vline(data = boot_sum, aes(xintercept = q975),
+              linetype = "dotted", linewidth = 0.5)+
+  facet_wrap(~group_factor, scales = "free")
+
+```
+
+### References
