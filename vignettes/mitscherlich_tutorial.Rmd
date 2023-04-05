@@ -3,7 +3,7 @@ title: "Mitscherlich-type response"
 author: Adrian Correndo & Austin Pearce 
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Mitscherlich-type response}
+  %\VignetteIndexEntry{10_Mitscherlich-type response}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
