@@ -27,6 +27,7 @@
     <a class="dropdown-item" href="../articles/Introduction_to_soiltestcorr.html">Introduction</a>
     <a class="dropdown-item" href="../articles/Shinyapp.html">Shinyapp</a>
     <a class="dropdown-item" href="../articles/SoftwareX_publication.html">SoftwareX publication</a>
+    <a class="dropdown-item" href="../articles/bootstrapping_tutorial.html">Implementing boostrapping</a>
     <a class="dropdown-item" href="../articles/cate_nelson_1965_tutorial.html">Cate and Nelson (1965)</a>
     <a class="dropdown-item" href="../articles/cate_nelson_1971_tutorial.html">Cate and Nelson (1971)</a>
     <a class="dropdown-item" href="../articles/linear_plateau_tutorial.html">Linear-plateau response</a>
@@ -87,6 +88,11 @@
 <li>in keeping with ggplot2 updates, line <code>sizes</code> are now line <code>linewidth</code>
 </li>
 <li>add scale_x_continuous to attempt auto rescaling</li>
+<li>corrected description of b parameter (as -x_intercept)</li>
+<li>add y_intercept to output table (for comparing to y_intercept of LP and QP)</li>
+<li>corrected XY order of STV and RY in boot_mitscherlich</li>
+<li>added set.seed to bootstrapping section of vignette</li>
+<li>added na.rm = TRUE on quantile calc</li>
 </ul><ol start="5" style="list-style-type: decimal"><li>
 <code><a href="../reference/linear_plateau.html">linear_plateau()</a></code> and <code><a href="../reference/quadratic_plateau.html">quadratic_plateau()</a></code> updates:</li>
 </ol><ul><li>Adding RMSE, and BIC outputs</li>
@@ -123,6 +129,7 @@
 <code>smatr</code> is a new dependency (to get AIC and BIC of SMA models).</li>
 </ul><ol start="8" style="list-style-type: decimal"><li>Documentation:</li>
 </ol><ul><li>Updated documentation and vignettes including bootstrapping functions for each of the models.</li>
+<li>New Bootstrapping vignette.</li>
 <li>Add a <code>CITATION</code> file into “inst/” folder following <code>bibentry</code> format.</li>
 </ul><ol start="9" style="list-style-type: decimal"><li>Code of Conduct and Contribution:</li>
 </ol><ul><li>Including code of conduct and contribution guidelines.</li>

@@ -44,6 +44,7 @@
     <a class="dropdown-item" href="../articles/Introduction_to_soiltestcorr.html">Introduction</a>
     <a class="dropdown-item" href="../articles/Shinyapp.html">Shinyapp</a>
     <a class="dropdown-item" href="../articles/SoftwareX_publication.html">SoftwareX publication</a>
+    <a class="dropdown-item" href="../articles/bootstrapping_tutorial.html">Implementing boostrapping</a>
     <a class="dropdown-item" href="../articles/cate_nelson_1965_tutorial.html">Cate and Nelson (1965)</a>
     <a class="dropdown-item" href="../articles/cate_nelson_1971_tutorial.html">Cate and Nelson (1971)</a>
     <a class="dropdown-item" href="../articles/linear_plateau_tutorial.html">Linear-plateau response</a>
@@ -104,13 +105,7 @@ Blackmer (1990) expressed it as:</p>
 y = a * (1-e^{-c(x + b)})
 \]</span></p>
 <p>where<br><code>a</code> = asymptote,<br><code>b</code> = model-fitting parameter ( <span class="math inline">\(-b\)</span> = X-intercept),<br><code>c</code> = curvature parameter.</p>
-<p>This is used in the <code><a href="../reference/mitscherlich.html">mitscherlich()</a></code> function. The model
-can also be expressed as</p>
-<p><span class="math display">\[
-y = a + (b - a) * e^{-cx}
-\]</span></p>
-<p><code>a</code> = asymptote,<br><code>b</code> = Y-intercept,<br><code>c</code> = curvature parameter.</p>
-<p>The exponential model is extensively used in agriculture to describe
+<p>This exponential model is extensively used in agriculture to describe
 crops response to input since the biological meaning of its curved
 response. The <code><a href="../reference/mitscherlich.html">mitscherlich()</a></code> function works automatically
 with self-starting initial values to facilitate the model’s convergence.
@@ -142,13 +137,10 @@ critical soil test value</p>
 <ul>
 <li><p>the model cannot be evaluated at the asymptote as CSTV would go
 to <code>Inf</code></p></li>
-<li>
-<p>a fixed RY target for CSTV may be a somewhat arbitrary choice,
-but 95% is commonly used</p>
-<ul>
-<li>model may not reach 95%, for which <code>NaN</code> results</li>
-</ul>
-</li>
+<li><p>a fixed RY target for CSTV may be a somewhat arbitrary choice,
+but 95% is commonly used</p></li>
+<li><p>model may not reach 95%, for which <code>NaN</code>
+results</p></li>
 </ul>
 </li>
 <li><p>there is no apparent confidence interval for the derived CSTV.
@@ -169,7 +161,7 @@ with replacement).</p></li>
 <ol style="list-style-type: decimal">
 <li>
 <code>type</code> select the type of parameterization of the model
-(<code>type = 3, 2, or 1; see above</code>)</li>
+(<code>type = 1, 2, or 3; see above</code>)</li>
 <li>
 <code>data</code> (optional)</li>
 <li>

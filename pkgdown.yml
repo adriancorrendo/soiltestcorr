@@ -5,13 +5,14 @@ articles:
   Introduction_to_soiltestcorr: Introduction_to_soiltestcorr.html
   Shinyapp: Shinyapp.html
   SoftwareX_publication: SoftwareX_publication.html
+  bootstrapping_tutorial: bootstrapping_tutorial.html
   cate_nelson_1965_tutorial: cate_nelson_1965_tutorial.html
   cate_nelson_1971_tutorial: cate_nelson_1971_tutorial.html
   linear_plateau_tutorial: linear_plateau_tutorial.html
   mitscherlich_tutorial: mitscherlich_tutorial.html
   mod_alcc_tutorial: mod_alcc_tutorial.html
   quadratic_plateau_tutorial: quadratic_plateau_tutorial.html
-last_built: 2023-04-04T16:21Z
+last_built: 2023-04-05T05:32Z
 urls:
   reference: https://adriancorrendo.github.io/soiltestcorr/reference
   article: https://adriancorrendo.github.io/soiltestcorr/articles

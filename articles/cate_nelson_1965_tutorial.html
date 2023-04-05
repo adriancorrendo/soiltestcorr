@@ -44,6 +44,7 @@
     <a class="dropdown-item" href="../articles/Introduction_to_soiltestcorr.html">Introduction</a>
     <a class="dropdown-item" href="../articles/Shinyapp.html">Shinyapp</a>
     <a class="dropdown-item" href="../articles/SoftwareX_publication.html">SoftwareX publication</a>
+    <a class="dropdown-item" href="../articles/bootstrapping_tutorial.html">Implementing boostrapping</a>
     <a class="dropdown-item" href="../articles/cate_nelson_1965_tutorial.html">Cate and Nelson (1965)</a>
     <a class="dropdown-item" href="../articles/cate_nelson_1971_tutorial.html">Cate and Nelson (1971)</a>
     <a class="dropdown-item" href="../articles/linear_plateau_tutorial.html">Linear-plateau response</a>
@@ -403,29 +404,29 @@ size (n) containing the results for each resample.</p>
 <code class="sourceCode R"><span><span class="va">boot_cn65</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cate_nelson_1965.html">boot_cn_1965</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>,</span>
 <span>                          ry <span class="op">=</span> <span class="va">RY</span>, stv <span class="op">=</span> <span class="va">STK</span>, target <span class="op">=</span> <span class="fl">90</span>,</span>
 <span>                          n <span class="op">=</span> <span class="fl">99</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: There were 86 warnings in `dplyr::mutate()`.</span></span>
+<span><span class="co">#&gt; Warning: There were 95 warnings in `dplyr::mutate()`.</span></span>
 <span><span class="co">#&gt; The first warning was:</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In argument: `model = map(...)`.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In group 1: `boot_id = 1`.</span></span>
 <span><span class="co">#&gt; Caused by warning in `stats::chisq.test()`:</span></span>
 <span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> Chi-squared approximation may be incorrect</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 85 remaining warnings.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 94 remaining warnings.</span></span>
 <span></span>
 <span><span class="va">boot_cn65</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_head</a></span><span class="op">(</span><span class="va">.</span>, n<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 9</span></span></span>
 <span><span class="co">#&gt;   boot_id     n  CRYV  CSTV    R2   AIC   BIC  RMSE quadrants$q.I $q.II $q.III</span></span>
 <span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       1    24    90  49   0.806  168.  172.  7.10             0    12      4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>       2    24    90  49   0.734  175.  179.  8.20             0    17      4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>       3    24    90  48   0.739  184.  188.  9.87             0    11      6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>       4    24    90  48   0.758  180.  183.  9.02             0    13      3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>       5    24    90  37.5 0.722  186.  189. 10.3              0    11      2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       1    24    90    56 0.773  169.  173.  7.25             0    13      3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>       2    24    90    48 0.688  181.  185.  9.27             0    13      3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>       3    24    90    49 0.610  174.  178.  8.09             0    19      2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>       4    24    90    75 0.747  179.  182.  8.86             1    13      2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>       5    24    90   132 0.255  208.  211. 16.2              3     6      0</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 more variables: quadrants$q.IV &lt;int&gt;, $positive &lt;int&gt;, $negative &lt;int&gt;</span></span></span>
 <span></span>
 <span><span class="co"># CSTV Confidence Interval</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">boot_cn65</span><span class="op">$</span><span class="va">CSTV</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   2.5%    50%  97.5% </span></span>
-<span><span class="co">#&gt;  35.90  53.00 132.55</span></span>
+<span><span class="co">#&gt;  2.5%   50% 97.5% </span></span>
+<span><span class="co">#&gt;    37    49   133</span></span>
 <span></span>
 <span><span class="co"># Plot</span></span>
 <span><span class="va">boot_cn65</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
