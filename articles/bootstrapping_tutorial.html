@@ -92,63 +92,85 @@ Correndo, Austin Pearce</h4>
     
     
 <p><img src="../reference/figures/soiltestcorr_logo.png" align="right" height="200" style="float:right; height:200px;"></p>
-<div class="section level3">
-<h3 id="description">Description<a class="anchor" aria-label="anchor" href="#description"></a>
-</h3>
-<p>This tutorial is intended to show how to implement a bootstrapping
-procedure to the <code>soiltestcorr</code> functions.</p>
-</div>
-<div class="section level3">
-<h3 id="what-is-bootstrapping">What is bootstrapping?<a class="anchor" aria-label="anchor" href="#what-is-bootstrapping"></a>
-</h3>
-<p>Bootstrapping is a technique introduced in late 1970’s by Bradley
-Efron <span class="citation">(Efron 1979)</span> that resamples a
-dataset to create simulated random samples. This enables users for the
-calculation of a distribution of a quantity of interest (e.g. a
-parameter, a goodness of fit metric, etc.), and it represents a form of
-hypothesis testing.</p>
-</div>
-<div class="section level3">
-<h3 id="how-it-works">How it works?<a class="anchor" aria-label="anchor" href="#how-it-works"></a>
-</h3>
-<p>Bootstrapping is a resampling technique with replacement. That means
-that draws samples from the original data maintaining the same original
-size. Let’s suppose that we have a dataset with 100 observations, one
-per row. Then, each resample will conserve the same number of rows (100)
-by randomly repeating specific rows of the dataset.</p>
-<p>In general, the larger the number of resamples, the more likely to
-obtain a good distribution of the quantity of interest. From that
-distribution we may obtain a “summary” describing “moments” of the
-distribution such as the “mean”, “median”, “standard deviation”,
-“quantiles”, etc.. Very frequently, the general procedure is to extract
-the “median” (which is more robust to outliers than the mean), the
-0.025- and 0.975-quantiles from the distribution (equivalent to 2.5th
-and 97.5th percentiles) in order to obtain the famous 95% confidence
-interval. This interval in normally use to test hypotheses of interest
-(e.g. comparing groups, methods, etc.)</p>
-</div>
-<div class="section level3">
-<h3 id="general-instructions">General Instructions<a class="anchor" aria-label="anchor" href="#general-instructions"></a>
-</h3>
-<ol style="list-style-type: decimal">
-<li>Load your dataframe with soil test value (<code>stv</code>) and
-relative yield (<code>ry</code>) data.</li>
-<li>Specify the following arguments into the function
-<code><a href="../reference/mod_alcc.html">mod_alcc()</a></code>
-<ol style="list-style-type: decimal">
-<li><p><code>data</code> (optional)</p></li>
-<li><p><code>stv</code> (soil test value) and <code>ry</code> (relative
-yield) columns or vectors,</p></li>
-<li><p><code>n</code> as a number indicating the number of resamples to
-run.</p></li>
-<li><p><code>...</code> indicates an “open argument” where users can
-pass as many as desired grouping variables.</p></li>
-</ol>
-</li>
-</ol>
+<div class="section level2">
+<h2 id="description">Description<a class="anchor" aria-label="anchor" href="#description"></a>
+</h2>
+<p>This tutorial is intended to show how to implement bootstrapping to
+the <code>soiltestcorr</code> functions.</p>
 </div>
 <div class="section level2">
-<h2 id="tutorial">Tutorial<a class="anchor" aria-label="anchor" href="#tutorial"></a>
+<h2 id="what-is-bootstrapping">What is bootstrapping?<a class="anchor" aria-label="anchor" href="#what-is-bootstrapping"></a>
+</h2>
+<p>Bootstrapping is a technique introduced in late 1970’s by Bradley
+Efron <span class="citation">(B. Efron 1979)</span>. It is a general
+purpose inferential approach that is useful for robust estimations,
+especially when the distribution of a statistic of quantity of interest
+is complicated or unknown <span class="citation">(Faraway 2014)</span>.
+It provides an alternative to perform confidence statements while
+relaxing the famous assumption of normality<span class="citation">(Bradley Efron and Tibshirani 1993)</span>. The
+underlying concept of bootstrapping is that the inference about a
+population parameter or quantity can be modeled by “resampling” the
+available data.</p>
+</div>
+<div class="section level2">
+<h2 id="how-does-it-work">How does it work?<a class="anchor" aria-label="anchor" href="#how-does-it-work"></a>
+</h2>
+<p>Bootstrapping is a resampling technique with replacement. That means
+that it draws random samples from the original data while maintaining
+the same original size. Let’s suppose that we have a dataset with 100
+observations, one per row. Then, we generate 500 resamples, each of them
+conserving the same number of rows (100) by randomly repeating specific
+rows of the dataset. Finally, we fit the model of interest as many times
+as resamples we have. Therefore, we will obtain, for example, 500
+estimations of the CSTV.</p>
+<p>In general, the larger the number of observation and resamples, the
+more likely to obtain a representative distribution of the population’s
+quantity of interest. Generally speaking, a minimum recommended number
+of iterations is <code>n = 1000</code>. Nonetheless, this is something
+that you would like to test on your own until you feel comfortable with
+the compromise between the quality of the outcomes and the necessary
+computational power for the iterations.</p>
+<p>Once the distribution is obtained we may obtain a “summary”
+describing “moments” of the distribution such as the “mean”, “median”,
+“standard deviation”, “quantiles”, etc.. Very frequently, the general
+procedure is to extract the “median” (which is more robust to outliers
+than the mean), the 0.025- and 0.975-quantiles from the distribution
+(equivalent to 2.5th and 97.5th percentiles) in order to obtain the
+famous 95% confidence interval. This interval in normally use to test
+hypotheses of interest (e.g. comparing groups, methods, etc.)</p>
+</div>
+<div class="section level2">
+<h2 id="the-soiltestcorrboot_-functions">The <code>soiltestcorr::boot_()</code> functions<a class="anchor" aria-label="anchor" href="#the-soiltestcorrboot_-functions"></a>
+</h2>
+<p>You can implement bootstrapping to each of the six soiltestcorr
+available models, which count with their own boot_…() function:</p>
+<ul>
+<li><p><code><a href="../reference/mod_alcc.html">boot_mod_alcc()</a></code></p></li>
+<li><p><code><a href="../reference/cate_nelson_1965.html">boot_cn_1965()</a></code></p></li>
+<li><p><code><a href="../reference/cate_nelson_1971.html">boot_cn_1971()</a></code></p></li>
+<li><p><code><a href="../reference/linear_plateau.html">boot_linear_plateau()</a></code></p></li>
+<li><p><code><a href="../reference/quadratic_plateau.html">boot_quadratic_plateau()</a></code></p></li>
+<li><p><code><a href="../reference/mitscherlich.html">boot_mitscherlich()</a></code></p></li>
+</ul>
+<p>Each boot_…() function presents the same basic arguments than their
+respective original functions (i.e. ‘data’, ‘stv’, and ‘ry’), with the
+addition of two arguments related to the resampling:</p>
+<ul>
+<li><ol style="list-style-type: lower-roman">
+<li>
+<code>n</code>, indicating the number of resamples to perform
+iterations.</li>
+</ol></li>
+<li><ol start="2" style="list-style-type: lower-roman">
+<li>
+<code>...</code>, indicating open arguments that allow you to add
+grouping variable/s (factor or character) for running the bootstrapping
+by group.</li>
+</ol></li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://adriancorrendo.github.io/soiltestcorr/">soiltestcorr</a></span><span class="op">)</span></span></code></pre></div>
@@ -161,12 +183,11 @@ pass as many as desired grouping variables.</p></li>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/" class="external-link">purrr</a></span><span class="op">)</span> <span class="co"># Mapping</span></span></code></pre></div>
 <p>This is a basic example using three different datasets:</p>
 <div class="section level3">
-<h3 id="load-datasets">Load datasets<a class="anchor" aria-label="anchor" href="#load-datasets"></a>
+<h3 id="load-data">Load data<a class="anchor" aria-label="anchor" href="#load-data"></a>
 </h3>
-</div>
-<div class="section level3">
-<h3 id="multiple-fits-at-once">2. Multiple fits at once<a class="anchor" aria-label="anchor" href="#multiple-fits-at-once"></a>
-</h3>
+<div class="section level4">
+<h4 id="multiple-datasets">Multiple datasets<a class="anchor" aria-label="anchor" href="#multiple-datasets"></a>
+</h4>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Example 1. Fake dataset manually created</span></span>
 <span><span class="va">data_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="st">"RY"</span>  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">65</span>,<span class="fl">80</span>,<span class="fl">85</span>,<span class="fl">88</span>,<span class="fl">90</span>,<span class="fl">94</span>,<span class="fl">93</span>,<span class="fl">96</span>,<span class="fl">97</span>,<span class="fl">95</span>,<span class="fl">98</span>,<span class="fl">100</span>,<span class="fl">99</span>,<span class="fl">99</span>,<span class="fl">100</span><span class="op">)</span>,</span>
@@ -177,11 +198,12 @@ pass as many as desired grouping variables.</p></li>
 <span></span>
 <span><span class="va">data.all</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="st">"data_1"</span> <span class="op">=</span> <span class="va">data_1</span>, </span>
 <span>                      <span class="st">"data_2"</span> <span class="op">=</span> <span class="va">data_2</span>,</span>
+<span>                      <span class="co"># Create the grouping variable</span></span>
 <span>                      .id <span class="op">=</span> <span class="st">"group_factor"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="bootstrapping">3. Bootstrapping<a class="anchor" aria-label="anchor" href="#bootstrapping"></a>
-</h3>
+<div class="section level4">
+<h4 id="using-boot_mod_alcc">Using <code>boot_mod_alcc()</code><a class="anchor" aria-label="anchor" href="#using-boot_mod_alcc"></a>
+</h4>
 <p>If you have groups within your data, you can specify grouping
 variables as arguments in order to maintain, within each resample, the
 same proportion of observations than in the original dataset.</p>
@@ -237,14 +259,23 @@ size (n) containing the results for each resample.</p>
 <span>              linetype <span class="op">=</span> <span class="st">"dotted"</span>, linewidth <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span><span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">group_factor</span>, scales <span class="op">=</span> <span class="st">"free"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="bootstrapping_tutorial_files/figure-html/unnamed-chunk-4-1.png" width="576"></p>
-<div class="section level4">
-<h4 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
-</h4>
+</div>
+</div>
+<div class="section level3 unnumbered">
+<h3 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-efron1979" class="csl-entry">
 Efron, B. 1979. <span>“Bootstrap Methods: Another Look at the
 Jackknife.”</span> <em>The Annals of Statistics</em> 7 (1). <a href="https://doi.org/10.1214/aos/1176344552" class="external-link">https://doi.org/10.1214/aos/1176344552</a>.
 </div>
+<div id="ref-efron1993" class="csl-entry">
+Efron, Bradley, and Robert J. Tibshirani. 1993. <span>“Efficient
+Bootstrap Computations.”</span> In, 338–57. Springer US. <a href="https://doi.org/10.1007/978-1-4899-4541-9_23" class="external-link">https://doi.org/10.1007/978-1-4899-4541-9_23</a>.
+</div>
+<div id="ref-faraway2014" class="csl-entry">
+Faraway, Julian J. 2014. <em>Linear Models with r</em>. 2nd ed. CRC
+press.
 </div>
 </div>
 </div>
