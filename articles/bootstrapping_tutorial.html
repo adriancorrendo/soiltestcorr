@@ -114,18 +114,18 @@ the available data.</p>
 <div class="section level2">
 <h2 id="how-does-it-work">How does it work?<a class="anchor" aria-label="anchor" href="#how-does-it-work"></a>
 </h2>
-<p>In soiltestcorr, bootstrapping means resampling cases with
-replacement. That means that it draws random samples from the original
-data while maintaining the same original size (i.e, some observations
-may be included multiple times while others may not be sampled at all).
-Let’s suppose that we have a dataset with 50 observations (one per row).
-We first create bootstraps/replicates/samples by randomly sampling those
-50 observations many times (e.g., 1,000 times). Each random sample has
-50 total observations, conserving the same number of observations as the
-original data (50). Finally, we fit a chosen model to each of the 1000
-samples, which, in the context of soiltestcorr, could result in a
-distribution of 1,000 estimates of a critical soil test value (CSTV),
-for example.</p>
+<p>In <code>soiltestcorr</code>, bootstrapping means resampling cases
+with replacement. That means that it draws random samples from the
+original data while maintaining the same original size (i.e, some
+observations may be included multiple times while others may not be
+sampled at all). Let’s suppose that we have a dataset with 50
+observations (one per row). We first create
+bootstraps/replicates/samples by randomly sampling those 50 observations
+many times (e.g., 1,000 times). Each random sample has 50 total
+observations, conserving the same number of observations as the original
+data (50). Finally, we fit a chosen model to each of the 1000 samples,
+which, in the context of soiltestcorr, could result in a distribution of
+1,000 estimates of a critical soil test value (CSTV), for example.</p>
 <p>In general, the larger the number of observations and resamples, the
 more likely we’ll obtain a representative distribution of the
 population’s quantity of interest. The minimum number of iterations
