@@ -3,7 +3,7 @@ title: "Quadratic-plateau response"
 author: Adrian Correndo & Austin Pearce 
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{06}
+  %\VignetteIndexEntry{a06}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
