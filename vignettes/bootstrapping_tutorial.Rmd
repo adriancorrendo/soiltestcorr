@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
-  chunk_output_type: inline
+  chunk_output_type: console
 ---
 
 ```{r, include = FALSE}
@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 
 ## Description
 
-This tutorial is intended to show how to implement bootstrapping to the `soiltestcorr` functions.
+This tutorial is intended to show how to implement bootstrapping to the soiltestcorr functions.
 
 ## What is bootstrapping?
 
@@ -31,15 +31,15 @@ Bootstrapping is a technique introduced in late 1970's by Bradley Efron (Efron, 
 
 ## How does it work?
 
-Bootstrapping is a resampling technique with replacement. That means that it draws random samples from the original data while maintaining the same original size. Let's suppose that we have a dataset with 100 observations, one per row. Then, we generate 500 resamples, each of them conserving the same number of rows (100) by randomly repeating specific rows of the dataset. Finally, we fit the model of interest as many times as resamples we have. Therefore, we will obtain, for example, 500 estimations of the CSTV.
+In soiltestcorr, bootstrapping means resampling cases with replacement. That means that it draws random samples from the original data while maintaining the same original size (i.e, some observations may be included multiple times while others may not be sampled at all). Let's suppose that we have a dataset with 50 observations (one per row). We first create bootstraps/replicates/samples by randomly sampling those 50 observations many times (e.g., 500 times). Each random sample has 50 total observations, conserving the same number of observations as the original data (50). Finally, we fit a chosen model to each of the 1000 samples, which, in the context of soiltestcorr, could result in a distribution of 500 estimates of a critical soil test value (CSTV), for example.
 
-In general, the larger the number of observation and resamples, the more likely to obtain a representative distribution of the population's quantity of interest. Generally speaking, a minimum recommended number of iterations is `n = 1000`. Nonetheless, this is something that you would like to test on your own until you feel comfortable with the compromise between the quality of the outcomes and the necessary computational power for the iterations.  
+In general, the larger the number of observations and resamples, the more likely we'll obtain a representative distribution of the population's quantity of interest. The minimum number of iterations generally recommended is `n = 1000`. The number used is up to the user, and may represent a compromise between the quality of the outcomes and the necessary computational power or time for the iterations. If the final results from 1,000 samples is no different than 10,000 samples, the time savings may warrant fewer samples.
 
-Once the distribution is obtained we may obtain a "summary" describing "moments" of the distribution such as the "mean", "median", "standard deviation", "quantiles", etc.. Very frequently, the general procedure is to extract the "median" (which is more robust to outliers than the mean), the 0.025- and 0.975-quantiles from the distribution (equivalent to 2.5th and 97.5th percentiles) in order to obtain the famous 95% confidence interval. This interval in normally use to test hypotheses of interest (e.g. comparing groups, methods, etc.)
+Once the distribution is obtained we may obtain a "summary" describing "moments" of the distribution such as the "mean", "median", "standard deviation", "quantiles", etc.. Very frequently, the general procedure is to extract the "median" (which is more robust to outliers than the mean), the 0.025- and 0.975-quantiles from the distribution (equivalent to 2.5th and 97.5th percentiles) in order to obtain the conventional 95% confidence interval. This interval in normally use to test hypotheses of interest (e.g. comparing groups, methods, etc.)
 
 ## The `soiltestcorr::boot_()` functions
 
-You can implement bootstrapping to each of the six soiltestcorr available models, which count with their own boot_...() function:
+You can implement bootstrapping to each of the six soiltestcorr available models, which count with their own `boot_…()` function:
 
 -   `boot_mod_alcc()`
 
@@ -53,25 +53,25 @@ You can implement bootstrapping to each of the six soiltestcorr available models
 
 -   `boot_mitscherlich()`
 
-Each boot_…() function presents the same basic arguments than their respective original functions (i.e. 'data', 'stv', and 'ry'), with the addition of two arguments related to the resampling: 
+Each `boot_…()` function presents the same basic arguments than their respective original functions (i.e., `data`, `stv`, and `ry`), with the addition of two arguments related to the resampling:
 
-- (i) `n`, indicating the number of resamples to perform iterations.
+-   `n`, indicating the number of resamples to perform iterations.
 
-- (ii) `...`, indicating open arguments that allow you to add grouping variable/s (factor or character) for running the bootstrapping by group. Be sure that these open arguments are placed by the end of each function.
-
+-   `...`, indicating open arguments that allow you to add grouping variable/s (factor or character) for running the bootstrapping by group. Be sure that these open arguments are placed by the end of each function.
 
 ## Examples
-This is a simple example using a simulated dataset that contains relative yield (RY) and soil test values (STV) for two different groups of soil: (i) "clay_loam", and (ii) "sandy_loam".
 
-If you have groups within your data like this one, you can specify the grouping variable/s as arguments in order to maintain, within each resample, the same proportion of observations than in the original dataset. This will return a tibble with as many rows as the resampling size (n) containing the results for each resample.
+The following is a simple example using a simulated dataset that contains soil test values (STV) and relative yield (RY) for two different groups of soil: "clay_loam" and "sandy_loam".
 
-The core idea is to obtain critical soil test values (CSTV) for 90% of RY through the different models that soiltestcorr offers and compare the outcomes.
+If you have groups in your data, you can specify the grouping variable/s as arguments in order to maintain within each bootstrap sample the same proportion of observations than in the original dataset. This will return a tibble for each sample with as many rows as the resampling size (n) containing the results.
+
+The objective in this example is to obtain critical soil test values (CSTV) with confidence intervals at 90% RY for each of the different models that soiltestcorr offers.
 
 ```{r setup}
 library(soiltestcorr)
 ```
 
-Suggested packages
+**Suggested packages**
 
 ```{r warning=FALSE, message=FALSE}
 # Install if needed 
@@ -79,9 +79,12 @@ library(ggplot2) # Plots
 library(dplyr) # Data wrangling
 library(tidyr) # Data wrangling
 library(purrr) # Mapping
+
+theme_set(theme_minimal())
 ```
 
 ### Data
+
 ```{r warning=F, message=F}
 # Clay loam simulated dataset
 clay_loam <- dplyr::tibble(
@@ -104,22 +107,23 @@ dataframe_soils <- bind_rows(clay_loam, sandy_loam)
 ```{r warning=F, message=F}
 set.seed(123)
 boot_cn_65 <- boot_cn_1965(data = dataframe_soils,
-                               stv = STV, ry = RY, 
-                               n = 99, target = 90,
-                               # Group by soil
-                               soil = soil)
+                           stv = STV, ry = RY, 
+                           target = 90,
+                           n = 100, # only 100 replicates to save compute time on demo
+                           # Group by soil
+                           soil = soil)
 
 # CSTV Confidence Interval
-boot_cn_65_sum <- boot_cn_65 %>% 
-              group_by(soil) %>% 
-            # Obtain quantiles of interest
-              summarise(q025 = quantile(CSTV, prob = 0.025),
-                        median = quantile(CSTV, prob = 0.500),
-                        q975 = quantile(CSTV, prob = 0.975))
+boot_cn_65_sum <- boot_cn_65 %>%
+  group_by(soil) %>% 
+  # Obtain quantiles of interest
+  summarise(q025 = quantile(CSTV, prob = 0.025, na.rm = TRUE),
+            median = quantile(CSTV, prob = 0.500, na.rm = TRUE),
+            q975 = quantile(CSTV, prob = 0.975, na.rm = TRUE)) %>% 
+  ungroup()
 
 # Plot CSTV
 boot_cn_65 %>% 
-  ungroup() %>% 
   ggplot2::ggplot(aes(x = CSTV))+
   geom_density(aes(fill = soil), color = "grey40", alpha = 0.5)+
   # Draw lines
@@ -135,23 +139,24 @@ boot_cn_65 %>%
 ```
 
 #### 2. `boot_cn_1971()`
+
 *Note: for the Cate & Nelson (1971) approach, it is not possible to set a RY target for the CSTV estimation. It simply estimates the most efficient division of the data into the four quadrants in order to maximize the number of observations into positive quadrants.*
 
 ```{r warning=F, message=F}
 set.seed(123)
 boot_cn_71 <- boot_cn_1971(data = dataframe_soils,
-                               stv = STV, ry = RY, 
-                               n = 99, 
-                               # Group by soil
-                               soil = soil)
+                           stv = STV, ry = RY, 
+                           n = 100, # only 100 replicates to save compute time on demo
+                           # Group by soil
+                           soil = soil)
 
 # CSTV Confidence Interval
 boot_cn_71_sum <- boot_cn_71 %>% 
               group_by(soil) %>% 
             # Obtain quantiles of interest
-              summarise(q025 = quantile(CSTV, prob = 0.025),
-                        median = quantile(CSTV, prob = 0.500),
-                        q975 = quantile(CSTV, prob = 0.975))
+              summarise(q025 = quantile(CSTV, prob = 0.025, na.rm = TRUE),
+                        median = quantile(CSTV, prob = 0.500, na.rm = TRUE),
+                        q975 = quantile(CSTV, prob = 0.975, na.rm = TRUE))
 
 # Plot CSTV
 boot_cn_71 %>% 
@@ -167,11 +172,12 @@ boot_cn_71 %>%
 ```
 
 #### 3. `boot_mod_alcc()`
+
 ```{r warning=F, message=F}
 set.seed(123)
 boot_alcc <- boot_mod_alcc(data = dataframe_soils,
                            stv = STV, ry = RY,
-                           target = 90, n = 999, 
+                           target = 90, n = 1000, 
                            # Group by id
                            soil = soil)
 
@@ -179,9 +185,9 @@ boot_alcc <- boot_mod_alcc(data = dataframe_soils,
 boot_alcc_sum <- boot_alcc %>% 
               group_by(soil) %>% 
             # Obtain quantiles of interest
-              summarise(q025 = quantile(CSTV, prob = 0.025),
-                        median = quantile(CSTV, prob = 0.500),
-                        q975 = quantile(CSTV, prob = 0.975))
+              summarise(q025 = quantile(CSTV, prob = 0.025, na.rm = TRUE),
+                        median = quantile(CSTV, prob = 0.500, na.rm = TRUE),
+                        q975 = quantile(CSTV, prob = 0.975, na.rm = TRUE))
 
 # Plot CSTV
 boot_alcc %>% 
@@ -202,11 +208,12 @@ boot_alcc %>%
 ```
 
 #### 2. `boot_linear_plateau()`
+
 ```{r warning=F, message=F}
 set.seed(123)
 boot_lp <- boot_linear_plateau(data = dataframe_soils,
                                stv = STV, ry = RY,
-                               n = 999, target = 90,
+                               target = 90, n = 1e3,
                                # Group by soil
                                soil = soil)
 
@@ -215,9 +222,9 @@ boot_lp_sum <- boot_lp %>%
               group_by(soil) %>% 
             # Obtain quantiles of interest
             # Note: for linear_plateau, the CSTV for a specific RY target = STVt
-              summarise(q025 = quantile(STVt, prob = 0.025),
-                        median = quantile(STVt, prob = 0.500),
-                        q975 = quantile(STVt, prob = 0.975))
+              summarise(q025 = quantile(STVt, prob = 0.025, na.rm = TRUE),
+                        median = quantile(STVt, prob = 0.500, na.rm = TRUE),
+                        q975 = quantile(STVt, prob = 0.975, na.rm = TRUE))
 
 # Plot STVt
 boot_lp %>% 
@@ -238,11 +245,12 @@ boot_lp %>%
 ```
 
 #### 3. `boot_quadratic_plateau()`
+
 ```{r warning=F, message=F}
 set.seed(123)
 boot_qp <- boot_quadratic_plateau(data = dataframe_soils,
                                stv = STV, ry = RY,
-                               n = 999, target = 90,
+                               target = 90, n = 1000,
                                # Group by soil
                                soil = soil)
 
@@ -251,9 +259,9 @@ boot_qp_sum <- boot_qp %>%
               group_by(soil) %>% 
             # Obtain quantiles of interest
             # Note: for quad_plateau, the CSTV for a specific RY target = STVt
-              summarise(q025 = quantile(STVt, prob = 0.025),
-                        median = quantile(STVt, prob = 0.500),
-                        q975 = quantile(STVt, prob = 0.975))
+              summarise(q025 = quantile(STVt, prob = 0.025, na.rm = TRUE),
+                        median = quantile(STVt, prob = 0.500, na.rm = TRUE),
+                        q975 = quantile(STVt, prob = 0.975, na.rm = TRUE))
 
 # Plot STVt
 boot_qp %>% 
@@ -274,11 +282,12 @@ boot_qp %>%
 ```
 
 #### 4. `boot_mitscherlich()`
+
 ```{r warning=F, message=F}
 set.seed(123)
 boot_mits <- boot_mitscherlich(data = dataframe_soils,
                                stv = STV, ry = RY, type = 1,
-                               n = 999, target = 90,
+                               target = 90, n = 1e3,
                                # Group by soil
                                soil = soil)
 
@@ -286,9 +295,9 @@ boot_mits <- boot_mitscherlich(data = dataframe_soils,
 boot_mits_sum <- boot_mits %>% 
               group_by(soil) %>% 
             # Obtain quantiles of interest
-              summarise(q025 = quantile(CSTV, prob = 0.025),
-                        median = quantile(CSTV, prob = 0.500),
-                        q975 = quantile(CSTV, prob = 0.975))
+              summarise(q025 = quantile(CSTV, prob = 0.025, na.rm = TRUE),
+                        median = quantile(CSTV, prob = 0.500, na.rm = TRUE),
+                        q975 = quantile(CSTV, prob = 0.975, na.rm = TRUE))
 
 # Plot CSTV
 boot_mits %>% 
@@ -307,10 +316,22 @@ boot_mits %>%
   theme_bw()
 ```
 
-### References
-*Efron, B. 1979. “Bootstrap Methods: Another Look at the Jackknife.” The Annals of Statistics 7 (1). <https://doi.org/10.1214/aos/1176344552>* <br/>
+### `set.seed()`
 
-*Efron, B., Tibshirani, R.J. 1993. “Efficient Bootstrap Computations.” In, 338–57. Springer US. <https://doi.org/10.1007/978-1-4899-4541-9_23>*  <br/>
+Note the use of `set.seed()` prior to bootstrapping ensures that results are reproducible. Even though random sampling is being used, `set.seed()` gives "an integer vector, containing the random number generator (RNG) state for random number generation in R." This means that next time the code is run, the same bootstrap samples can be reproduced. Without `set.seed()`, your results will vary (even if just slightly) each time the code is run.
+
+### References
+
+*Davison, A., & Hinkley, D. (1997). Bootstrap Methods and their Application (Cambridge Series in Statistical and Probabilistic Mathematics). Cambridge: Cambridge University Press. <https://doi.org/10.1017/CBO9780511802843>*
+
+*Efron, B. 1979. "Bootstrap Methods: Another Look at the Jackknife." The Annals of Statistics 7 (1). <https://doi.org/10.1214/aos/1176344552>*
+
+*Efron, B., Tibshirani, R.J. 1993. "Efficient Bootstrap Computations." In, 338--57. Springer US. <https://doi.org/10.1007/978-1-4899-4541-9_23>*
 
 *Faraway, J.J. 2014. Linear Models with r. 2nd ed. CRC press. NY. USA. 270p. ISBN 9781439887332. <https://julianfaraway.github.io/faraway/LMR/>*
 
+#### Additional webpages on bootstrapping in R
+
+*Bootstrap and Simulation for Nonlinear Models - nlraa <https://femiguez.github.io/nlraa-docs/Bootstrapping.html>* *(relevant to agriculture, and addresses resampling of residuals instead of cases)*
+
+*Bootstrap confidence intervals - tidymodels. <https://rsample.tidymodels.org/articles/Applications/Intervals.html>*
