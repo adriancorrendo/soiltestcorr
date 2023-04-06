@@ -1,7 +1,7 @@
 Package: soiltestcorr
 Title: Soil Test Correlation and Calibration
 Version: 2.2.0
-Date: 2023-04-04
+Date: 2023-04-06
 Authors@R: c(
     person(given = "Adrian A.", family = "Correndo",
              email = "correndo@ksu.edu", role = c("cre","cph"),comment = c(ORCID = "0000-0002-4172-289X")),
@@ -43,5 +43,7 @@ Depends:
     R (>= 3.6.0)
 LazyData: true
 VignetteBuilder: knitr
-URL: https://adriancorrendo.github.io/soiltestcorr/ , https://soiltestfrst.org/ , https://www.siildigitalagconsortium.com/
+URL: https://adriancorrendo.github.io/soiltestcorr/,
+    https://soiltestfrst.org/,
+    https://www.siildigitalagconsortium.com/
 BugReports: https://github.com/adriancorrendo/soiltestcorr/issues

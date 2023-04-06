@@ -3,7 +3,7 @@ title: "SoftwareX publication"
 author: Adrian Correndo 
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{07 SoftwareX publication}
+  %\VignetteIndexEntry{09}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
