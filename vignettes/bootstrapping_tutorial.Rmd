@@ -3,7 +3,7 @@ title: "Bootstrapping"
 author: Adrian Correndo, Austin Pearce
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{04_Bootstrapping}
+  %\VignetteIndexEntry{10 Bootstrapping}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
@@ -31,7 +31,7 @@ Bootstrapping is a technique introduced in late 1970's by Bradley Efron (Efron, 
 
 ## How does it work?
 
-In soiltestcorr, bootstrapping means resampling cases with replacement. That means that it draws random samples from the original data while maintaining the same original size (i.e, some observations may be included multiple times while others may not be sampled at all). Let's suppose that we have a dataset with 50 observations (one per row). We first create bootstraps/replicates/samples by randomly sampling those 50 observations many times (e.g., 1,000 times). Each random sample has 50 total observations, conserving the same number of observations as the original data (50). Finally, we fit a chosen model to each of the 1000 samples, which, in the context of soiltestcorr, could result in a distribution of 1,000 estimates of a critical soil test value (CSTV), for example.
+In `soiltestcorr`, bootstrapping means resampling cases with replacement. That means that it draws random samples from the original data while maintaining the same original size (i.e, some observations may be included multiple times while others may not be sampled at all). Let's suppose that we have a dataset with 50 observations (one per row). We first create bootstraps/replicates/samples by randomly sampling those 50 observations many times (e.g., 1,000 times). Each random sample has 50 total observations, conserving the same number of observations as the original data (50). Finally, we fit a chosen model to each of the 1000 samples, which, in the context of soiltestcorr, could result in a distribution of 1,000 estimates of a critical soil test value (CSTV), for example.
 
 In general, the larger the number of observations and resamples, the more likely we'll obtain a representative distribution of the population's quantity of interest. The minimum number of iterations generally recommended is `n = 1000`. The number used is up to the user, and may represent a compromise between the quality of the outcomes and the necessary computational power or time for the iterations. If the final results from 1,000 samples is no different than 10,000 samples, the time savings may warrant fewer samples.
 

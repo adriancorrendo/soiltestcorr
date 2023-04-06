@@ -3,7 +3,7 @@ title: "Modified ALCC"
 author: Adrian Correndo 
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{05_Modified ALCC}
+  %\VignetteIndexEntry{02 Modified ALCC}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 

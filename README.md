@@ -65,6 +65,8 @@ devtools::install_github("adriancorrendo/soiltestcorr")
 
 [9. SoftwareX publication](https://adriancorrendo.github.io/soiltestcorr/articles/SoftwareX_publication.html) <br/>
 
+[10. Bootstrapping](https://adriancorrendo.github.io/soiltestcorr/articles/bootstrapping_tutorial.html) <br/>
+
 
 # Description <br/>
 
