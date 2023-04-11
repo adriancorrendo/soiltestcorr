@@ -1,4 +1,63 @@
 url: https://adriancorrendo.github.io/soiltestcorr/
+
 template:
   bootstrap: 5
+  bootswatch: minty
+
+navbar:
+  structure:
+    left:  [intro, reference, tutorials, more, news]
+    right: [github, contact, search]
+  
+  components:
+    intro:
+      text: "Home"
+      icon: fa fa-magic
+      href: articles/Introduction_to_soiltestcorr.html
+      
+    reference:
+      icon: fa-gears
+      text: "Functions"
+      href: reference/index.html
+    
+    tutorials:
+      icon: fa-paperclip
+      text: "Tutorials"
+      menu:
+       - text: "Bootstrapping"
+         href: articles/bootstrapping_tutorial.html
+       - text: "Modified ALCC"
+         href: articles/mod_alcc_tutorial.html
+       - text: "Cate & Nelson (1965)"
+         href: articles/cate_nelson_1965_tutorial.html
+       - text: "Cate & Nelson (1971)"
+         href: articles/cate_nelson_1971_tutorial.html
+       - text: "Linear-plateau"
+         href: articles/linear_plateau_tutorial.html
+       - text: "Quadratic-plateau"
+         href: articles/quadratic_plateau_tutorial.html
+       - text: "Mistcherlich"
+         href: articles/mitscherlich_tutorial.html
+    
+    more:
+      icon: fa-plus
+      text: "More"
+      menu:
+       - text: "SoftwareX publication"
+         href: articles/SoftwareX_publication.html
+       - text: "Shinyapp"
+         href: articles/Shinyapp.html
+    
+    news:
+      icon: fa-newspaper
+      text: "News"
+      href: news/index.html
+    
+    github:
+      icon: fa-github
+      hreft: https://github.com/adriancorrendo/soiltestcorr/
+    
+    contact:
+      icon: fa-user
+      hreft: https://adriancorrendo.github.io/
 

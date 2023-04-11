@@ -3,7 +3,7 @@ title: "Shinyapp"
 author: Adrian Correndo 
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{a08}
+  %\VignetteIndexEntry{Shinyapp}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

@@ -3,11 +3,9 @@ title: "Linear-plateau response"
 author: Adrian Correndo & Austin Pearce 
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{a05}
+  %\VignetteIndexEntry{Linear-plateau response}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
-editor_options: 
-  chunk_output_type: console
 ---
 
 ```{r, include = FALSE}

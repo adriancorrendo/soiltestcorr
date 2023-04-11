@@ -3,11 +3,9 @@ title: "Bootstrapping"
 author: Adrian Correndo, Austin Pearce
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{a10}
+  %\VignetteIndexEntry{Bootstrapping}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
-editor_options: 
-  chunk_output_type: console
 ---
 
 ```{r, include = FALSE}

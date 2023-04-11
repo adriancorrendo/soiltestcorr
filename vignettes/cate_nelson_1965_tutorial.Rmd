@@ -3,7 +3,7 @@ title: "Cate and Nelson (1965)"
 author: Adrian Correndo 
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{a03}
+  %\VignetteIndexEntry{Cate and Nelson (1965)}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
