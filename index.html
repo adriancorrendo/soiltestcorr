@@ -9,7 +9,8 @@
 <title>Soil Test Correlation and Calibration • soiltestcorr</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<script src="deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><link href="deps/Abel-0.4.5/font.css" rel="stylesheet">
+<!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Soil Test Correlation and Calibration">
 <meta property="og:description" content="A compilation of functions designed to assist users on the correlation analysis of crop yield and soil test values. Functions to estimate crop response patterns to soil nutrient availability and critical soil test values using various approaches such as: 1) the modified arcsine-log calibration curve (Correndo et al. (2017) &lt;doi:10.1071/CP16444&gt;); 2) the graphical Cate-Nelson quadrants analysis (Cate &amp; Nelson (1965)), 3) the statistical Cate-Nelson quadrants analysis (Cate &amp; Nelson (1971) &lt;doi:10.2136/sssaj1971.03615995003500040048x&gt;), 4) the linear-plateau regression (Anderson &amp; Nelson (1975) &lt;doi:10.2307/2529422&gt;), 5) the quadratic-plateau regression (Bullock &amp; Bullock (1994) &lt;doi:10.2134/agronj1994.00021962008600010033x&gt;), and 6) the Mitscherlich-type exponential regression (Melsted &amp; Peck (1977) &lt;doi:10.2134/asaspecpub29.c1&gt;). The package development stemmed from ongoing work with the Fertilizer Recommendation Support Tool (FRST) and Feed the Future Innovation Lab for Collaborative Research on Sustainable Intensification (SIIL) projects. ">
@@ -297,39 +298,7 @@
 </div>
 </div>
 
-  </main><aside class="col-md-3"><div class="links">
-<h2 data-toc-skip>Links</h2>
-<ul class="list-unstyled">
-<li><a href="https://cloud.r-project.org/package=soiltestcorr" class="external-link">View on CRAN</a></li>
-<li><a href="https://github.com/adriancorrendo/soiltestcorr/" class="external-link">Browse source code</a></li>
-<li><a href="https://github.com/adriancorrendo/soiltestcorr/issues" class="external-link">Report a bug</a></li>
-</ul>
-</div>
-
-<div class="license">
-<h2 data-toc-skip>License</h2>
-<ul class="list-unstyled">
-<li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
-</ul>
-</div>
-
-<div class="community">
-<h2 data-toc-skip>Community</h2>
-<ul class="list-unstyled">
-<li><a href="CONTRIBUTING.html">Contributing guide</a></li>
-<li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
-</ul>
-</div>
-
-<div class="citation">
-<h2 data-toc-skip>Citation</h2>
-<ul class="list-unstyled">
-<li><a href="authors.html#citation">Citing soiltestcorr</a></li>
-</ul>
-</div>
-
-<div class="developers">
+  </main><aside class="col-md-3"><div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Adrian A. Correndo <br><small class="roles"> Maintainer, copyright holder </small> <a href="https://orcid.org/0000-0002-4172-289X" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
@@ -338,6 +307,13 @@
 <li>Deanna Osmond <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-6336-8318" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Ignacio A. Ciampitti <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-9619-5129" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li><a href="authors.html">More about authors...</a></li>
+</ul>
+</div>
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing soiltestcorr</a></li>
 </ul>
 </div>
 
@@ -351,6 +327,31 @@
 <li><a href="https://github.com/adriancorrendo/soiltestcorr/actions" class="external-link"><img src="https://github.com/adriancorrendo/soiltestcorr/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://app.codecov.io/gh/adriancorrendo/soiltestcorr" class="external-link"><img src="https://codecov.io/gh/adriancorrendo/soiltestcorr/branch/main/graph/badge.svg?token=OUH9NBPBXI" alt="codecov"></a></li>
 <li><a href="https://doi.org/10.5281/zenodo.6636721" class="external-link"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.6636721.svg" alt="DOI"></a></li>
+</ul>
+</div>
+
+<div class="links">
+<h2 data-toc-skip>Links</h2>
+<ul class="list-unstyled">
+<li><a href="https://cloud.r-project.org/package=soiltestcorr" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/adriancorrendo/soiltestcorr/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/adriancorrendo/soiltestcorr/issues" class="external-link">Report a bug</a></li>
+</ul>
+</div>
+
+<div class="community">
+<h2 data-toc-skip>Community</h2>
+<ul class="list-unstyled">
+<li><a href="CONTRIBUTING.html">Contributing guide</a></li>
+<li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
+</ul>
+</div>
+
+<div class="license">
+<h2 data-toc-skip>License</h2>
+<ul class="list-unstyled">
+<li><a href="LICENSE.html">Full license</a></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
 
