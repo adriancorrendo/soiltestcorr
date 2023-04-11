@@ -6,7 +6,7 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
+    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-primary"><div class="container">
     
     <a class="navbar-brand me-2" href="../index.html">soiltestcorr</a>
 
@@ -19,32 +19,65 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item">
-  <a class="nav-link" href="../reference/index.html">Reference</a>
+  <a class="nav-link" href="../articles/Introduction_to_soiltestcorr.html">
+    <span class="fa fa fa fa-magic"></span>
+     
+    Home
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="../reference/index.html">
+    <span class="fa fa-gears"></span>
+     
+    Functions
+  </a>
 </li>
 <li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/Introduction_to_soiltestcorr.html">Introduction</a>
-    <a class="dropdown-item" href="../articles/Shinyapp.html">Shinyapp</a>
-    <a class="dropdown-item" href="../articles/SoftwareX_publication.html">SoftwareX publication</a>
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown--tutorials">
+    <span class="fa fa-paperclip"></span>
+     
+    Tutorials
+  </a>
+  <div class="dropdown-menu" aria-labelledby="dropdown--tutorials">
     <a class="dropdown-item" href="../articles/bootstrapping_tutorial.html">Bootstrapping</a>
-    <a class="dropdown-item" href="../articles/cate_nelson_1965_tutorial.html">Cate and Nelson (1965)</a>
-    <a class="dropdown-item" href="../articles/cate_nelson_1971_tutorial.html">Cate and Nelson (1971)</a>
-    <a class="dropdown-item" href="../articles/linear_plateau_tutorial.html">Linear-plateau response</a>
-    <a class="dropdown-item" href="../articles/mitscherlich_tutorial.html">Mitscherlich-type response</a>
     <a class="dropdown-item" href="../articles/mod_alcc_tutorial.html">Modified ALCC</a>
-    <a class="dropdown-item" href="../articles/quadratic_plateau_tutorial.html">Quadratic-plateau response</a>
+    <a class="dropdown-item" href="../articles/cate_nelson_1965_tutorial.html">Cate &amp; Nelson (1965)</a>
+    <a class="dropdown-item" href="../articles/cate_nelson_1971_tutorial.html">Cate &amp; Nelson (1971)</a>
+    <a class="dropdown-item" href="../articles/linear_plateau_tutorial.html">Linear-plateau</a>
+    <a class="dropdown-item" href="../articles/quadratic_plateau_tutorial.html">Quadratic-plateau</a>
+    <a class="dropdown-item" href="../articles/mitscherlich_tutorial.html">Mistcherlich</a>
+  </div>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown--more">
+    <span class="fa fa-plus"></span>
+     
+    More
+  </a>
+  <div class="dropdown-menu" aria-labelledby="dropdown--more">
+    <a class="dropdown-item" href="../articles/SoftwareX_publication.html">SoftwareX publication</a>
+    <a class="dropdown-item" href="../articles/Shinyapp.html">Shinyapp</a>
   </div>
 </li>
 <li class="active nav-item">
-  <a class="nav-link" href="../news/index.html">Changelog</a>
+  <a class="nav-link" href="../news/index.html">
+    <span class="fa fa-newspaper"></span>
+     
+    News
+  </a>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
       <ul class="navbar-nav"><li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/adriancorrendo/soiltestcorr/" aria-label="github">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a class="external-link nav-link" href="https://github.com/adriancorrendo/soiltestcorr/">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://adriancorrendo.github.io/">
+    <span class="fa fa-user"></span>
      
   </a>
 </li>
@@ -60,7 +93,7 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="2.2.0" id="soiltestcorr-220">soiltestcorr 2.2.0<a class="anchor" aria-label="anchor" href="#soiltestcorr-220"></a></h2>
+<h2 class="pkg-version" data-toc-text="2.2.0" id="soiltestcorr-220">soiltestcorr 2.2.0<a class="anchor" aria-label="anchor" href="#soiltestcorr-220"></a></h2><p class="text-muted">CRAN release: 2023-04-07</p>
 <p>Updates of the new version:</p>
 <ol style="list-style-type: decimal"><li>Bootstrapping:</li>
 </ol><ul><li>New bootstrapping functions for all models to better approximate distributions of CSTVs and parameters or derived quantities of interest. Functions include: (i) <code><a href="../reference/cate_nelson_1965.html">boot_cn_1965()</a></code>, (ii) <code><a href="../reference/cate_nelson_1971.html">boot_cn_1971()</a></code>, (iii) <code><a href="../reference/mod_alcc.html">boot_mod_alcc()</a></code>, (iv) <code><a href="../reference/linear_plateau.html">boot_linear_plateau()</a></code>, (v) <code><a href="../reference/quadratic_plateau.html">boot_quadratic_plateau()</a></code>, and (vi) <code><a href="../reference/mitscherlich.html">boot_mitscherlich()</a></code>.</li>

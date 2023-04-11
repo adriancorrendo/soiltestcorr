@@ -22,7 +22,7 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
+    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-primary"><div class="container">
     
     <a class="navbar-brand me-2" href="../index.html">soiltestcorr</a>
 
@@ -36,25 +36,52 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
-  <a class="nav-link" href="../reference/index.html">Reference</a>
+  <a class="nav-link" href="../articles/Introduction_to_soiltestcorr.html">
+    <span class="fa fa fa fa-magic"></span>
+     
+    Home
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="../reference/index.html">
+    <span class="fa fa-gears"></span>
+     
+    Functions
+  </a>
 </li>
 <li class="active nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/Introduction_to_soiltestcorr.html">Introduction</a>
-    <a class="dropdown-item" href="../articles/Shinyapp.html">Shinyapp</a>
-    <a class="dropdown-item" href="../articles/SoftwareX_publication.html">SoftwareX publication</a>
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown--tutorials">
+    <span class="fa fa-paperclip"></span>
+     
+    Tutorials
+  </a>
+  <div class="dropdown-menu" aria-labelledby="dropdown--tutorials">
     <a class="dropdown-item" href="../articles/bootstrapping_tutorial.html">Bootstrapping</a>
-    <a class="dropdown-item" href="../articles/cate_nelson_1965_tutorial.html">Cate and Nelson (1965)</a>
-    <a class="dropdown-item" href="../articles/cate_nelson_1971_tutorial.html">Cate and Nelson (1971)</a>
-    <a class="dropdown-item" href="../articles/linear_plateau_tutorial.html">Linear-plateau response</a>
-    <a class="dropdown-item" href="../articles/mitscherlich_tutorial.html">Mitscherlich-type response</a>
     <a class="dropdown-item" href="../articles/mod_alcc_tutorial.html">Modified ALCC</a>
-    <a class="dropdown-item" href="../articles/quadratic_plateau_tutorial.html">Quadratic-plateau response</a>
+    <a class="dropdown-item" href="../articles/cate_nelson_1965_tutorial.html">Cate &amp; Nelson (1965)</a>
+    <a class="dropdown-item" href="../articles/cate_nelson_1971_tutorial.html">Cate &amp; Nelson (1971)</a>
+    <a class="dropdown-item" href="../articles/linear_plateau_tutorial.html">Linear-plateau</a>
+    <a class="dropdown-item" href="../articles/quadratic_plateau_tutorial.html">Quadratic-plateau</a>
+    <a class="dropdown-item" href="../articles/mitscherlich_tutorial.html">Mistcherlich</a>
+  </div>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown--more">
+    <span class="fa fa-plus"></span>
+     
+    More
+  </a>
+  <div class="dropdown-menu" aria-labelledby="dropdown--more">
+    <a class="dropdown-item" href="../articles/SoftwareX_publication.html">SoftwareX publication</a>
+    <a class="dropdown-item" href="../articles/Shinyapp.html">Shinyapp</a>
   </div>
 </li>
 <li class="nav-item">
-  <a class="nav-link" href="../news/index.html">Changelog</a>
+  <a class="nav-link" href="../news/index.html">
+    <span class="fa fa-newspaper"></span>
+     
+    News
+  </a>
 </li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
@@ -63,8 +90,14 @@
 
       <ul class="navbar-nav">
 <li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/adriancorrendo/soiltestcorr/" aria-label="github">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a class="external-link nav-link" href="https://github.com/adriancorrendo/soiltestcorr/">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://adriancorrendo.github.io/">
+    <span class="fa fa-user"></span>
      
   </a>
 </li>
@@ -404,29 +437,29 @@ size (n) containing the results for each resample.</p>
 <code class="sourceCode R"><span><span class="va">boot_cn65</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cate_nelson_1965.html">boot_cn_1965</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data_3</span>,</span>
 <span>                          ry <span class="op">=</span> <span class="va">RY</span>, stv <span class="op">=</span> <span class="va">STK</span>, target <span class="op">=</span> <span class="fl">90</span>,</span>
 <span>                          n <span class="op">=</span> <span class="fl">99</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: There were 90 warnings in `dplyr::mutate()`.</span></span>
+<span><span class="co">#&gt; Warning: There were 84 warnings in `dplyr::mutate()`.</span></span>
 <span><span class="co">#&gt; The first warning was:</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In argument: `model = map(...)`.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In group 1: `boot_id = 1`.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In group 2: `boot_id = 2`.</span></span>
 <span><span class="co">#&gt; Caused by warning in `stats::chisq.test()`:</span></span>
 <span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> Chi-squared approximation may be incorrect</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 89 remaining warnings.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `dplyr::last_dplyr_warnings()` to see the 83 remaining warnings.</span></span>
 <span></span>
 <span><span class="va">boot_cn65</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_head</a></span><span class="op">(</span><span class="va">.</span>, n<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 9</span></span></span>
 <span><span class="co">#&gt;   boot_id     n  CRYV  CSTV    R2   AIC   BIC  RMSE quadrants$q.I $q.II $q.III</span></span>
 <span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       1    24    90  100. 0.447  193.  197. 12.0              3     7      2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>       2    24    90   48  0.579  196.  200. 12.7              0     9      3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>       3    24    90  193  0.204  204.  208. 15.0              6     2      0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>       4    24    90   48  0.778  175.  178.  8.15             0    12      5</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>       5    24    90   48  0.649  185.  189. 10.1              0    11      4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       1    24    90    77 0.929  141.  144.  3.99             0    12      2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>       2    24    90    77 0.766  158.  162.  5.77             0    14      4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>       3    24    90    48 0.681  177.  181.  8.56             0    14      4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>       4    24    90    49 0.830  167.  170.  6.87             0    12      2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>       5    24    90    49 0.850  165.  168.  6.58             0    17      3</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 more variables: quadrants$q.IV &lt;int&gt;, $positive &lt;int&gt;, $negative &lt;int&gt;</span></span></span>
 <span></span>
 <span><span class="co"># CSTV Confidence Interval</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">boot_cn65</span><span class="op">$</span><span class="va">CSTV</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    2.5%     50%   97.5% </span></span>
-<span><span class="co">#&gt;  35.225  49.000 132.550</span></span>
+<span><span class="co">#&gt;  39.250  49.000 101.325</span></span>
 <span></span>
 <span><span class="co"># Plot</span></span>
 <span><span class="va">boot_cn65</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>

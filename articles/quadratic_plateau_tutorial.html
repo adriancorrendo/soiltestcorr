@@ -22,7 +22,7 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
+    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-primary"><div class="container">
     
     <a class="navbar-brand me-2" href="../index.html">soiltestcorr</a>
 
@@ -36,25 +36,52 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
-  <a class="nav-link" href="../reference/index.html">Reference</a>
+  <a class="nav-link" href="../articles/Introduction_to_soiltestcorr.html">
+    <span class="fa fa fa fa-magic"></span>
+     
+    Home
+  </a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="../reference/index.html">
+    <span class="fa fa-gears"></span>
+     
+    Functions
+  </a>
 </li>
 <li class="active nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/Introduction_to_soiltestcorr.html">Introduction</a>
-    <a class="dropdown-item" href="../articles/Shinyapp.html">Shinyapp</a>
-    <a class="dropdown-item" href="../articles/SoftwareX_publication.html">SoftwareX publication</a>
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown--tutorials">
+    <span class="fa fa-paperclip"></span>
+     
+    Tutorials
+  </a>
+  <div class="dropdown-menu" aria-labelledby="dropdown--tutorials">
     <a class="dropdown-item" href="../articles/bootstrapping_tutorial.html">Bootstrapping</a>
-    <a class="dropdown-item" href="../articles/cate_nelson_1965_tutorial.html">Cate and Nelson (1965)</a>
-    <a class="dropdown-item" href="../articles/cate_nelson_1971_tutorial.html">Cate and Nelson (1971)</a>
-    <a class="dropdown-item" href="../articles/linear_plateau_tutorial.html">Linear-plateau response</a>
-    <a class="dropdown-item" href="../articles/mitscherlich_tutorial.html">Mitscherlich-type response</a>
     <a class="dropdown-item" href="../articles/mod_alcc_tutorial.html">Modified ALCC</a>
-    <a class="dropdown-item" href="../articles/quadratic_plateau_tutorial.html">Quadratic-plateau response</a>
+    <a class="dropdown-item" href="../articles/cate_nelson_1965_tutorial.html">Cate &amp; Nelson (1965)</a>
+    <a class="dropdown-item" href="../articles/cate_nelson_1971_tutorial.html">Cate &amp; Nelson (1971)</a>
+    <a class="dropdown-item" href="../articles/linear_plateau_tutorial.html">Linear-plateau</a>
+    <a class="dropdown-item" href="../articles/quadratic_plateau_tutorial.html">Quadratic-plateau</a>
+    <a class="dropdown-item" href="../articles/mitscherlich_tutorial.html">Mistcherlich</a>
+  </div>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown--more">
+    <span class="fa fa-plus"></span>
+     
+    More
+  </a>
+  <div class="dropdown-menu" aria-labelledby="dropdown--more">
+    <a class="dropdown-item" href="../articles/SoftwareX_publication.html">SoftwareX publication</a>
+    <a class="dropdown-item" href="../articles/Shinyapp.html">Shinyapp</a>
   </div>
 </li>
 <li class="nav-item">
-  <a class="nav-link" href="../news/index.html">Changelog</a>
+  <a class="nav-link" href="../news/index.html">
+    <span class="fa fa-newspaper"></span>
+     
+    News
+  </a>
 </li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
@@ -63,8 +90,14 @@
 
       <ul class="navbar-nav">
 <li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/adriancorrendo/soiltestcorr/" aria-label="github">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a class="external-link nav-link" href="https://github.com/adriancorrendo/soiltestcorr/">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://adriancorrendo.github.io/">
+    <span class="fa fa-user"></span>
      
   </a>
 </li>
@@ -348,17 +381,17 @@ size (n) containing the results for each resample.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 13</span></span></span>
 <span><span class="co">#&gt;   boot_id intercept slope plateau  CSTV target  STVt   AIC  AICc   BIC    R2</span></span>
 <span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       1      56.2  1.76    96.2  45.4   96.2  45.4  994.  994. <span style="text-decoration: underline;">1</span>005.  0.52</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>       2      40.6  2.98    96.8  37.7   96.8  37.7 <span style="text-decoration: underline;">1</span>019. <span style="text-decoration: underline;">1</span>019. <span style="text-decoration: underline;">1</span>031.  0.58</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>       3      43.4  2.40    97.0  44.7   97    44.7 <span style="text-decoration: underline;">1</span>038. <span style="text-decoration: underline;">1</span>038. <span style="text-decoration: underline;">1</span>049.  0.56</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>       4      53.2  2.18    96.6  39.8   96.6  39.8  994.  995. <span style="text-decoration: underline;">1</span>006.  0.5 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>       5      37.9  3.37    96.8  35.0   96.8  35   <span style="text-decoration: underline;">1</span>045. <span style="text-decoration: underline;">1</span>046. <span style="text-decoration: underline;">1</span>057.  0.51</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       1      36.4  3.50    96.7  34.5   96.7  34.5 <span style="text-decoration: underline;">1</span>015. <span style="text-decoration: underline;">1</span>015. <span style="text-decoration: underline;">1</span>026.  0.59</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>       2      50.6  2.20    96.8  41.9   96.8  41.9 <span style="text-decoration: underline;">1</span>007. <span style="text-decoration: underline;">1</span>008. <span style="text-decoration: underline;">1</span>019.  0.59</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>       3      47.1  2.56    96.4  38.5   96.4  38.5 <span style="text-decoration: underline;">1</span>002. <span style="text-decoration: underline;">1</span>003. <span style="text-decoration: underline;">1</span>014.  0.54</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>       4      40.3  3.12    96.1  35.7   96.1  35.7 <span style="text-decoration: underline;">1</span>032. <span style="text-decoration: underline;">1</span>032. <span style="text-decoration: underline;">1</span>044.  0.51</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>       5      35.3  3.29    96.0  36.9   96    36.9 <span style="text-decoration: underline;">1</span>026. <span style="text-decoration: underline;">1</span>026. <span style="text-decoration: underline;">1</span>037.  0.64</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2 more variables: RMSE &lt;dbl&gt;, pvalue &lt;dbl&gt;</span></span></span>
 <span></span>
 <span><span class="co"># CSTV Confidence Interval</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">boot_qp</span><span class="op">$</span><span class="va">CSTV</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;     2.5%      50%    97.5% </span></span>
-<span><span class="co">#&gt; 29.19989 36.89447 49.42481</span></span>
+<span><span class="co">#&gt; 28.62231 36.61239 49.51238</span></span>
 <span></span>
 <span><span class="co"># Plot</span></span>
 <span><span class="va">boot_qp</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
