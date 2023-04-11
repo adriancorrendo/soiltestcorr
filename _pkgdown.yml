@@ -2,9 +2,12 @@ url: https://adriancorrendo.github.io/soiltestcorr/
 
 template:
   bootstrap: 5
-  bootswatch: simplex
-  css: styles.css
-
+  bootswatch: minty
+  bslib:
+    fg: "#2f3e46"
+    primary: "#5b81ba"
+    base_font: {google: "Abel"}
+    
 navbar:
   structure:
     left:  [intro, reference, tutorials, more, news]
@@ -62,3 +65,6 @@ navbar:
       icon: fa-user
       hreft: https://adriancorrendo.github.io/
 
+home:
+  sidebar:
+    structure: [authors, citation, dev, links, community, license]
