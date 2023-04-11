@@ -1,0 +1,26 @@
+/* css styles */
+
+@import 'https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap';
+
+$link-color: #197278;
+
+/* unvisited link */
+a:link {
+  color: #197278;
+}
+
+/* visited link */
+a:visited {
+  color: #00a896;
+}
+
+/* mouse over link */
+a:hover {
+  color: #e84855;
+}
+
+/* selected link */
+a:active {
+  color: blue;
+} 
+

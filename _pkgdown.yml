@@ -2,7 +2,8 @@ url: https://adriancorrendo.github.io/soiltestcorr/
 
 template:
   bootstrap: 5
-  bootswatch: minty
+  bootswatch: simplex
+  css: styles.css
 
 navbar:
   structure:
