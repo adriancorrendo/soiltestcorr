@@ -23,7 +23,7 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
+    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-primary"><div class="container">
     
     <a class="navbar-brand me-2" href="../index.html">soiltestcorr</a>
 
@@ -382,17 +382,17 @@ size (n) containing the results for each resample.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 13</span></span></span>
 <span><span class="co">#&gt;   boot_id intercept slope plateau  CSTV target  STVt   AIC  AICc   BIC    R2</span></span>
 <span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       1      8.11  6.76    95.1  25.7   95.1  25.7 <span style="text-decoration: underline;">1</span>021. <span style="text-decoration: underline;">1</span>021. <span style="text-decoration: underline;">1</span>033.  0.67</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>       2     55.8   1.79    97.2  46.2   97.2  46.2  988.  989. <span style="text-decoration: underline;">1</span>000.  0.48</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>       3     44.3   2.64    96.8  39.7   96.8  39.7 <span style="text-decoration: underline;">1</span>040. <span style="text-decoration: underline;">1</span>041. <span style="text-decoration: underline;">1</span>052.  0.6 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>       4     21.7   4.62    95.7  32.0   95.7  32   <span style="text-decoration: underline;">1</span>039. <span style="text-decoration: underline;">1</span>039. <span style="text-decoration: underline;">1</span>051.  0.63</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>       5    -<span style="color: #BB0000;">89.0</span>  32.2     90.3  11.1   90.3  11.1 <span style="text-decoration: underline;">1</span>022. <span style="text-decoration: underline;">1</span>022. <span style="text-decoration: underline;">1</span>034.  0.67</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       1      28.6  4.19    96.2  32.3   96.2  32.3 <span style="text-decoration: underline;">1</span>037. <span style="text-decoration: underline;">1</span>038. <span style="text-decoration: underline;">1</span>049.  0.62</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>       2      35.5  3.51    96.1  34.5   96.1  34.5 <span style="text-decoration: underline;">1</span>041. <span style="text-decoration: underline;">1</span>041. <span style="text-decoration: underline;">1</span>053.  0.55</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>       3      47.1  2.40    97.8  42.2   97.8  42.2 <span style="text-decoration: underline;">1</span>003. <span style="text-decoration: underline;">1</span>003. <span style="text-decoration: underline;">1</span>015.  0.58</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>       4      44.3  2.65    96.6  39.4   96.6  39.4 <span style="text-decoration: underline;">1</span>002. <span style="text-decoration: underline;">1</span>002. <span style="text-decoration: underline;">1</span>014.  0.57</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>       5      36.9  3.73    96.2  31.8   96.2  31.8 <span style="text-decoration: underline;">1</span>011. <span style="text-decoration: underline;">1</span>011. <span style="text-decoration: underline;">1</span>023.  0.58</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2 more variables: RMSE &lt;dbl&gt;, pvalue &lt;dbl&gt;</span></span></span>
 <span></span>
 <span><span class="co"># CSTV Confidence Interval</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></span><span class="op">(</span><span class="va">boot_qp</span><span class="op">$</span><span class="va">CSTV</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.025</span>, <span class="fl">0.5</span>, <span class="fl">0.975</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;     2.5%      50%    97.5% </span></span>
-<span><span class="co">#&gt; 27.68993 36.74793 48.05082</span></span>
+<span><span class="co">#&gt; 27.38365 37.43508 52.17192</span></span>
 <span></span>
 <span><span class="co"># Plot</span></span>
 <span><span class="va">boot_qp</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
