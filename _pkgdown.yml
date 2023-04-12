@@ -4,8 +4,6 @@ template:
   bootstrap: 5
   bootswatch: minty
   bslib:
-    fg: "#2f3e46"
-    primary: "#5b81ba"
     base_font: {google: "Abel"}
     
 navbar:
