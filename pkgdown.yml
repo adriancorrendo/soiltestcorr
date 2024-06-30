@@ -1,18 +1,18 @@
-pandoc: 2.19.2
-pkgdown: 2.0.7
+pandoc: 3.1.11
+pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
-  Introduction_to_soiltestcorr: Introduction_to_soiltestcorr.html
-  Shinyapp: Shinyapp.html
-  SoftwareX_publication: SoftwareX_publication.html
   bootstrapping_tutorial: bootstrapping_tutorial.html
   cate_nelson_1965_tutorial: cate_nelson_1965_tutorial.html
   cate_nelson_1971_tutorial: cate_nelson_1971_tutorial.html
+  Introduction_to_soiltestcorr: Introduction_to_soiltestcorr.html
   linear_plateau_tutorial: linear_plateau_tutorial.html
   mitscherlich_tutorial: mitscherlich_tutorial.html
   mod_alcc_tutorial: mod_alcc_tutorial.html
   quadratic_plateau_tutorial: quadratic_plateau_tutorial.html
-last_built: 2023-04-12T00:12Z
+  Shinyapp: Shinyapp.html
+  SoftwareX_publication: SoftwareX_publication.html
+last_built: 2024-06-30T14:57Z
 urls:
   reference: https://adriancorrendo.github.io/soiltestcorr/reference
   article: https://adriancorrendo.github.io/soiltestcorr/articles
