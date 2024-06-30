@@ -1,6 +1,21 @@
-# soiltestcorr 2.2.0
+# soiltestcorr 2.2.1
 
 Updates of the new version:
+
+1) Fixing duplicated ORCID on DESCRIPTION file.
+
+2) Include the "quadratic" term estimate as an output of the quadratic_plateau() function. This term is useful to understand the curvature of the quadratic model.
+
+3) Fixing the names of the vignettes to display correctly on the CRAN website.
+
+####################
+PREVIOUS VERSIONS
+####################
+
+# soiltestcorr 2.2.0
+
+* Apr 7th, 2023. <br/>
+Updates of this version:
 
 1) Bootstrapping:
   - New bootstrapping functions for all models to better approximate distributions of CSTVs and parameters or derived quantities of interest. Functions include: (i) `boot_cn_1965()`, (ii) `boot_cn_1971()`, (iii) `boot_mod_alcc()`, (iv) `boot_linear_plateau()`, (v) `boot_quadratic_plateau()`, and (vi) `boot_mitscherlich()`.

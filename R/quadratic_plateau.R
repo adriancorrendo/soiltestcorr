@@ -191,6 +191,7 @@ quadratic_plateau <- function(data = NULL,
     results <- dplyr::tibble(
       intercept = a,
       slope = b,
+      quadratic = c,
       equation,
       plateau,
       CSTV,

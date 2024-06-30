@@ -19,11 +19,10 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Adrian A. Correndo \email{correndo@ksu.edu} (\href{https://orcid.org/0000-0002-4172-289X}{ORCID}) [copyright holder]
+\strong{Maintainer}: Adrian A. Correndo \email{acorrend@uoguelph.ca} (\href{https://orcid.org/0000-0002-4172-289X}{ORCID}) [copyright holder]
 
 Authors:
 \itemize{
-  \item Adrian A. Correndo \email{correndo@ksu.edu} (\href{https://orcid.org/0000-0002-4172-289X}{ORCID})
   \item Austin Pearce \email{awpearc2@ncsu.edu} (\href{https://orcid.org/0000-0002-2541-896X}{ORCID})
   \item Deanna Osmond \email{deanna_osmond@ncsu.edu} (\href{https://orcid.org/0000-0002-6336-8318}{ORCID})
   \item Ignacio A. Ciampitti \email{ciampitti@ksu.edu} (\href{https://orcid.org/0000-0001-9619-5129}{ORCID})
