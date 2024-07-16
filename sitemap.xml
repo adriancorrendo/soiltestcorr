@@ -1,90 +1,32 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://adriancorrendo.github.io/soiltestcorr/404.html</loc>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/soiltestcorr/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/soiltestcorr/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/soiltestcorr/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/soiltestcorr/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/soiltestcorr/articles/Introduction_to_soiltestcorr.html</loc>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/soiltestcorr/articles/Shinyapp.html</loc>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/soiltestcorr/articles/SoftwareX_publication.html</loc>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/soiltestcorr/articles/bootstrapping_tutorial.html</loc>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/soiltestcorr/articles/cate_nelson_1965_tutorial.html</loc>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/soiltestcorr/articles/cate_nelson_1971_tutorial.html</loc>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/soiltestcorr/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/soiltestcorr/articles/linear_plateau_tutorial.html</loc>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/soiltestcorr/articles/mitscherlich_tutorial.html</loc>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/soiltestcorr/articles/mod_alcc_tutorial.html</loc>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/soiltestcorr/articles/quadratic_plateau_tutorial.html</loc>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/soiltestcorr/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/soiltestcorr/index.html</loc>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/soiltestcorr/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/soiltestcorr/reference/cate_nelson_1965.html</loc>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/soiltestcorr/reference/cate_nelson_1971.html</loc>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/soiltestcorr/reference/data_test.html</loc>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/soiltestcorr/reference/freitas1966.html</loc>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/soiltestcorr/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/soiltestcorr/reference/linear_plateau.html</loc>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/soiltestcorr/reference/mitscherlich.html</loc>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/soiltestcorr/reference/mod_alcc.html</loc>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/soiltestcorr/reference/quadratic_plateau.html</loc>
-  </url>
-  <url>
-    <loc>https://adriancorrendo.github.io/soiltestcorr/reference/soiltestcorr-package.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://adriancorrendo.github.io/soiltestcorr/404.html</loc></url>
+<url><loc>https://adriancorrendo.github.io/soiltestcorr/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://adriancorrendo.github.io/soiltestcorr/CONTRIBUTING.html</loc></url>
+<url><loc>https://adriancorrendo.github.io/soiltestcorr/LICENSE-text.html</loc></url>
+<url><loc>https://adriancorrendo.github.io/soiltestcorr/LICENSE.html</loc></url>
+<url><loc>https://adriancorrendo.github.io/soiltestcorr/articles/Introduction_to_soiltestcorr.html</loc></url>
+<url><loc>https://adriancorrendo.github.io/soiltestcorr/articles/Shinyapp.html</loc></url>
+<url><loc>https://adriancorrendo.github.io/soiltestcorr/articles/SoftwareX_publication.html</loc></url>
+<url><loc>https://adriancorrendo.github.io/soiltestcorr/articles/bootstrapping_tutorial.html</loc></url>
+<url><loc>https://adriancorrendo.github.io/soiltestcorr/articles/cate_nelson_1965_tutorial.html</loc></url>
+<url><loc>https://adriancorrendo.github.io/soiltestcorr/articles/cate_nelson_1971_tutorial.html</loc></url>
+<url><loc>https://adriancorrendo.github.io/soiltestcorr/articles/index.html</loc></url>
+<url><loc>https://adriancorrendo.github.io/soiltestcorr/articles/linear_plateau_tutorial.html</loc></url>
+<url><loc>https://adriancorrendo.github.io/soiltestcorr/articles/mitscherlich_tutorial.html</loc></url>
+<url><loc>https://adriancorrendo.github.io/soiltestcorr/articles/mod_alcc_tutorial.html</loc></url>
+<url><loc>https://adriancorrendo.github.io/soiltestcorr/articles/quadratic_plateau_tutorial.html</loc></url>
+<url><loc>https://adriancorrendo.github.io/soiltestcorr/authors.html</loc></url>
+<url><loc>https://adriancorrendo.github.io/soiltestcorr/index.html</loc></url>
+<url><loc>https://adriancorrendo.github.io/soiltestcorr/news/index.html</loc></url>
+<url><loc>https://adriancorrendo.github.io/soiltestcorr/reference/cate_nelson_1965.html</loc></url>
+<url><loc>https://adriancorrendo.github.io/soiltestcorr/reference/cate_nelson_1971.html</loc></url>
+<url><loc>https://adriancorrendo.github.io/soiltestcorr/reference/data_test.html</loc></url>
+<url><loc>https://adriancorrendo.github.io/soiltestcorr/reference/freitas1966.html</loc></url>
+<url><loc>https://adriancorrendo.github.io/soiltestcorr/reference/index.html</loc></url>
+<url><loc>https://adriancorrendo.github.io/soiltestcorr/reference/linear_plateau.html</loc></url>
+<url><loc>https://adriancorrendo.github.io/soiltestcorr/reference/mitscherlich.html</loc></url>
+<url><loc>https://adriancorrendo.github.io/soiltestcorr/reference/mod_alcc.html</loc></url>
+<url><loc>https://adriancorrendo.github.io/soiltestcorr/reference/quadratic_plateau.html</loc></url>
+<url><loc>https://adriancorrendo.github.io/soiltestcorr/reference/soiltestcorr-package.html</loc></url>
 </urlset>
+
